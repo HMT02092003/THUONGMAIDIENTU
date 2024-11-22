@@ -1,8 +1,7 @@
-require('dotenv').config({ path: './.env' });
-
+import 'dotenv/config'; 
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE } = process.env;
 
-module.exports = {
+const knexConfig = {
   development: {
     client: 'pg',
     connection: {
@@ -46,11 +45,13 @@ module.exports = {
       database: 'DA1'
     },
     migrations: {
-      directory: 'databases/migrations',
+      directory: './databases/migrations',
       tableName: 'migrations'
     },
     seeds: {
-      directory: 'databases/seeds',
+      directory: './databases/seeds',
     }
   }
 };
+
+export default knexConfig;
