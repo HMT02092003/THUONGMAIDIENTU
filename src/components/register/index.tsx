@@ -3,14 +3,20 @@
 import * as React from "react";
 import { Button, Checkbox, Col, Input, Row, Typography, Form } from "antd";
 import "./RegisterPage.css";
+import axios from "axios";
 
 const { Title, Text, Link } = Typography;
 
 const Register = () => {
-    const form = Form.useForm();
+    const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        
+    const onFinish = async (values: any) => {
+        console.log("Success:", values);
+        try{
+            const sendDataa = await axios.post("http://localhost:3000/api/register", values);
+        }catch(err){
+            console.log(err);
+        }
     };
 
     React.useEffect(() => {
@@ -28,7 +34,10 @@ const Register = () => {
                 </Col>
 
                 <Col span={10} className="login-form">
-                    <Form className="form-content">
+                    <Form
+                        className="form-content"
+                        onFinish={onFinish}
+                    >
                         <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
                             <img src="../../../logo/logo.png" alt="" style={{ width: "150px" }} />
                         </div>
@@ -40,7 +49,7 @@ const Register = () => {
                                 labelCol={{ span: 24 }}
                             >
                                 <Input
-                                    placeholder="Email"
+                                    placeholder="Họ và tên"
                                     className="input-field"
                                     style={{ height: '50px', borderRadius: '10px' }}
                                 />
@@ -64,7 +73,7 @@ const Register = () => {
                                 labelCol={{ span: 24 }}
                             >
                                 <Input.Password
-                                    placeholder="Password"
+                                    placeholder="Mật khẩu"
                                     className="input-field"
                                     style={{ height: '50px', borderRadius: '10px' }}
                                 />
@@ -76,13 +85,13 @@ const Register = () => {
                                 labelCol={{ span: 24 }}
                             >
                                 <Input.Password
-                                    placeholder="Password"
+                                    placeholder="Nhập lại mật khẩu"
                                     className="input-field"
                                     style={{ height: '50px', borderRadius: '10px' }}
                                 />
                             </Form.Item>
                         </div>
-                        <Button type="primary" block className="login-button" style={{ height: '50px', marginTop: "20px" }}>
+                        <Button type="primary" htmlType="submit" block className="login-button" style={{ height: '50px', marginTop: "20px" }}>
                             Đăng ký
                         </Button>
                         <div className="register-link">
