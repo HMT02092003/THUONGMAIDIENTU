@@ -13,7 +13,7 @@ const Register = () => {
     const onFinish = async (values: any) => {
         console.log("Success:", values);
         try{
-            const sendDataa = await axios.post("http://localhost:3000/api/register", values);
+            const sendDataa = await axios.post("http://localhost:4000/api/register", values);
         }catch(err){
             console.log(err);
         }
