@@ -21,15 +21,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 <HeaderPage />
             </Header>
 
-            <Layout>
-                <Layout style={{ padding: '24px' }}>
-                    <Content style={{ background: '#fff', padding: 24 }}>
                         {/* phàn tử con render sau layout */}
                         {children}
                         {/* phàn tử con render sau layout */}
-                    </Content>
-                </Layout>
-            </Layout>
+
 
             <Footer style={{ textAlign: 'center' }}>
                 <FooterPage />
