@@ -1,58 +1,159 @@
-import React from 'react';
-import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import React from "react";
+import { Layout, Row, Col, Typography, Button, Space, Card } from "antd";
+import {
+  FacebookOutlined,
+  YoutubeOutlined,
+  TwitterOutlined,
+} from "@ant-design/icons";
 
-type FieldType = {
-  username?: string;
-  password?: string;
-  remember?: string;
+const { Content, Footer } = Layout;
+const { Title, Text, Link } = Typography;
+
+const App: React.FC = () => {
+  const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
+  const titleStyle = { fontSize: "15px", marginBottom: "8px" };
+
+  return (
+    <Layout style={{ background: "#fff" }}>
+      <Content style={{ padding: "40px 5cm" }}>
+        <Row gutter={[16, 16]}>
+          {/* Hệ thống cửa hàng */}
+          <Col span={24} style={{ marginBottom: "16px" }}>
+            <Title level={4} style={{ textAlign: "left", fontSize: "15px" }}>
+              Hệ thống cửa hàng
+            </Title>
+          </Col>
+          <Col span={24} style={{ marginBottom: "16px" }}>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+                  <Text style={textStyle}>
+                    <strong>Thành phố Hồ Chí Minh</strong>
+                    <br />
+                    Số 5 - 7 Nguyễn Huy Tưởng, F6, Q. Bình Thạnh
+                    <br />
+                    <Text type="danger">Đã đóng cửa, hẹn bạn 09:00</Text>
+                    <br />
+                    09:00 - 21:00
+                  </Text>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+                  <Text style={textStyle}>
+                    <strong>Thành phố Hồ Chí Minh</strong>
+                    <br />
+                    95 Trần Thiện Chánh, Q10
+                    <br />
+                    <Text type="danger">Đã đóng cửa, hẹn bạn 09:00</Text>
+                    <br />
+                    09:00 - 21:00
+                  </Text>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+                  <Text style={textStyle}>
+                    <strong>Hà Nội</strong>
+                    <br />
+                    53 Thái Hà, Đống Đa
+                    <br />
+                    <Text type="success">Mở cửa</Text>
+                    <br />
+                    09:00 - 22:00
+                  </Text>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+
+          {/* ThinkPro */}
+          <Col span={24}>
+            <Title level={4} style={{ textAlign: "left", fontSize: "15px" }}>
+              ThinkPro
+            </Title>
+          </Col>
+
+          {/* Đa dạng thanh toán và thông tin hữu ích */}
+          <Col span={6} style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+            <Title level={5} style={titleStyle}>
+              Đa dạng thanh toán
+            </Title>
+            <ul style={{ padding: 0, listStyle: "none", ...textStyle }}>
+              <li>Chuyển khoản</li>
+              <li>Tiền mặt</li>
+              <li>VNPay</li>
+              <li>VietQR</li>
+              <li>Thẻ ATM</li>
+              <li>Thẻ Quốc tế</li>
+            </ul>
+          </Col>
+          <Col span={6} style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+            <Title level={5} style={titleStyle}>
+              Thông tin hữu ích
+            </Title>
+            <ul style={{ padding: 0, listStyle: "none", ...textStyle }}>
+              <li>Chính sách bảo hành</li>
+              <li>Chính sách đổi trả</li>
+              <li>Chính sách vận chuyển</li>
+              <li>Chính sách bảo mật</li>
+              <li>Chính sách thanh toán</li>
+              <li>Chính sách kiểm hàng</li>
+              <li>Hướng dẫn mua hàng online</li>
+              <li>Về chúng tôi</li>
+            </ul>
+          </Col>
+
+          {/* Social networks */}
+          <Col span={6} style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+            <Title level={5} style={titleStyle}>
+              Social networks
+            </Title>
+            <Space direction="vertical">
+              <Link href="https://facebook.com" style={textStyle}>
+                <FacebookOutlined /> Facebook
+              </Link>
+              <Link href="https://youtube.com" style={textStyle}>
+                <YoutubeOutlined /> Youtube
+              </Link>
+              <Link href="https://tiktok.com" style={textStyle}>
+                Tiktok
+              </Link>
+              <Link href="https://telegram.org" style={textStyle}>
+                Telegram
+              </Link>
+            </Space>
+          </Col>
+
+          {/* Phản hồi */}
+          <Col span={6} style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
+            <Title level={5} style={titleStyle}>
+              Phản hồi, góp ý, khiếu nại
+            </Title>
+            <Text style={textStyle}>
+              Phản hồi nóng về chất lượng sản phẩm và dịch vụ. Đội ngũ Kiểm Soát
+              Chất Lượng của chúng tôi sẵn sàng lắng nghe quý khách.
+            </Text>
+            <br />
+            <Button type="primary" style={{ marginTop: "10px" }}>
+              Gửi phản hồi ngay
+            </Button>
+          </Col>
+        </Row>
+      </Content>
+
+      {/* Footer */}
+      <Footer style={{ textAlign: "center", marginTop: "20px" }}>
+        <Text style={{ fontSize: "13px" }}>
+          © ThinkPro 2024
+          <br />
+          Công ty TNHH Công nghệ Think Việt Nam - GPĐKKD: 0107273909 do sở KH & ĐT TP Hà Nội cấp ngày 09/03/2020
+          <br />
+          Địa chỉ: 105/562 Đường Láng, Phường Láng Hạ, Quận Đống Đa, Hà Nội. Điện thoại: 1900633579
+        </Text>
+      </Footer>
+    </Layout>
+  );
 };
-
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-const App: React.FC = () => (
-  <Form
-    name="basic"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
-    style={{ maxWidth: 600 }}
-    initialValues={{ remember: true }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    autoComplete="off"
-  >
-    <Form.Item<FieldType>
-      label="Username"
-      name="username"
-      rules={[{ required: true, message: 'Please input your username!' }]}
-    >
-      <Input />
-    </Form.Item>
-
-    <Form.Item<FieldType>
-      label="Password"
-      name="password"
-      rules={[{ required: true, message: 'Please input your password!' }]}
-    >
-      <Input.Password />
-    </Form.Item>
-
-    <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item>
-
-    <Form.Item label={null}>
-      <Button type="primary" htmlType="submit">
-        Submit
-      </Button>
-    </Form.Item>
-  </Form>
-);
 
 export default App;
