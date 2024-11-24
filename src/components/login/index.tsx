@@ -1,12 +1,27 @@
 "use client";
 
 import * as React from "react";
-import { Button, Checkbox, Col, Input, Row, Typography, Form } from "antd";
+import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
 import "./LoginPage.css";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const { Title, Text, Link } = Typography;
 
 const Login = () => {
+  const [form] = Form.useForm();
+  const router = useRouter();
+
+  const onFinish = async(values: any) => {
+    console.log('Success:', values);
+    try{
+      const login = await axios.post("http://localhost:4000/api/login", values);
+      message.success("Đăng nhập thành công");
+      router.push("/home");
+    }catch(err: any){
+      message.error(err.response.data.error);
+    }
+  };
   React.useEffect(() => {
     document.body.style.margin = "0";
   }, []);
@@ -22,13 +37,17 @@ const Login = () => {
         </Col>
 
         <Col span={10} className="login-form">
-          <Form className="form-content">
+          <Form 
+          className="form-content"
+          onFinish={onFinish}
+          >
             <div style={{display:"flex", width:"100%", justifyContent:"center", alignItems:"center"}}>
             <img src="../../../logo/logo.png" alt=""  style={{width:"300px"}} />
             </div>
             <br />
             <div className="form-fields">
               <Form.Item
+              name="email"
               label="Email"
               labelCol={{ span: 24 }}
               >
@@ -40,6 +59,7 @@ const Login = () => {
               </Form.Item>
 
               <Form.Item
+              name="password"
               label="Password"
               labelCol={{ span: 24 }}
               >
@@ -52,10 +72,10 @@ const Login = () => {
             </div>
             <div className="form-options">
               <Checkbox>Remember me</Checkbox>
-              <Link className="forgot-password">Quên mật khẩu?</Link>
+              <Link className="forgot-password" href="/forgotPassword">Quên mật khẩu?</Link>
             </div>
-            <Button type="primary" block className="login-button" style={{ height: '50px', marginTop: "20px" }}>
-              Login
+            <Button type="primary" htmlType="submit" block className="login-button" style={{ height: '50px', marginTop: "20px" }}>
+              Đăng nhập
             </Button>
             <div className="register-link">
               <Text style={{ fontSize: "15px" }}>
