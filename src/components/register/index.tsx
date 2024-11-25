@@ -1,21 +1,27 @@
 "use client";
 
 import * as React from "react";
-import { Button, Checkbox, Col, Input, Row, Typography, Form } from "antd";
+import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
 import "./RegisterPage.css";
 import axios from "axios";
+import router from "@/api";
+import { useRouter } from "next/navigation";
 
 const { Title, Text, Link } = Typography;
 
 const Register = () => {
     const [form] = Form.useForm();
+    const router = useRouter();
 
     const onFinish = async (values: any) => {
         console.log("Success:", values);
         try{
             const sendDataa = await axios.post("http://localhost:4000/api/register", values);
-        }catch(err){
+            message.success("Đăng ký thành công");
+            router.push("/login");
+        }catch(err:any){
             console.log(err);
+            message.error(err.response.data.error);
         }
     };
 

@@ -17,6 +17,11 @@ const expressApp = express();
 expressApp.use(cors());
 expressApp.use(express.json());
 
+expressApp.use((req, res, next) => {
+  console.log(`Request received: ${req.method} ${req.url}`);
+  next();  // Chuyển tiếp request đến các route tiếp theo
+});
+
 // API Routes
 expressApp.use('/api/', apiRouter);
 
