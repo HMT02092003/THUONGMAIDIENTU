@@ -19,7 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       
     return (
         <Layout style={{ margin: 0, minHeight: '100vh' }}>
-            <Header style={{ background: '#1890ff', color: 'white', display: 'flex', alignItems: 'center' }}>
+            <Header style={{backgroundColor:"white"}}>
                 <HeaderPage />
             </Header>
 
