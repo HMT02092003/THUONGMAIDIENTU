@@ -14,7 +14,7 @@ const HeaderPage = () => {
     <>
       <Row style={{ backgroundColor: 'white', justifyContent: 'center' }}>
         <Row style={{ display: "flex", height: "80px", alignItems: "center" }}>
-          <Col span={2}><img src="/logo/logo.png" alt="" style={{ flexShrink: '0', height: '2.5rem' }} /></Col>
+          <Col span={2}><img src="/logo/logo.png" alt="" style={{ flexShrink: '0', height: '2.5rem', width:"80px" }} /></Col>
           <Col span={7}><ConfigProvider
             theme={{
               components: {
