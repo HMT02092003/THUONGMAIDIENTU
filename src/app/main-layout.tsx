@@ -18,17 +18,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       }, []);
       
     return (
-<<<<<<< HEAD
-        <Layout style={{ margin: 0, minHeight: '100vh' }}>
-            <Header style={{backgroundColor:"white"}}>
-                <HeaderPage />
-            </Header>
-
-=======
         <Layout style={{minHeight: '100vh' }}>
             <HeaderPage />
             
->>>>>>> Son
             <Layout>
                 <Content >
                     {/* phàn tử con render sau layout */}
