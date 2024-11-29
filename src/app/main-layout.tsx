@@ -4,6 +4,11 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import HeaderPage from './header';
 import FooterPage from './footer';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
+import { getDecodedToken } from '../utils/decode-token';
+import AdminMainLayout from './admin-main-layout';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -12,27 +17,51 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+    const [role, setRole] = useState<any>();
+    console.log('Role:', role?.role);
+
+    useEffect(() => {
+        // Lấy token từ cookies
+        const authToken = Cookies.get('token');
+        console.log('Token:', authToken);
+        if (authToken) {
+            console.log('Token:', authToken);
+            const tokenAfterDecode = getDecodedToken(authToken);
+            console.log('Token after decode:', tokenAfterDecode?.role);
+            setRole(tokenAfterDecode);
+        }
+    }, []);
 
     React.useEffect(() => {
         document.body.style.margin = '0';
-      }, []);
-      
-    return (
-        <Layout style={{minHeight: '100vh' }}>
-            <HeaderPage />
-            
-            <Layout>
-                <Content >
-                    {/* phàn tử con render sau layout */}
-                    {children}
-                    {/* phàn tử con render sau layout */}
-                </Content>
-            </Layout>
+    }, []);
 
-            <Footer style={{ textAlign: 'center' }}>
-                <FooterPage />
-            </Footer>
-        </Layout>
+    return (
+        <>
+            {role?.role === 'admin' ? (
+                <AdminMainLayout role={role}>
+                    {children}
+                </AdminMainLayout>
+            ) : (
+                <div>
+                    <Layout style={{ minHeight: '100vh' }}>
+                        <HeaderPage />
+
+                        <Layout>
+                            <Content>
+                                {/* phàn tử con render sau layout */}
+                                {children}
+                                {/* phàn tử con render sau layout */}
+                            </Content>
+                        </Layout>
+
+                        <Footer style={{ textAlign: 'center' }}>
+                            <FooterPage />
+                        </Footer>
+                    </Layout>
+                </div>
+            )}
+        </>
     );
 };
 

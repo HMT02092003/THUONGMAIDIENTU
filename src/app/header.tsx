@@ -24,7 +24,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Search size='large' placeholder="input search text" allowClear style={{ width: 350 }} />
+            <Search size='large' placeholder="input search text" allowClear style={{ width: 350  }} />
           </ConfigProvider>
           </Col>
           <Col span={3}><ConfigProvider

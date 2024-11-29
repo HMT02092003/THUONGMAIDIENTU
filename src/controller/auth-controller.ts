@@ -119,7 +119,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 
     // Set token in cookie
     res.cookie('token', token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',
       maxAge: 2147483647,
     });
