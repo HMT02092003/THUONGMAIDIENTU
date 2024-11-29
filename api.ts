@@ -4,6 +4,7 @@ import {
   loginHandler,
   sendOTPController,
   resetPasswordController,
+  logoutHandler,
 } from './src/controller/auth-controller';
 
 const router = Router();
@@ -27,5 +28,9 @@ router.post('/reset-password', (req, res) => {
   console.log('Received data:', req.body);
   resetPasswordController(req, res);
 });
+
+router.post('/logout', (req, res) => {
+  logoutHandler(req, res);
+}); 
 
 export default router;
