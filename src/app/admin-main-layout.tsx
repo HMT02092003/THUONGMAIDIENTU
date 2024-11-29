@@ -7,8 +7,9 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme, Avatar } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Avatar, message } from 'antd';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,6 +29,9 @@ function getItem(
     } as MenuItem;
 }
 
+const UserList = ['U', 'Lucy', 'Tom', 'Edward'];
+const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+
 const items: MenuItem[] = [
     getItem('Quản lí người dùng ', 'profileManagement', <UserOutlined />),
     getItem('Quản lí sản phẩm', 'productManagement', <AppstoreOutlined />),
@@ -36,8 +40,8 @@ const items: MenuItem[] = [
 
 const AdminMainLayout: React.FC<any> = ({ children, role }) => {
     const [collapsed, setCollapsed] = useState(false);
-    console.log("role", role);
-
+    const [user, setUser] = useState(UserList[0]);
+    const [color, setColor] = useState(ColorList[0]);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -61,7 +65,15 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
         }
     };
 
-    const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+    const logoutHandel = async() => {
+        try{
+            await axios.post('/api/logout');
+            console.log('Đăng xuất thành công');
+            router.push('/login');
+        }catch(err){
+            message.error('Đăng xuất thất bại');
+        }
+    }
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -72,10 +84,14 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
                 <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={handleMenuClick} />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} >
-                    {/* <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="large" >
+                <Header style={{ paddingLeft: "50px", background: colorBgContainer, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} >
+                    <div onClick={logoutHandel}>
+                    <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="default" >
                         {user}
-                    </Avatar> */}
+                    </Avatar>
+                    &nbsp;
+                    Đăng xuất
+                    </div>
                 </Header>
                 <Content style={{ margin: '0 16px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
