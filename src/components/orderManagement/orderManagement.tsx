@@ -26,6 +26,10 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+  },  {
+    title: 'Haha',
+    dataIndex: 'address',
+    key: 'address',
   },
   {
     title: 'Tags',
