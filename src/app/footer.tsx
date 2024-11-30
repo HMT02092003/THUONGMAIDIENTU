@@ -1,18 +1,11 @@
 import React from "react";
 import { Layout, Row, Col, Typography, Button, Space, Card } from "antd";
-import {
-  FacebookOutlined,
-  YoutubeOutlined,
-  TwitterOutlined,
-} from "@ant-design/icons";
+import { FacebookOutlined, YoutubeOutlined } from "@ant-design/icons";
+import "./footer.css"; // Import file CSS
 
-const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
 
 const App: React.FC = () => {
-  const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
-  const titleStyle = { fontSize: "15px", marginBottom: "8px" };
-
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -24,8 +17,8 @@ const App: React.FC = () => {
         <Col span={24} style={{ marginBottom: "16px" }}>
           <Row gutter={[16, 16]}>
             <Col span={8}>
-              <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
-                <Text style={textStyle}>
+              <Card className="cardStyle">
+                <Text className="textStyle">
                   <strong>Thành phố Hồ Chí Minh</strong>
                   <br />
                   Số 5 - 7 Nguyễn Huy Tưởng, F6, Q. Bình Thạnh
@@ -37,8 +30,8 @@ const App: React.FC = () => {
               </Card>
             </Col>
             <Col span={8}>
-              <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
-                <Text style={textStyle}>
+              <Card className="cardStyle">
+                <Text className="textStyle">
                   <strong>Thành phố Hồ Chí Minh</strong>
                   <br />
                   95 Trần Thiện Chánh, Q10
@@ -50,8 +43,8 @@ const App: React.FC = () => {
               </Card>
             </Col>
             <Col span={8}>
-              <Card style={{ backgroundColor: "#F6F9FC" }}> {/* Màu mới */}
-                <Text style={textStyle}>
+              <Card className="cardStyle">
+                <Text className="textStyle">
                   <strong>Hà Nội</strong>
                   <br />
                   53 Thái Hà, Đống Đa
@@ -65,73 +58,109 @@ const App: React.FC = () => {
           </Row>
         </Col>
 
-        <Col span={24}>
-          <Title level={4} style={{ textAlign: "left", fontSize: "15px" }}>
-            ThinkPro
-          </Title>
-        </Col>
-
-        <Col span={6} style={{ backgroundColor: "#F6F9FC", padding: "16px", marginBottom: "16px" }}> {/* Màu mới và padding */}
-          <Title level={5} style={titleStyle}>
+        <Col span={6} className="colContainer">
+          <Title level={5} className="titleStyle">
             Đa dạng thanh toán
           </Title>
-          <ul style={{ padding: 0, listStyle: "none", ...textStyle }}>
-            <li>Chuyển khoản</li>
-            <li>Tiền mặt</li>
-            <li>VNPay</li>
-            <li>VietQR</li>
-            <li><img src="./icon/atm-card.png" width={10} />Thẻ ATM</li>
-            <li>Thẻ Quốc tế</li>
-          </ul>
+          <div>
+            <div>
+              <img src="/icon/transfer.png" className="icon" /> Chuyển khoản
+            </div>
+            <div>
+              <img src="/icon/dollar.png" className="icon"/> Tiền mặt
+            </div>
+            <div>
+              <img src="/icon/transfer.png" className="icon"/> VNPay
+            </div>
+            <div>
+              <img src="/icon/transfer.png" className="icon"/> VietQR
+            </div>
+            <div>
+              <img src="/icon/atm-card.png" className="icon"/> Thẻ ATM
+            </div>
+            <div>
+              <img src="/icon/globe.png" className="icon"/> Thẻ Quốc tế
+            </div>
+          </div>
         </Col>
-        <Col span={6} style={{ backgroundColor: "#F6F9FC", padding: "16px", marginBottom: "16px" }}> {/* Màu mới và padding */}
-          <Title level={5} style={titleStyle}>
+        <Col span={6} className="colContainer">
+          <Title level={5} className="titleStyle">
             Thông tin hữu ích
           </Title>
-          <ul style={{ padding: 0, listStyle: "none", ...textStyle }}>
-            <li>Chính sách bảo hành</li>
-            <li>Chính sách đổi trả</li>
-            <li>Chính sách vận chuyển</li>
-            <li>Chính sách bảo mật</li>
-            <li>Chính sách thanh toán</li>
-            <li>Chính sách kiểm hàng</li>
-            <li>Hướng dẫn mua hàng online</li>
-            <li>Về chúng tôi</li>
-          </ul>
+          <div>
+            <div>
+              <img src="/icon/check.png" className="icon"/> Chính sách bảo hành
+            </div>
+            <div>
+              <img src="/icon/transfer.png" className="icon"/> Chính sách đổi trả
+            </div>
+            <div>
+              <img src="/icon/trailer-truck.png" className="icon"/> Chính sách vận chuyển
+            </div>
+            <div>
+              <img src="/icon/lock.png" className="icon"/> Chính sách bảo mật
+            </div>
+            <div>
+              <img src="/icon/atm-card.png" className="icon"/> Chính sách thanh toán
+            </div>
+            <div>
+              <img src="/icon/scan.png" className="icon"/> Chính sách kiểm hàng
+            </div>
+            <div>
+              <img src="/icon/shopping-cart.png" className="icon"/> Hướng dẫn mua hàng online
+            </div>
+            <div>
+              <img src="/icon/information.png" className="icon"/> Về chúng tôi
+            </div>
+          </div>
         </Col>
 
-        <Col span={6} style={{ backgroundColor: "#F6F9FC", padding: "16px", marginBottom: "16px" }}> {/* Màu mới và padding */}
-          <Title level={5} style={titleStyle}>
+        <Col span={6} className="colContainer">
+          <Title level={5} className="titleStyle">
             Social networks
           </Title>
           <Space direction="vertical">
-            <Link href="https://facebook.com" style={textStyle}>
+            <Link href="https://facebook.com" className="textStyle">
               <FacebookOutlined /> Facebook
             </Link>
-            <Link href="https://youtube.com" style={textStyle}>
+            <Link href="https://youtube.com" className="textStyle">
               <YoutubeOutlined /> Youtube
             </Link>
-            <Link href="https://tiktok.com" style={textStyle}>
-              Tiktok
+            <Link href="https://tiktok.com" className="textStyle">
+              <img src="/icon/tik-tok.png" /> Tiktok
             </Link>
-            <Link href="https://telegram.org" style={textStyle}>
-              Telegram
+            <Link href="https://telegram.org" className="textStyle">
+              <img src="/icon/telegram.png" /> Telegram
             </Link>
           </Space>
         </Col>
 
-        <Col span={6} style={{ backgroundColor: "#F6F9FC", padding: "16px", marginBottom: "16px" }}> {/* Màu mới và padding */}
-          <Title level={5} style={titleStyle}>
+        <Col span={6} className="colContainer">
+          <Title level={5} className="titleStyle">
             Phản hồi, góp ý, khiếu nại
           </Title>
-          <Text style={textStyle}>
+          <Text className="textStyle">
             Phản hồi nóng về chất lượng sản phẩm và dịch vụ. Đội ngũ Kiểm Soát
             Chất Lượng của chúng tôi sẵn sàng lắng nghe quý khách.
           </Text>
           <br />
-          <Button type="primary" style={{ marginTop: "10px" }}>
+          <Button type="primary" className="primaryButton">
             Gửi phản hồi ngay
           </Button>
+        </Col>
+                {/* Footer */}
+                <Col span={24} className="footer">
+          <div className="footerContent">
+            <Text>© ThinkPro 2024</Text>
+            <br />
+            <Text>
+              Công ty TNHH Công nghệ Think Việt Nam - GPĐKKD: 0107273909 do sở KH & ĐT TP Hà Nội cấp ngày 09/03/2020
+            </Text>
+            <br />
+            <Text>
+              Địa chỉ: 105/562 Đường Láng, Phường Láng Hạ, Quận Đống Đa, Hà Nội. Điện thoại: 1900633579
+            </Text>
+          </div>
         </Col>
       </Row>
     </>

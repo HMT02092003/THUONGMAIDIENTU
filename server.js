@@ -3,6 +3,8 @@ import next from 'next';
 import express from 'express';
 import cors from 'cors';
 import apiRouter from './api.ts';
+import fileUpload from 'express-fileupload';
+import cookieParser from 'cookie-parser';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -16,6 +18,9 @@ const expressApp = express();
 // Middleware
 expressApp.use(cors());
 expressApp.use(express.json());
+expressApp.use(fileUpload());
+expressApp.use(express.urlencoded({ extended: true }));
+expressApp.use(cookieParser());
 
 expressApp.use((req, res, next) => {
   console.log(`Request received: ${req.method} ${req.url}`);

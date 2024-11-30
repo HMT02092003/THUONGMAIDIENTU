@@ -7,13 +7,69 @@ import { RcFile, UploadFile } from 'antd/es/upload/interface';
 import { useRouter } from 'next/navigation';
 // import styles from '../profile/profile.module.css';
 import type { GetProp, UploadProps } from 'antd';
-import dayjs from 'dayjs';
+import FormDataBuilder from '../../utils/formData';
+import axios from 'axios';
 
 const { Title } = Typography;
 
-const onChange: InputNumberProps['onChange'] = (value) => {
-    console.log('changed', value);
-};
+// ethnicGroups.ts
+export const ethnicGroups: { value: string; label: string }[] = [
+    { value: "ba_na", label: "Ba Na" },
+    { value: "bo_y", label: "Bố Y" },
+    { value: "brau", label: "Brâu" },
+    { value: "bru_van_kieu", label: "Bru - Vân Kiều" },
+    { value: "cham", label: "Chăm (Champa)" },
+    { value: "cho_ro", label: "Chơ Ro" },
+    { value: "chut", label: "Chứt" },
+    { value: "co", label: "Co" },
+    { value: "cong", label: "Cống" },
+    { value: "co_ho", label: "Cơ Ho" },
+    { value: "co_tu", label: "Cơ Tu" },
+    { value: "dao", label: "Dao" },
+    { value: "e_de", label: "Ê Đê" },
+    { value: "giay", label: "Giáy" },
+    { value: "gia_rai", label: "Gia Rai" },
+    { value: "gie_trieng", label: "Gié-Triêng" },
+    { value: "hmong", label: "H'Mông (Mông)" },
+    { value: "ha_nhi", label: "Hà Nhì" },
+    { value: "hre", label: "Hrê" },
+    { value: "khang", label: "Kháng" },
+    { value: "khmer", label: "Khơ Me (Khmer)" },
+    { value: "kho_mu", label: "Khơ Mú" },
+    { value: "kinh", label: "Kinh (Việt)" },
+    { value: "la_chi", label: "La Chí" },
+    { value: "la_ha", label: "La Ha" },
+    { value: "lao", label: "Lào" },
+    { value: "lu", label: "Lự" },
+    { value: "lo_lo", label: "Lô Lô" },
+    { value: "ma", label: "Mạ" },
+    { value: "mang", label: "Mảng" },
+    { value: "mnong", label: "Mnông" },
+    { value: "muong", label: "Mường" },
+    { value: "ngai", label: "Ngái" },
+    { value: "nung", label: "Nùng" },
+    { value: "o_du", label: "Ô Đu" },
+    { value: "pa_then", label: "Pà Thẻn" },
+    { value: "phu_la", label: "Phù Lá" },
+    { value: "pu_peo", label: "Pu Péo" },
+    { value: "ra_glai", label: "Ra Glai" },
+    { value: "ro_mam", label: "Rơ Măm" },
+    { value: "san_chay", label: "Sán Chay" },
+    { value: "san_diu", label: "Sán Dìu" },
+    { value: "si_la", label: "Si La" },
+    { value: "ta_oi", label: "Tà Ôi" },
+    { value: "tay", label: "Tày" },
+    { value: "thai", label: "Thái" },
+    { value: "tho", label: "Thổ" },
+    { value: "xinh_mun", label: "Xinh Mun" },
+    { value: "xo_dang", label: "Xơ Đăng" },
+    { value: "xtieng", label: "Xtiêng" },
+    { value: "hoa", label: "Hoa (Người Hoa)" },
+    { value: "lao", label: "Lào" },
+    { value: "ngai_2", label: "Ngái" },
+    { value: "ha_nhi_2", label: "Hà Nhì" }
+];
+
 
 interface User {
     id: string;
@@ -86,6 +142,10 @@ const CreateProfileManagement: React.FC = () => {
     const [permissions, setPermissions] = useState<string[]>([]);
 
     const router = useRouter();
+
+    useEffect(() => {
+        fetchProvinces();
+    }, []);
 
     useEffect(() => {
         if (provinceId) {
@@ -179,48 +239,43 @@ const CreateProfileManagement: React.FC = () => {
         }
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         const values = await form.validateFields();
+    const handleSubmit = async () => {
+        try {
+            const values = await form.validateFields();
 
-    //         console.log("values", values)
+            console.log("values", values)
 
-    //         const Values = {
-    //             ...values,
-    //             dateOfBirth: values.dateOfBirth.toISOString(),
-    //             addressProvince: { id: provinceId, name: values.addressProvince },
-    //             addressDistrict: { id: districtId, name: values.addressDistrict },
-    //             addressWard: { id: wardId, name: values.addressWard },
-    //             hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
-    //             hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
-    //             hometownWard: { id: wardIdHometown, name: values.hometownWard },
-    //         };
-
-
+            const Values = {
+                ...values,
+                dateOfBirth: values.dateOfBirth.toISOString(),
+                addressProvince: { id: provinceId, name: values.addressProvince },
+                addressDistrict: { id: districtId, name: values.addressDistrict },
+                addressWard: { id: wardId, name: values.addressWard },
+                hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
+                hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
+                hometownWard: { id: wardIdHometown, name: values.hometownWard },
+            };
 
 
-    //         let formData = new FormData();
-    //         formDataBuilder.buildFormData(formData, Values);
+            let formData = new FormData();
+            const formDataBuilder = new FormDataBuilder();
+            formDataBuilder.buildFormData(formData, Values);
 
-    //         if (imageFile) {
-    //             formData.append('img', imageFile);
-    //         }
+            if (imageFile) {
+                formData.append('img', imageFile);
+            }
 
-    //         console.log("formData", formData)
+            console.log("formData", formData)
 
-    //         const result = await createUser(formData);
+            const result: any = await axios.post('http://localhost:4000/api/createUser', formData);
+            message.success('Tạo mới thông tin người dùng thành công!');
+            router.push('/profileManagement')
 
-    //         if (result.status === 'success') {
-    //             message.success('Tạo mới thông tin người dùng thành công!');
-    //             router.push('/profileManagement')
-    //         } else {
-    //             throw new Error('Error updating user');
-    //         }
-    //     } catch (error) {
-    //         message.error('Tạo mới thông tin người dùng thất bại.');
-    //         console.error('Error:', error);
-    //     }
-    // };
+        } catch (error: any) {
+            console.error('Error creating user:', error);
+            message.error(error.response.data.message);
+        }
+    };
 
 
     const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
@@ -244,15 +299,6 @@ const CreateProfileManagement: React.FC = () => {
         </div>
     );
 
-    // Validate input to only allow numbers
-    const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-        const keyCode = event.which || event.keyCode;
-        const keyValue = String.fromCharCode(keyCode);
-        if (!/^\d+$/.test(keyValue)) {
-            event.preventDefault();
-        }
-    };
-
 
     return (
         <div style={{
@@ -268,19 +314,23 @@ const CreateProfileManagement: React.FC = () => {
                 </Title>
                 <Button
                     type="primary"
-                    // onClick={handleSubmit}
+                    onClick={handleSubmit}
                     icon={<PlusOutlined />}
                     style={{
-                        backgroundImage: "linear-gradient( #40FF53, #00C113 )",
+                        backgroundColor: "#52c41a",
                         width: "120px",
-                        marginRight:"5vh"
+                        marginRight: "5vh"
                     }}
                 >
                     Tạo mới
                 </Button>
             </div>
 
-            <Form form={form} layout="vertical">
+            <Form 
+            form={form} 
+            layout="vertical"
+                initialValues={{nationality: "kinh"}}
+            >
                 <Row gutter={[16, 16]}>
                     <Col span={24}>
                         <Card title="Thông tin tài khoản" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
@@ -295,7 +345,19 @@ const CreateProfileManagement: React.FC = () => {
                                             onChange={handleChange}
                                             maxCount={1}
                                         >
-                                            {uploadButton}
+                                            {imageUrl ? (
+                                                <img
+                                                    src={imageUrl}
+                                                    alt="avatar"
+                                                    style={{
+                                                        width: '200%',
+                                                        height: '200%',
+                                                        objectFit: 'cover'
+                                                    }}
+                                                />
+                                            ) : (
+                                                uploadButton
+                                            )}
                                         </Upload>
                                     </Form.Item>
                                 </Col>
@@ -560,48 +622,9 @@ const CreateProfileManagement: React.FC = () => {
                                         label="Quốc tịch"
                                         rules={[{ required: true, message: 'Vui lòng nhập quốc tịch!' }]}
                                     >
-                                        <Input />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-
-                    <Col span={24}>
-                        <Card title="Lương" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                            <Row gutter={[16, 16]}>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="salary"
-                                        label="Tiền lương/1 tháng (Tối đa 100 triệu)"
-                                        rules={[{ required: true, message: 'Vui lòng nhập tiền lương/1 tháng!' }]}
-                                    >
-                                                <InputNumber
-                                                    style={{ width: "100%", borderRadius: "25px" }}
-                                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                                    onChange={onChange}
-                                                    onKeyPress={handleKeyPress}
-                                                    max={100000000}
-                                                    addonAfter="VND"
-                                                />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="baseHourlyOT"
-                                        label="Tiền lương tăng ca/1h làm (Tối đa 100 triệu)"
-                                        rules={[{ required: true, message: 'Vui lòng nhập tiền lương tăng ca/1h làm!' }]}
-                                    >
-                                                <InputNumber
-                                                    style={{ width: "100%", borderRadius: "25px" }}
-                                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                                    onChange={onChange}
-                                                    onKeyPress={handleKeyPress}
-                                                    max={100000000}
-                                                    addonAfter="VND"
-                                                />
+                                        <Select
+                                            options={ethnicGroups}
+                                        />
                                     </Form.Item>
                                 </Col>
                             </Row>

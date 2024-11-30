@@ -7,7 +7,7 @@ import { UserModel } from '../Models/UserModel';
 import { RoleModel } from '../Models/RoleModel';
 import { UserRoleModel } from '../Models/UserRoleModel';
 import { PermissionModel } from '../Models/PermissionModel';
-import { otpService } from '../utils/otpService';
+import { otpService } from '../service/otpService';
 import jwt from 'jsonwebtoken';
 
 
@@ -119,7 +119,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 
     // Set token in cookie
     res.cookie('token', token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV !== 'development',
       maxAge: 2147483647,
     });
