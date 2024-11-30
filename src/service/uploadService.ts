@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { UploadedFile } from 'express-fileupload'; // Import kiểu dữ liệu từ `express-fileupload`
+import { fileURLToPath } from 'url'; // Import từ Node.js
+import { UploadedFile } from 'express-fileupload';
+
+// Tạo __dirname trong ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const saveFile = async (file: UploadedFile, userId: string): Promise<string> => {
     try {

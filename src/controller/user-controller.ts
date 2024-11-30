@@ -45,7 +45,7 @@ export const createUserHandler = async (req: Request, res: Response) => {
         // Kiểm tra email đã tồn tại chưa
         const existingUser = await UserModel.query().findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'Email already exists' });
+            return res.status(400).json({ message: 'Email đã tồn tại' });
         }
 
         // Mã hóa mật khẩu

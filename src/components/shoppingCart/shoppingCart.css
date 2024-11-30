@@ -1,0 +1,13 @@
+.emtyCart {
+    font-size: 64px;
+    color: #1890ff;
+}
+.cartRow {
+    padding: 20px;
+}
+.cartCard {
+    height: 100%;
+}
+.product {
+    flex: 1;
+}

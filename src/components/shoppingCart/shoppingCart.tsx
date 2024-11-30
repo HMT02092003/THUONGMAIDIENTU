@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button, Card, Col, Empty, Row, Typography, Image } from "antd";
 import { ShoppingCartOutlined, MinusOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import "./ShoppingCart.css";
 
 const { Title } = Typography;
 
@@ -54,16 +55,16 @@ const ShoppingCart: React.FC = () => {
   };
 
   return (
-    <Row gutter={16} style={{ padding: "20px" }}>
+    <Row gutter={16} className="cartRow">
       <Col span={16}>
         <Card
           title={<Title level={4}>Giỏ hàng ({cartData.length})</Title>}
           bordered={false}
-          style={{ height: "100%" }}
+          className="cartCard"
         >
           {cartData.length === 0 ? (
             <Empty
-              image={<ShoppingCartOutlined style={{ fontSize: "64px", color: "#1890ff" }} />}
+              image={<ShoppingCartOutlined className="emtyCart" />}
               imageStyle={{ height: 100 }}
               description={<span>Giỏ hàng trống</span>}
             >
@@ -78,7 +79,7 @@ const ShoppingCart: React.FC = () => {
                 <Image src={item.image} alt={item.name} width={80} height={80} style={{ marginRight: "16px" }} />
 
                 {/* Thông tin sản phẩm */}
-                <div style={{ flex: 1 }}>
+                <div className="product">
                   {/* Tên sản phẩm */}
                   <p style={{ margin: "0", fontWeight: "bold" }}>{item.name}</p>
 
