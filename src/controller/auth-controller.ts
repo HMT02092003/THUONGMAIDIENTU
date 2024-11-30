@@ -7,7 +7,7 @@ import { UserModel } from '../Models/UserModel';
 import { RoleModel } from '../Models/RoleModel';
 import { UserRoleModel } from '../Models/UserRoleModel';
 import { PermissionModel } from '../Models/PermissionModel';
-import { otpService } from '../utils/otpService';
+import { otpService } from '../service/otpService';
 import jwt from 'jsonwebtoken';
 
 

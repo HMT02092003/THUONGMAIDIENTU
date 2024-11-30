@@ -8,7 +8,7 @@ const knexInstance = knex({
     host: 'localhost',
     port: 5432,
     user: 'postgres',
-    password: '12345678',
+    password: '123456',
     database: 'THUONGMAIDIENTU',
     multipleStatements: true
   },

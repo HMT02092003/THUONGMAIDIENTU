@@ -5,11 +5,13 @@ const { Search } = Input;
 import {
   EnvironmentOutlined
 } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 
 
 const HeaderPage = () => {
-
+  const router = useRouter();
+  
   return (
     <>
       <Row style={{ backgroundColor: 'white', justifyContent: 'center' }}>
@@ -91,7 +93,7 @@ const HeaderPage = () => {
             <Button color='default' shape='circle' size='large' variant='filled' style={{ marginRight: '10px' }}><img src="/icon/user.png" alt="" style={{ width: 15 }} /></Button>
           </Col>
           <Col span={1} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' shape='circle' size='large' variant='filled'><img src="/icon/grocery-store.png" alt="" style={{ width: 17 }} /></Button>
+            <Button color='default' shape='circle' size='large' variant='filled' onClick={()=>{router.push('/shoppingCart')}}><img src="/icon/grocery-store.png" alt="" style={{ width: 17 }} /></Button>
           </Col>
         </Row>
       </Row>

@@ -3,13 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import type { TableColumnsType, TableProps } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined,CloudUploadOutlined, CloudDownloadOutlined } from '@ant-design/icons';
-// import style from '../Layout.module.css';
-// import { getAllAuthUser } from '@/utils/auth/get-auth-all-user';
-// import { deleteUser } from '@/utils/auth/delete-auth-user';
 import { Table, Button, Modal, Tag } from "antd";
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-// import { exportExcelHandel } from '@/utils/excel/exportExcelHandel';
+import axios from 'axios';
 
 
 type OnChange = NonNullable<TableProps<DataType>['onChange']>;
@@ -44,46 +41,7 @@ const ProfileManagement = () => {
   const [userData, setUserData] = useState<DataType[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
-  const [nameOfIndexColumn, setNameOfIndexColumn] = useState<any>({
-    name: "Họ và tên",
-    email: "Email",
-    role: "Vai trò",
-    addressProvince: "Tỉnh / Thành phố",
-    addressDistrict: "Quận / Huyện / Thị xã",
-    addressWard: "Phường / Xã / Thị trấn / Thôn / Đội",
-    hometownProvince: "Tỉnh / Thành phố",
-    hometownDistrict: "Quận / Huyện / Thị xã",
-    hometownWard: "Phường / Xã / Thị trấn / Thôn / Đội",
-    CCCD: "CCCD",
-    phoneNumber: "Số điện thoại",
-    dateOfBirth: "Ngày sinh",
-    gender: "Giới tính",
-    nationality: "Quốc tịch",
-    salary: "Tiền lương/1 tháng",
-    baseHourlyOT: "Tiền lương tăng ca/1h làm",
-  });
-  const [dataToFormat, setDataToFormat] = useState<any>({
-    nameOfSheet: "DANH SÁCH NGƯỜI DÙNG",
-    format: {
-      name: 30,
-      email: 30,
-      role: 20,
-      addressProvince: 50,
-      addressDistrict: 50,
-      addressWard: 50,
-      hometownProvince: 50,
-      hometownDistrict: 50,
-      hometownWard: 50,
-      CCCD: 25,
-      phoneNumber: 25,
-      dateOfBirth: 25,
-      gender: 25,
-      nationality: 25,
-      salary: 35,
-      baseHourlyOT: 50,
-    }
-  });
-  console.log('userData:', userData);
+
 
   const router = useRouter();
 
@@ -93,38 +51,22 @@ const ProfileManagement = () => {
     setSortedInfo(sorter as Sorts);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const authUser: any = await getAllAuthUser();
-  //       console.log(authUser);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const authUser: any = await axios.get('http://localhost:4000/api/allUser');
+        console.log(authUser.data.data.users);
 
-  //       const newUserData: DataType[] = authUser.map((user: any) => ({
-  //         id: user.id,
-  //         name: user.name,
-  //         email: user.email,
-  //         verified: user.verified,
-  //         role: user.role,
-  //         createdAt: user.createdAt,
-  //         updatedAt: user.updatedAt,
-  //         provider: user.provider,
-  //         phoneNumber: user.phoneNumber,
-  //         dateOfBirth: user.dateOfBirth,
-  //         address: `${user.addressWard?.name}, ${user.addressDistrict?.name}, ${user.addressProvince?.name}`,
-  //         nationality: user.nationality,
-  //         hometown: `${user.hometownWard?.name}, ${user.hometownDistrict?.name}, ${user.hometownProvince?.name}`,
-  //         img: user.img,
-  //         gender: user.gender,
-  //         CCCD: user.CCCD,
-  //       }));
+        const newUserData: any[] = authUser.data.data.users
 
-  //       setUserData(newUserData);
-  //     } catch (error) {
-  //       console.error('Error fetching user:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+        setUserData(newUserData);
+
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   // const handleDelete = () => {
   //   if (selectedUsers.length === 0) {
@@ -238,7 +180,6 @@ const ProfileManagement = () => {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      width: '6%',
       fixed: 'left',
       filteredValue: filteredInfo.role || null,
       onFilter: (value, record) => record.role?.includes(value as string) ?? false,
@@ -263,40 +204,27 @@ const ProfileManagement = () => {
       title: 'CCCD',
       dataIndex: 'CCCD',
       key: 'CCCD',
-      width: '10%',
     },
     {
       title: 'Quốc tịch',
       dataIndex: 'nationality',
       key: 'nationality',
-      width: '6%',  
     },
     {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: '300px',
     },
     {
       title: 'Hometown',
       dataIndex: 'hometown',
       key: 'hometown',
-      width: '300px',
     },
   ];
 
   const importExcel = () => {
     router.push('/profileManagement/importExcel');
   }
-
-  // const exportExcel = () => {
-  //   const updatedDataToFormat = {
-  //     ...dataToFormat,
-  //     startRow: 1,
-  //   };
-
-  //   exportExcelHandel(userData, nameOfIndexColumn, updatedDataToFormat);
-  // }
 
   return (
     <>

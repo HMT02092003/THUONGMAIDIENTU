@@ -7,7 +7,8 @@ import { RcFile, UploadFile } from 'antd/es/upload/interface';
 import { useRouter } from 'next/navigation';
 // import styles from '../profile/profile.module.css';
 import type { GetProp, UploadProps } from 'antd';
-import dayjs from 'dayjs';
+import FormDataBuilder from '../../utils/formData';
+import axios from 'axios';
 
 const { Title } = Typography;
 
@@ -86,6 +87,10 @@ const CreateProfileManagement: React.FC = () => {
     const [permissions, setPermissions] = useState<string[]>([]);
 
     const router = useRouter();
+
+    useEffect(() => {
+        fetchProvinces();
+    }, []);
 
     useEffect(() => {
         if (provinceId) {
@@ -179,48 +184,49 @@ const CreateProfileManagement: React.FC = () => {
         }
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         const values = await form.validateFields();
+    const handleSubmit = async () => {
+        try {
+            const values = await form.validateFields();
 
-    //         console.log("values", values)
+            console.log("values", values)
 
-    //         const Values = {
-    //             ...values,
-    //             dateOfBirth: values.dateOfBirth.toISOString(),
-    //             addressProvince: { id: provinceId, name: values.addressProvince },
-    //             addressDistrict: { id: districtId, name: values.addressDistrict },
-    //             addressWard: { id: wardId, name: values.addressWard },
-    //             hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
-    //             hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
-    //             hometownWard: { id: wardIdHometown, name: values.hometownWard },
-    //         };
-
-
+            const Values = {
+                ...values,
+                dateOfBirth: values.dateOfBirth.toISOString(),
+                addressProvince: { id: provinceId, name: values.addressProvince },
+                addressDistrict: { id: districtId, name: values.addressDistrict },
+                addressWard: { id: wardId, name: values.addressWard },
+                hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
+                hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
+                hometownWard: { id: wardIdHometown, name: values.hometownWard },
+            };
 
 
-    //         let formData = new FormData();
-    //         formDataBuilder.buildFormData(formData, Values);
 
-    //         if (imageFile) {
-    //             formData.append('img', imageFile);
-    //         }
 
-    //         console.log("formData", formData)
+            let formData = new FormData();
+            const formDataBuilder = new FormDataBuilder();
+            formDataBuilder.buildFormData(formData, Values);
 
-    //         const result = await createUser(formData);
+            if (imageFile) {
+                formData.append('img', imageFile);
+            }
 
-    //         if (result.status === 'success') {
-    //             message.success('Tạo mới thông tin người dùng thành công!');
-    //             router.push('/profileManagement')
-    //         } else {
-    //             throw new Error('Error updating user');
-    //         }
-    //     } catch (error) {
-    //         message.error('Tạo mới thông tin người dùng thất bại.');
-    //         console.error('Error:', error);
-    //     }
-    // };
+            console.log("formData", formData)
+
+            const result:any = await axios.post('http://localhost:4000/api/createUser', formData);
+
+            if (result.status === 'success') {
+                message.success('Tạo mới thông tin người dùng thành công!');
+                router.push('/profileManagement')
+            } else {
+                throw new Error('Error updating user');
+            }
+        } catch (error) {
+            message.error('Tạo mới thông tin người dùng thất bại.');
+            console.error('Error:', error);
+        }
+    };
 
 
     const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
@@ -244,15 +250,6 @@ const CreateProfileManagement: React.FC = () => {
         </div>
     );
 
-    // Validate input to only allow numbers
-    const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-        const keyCode = event.which || event.keyCode;
-        const keyValue = String.fromCharCode(keyCode);
-        if (!/^\d+$/.test(keyValue)) {
-            event.preventDefault();
-        }
-    };
-
 
     return (
         <div style={{
@@ -268,10 +265,10 @@ const CreateProfileManagement: React.FC = () => {
                 </Title>
                 <Button
                     type="primary"
-                    // onClick={handleSubmit}
+                    onClick={handleSubmit}
                     icon={<PlusOutlined />}
                     style={{
-                        backgroundImage: "linear-gradient( #40FF53, #00C113 )",
+                        backgroundColor: "#52c41a",
                         width: "120px",
                         marginRight:"5vh"
                     }}
@@ -561,47 +558,6 @@ const CreateProfileManagement: React.FC = () => {
                                         rules={[{ required: true, message: 'Vui lòng nhập quốc tịch!' }]}
                                     >
                                         <Input />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-
-                    <Col span={24}>
-                        <Card title="Lương" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                            <Row gutter={[16, 16]}>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="salary"
-                                        label="Tiền lương/1 tháng (Tối đa 100 triệu)"
-                                        rules={[{ required: true, message: 'Vui lòng nhập tiền lương/1 tháng!' }]}
-                                    >
-                                                <InputNumber
-                                                    style={{ width: "100%", borderRadius: "25px" }}
-                                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                                    onChange={onChange}
-                                                    onKeyPress={handleKeyPress}
-                                                    max={100000000}
-                                                    addonAfter="VND"
-                                                />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="baseHourlyOT"
-                                        label="Tiền lương tăng ca/1h làm (Tối đa 100 triệu)"
-                                        rules={[{ required: true, message: 'Vui lòng nhập tiền lương tăng ca/1h làm!' }]}
-                                    >
-                                                <InputNumber
-                                                    style={{ width: "100%", borderRadius: "25px" }}
-                                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                                    onChange={onChange}
-                                                    onKeyPress={handleKeyPress}
-                                                    max={100000000}
-                                                    addonAfter="VND"
-                                                />
                                     </Form.Item>
                                 </Col>
                             </Row>

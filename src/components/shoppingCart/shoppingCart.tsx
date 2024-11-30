@@ -28,6 +28,7 @@ const ShoppingCart: React.FC = () => {
 
   // Tính tổng tiền
   const totalPrice = cartData.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPriceWithVAT = totalPrice * 1.1;
 
   // Hàm xử lý tăng số lượng sản phẩm
   const increaseQuantity = (id: number) => {
@@ -123,7 +124,7 @@ const ShoppingCart: React.FC = () => {
         <Card bordered={false}>
           <Title level={5}>Tóm tắt đơn hàng</Title>
           <p>Tạm tính: {totalPrice.toLocaleString()} đ</p>
-          <p style={{ fontWeight: "bold" }}>Tổng cộng: {totalPrice.toLocaleString()} đ</p>
+          <p style={{ fontWeight: "bold" }}>Tổng cộng: {totalPriceWithVAT.toLocaleString()} đ</p>
           <Button type="primary" block disabled={totalPrice === 0}>
             Đặt hàng
           </Button>
