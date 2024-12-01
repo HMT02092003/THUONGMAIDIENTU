@@ -26,7 +26,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Search size='large' placeholder="input search text" allowClear style={{ width: 350  }} />
+            <Search size='large' placeholder="Tên sản phẩm, nhu cầu hãng" allowClear style={{ width: 350 }} />
           </ConfigProvider>
           </Col>
           <Col span={3}><ConfigProvider
@@ -41,7 +41,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Button style={{ marginLeft: '30px' }}><img src="/icon/phone-call.png" alt="" style={{ width: 18 }} />1900.63.3579</Button>
+            <Button style={{ marginLeft: '30px', fontWeight:600 }}><img src="/icon/phone-call.png" alt="" style={{ width: 18 }} />1900.63.3579</Button>
           </ConfigProvider>
           </Col>
           <Col span={3}><ConfigProvider
@@ -56,7 +56,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Button style={{ marginLeft: '20px' }}><img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng</Button>
+            <Button style={{ marginLeft: '20px', fontWeight:600}}><img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng</Button>
           </ConfigProvider>
           </Col>
           <Col span={3}><ConfigProvider
@@ -71,7 +71,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Button style={{ marginLeft: '40px' }}><img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Khiếu nại</Button>
+            <Button style={{ marginLeft: '40px', fontWeight:600 }}><img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Khiếu nại</Button>
           </ConfigProvider>
           </Col>
           <Col span={3}><ConfigProvider
@@ -86,7 +86,7 @@ const HeaderPage = () => {
                 }
               }
             }}>
-            <Button style={{ marginLeft: '20px' }}><img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ</Button>
+            <Button style={{ marginLeft: '20px', fontWeight:600 }}><img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ</Button>
           </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
@@ -100,7 +100,7 @@ const HeaderPage = () => {
       <Row style={{ backgroundColor: 'white', justifyContent: 'center', marginTop: '2px' }}>
         <Row style={{ paddingTop: '10px', paddingBottom: '10px', display: "flex", height: "80px", alignItems: "center" }}>
           <Col style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' variant='text' style={{ height: '60px' }}><img src="\icon\options-lines.png" alt="" style={{ width: 17 }} />Danh Mục</Button>
+            <Button color='default' variant='text' style={{ height: '60px', fontWeight:600 }}><img src="\icon\options-lines.png" alt="" style={{ width: 17 }} />Danh Mục</Button>
           </Col>
           <Col></Col>
         </Row>
