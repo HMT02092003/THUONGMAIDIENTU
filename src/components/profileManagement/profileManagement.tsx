@@ -41,6 +41,7 @@ const ProfileManagement = () => {
   const [userData, setUserData] = useState<DataType[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
+  console.log(selectedUsers)
 
 
   const router = useRouter();
@@ -68,39 +69,41 @@ const ProfileManagement = () => {
     fetchData();
   }, []);
 
-  // const handleDelete = () => {
-  //   if (selectedUsers.length === 0) {
-  //     Modal.warning({
-  //       title: 'Cảnh báo',
-  //       content: 'Vui lòng chọn ít nhất một người dùng để xóa.',
-  //     });
-  //     return;
-  //   }
+  const handleDelete = () => {
+    if (selectedUsers.length === 0) {
+      Modal.warning({
+        title: 'Cảnh báo',
+        content: 'Vui lòng chọn ít nhất một người dùng để xóa.',
+      });
+      return;
+    }
 
-  //   Modal.confirm({
-  //     title: 'Xác nhận xóa',
-  //     content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} người dùng đã chọn?`,
-  //     onOk: async () => {
-  //       try {
-  //         await deleteUser(selectedUsers);
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} người dùng đã chọn?`,
+      onOk: async () => {
+        try {
+          const deleteUser = await axios.delete('http://localhost:4000/api/deleteUser', {
+            data: { ids: selectedUsers },
+          });
 
-  //         setUserData(prevData => prevData.filter(user => !selectedUsers.includes(user.id)));
-  //         setSelectedUsers([]);
+          setUserData(prevData => prevData.filter(user => !selectedUsers.includes(user.id)));
+          setSelectedUsers([]);
 
-  //         Modal.success({
-  //           title: 'Thành công',
-  //           content: 'Đã xóa người dùng thành công.',
-  //         });
-  //       } catch (error) {
-  //         console.error('Error deleting users:', error);
-  //         Modal.error({
-  //           title: 'Lỗi',
-  //           content: 'Có lỗi xảy ra khi xóa người dùng. Vui lòng thử lại.',
-  //         });
-  //       }
-  //     },
-  //   });
-  // };
+          Modal.success({
+            title: 'Thành công',
+            content: 'Đã xóa người dùng thành công.',
+          });
+        } catch (error) {
+          console.error('Error deleting users:', error);
+          Modal.error({
+            title: 'Lỗi',
+            content: 'Có lỗi xảy ra khi xóa người dùng. Vui lòng thử lại.',
+          });
+        }
+      },
+    });
+  };
 
   const rowSelection: TableProps<DataType>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -275,7 +278,7 @@ const ProfileManagement = () => {
 
         <Button 
           type="primary"
-          // onClick={handleDelete}
+          onClick={handleDelete}
           style={{
             display: "flex",
             justifyContent: 'center',

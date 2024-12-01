@@ -118,11 +118,11 @@ const beforeUpload = (file: FileType) => {
     if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
+    const isLt5M = file.size / 1024 / 1024 < 5;
+    if (!isLt5M) {
         message.error('Image must smaller than 2MB!');
     }
-    return isJpgOrPng && isLt2M;
+    return isJpgOrPng && isLt5M;
 };
 
 const CreateProfileManagement: React.FC = () => {
@@ -326,10 +326,10 @@ const CreateProfileManagement: React.FC = () => {
                 </Button>
             </div>
 
-            <Form 
-            form={form} 
-            layout="vertical"
-                initialValues={{nationality: "kinh"}}
+            <Form
+                form={form}
+                layout="vertical"
+                initialValues={{ nationality: "kinh" }}
             >
                 <Row gutter={[16, 16]}>
                     <Col span={24}>
@@ -385,7 +385,11 @@ const CreateProfileManagement: React.FC = () => {
                                             <Form.Item
                                                 name="password"
                                                 label="Password"
-                                                rules={[{ required: true }]}
+                                                rules={[
+                                                    { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                                                    { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' },
+                                                    { pattern: /^(?=.*[!@#$%^&*])/, message: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt!' }
+                                                ]}
                                             >
                                                 <Input.Password />
                                             </Form.Item>
@@ -393,16 +397,19 @@ const CreateProfileManagement: React.FC = () => {
                                         <Col span={12}>
                                             <Form.Item
                                                 name="confirmPassword"
-                                                label="Confirm Password"
+                                                label="Nhập lại mật khẩu"
                                                 dependencies={['password']}
                                                 rules={[
                                                     { required: true },
+                                                    { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                                                    { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' },
+                                                    { pattern: /^(?=.*[!@#$%^&*])/, message: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt!' },
                                                     ({ getFieldValue }) => ({
                                                         validator(_, value) {
                                                             if (!value || getFieldValue('password') === value) {
                                                                 return Promise.resolve();
                                                             }
-                                                            return Promise.reject(new Error('The new password that you entered do not match!'));
+                                                            return Promise.reject(new Error('Mật khẩu nhập lại không khớp!'));
                                                         },
                                                     }),
                                                 ]}
@@ -574,10 +581,15 @@ const CreateProfileManagement: React.FC = () => {
                                         label="CCCD"
                                         rules={[
                                             { required: true, message: 'Vui lòng nhập CCCD!' },
-                                            { pattern: /^\d{12}$/, message: 'CCCD phải có đủ 12 số!' }
+                                            { pattern: /^[0-9]{12}$/, message: 'CCCD phải là 12 chữ số hợp lệ!' }
                                         ]}
                                     >
-                                        <Input />
+                                        <InputNumber
+                                            maxLength={12}
+                                            style={{ width: '100%' }}
+                                            controls={false} // Ẩn các nút tăng/giảm nếu không cần
+                                            placeholder="Nhập số CCCD"
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
@@ -586,12 +598,17 @@ const CreateProfileManagement: React.FC = () => {
                                         label="Số điện thoại"
                                         rules={[
                                             { required: true, message: 'Vui lòng nhập số điện thoại!' },
-                                            { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
                                         ]}
                                     >
-                                        <Input />
+                                        <InputNumber
+                                            maxLength={10}
+                                            style={{ width: '100%' }}
+                                            controls={false} // Ẩn các nút tăng/giảm nếu không cần
+                                            placeholder="Nhập số điện thoại"
+                                        />
                                     </Form.Item>
                                 </Col>
+
                                 <Col span={8}>
                                     <Form.Item
                                         name="dateOfBirth"
