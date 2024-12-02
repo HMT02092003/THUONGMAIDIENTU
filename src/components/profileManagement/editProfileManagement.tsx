@@ -5,9 +5,10 @@ import { LoadingOutlined, PlusOutlined, UserOutlined, EditOutlined } from '@ant-
 import { UploadChangeParam } from 'antd/es/upload';
 import { RcFile, UploadFile } from 'antd/es/upload/interface';
 import { useRouter, useParams } from 'next/navigation';
-// import styles from '../profile/profile.module.css';
+import FormDataBuilder from '../../utils/formData';
 import type { GetProp, UploadProps } from 'antd';
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 const { Title } = Typography;
 
@@ -53,6 +54,63 @@ interface EditProfileManagementProps {
     id: string;
 }
 
+export const ethnicGroups: { value: string; label: string }[] = [
+    { value: "ba_na", label: "Ba Na" },
+    { value: "bo_y", label: "Bố Y" },
+    { value: "brau", label: "Brâu" },
+    { value: "bru_van_kieu", label: "Bru - Vân Kiều" },
+    { value: "cham", label: "Chăm (Champa)" },
+    { value: "cho_ro", label: "Chơ Ro" },
+    { value: "chut", label: "Chứt" },
+    { value: "co", label: "Co" },
+    { value: "cong", label: "Cống" },
+    { value: "co_ho", label: "Cơ Ho" },
+    { value: "co_tu", label: "Cơ Tu" },
+    { value: "dao", label: "Dao" },
+    { value: "e_de", label: "Ê Đê" },
+    { value: "giay", label: "Giáy" },
+    { value: "gia_rai", label: "Gia Rai" },
+    { value: "gie_trieng", label: "Gié-Triêng" },
+    { value: "hmong", label: "H'Mông (Mông)" },
+    { value: "ha_nhi", label: "Hà Nhì" },
+    { value: "hre", label: "Hrê" },
+    { value: "khang", label: "Kháng" },
+    { value: "khmer", label: "Khơ Me (Khmer)" },
+    { value: "kho_mu", label: "Khơ Mú" },
+    { value: "kinh", label: "Kinh (Việt)" },
+    { value: "la_chi", label: "La Chí" },
+    { value: "la_ha", label: "La Ha" },
+    { value: "lao", label: "Lào" },
+    { value: "lu", label: "Lự" },
+    { value: "lo_lo", label: "Lô Lô" },
+    { value: "ma", label: "Mạ" },
+    { value: "mang", label: "Mảng" },
+    { value: "mnong", label: "Mnông" },
+    { value: "muong", label: "Mường" },
+    { value: "ngai", label: "Ngái" },
+    { value: "nung", label: "Nùng" },
+    { value: "o_du", label: "Ô Đu" },
+    { value: "pa_then", label: "Pà Thẻn" },
+    { value: "phu_la", label: "Phù Lá" },
+    { value: "pu_peo", label: "Pu Péo" },
+    { value: "ra_glai", label: "Ra Glai" },
+    { value: "ro_mam", label: "Rơ Măm" },
+    { value: "san_chay", label: "Sán Chay" },
+    { value: "san_diu", label: "Sán Dìu" },
+    { value: "si_la", label: "Si La" },
+    { value: "ta_oi", label: "Tà Ôi" },
+    { value: "tay", label: "Tày" },
+    { value: "thai", label: "Thái" },
+    { value: "tho", label: "Thổ" },
+    { value: "xinh_mun", label: "Xinh Mun" },
+    { value: "xo_dang", label: "Xơ Đăng" },
+    { value: "xtieng", label: "Xtiêng" },
+    { value: "hoa", label: "Hoa (Người Hoa)" },
+    { value: "lao", label: "Lào" },
+    { value: "ngai_2", label: "Ngái" },
+    { value: "ha_nhi_2", label: "Hà Nhì" }
+];
+
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const getBase64 = (img: FileType, callback: (url: string) => void) => {
@@ -92,102 +150,73 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
 
     const router = useRouter();
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         if (id) {
-    //             try {
-    //                 const allUsers: any = await getAllAuthUser();
-    //                 console.log("allUsers", allUsers)
+    useEffect(() => {
+        const fetchData = async () => {
+            if (id) {
+                try {
+                    const User: any = await axios.post('http://localhost:4000/api/getUser',{id});
 
-    //                 const authUser = allUsers.find((user: any) => String(user.id) === id);
-    //                 console.log("authUser", authUser)
+                    const authUser: any = User.data.data.user;
 
-    //                 if (!authUser) {
-    //                     message.error('Không tìm thấy người dùng');
-    //                     return;
-    //                 }
+                    if (!authUser) {
+                        message.error('Không tìm thấy người dùng');
+                        return;
+                    }
 
+                    if (authUser?.addressProvince?.id) {
+                        setProvinceId(authUser.addressProvince.id);
+                    }
+                    if (authUser?.addressDistrict?.id) {
+                        setDistrictId(authUser.addressDistrict.id);
+                    }
+                    if (authUser?.addressWard?.id) {
+                        setWardId(authUser.addressWard.id);
+                    }
+                    if (authUser?.hometownProvince?.id) {
+                        setProvinceIdHometown(authUser.hometownProvince.id);
+                    }
+                    if (authUser?.hometownDistrict?.id) {
+                        setDistrictIdHometown(authUser.hometownDistrict.id);
+                    }
+                    if (authUser?.hometownWard?.id) {
+                        setWardIdHometown(authUser.hometownWard.id);
+                    }
 
-    //                 if (authUser?.addressProvince?.id) {
-    //                     setProvinceId(authUser.addressProvince.id);
-    //                 }
-    //                 if (authUser?.addressDistrict?.id) {
-    //                     setDistrictId(authUser.addressDistrict.id);
-    //                 }
-    //                 if (authUser?.addressWard?.id) {
-    //                     setWardId(authUser.addressWard.id);
-    //                 }
-    //                 if (authUser?.hometownProvince?.id) {
-    //                     setProvinceIdHometown(authUser.hometownProvince.id);
-    //                 }
-    //                 if (authUser?.hometownDistrict?.id) {
-    //                     setDistrictIdHometown(authUser.hometownDistrict.id);
-    //                 }
-    //                 if (authUser?.hometownWard?.id) {
-    //                     setWardIdHometown(authUser.hometownWard.id);
-    //                 }
+                    if (authUser?.img) {
+                        console.log(authUser.img)
+                        setImageUrl(`/${authUser.img}`);
+                    }
 
-    //                 if (authUser?.img) {
-    //                     setImageUrl(`/${authUser.img}`);
-    //                 }
+                    const formattedDateOfBirth = dayjs(authUser.dateOfBirth)
 
-    //                 const formattedDateOfBirth = dayjs(authUser.dateOfBirth)
+                    form.setFieldsValue({
+                        name: authUser.name,
+                        email: authUser.email,
+                        CCCD: authUser.CCCD,
+                        role: authUser.role,
+                        phoneNumber: authUser.phoneNumber,
+                        gender: authUser.gender,
+                        nationality: authUser.nationality,
+                        baseHourlyOT: authUser.baseHourlyOT,
+                        salary: authUser.salary,
+                        dateOfBirth: formattedDateOfBirth,
+                        addressProvince: authUser.addressProvince?.name || '',
+                        addressDistrict: authUser.addressDistrict?.name || '',
+                        addressWard: authUser.addressWard?.name || '',
+                        hometownProvince: authUser.hometownProvince?.name || '',
+                        hometownDistrict: authUser.hometownDistrict?.name || '',
+                        hometownWard: authUser.hometownWard?.name || '',
+                    });
 
-    //                 form.setFieldsValue({
-    //                     name: authUser.name,
-    //                     email: authUser.email,
-    //                     CCCD: authUser.CCCD,
-    //                     role: authUser.role,
-    //                     phoneNumber: authUser.phoneNumber,
-    //                     gender: authUser.gender,
-    //                     nationality: authUser.nationality,
-    //                     baseHourlyOT: authUser.baseHourlyOT,
-    //                     salary: authUser.salary,
-    //                     dateOfBirth: formattedDateOfBirth,
-    //                     addressProvince: authUser.addressProvince?.name || '',
-    //                     addressDistrict: authUser.addressDistrict?.name || '',
-    //                     addressWard: authUser.addressWard?.name || '',
-    //                     hometownProvince: authUser.hometownProvince?.name || '',
-    //                     hometownDistrict: authUser.hometownDistrict?.name || '',
-    //                     hometownWard: authUser.hometownWard?.name || '',
-    //                 });
+                } catch (error) {
+                    console.error('Error fetching user:', error);
+                }
+            }
+        };
 
-    //             } catch (error) {
-    //                 console.error('Error fetching user:', error);
-    //             }
-    //         }
-    //     };
-
-    //     const fetchUserData = async () => {
-    //         try {
-    //             const cookies = new Cookies();
-    //             const token = cookies.get('token');
-
-    //             if (!token) {
-    //                 console.log('Token not found');
-    //                 // Xử lý khi không có token, ví dụ: chuyển hướng đến trang đăng nhập
-    //                 return;
-    //             }
-
-    //             const decodedToken = getDecodedToken(token);
-    //             console.log("decodedToken", decodedToken)
-    //             if (decodedToken) {
-    //                 setPermissions(Array.isArray(decodedToken.permissions) ? decodedToken.permissions : []);
-    //             } else {
-    //                 // Token không hợp lệ, xử lý tương ứng (ví dụ: đăng xuất người dùng)
-    //                 // logout();
-    //                 message.error('Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching user data:', error);
-    //             message.error('Có lỗi xảy ra khi tải thông tin. Vui lòng thử lại sau.');
-    //         }
-    //     };
-
-    //     fetchUserData();
-    //     fetchProvinces();
-    //     fetchData();
-    // }, [id]);
+        fetchProvinces();
+        fetchData();
+    }, [id]);
 
     useEffect(() => {
         if (provinceId) {
@@ -281,45 +310,40 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
         }
     };
 
-    // const handleSubmit = async () => {
-    //     try {
-    //         const values = await form.validateFields();
+    const handleSubmit = async () => {
+        try {
+            const values = await form.validateFields();
 
-    //         const Values = {
-    //             ...values,
-    //             id: id,
-    //             dateOfBirth: values.dateOfBirth.toISOString(),
-    //             addressProvince: { id: provinceId, name: values.addressProvince },
-    //             addressDistrict: { id: districtId, name: values.addressDistrict },
-    //             addressWard: { id: wardId, name: values.addressWard },
-    //             hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
-    //             hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
-    //             hometownWard: { id: wardIdHometown, name: values.hometownWard },
-    //         };
+            const Values = {
+                ...values,
+                id: id,
+                dateOfBirth: values.dateOfBirth.toISOString(),
+                addressProvince: { id: provinceId, name: values.addressProvince },
+                addressDistrict: { id: districtId, name: values.addressDistrict },
+                addressWard: { id: wardId, name: values.addressWard },
+                hometownProvince: { id: provinceIdHometown, name: values.hometownProvince },
+                hometownDistrict: { id: districtIdHometown, name: values.hometownDistrict },
+                hometownWard: { id: wardIdHometown, name: values.hometownWard },
+            };
 
-    //         let formData = new FormData();
-    //         const formDataBuilder = new FormDataBuilder();
-    //         formDataBuilder.buildFormData(formData, Values);
+            let formData = new FormData();
+            const formDataBuilder = new FormDataBuilder();
+            formDataBuilder.buildFormData(formData, Values);
 
-    //         if (imageFile) {
-    //             formData.append('img', imageFile);
-    //         }
+            if (imageFile) {
+                formData.append('img', imageFile);
+            }
 
-    //         console.log("formData", formData);
+            console.log("formData", formData);
 
-    //         const result = await updateUser(formData);
+            const result = await axios.post('http://localhost:4000/api/updateUser', formData);
 
-    //         if (result.status === 'success') {
-    //             message.success('Cập nhật thông tin người dùng thành công!');
-    //             router.push('/profileManagement');
-    //         } else {
-    //             throw new Error('Error updating user');
-    //         }
-    //     } catch (error) {
-    //         message.error('Cập nhật thông tin người dùng thất bại.');
-    //         console.error('Error:', error);
-    //     }
-    // };
+            router.push('/profileManagement');
+        } catch (error) {
+            message.error('Cập nhật thông tin người dùng thất bại.');
+            console.error('Error:', error);
+        }
+    };
 
     const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
         if (info.file.status === 'uploading') {
@@ -375,7 +399,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                 </Title>
                 <Button
                     type="primary"
-                    // onClick={handleSubmit}
+                    onClick={handleSubmit}
                     icon={<EditOutlined />}
                     style={{
                         background: "orange",
@@ -405,7 +429,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                     }}
                                 >
                                     <Form.Item>
-                                        <Upload
+                                    <Upload
                                             name="img"
                                             listType="picture-card"
                                             showUploadList={false}
@@ -413,7 +437,19 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                             onChange={handleChange}
                                             maxCount={1}
                                         >
-                                            {imageUrl ? <img src={`${imageUrl}`} alt="img" /> : uploadButton}
+                                            {imageUrl ? (
+                                                <img
+                                                    src={imageUrl}
+                                                    alt="avatar"
+                                                    style={{
+                                                        width: '200%',
+                                                        height: '200%',
+                                                        objectFit: 'cover'
+                                                    }}
+                                                />
+                                            ) : (
+                                                uploadButton
+                                            )}
                                         </Upload>
                                     </Form.Item>
                                 </Col>
@@ -599,7 +635,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                             { pattern: /^\d{12}$/, message: 'CCCD phải có đủ 12 số!' }
                                         ]}
                                     >
-                                        <Input />
+                                        <InputNumber min={0} style={{width:"100%"}}/>
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
@@ -611,7 +647,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                             { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
                                         ]}
                                     >
-                                        <Input />
+                                        <InputNumber min={0} style={{width:"100%"}}/>
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
@@ -644,44 +680,8 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                         label="Quốc tịch"
                                         rules={[{ required: true, message: 'Vui lòng nhập quốc tịch!' }]}
                                     >
-                                        <Input />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-
-                    {/* Salary Information */}
-                    <Col span={24}>
-                        <Card title="Lương" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                            <Row gutter={[16, 16]}>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="salary"
-                                        label="Tiền lương/1 tháng (Tối đa 100 triệu)"
-                                        rules={[{ required: true, message: "Vui lòng nhập tiền lương!" }]}
-                                    >
-                                        <InputNumber
-                                            style={{ width: "100%", borderRadius: "25px" }}
-                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                            parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                            max={100000000}
-                                            addonAfter="VND"
-                                        />
-                                    </Form.Item>
-                                </Col>
-                                <Col span={12}>
-                                    <Form.Item
-                                        name="baseHourlyOT"
-                                        label="Tiền lương tăng ca/1h làm"
-                                        rules={[{ required: true, message: "Vui lòng nhập tiền lương tăng ca!" }]}
-                                    >
-                                        <InputNumber
-                                            style={{ width: "100%", borderRadius: "25px" }}
-                                            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                                            parser={(value: string | undefined) => value ? Number(value.replace(/,/g, '')) : 0}
-                                            max={100000000}
-                                            addonAfter="VND"
+                                       <Select
+                                            options={ethnicGroups}
                                         />
                                     </Form.Item>
                                 </Col>

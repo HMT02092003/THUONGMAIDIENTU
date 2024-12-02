@@ -1,16 +1,20 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url'; // Import từ Node.js
+import { fileURLToPath } from 'url';
 import { UploadedFile } from 'express-fileupload';
 
-// Tạo __dirname trong ES Modules
+// Xác định __dirname khi sử dụng ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Định nghĩa đường dẫn thư mục gốc (ngoài `src`)
+const ROOT_DIR = path.resolve(__dirname, '../..'); // Thư mục gốc của dự án
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public'); // Đường dẫn tới `public`
+
 export const saveFile = async (file: UploadedFile, userId: string): Promise<string> => {
     try {
-        // Xác định thư mục lưu trữ ảnh
-        const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
+        // Xác định thư mục lưu trữ ảnh (nằm ngoài `src`)
+        const uploadDir = path.join(PUBLIC_DIR, 'uploads');
 
         // Đảm bảo thư mục upload tồn tại
         if (!fs.existsSync(uploadDir)) {

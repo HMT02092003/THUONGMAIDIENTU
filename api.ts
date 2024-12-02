@@ -9,6 +9,9 @@ import {
 import {
   getAllUser,
   createUserHandler,
+  deleteUserHandler,
+  getUserHandler,
+  updateUserHandler,
 } from './src/controller/user-controller';
 
 const router = Router();
@@ -47,6 +50,18 @@ router.get('/allUser', (req, res) => {
 
 router.post('/createUser', (req, res) => {
   createUserHandler(req, res);
+});
+
+router.delete('/deleteUser', (req, res) => {
+  deleteUserHandler(req, res);
+});
+
+router.post('/getUser', (req, res) => {
+  getUserHandler(req, res);
+});
+
+router.post('/updateUser', (req, res) => {
+  updateUserHandler(req, res);
 });
 
 export default router;
