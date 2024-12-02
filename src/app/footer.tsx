@@ -8,7 +8,6 @@ const { Title, Text, Link } = Typography;
 const App: React.FC = () => {
   return (
     <>
-    <div style={{backgroundColor:'#ffffff'}}>
       <Row gutter={[16, 16]}>
         <Col span={24} style={{ marginBottom: "16px" }}>
           <Title level={4} style={{ textAlign: "left", fontSize: "15px" }}>
@@ -59,7 +58,7 @@ const App: React.FC = () => {
           </Row>
         </Col>
 
-        <Col span={6} className="colContainer">
+        <Col span={6} className="colContainer" style={{paddingLeft:"2%"}}>
           <Title level={5} className="titleStyle">
             Đa dạng thanh toán
           </Title>
@@ -68,19 +67,19 @@ const App: React.FC = () => {
               <img src="/icon/transfer.png" className="icon" /> Chuyển khoản
             </div>
             <div>
-              <img src="/icon/dollar.png" className="icon"/> Tiền mặt
+              <img src="/icon/dollar.png" className="icon" /> Tiền mặt
             </div>
             <div>
-              <img src="/icon/transfer.png" className="icon"/> VNPay
+              <img src="/icon/transfer.png" className="icon" /> VNPay
             </div>
             <div>
-              <img src="/icon/transfer.png" className="icon"/> VietQR
+              <img src="/icon/transfer.png" className="icon" /> VietQR
             </div>
             <div>
-              <img src="/icon/atm-card.png" className="icon"/> Thẻ ATM
+              <img src="/icon/atm-card.png" className="icon" /> Thẻ ATM
             </div>
             <div>
-              <img src="/icon/globe.png" className="icon"/> Thẻ Quốc tế
+              <img src="/icon/globe.png" className="icon" /> Thẻ Quốc tế
             </div>
           </div>
         </Col>
@@ -90,28 +89,28 @@ const App: React.FC = () => {
           </Title>
           <div>
             <div>
-              <img src="/icon/check.png" className="icon"/> Chính sách bảo hành
+              <img src="/icon/check.png" className="icon" /> Chính sách bảo hành
             </div>
             <div>
-              <img src="/icon/transfer.png" className="icon"/> Chính sách đổi trả
+              <img src="/icon/transfer.png" className="icon" /> Chính sách đổi trả
             </div>
             <div>
-              <img src="/icon/trailer-truck.png" className="icon"/> Chính sách vận chuyển
+              <img src="/icon/trailer-truck.png" className="icon" /> Chính sách vận chuyển
             </div>
             <div>
-              <img src="/icon/lock.png" className="icon"/> Chính sách bảo mật
+              <img src="/icon/lock.png" className="icon" /> Chính sách bảo mật
             </div>
             <div>
-              <img src="/icon/atm-card.png" className="icon"/> Chính sách thanh toán
+              <img src="/icon/atm-card.png" className="icon" /> Chính sách thanh toán
             </div>
             <div>
-              <img src="/icon/scan.png" className="icon"/> Chính sách kiểm hàng
+              <img src="/icon/scan.png" className="icon" /> Chính sách kiểm hàng
             </div>
             <div>
-              <img src="/icon/shopping-cart.png" className="icon"/> Hướng dẫn mua hàng online
+              <img src="/icon/shopping-cart.png" className="icon" /> Hướng dẫn mua hàng online
             </div>
             <div>
-              <img src="/icon/information.png" className="icon"/> Về chúng tôi
+              <img src="/icon/information.png" className="icon" /> Về chúng tôi
             </div>
           </div>
         </Col>
@@ -136,7 +135,7 @@ const App: React.FC = () => {
           </Space>
         </Col>
 
-        <Col span={6} className="colContainer">
+        <Col span={6} className="colContainer" style={{paddingRight:"2%"}}>
           <Title level={5} className="titleStyle">
             Phản hồi, góp ý, khiếu nại
           </Title>
@@ -149,22 +148,11 @@ const App: React.FC = () => {
             Gửi phản hồi ngay
           </Button>
         </Col>
-                {/* Footer */}
-                <Col span={24} className="footer">
-          <div className="footerContent">
-            <Text>© ThinkPro 2024</Text>
-            <br />
-            <Text>
-              Công ty TNHH Công nghệ Think Việt Nam - GPĐKKD: 0107273909 do sở KH & ĐT TP Hà Nội cấp ngày 09/03/2020
-            </Text>
-            <br />
-            <Text>
-              Địa chỉ: 105/562 Đường Láng, Phường Láng Hạ, Quận Đống Đa, Hà Nội. Điện thoại: 1900633579
-            </Text>
+        {/* Footer */}
+            <div className="footerContent" style={{ textAlign: "center", width:"100%" }}>
+            <Text>© ThinkPro 2024 - CREATE BY NHÓM 4 </Text>
           </div>
-        </Col>
       </Row>
-      </div>
     </>
   );
 };
