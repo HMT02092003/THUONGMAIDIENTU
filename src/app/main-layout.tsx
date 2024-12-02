@@ -44,14 +44,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 </AdminMainLayout>
             ) : (
                 <div>
-                    <Layout style={{ minHeight: '100vh' }}>
+                    <Layout style={{ minHeight: '100vh', backgroundColor:'rgb(var(--b1)' }}>
                         <HeaderPage />
 
                         <Layout>
                             <Content>
+                                <div style={{margin:'0 15%'}}>
                                 {/* phàn tử con render sau layout */}
                                 {children}
                                 {/* phàn tử con render sau layout */}
+                                </div>
                             </Content>
                         </Layout>
 

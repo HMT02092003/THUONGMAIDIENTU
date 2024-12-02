@@ -8,6 +8,7 @@ const { Title, Text, Link } = Typography;
 const App: React.FC = () => {
   return (
     <>
+    <div style={{backgroundColor:'#ffffff'}}>
       <Row gutter={[16, 16]}>
         <Col span={24} style={{ marginBottom: "16px" }}>
           <Title level={4} style={{ textAlign: "left", fontSize: "15px" }}>
@@ -163,6 +164,7 @@ const App: React.FC = () => {
           </div>
         </Col>
       </Row>
+      </div>
     </>
   );
 };
