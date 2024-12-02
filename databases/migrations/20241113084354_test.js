@@ -6,16 +6,16 @@ export const up = async function (knex) {
   // Bảng User
   await knex.schema.createTable('User', (table) => {
     table.increments('id').primary();
-    table.string('name');
-    table.string('email').unique();
+    table.string('name').notNullable();
+    table.string('email').unique().notNullable();
     table.boolean('verified').defaultTo(false);
-    table.string('password');
+    table.string('password').notNullable();
     table.string('role').defaultTo('user');
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
     table.string('provider').defaultTo('local');
     table.string('phoneNumber').nullable();
-    table.dateTime('dateOfBirth').nullable();
+    table.date('dateOfBirth').nullable();
     table.json('addressProvince').nullable();
     table.json('addressDistrict').nullable();
     table.json('addressWard').nullable();
@@ -31,13 +31,13 @@ export const up = async function (knex) {
   // Bảng Role
   await knex.schema.createTable('Role', (table) => {
     table.increments('id').primary();
-    table.string('name').unique();
+    table.string('name').unique().notNullable();
   });
 
   // Bảng Permission
   await knex.schema.createTable('Permission', (table) => {
     table.increments('id').primary();
-    table.string('name').unique();
+    table.string('name').unique().notNullable();
   });
 
   // Bảng UserRole
@@ -55,7 +55,7 @@ export const up = async function (knex) {
     table.primary(['roleId', 'permissionId']);
   });
 
-  // Bảng Brands
+  // Bảng Brand
   await knex.schema.createTable('Brand', (table) => {
     table.increments('id').primary();
     table.string('name').unique().notNullable();
@@ -63,7 +63,7 @@ export const up = async function (knex) {
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng Products
+  // Bảng Product
   await knex.schema.createTable('Product', (table) => {
     table.increments('id').primary();
     table.string('name').notNullable();
@@ -73,11 +73,11 @@ export const up = async function (knex) {
     table.text('description').nullable();
     table.json('specifications').nullable();
     table.string('imageUrl').nullable();
-    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('createdAt').defaultTo(knex.fn.now()); 
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng Orders
+  // Bảng Order
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
     table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
@@ -90,14 +90,18 @@ export const up = async function (knex) {
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng OrderDetails
+  // Bảng OrderDetail
   await knex.schema.createTable('OrderDetail', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
     table.integer('productId').unsigned().references('id').inTable('Product').onDelete('CASCADE');
     table.integer('quantity').notNullable();
-    table.decimal('unitPrice', 10, 2).notNullable();
-    table.decimal('subtotal', 10, 2).notNullable();
+    table.decimal('unitPrice', 10, 2).notNullable(); // Giá tại thời điểm mua
+    table.decimal('subtotal', 10, 2).notNullable(); // Tổng giá trị = unitPrice * quantity
+    table.string('productName').notNullable(); // Tên sản phẩm tại thời điểm mua
+    table.text('productDescription').nullable(); // Mô tả sản phẩm tại thời điểm mua
+    table.json('productSpecifications').nullable(); // Thông số kỹ thuật sản phẩm tại thời điểm mua
+    table.string('productImageUrl').nullable(); // Ảnh sản phẩm tại thời điểm mua
   });
 
   // Bảng Cart
