@@ -1,10 +1,12 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Table, Button, Modal, Input, Form, message, Space, Select, Row, Col, ConfigProvider } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 const { Option } = Select;
 
-// Khai báo kiểu dữ liệu OrderType
 interface OrderType {
   key: React.Key;
   orderCode: string;
@@ -16,335 +18,246 @@ interface OrderType {
   status: string;
 }
 
-const App: React.FC = () => {
-  const [dataSource, setDataSource] = useState<OrderType[]>([]); // Sử dụng OrderType ở đây
+const data: OrderType[] = [
+  {
+    key: 1,
+    orderCode: 'DH001',
+    quantity: 3,
+    orderDate: '2024-11-01',
+    deliveryDate: '2024-11-05',
+    customerName: 'Nguyễn Văn A',
+    address: '123 Đường A, Quận B, TP. HCM',
+    status: 'Chờ xử lý',
+  },
+  {
+    key: 2,
+    orderCode: 'DH002',
+    quantity: 1,
+    orderDate: '2024-11-02',
+    deliveryDate: '2024-11-06',
+    customerName: 'Trần Thị B',
+    address: '456 Đường C, Quận D, Hà Nội',
+    status: 'Đã giao',
+  },
+  {
+    key: 3,
+    orderCode: 'DH003',
+    quantity: 5,
+    orderDate: '2024-11-03',
+    deliveryDate: '2024-11-07',
+    customerName: 'Lê Văn C',
+    address: '789 Đường E, Quận F, TP. Đà Nẵng',
+    status: 'Đã hủy',
+  },
+];
+
+const OrderManagement: React.FC = () => {
+  const [dataSource, setDataSource] = useState<OrderType[]>(data);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
-  const [editingOrder, setEditingOrder] = useState<OrderType | null>(null); // Lưu thông tin đơn hàng khi chỉnh sửa
+  const [modalType, setModalType] = useState<'add' | 'edit'>('add');
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [filteredInfo, setFilteredInfo] = useState<any>({});
+  const [sortedInfo, setSortedInfo] = useState<any>({});
 
-  // Xử lý Thêm Mới
-  const handleAdd = () => {
-    form.validateFields().then((values) => {
-      try {
-        // Kiểm tra số lượng không được âm
-        if (values.quantity <= 0) {
-          message.error('Số lượng phải lớn hơn 0!');
-          return;
-        }
+  const router= useRouter();
 
-        if (new Date(values.orderDate) > new Date(values.deliveryDate)) {
-          message.error('Ngày đặt hàng không thể sau ngày giao hàng!');
-          return;
-        }
-
-        const newData: OrderType = {
-          key: Date.now(),
-          ...values,
-        };
-
-        setDataSource((prev) => [...prev, newData]);
-        setIsModalVisible(false);
-        form.resetFields();
-        message.success('Thêm mới thành công!');
-      } catch (error: any) {
-        message.error(error.message);
-      }
-    });
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
   };
 
-  // Xử lý Sửa
-  const handleEdit = (record: OrderType) => {
-    setEditingOrder(record);
-    form.setFieldsValue({
-      ...record,
-    });
+  const handleAddNew = () => {
+    setModalType('add');
+    form.resetFields();
     setIsModalVisible(true);
   };
 
-  // Xử lý Xóa
-  const handleDelete = (key: React.Key) => {
-    setDataSource((prev) => prev.filter((item) => item.key !== key));
-    message.success('Xóa thành công!');
+  const handleAddSubmit = () => {
+    form.validateFields().then((values) => {
+      const newOrder: OrderType = {
+        key: dataSource.length + 1,
+        ...values,
+      };
+      setDataSource([...dataSource, newOrder]);
+      setIsModalVisible(false);
+      message.success('Thêm mới đơn hàng thành công!');
+    });
   };
 
-  // Chỉnh sửa đơn hàng
+  const handleEditSelected = () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning("Vui lòng chọn ít nhất một hàng để sửa.");
+      return;
+    }
+    setModalType('edit');
+    form.resetFields();
+    setIsModalVisible(true);
+  };
+
   const handleEditSubmit = () => {
     form.validateFields().then((values) => {
-      try {
-        // Kiểm tra số lượng không được âm
-        if (values.quantity <= 0) {
-          message.error('Số lượng phải lớn hơn 0!');
-          return;
-        }
-
-        if (new Date(values.orderDate) > new Date(values.deliveryDate)) {
-          message.error('Ngày đặt hàng không thể sau ngày giao hàng!');
-          return;
-        }
-
-        const updatedData = dataSource.map((item) =>
-          item.key === editingOrder?.key ? { ...item, ...values } : item
-        );
-        setDataSource(updatedData);
-        setIsModalVisible(false);
-        form.resetFields();
-        message.success('Chỉnh sửa thành công!');
-      } catch (error: any) {
-        message.error(error.message);
-      }
+      const updatedData = dataSource.map((item) =>
+        selectedRowKeys.includes(item.key) ? { ...item, ...values } : item
+      );
+      setDataSource(updatedData);
+      setSelectedRowKeys([]);
+      setIsModalVisible(false);
+      message.success('Cập nhật thành công!');
     });
   };
 
-  // Mở Modal để Thêm Mới hoặc Chỉnh Sửa
-  const showModal = () => {
-    setEditingOrder(null); // Đặt lại trạng thái khi mở modal để thêm mới
-    setIsModalVisible(true);
+  const handleDeleteSelected = () => {
+    setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.key)));
+    setSelectedRowKeys([]);
+    message.success('Đã xóa các hàng được chọn!');
   };
 
-  // Cột của bảng
-  const columns = [
+  const handleChange = (pagination: any, filters: any, sorter: any) => {
+    setFilteredInfo(filters);
+    setSortedInfo(sorter);
+  };
+
+  const columns:any = [
+    {
+      title: '',
+      key: 'action',
+      width: '20px',
+      fixed: 'left',
+      render: (_:any, record:any) => (
+        <div
+          onClick={() => router.push(`/orderManagement/detail/${record.id}`)}
+          style={{display:"flex",alignItems:"center",justifyContent:"center"}}
+        >
+          <EditOutlined />
+        </div>
+      ),  
+    },   
     {
       title: 'Mã Đơn Hàng',
       dataIndex: 'orderCode',
       key: 'orderCode',
+      sorter: (a: OrderType, b: OrderType) => a.orderCode.localeCompare(b.orderCode),
+      sortOrder: sortedInfo.columnKey === 'orderCode' ? sortedInfo.order : null,
+      filters: [
+        { text: 'DH001', value: 'DH001' },
+        { text: 'DH002', value: 'DH002' },
+        { text: 'DH003', value: 'DH003' },
+      ],
+      filteredValue: filteredInfo.orderCode || null,
+      // Handle value as boolean | Key
+      onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
+        return record.orderCode.includes(value.toString());
+      },
+      fixed: 'left'
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
+      filters: [
+        { text: 'Chờ xử lý', value: 'Chờ xử lý' },
+        { text: 'Đã giao', value: 'Đã giao' },
+        { text: 'Đã hủy', value: 'Đã hủy' },
+      ],
+      filteredValue: filteredInfo.status || null,
+      // Handle value as boolean | Key
+      onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
+        return record.status.includes(value.toString());
+      },
     },
     {
       title: 'Số Lượng',
       dataIndex: 'quantity',
       key: 'quantity',
+      sorter: (a: OrderType, b: OrderType) => a.quantity - b.quantity,
+      sortOrder: sortedInfo.columnKey === 'quantity' ? sortedInfo.order : null,
     },
     {
       title: 'Ngày Đặt Hàng',
       dataIndex: 'orderDate',
       key: 'orderDate',
+      sorter: (a: OrderType, b: OrderType) => new Date(a.orderDate).getTime() - new Date(b.orderDate).getTime(),
+      sortOrder: sortedInfo.columnKey === 'orderDate' ? sortedInfo.order : null,
     },
     {
       title: 'Ngày Giao Hàng',
       dataIndex: 'deliveryDate',
       key: 'deliveryDate',
+      sorter: (a: OrderType, b: OrderType) => new Date(a.deliveryDate).getTime() - new Date(b.deliveryDate).getTime(),
+      sortOrder: sortedInfo.columnKey === 'deliveryDate' ? sortedInfo.order : null,
     },
     {
       title: 'Người Đặt',
       dataIndex: 'customerName',
       key: 'customerName',
+      sorter: (a: OrderType, b: OrderType) => a.customerName.localeCompare(b.customerName),
+      sortOrder: sortedInfo.columnKey === 'customerName' ? sortedInfo.order : null,
     },
     {
       title: 'Địa Chỉ',
       dataIndex: 'address',
       key: 'address',
     },
-    {
-      title: 'Trạng Thái',
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: 'Thao Tác',
-      key: 'operation',
-      render: (_: any, record: OrderType) => (
-        <Space size="middle">
-          <Button
-            icon={<PlusOutlined />}
-            type="primary"
-            onClick={() => handleEdit(record)}
-            style={{
-              backgroundColor: '#80c4e9',
-              color: 'white',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              fontWeight: 'bold',
-            }}
-          >
-            Sửa
-          </Button>
-          <Button
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => handleDelete(record.key)}
-            style={{
-              backgroundColor: '#FF9292',
-              color: 'white',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              fontWeight: 'bold',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#f5222d';
-              e.currentTarget.style.backgroundColor = 'white';
-              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'white';
-              e.currentTarget.style.backgroundColor = '#FF9292';
-              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            }}
-          >
-            Xóa
-          </Button>
-        </Space>
-      ),
-    }
   ];
 
-  const modalProps = {
-    title: editingOrder ? 'Chỉnh Sửa Đơn Hàng' : 'Tạo Đơn Hàng Mới',
-    visible: isModalVisible,
-    onCancel: () => setIsModalVisible(false),
-    footer: [
-      <Button
-        danger
-        style={{
-          backgroundColor: '#FF9292',
-          color: 'white',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          fontWeight: 'bold',
-          transition: 'all 0.3s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.color = '#f5222d';
-          e.currentTarget.style.backgroundColor = 'white';
-          e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.color = 'white';
-          e.currentTarget.style.backgroundColor = '#FF9292';
-          e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-        }}
-        key="back" onClick={() => setIsModalVisible(false)}>
-        Hủy
-      </Button>,
-      <Button
-        icon={<PlusOutlined />}
-        style={{
-          backgroundColor: '#BDFFBA',
-          color: '#4CAF50',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          fontWeight: 'bold',
-          transition: 'all 0.3s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#4CAF50';
-          e.currentTarget.style.color = 'white';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = '#BDFFBA';
-          e.currentTarget.style.color = '#4CAF50';
-        }}
-        key="submit"
-        type="primary"
-        onClick={editingOrder ? handleEditSubmit : handleAdd}
-      >
-        {editingOrder ? 'Chỉnh Sửa' : 'Thêm Mới'}
-      </Button>,
-    ],
-  };
+
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#BDFFBA',
-        },
-      }}
-    >
-      <div style={{ width: '1200px', margin: '0 auto' }}>
-      <Row style={{ display: 'flex', marginBottom: '20px', marginTop: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
-  <Col span={12} style={{ display: 'flex', alignItems: 'center', fontWeight: 600, fontSize: 25 }}>
-    <img src="\icon\box.png" alt="" style={{ width: 35, marginRight: 15 }} /> 
-    Quản lí đơn hàng
-  </Col>
-  <Col span={12} style={{ textAlign: 'right' }}>
-    <Button
-      type="primary"
-      onClick={showModal}
-      icon={<PlusOutlined />}
-      style={{
-        backgroundColor: '#BDFFBA',
-        color: '#4CAF50',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        fontWeight: 'bold',
-        transition: 'all 0.3s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = '#4CAF50';
-        e.currentTarget.style.color = 'white';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = '#BDFFBA';
-        e.currentTarget.style.color = '#4CAF50';
-      }}
-    >
-      Tạo Mới
-    </Button>
-  </Col>
-</Row>
+    <ConfigProvider>
+      <div style={{ margin: '20px' }}>
+        <Row justify="space-between" align="middle">
+          <Col style={{ paddingLeft:50, display: 'flex', alignItems: 'center' }}>
+            <h2 style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <img src="\icon\box.png" alt="" style={{ width: '35px', marginRight: '10px' }} />
+              Quản lý đơn hàng
+            </h2>
+          </Col>
+          <Col style={{paddingRight:50}}>
+            <Space>
+              <Button type="primary" style={{
+                display: "flex",
+                justifyContent: 'center',
+                alignItems: "center",
+                background: "#73d13d",
+                width: "100px",
+                margin: "0 5px",
+              }}
+                icon={<PlusOutlined />}>
+                Tạo mới
+              </Button>
+              <Button
+                type="primary"
+                onClick={handleDeleteSelected}
+                style={{
+                  display: "flex",
+                  justifyContent: 'center',
+                  alignItems: "center",
+                  background: "#ff4d4f",
+                  width: "100px",
+                  margin: "0 5px"
+                }}
+                danger disabled={selectedRowKeys.length === 0}>
+                <DeleteOutlined />
+                Xóa
+              </Button>
+            </Space>
+          </Col>
+        </Row>
 
-
-        <Table<OrderType>
+        <Table
+          rowSelection={rowSelection}
           columns={columns}
           dataSource={dataSource}
           rowKey="key"
+          pagination={false}
+          onChange={handleChange}
+          scroll={{ x: 'max-content'}}
+          style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)", borderRadius: 10 }}
         />
-
-        <Modal {...modalProps}>
-          <Form form={form} layout="vertical" name="orderForm">
-            <Form.Item
-              name="orderCode"
-              label="Mã Đơn Hàng"
-              rules={[{ required: true, message: 'Vui lòng nhập mã đơn hàng!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="quantity"
-              label="Số Lượng"
-              rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              name="orderDate"
-              label="Ngày Đặt Hàng"
-              rules={[{ required: true, message: 'Vui lòng chọn ngày đặt hàng!' }]}
-            >
-              <Input type="date" />
-            </Form.Item>
-            <Form.Item
-              name="deliveryDate"
-              label="Ngày Giao Hàng"
-              rules={[{ required: true, message: 'Vui lòng chọn ngày giao hàng!' }]}
-            >
-              <Input type="date" />
-            </Form.Item>
-            <Form.Item
-              name="customerName"
-              label="Người Đặt"
-              rules={[{ required: true, message: 'Vui lòng nhập tên người đặt!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="address"
-              label="Địa Chỉ"
-              rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="status"
-              label="Trạng Thái"
-              rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
-            >
-              <Select>
-                <Option value="Chờ xử lý">Chờ xử lý</Option>
-                <Option value="Đã giao">Đã giao</Option>
-                <Option value="Đã hủy">Đã hủy</Option>
-              </Select>
-            </Form.Item>
-          </Form>
-        </Modal>
       </div>
     </ConfigProvider>
   );
 };
 
-export default App;
+export default OrderManagement;
