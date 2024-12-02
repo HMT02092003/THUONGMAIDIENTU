@@ -108,9 +108,23 @@ const OrderManagement: React.FC = () => {
   };
 
   const handleDeleteSelected = () => {
-    setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.key)));
-    setSelectedRowKeys([]);
-    message.success('Đã xóa các hàng được chọn!');
+    if (selectedRowKeys.length === 0) {
+      message.warning("Vui lòng chọn ít nhất một hàng để xóa.");
+      return;
+    }
+  
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc chắn muốn xóa ${selectedRowKeys.length} đơn hàng đã chọn?`,
+      onOk: () => {
+        setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.key)));
+        setSelectedRowKeys([]);
+        message.success('Đã xóa các hàng được chọn!');
+      },
+      onCancel: () => {
+        message.info('Hành động xóa đã bị hủy.');
+      },
+    });
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
@@ -236,8 +250,7 @@ const OrderManagement: React.FC = () => {
                   background: "#ff4d4f",
                   width: "100px",
                   margin: "0 5px"
-                }}
-                danger disabled={selectedRowKeys.length === 0}>
+                }}>
                 <DeleteOutlined />
                 Xóa
               </Button>
