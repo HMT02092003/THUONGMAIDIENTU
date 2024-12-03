@@ -269,7 +269,7 @@ const CreateProfileManagement: React.FC = () => {
 
             const result: any = await axios.post('http://localhost:4000/api/createUser', formData);
             message.success('Tạo mới thông tin người dùng thành công!');
-            // router.push('/profileManagement')
+            router.push('/profileManagement')
 
         } catch (error: any) {
             console.error('Error creating user:', error);
