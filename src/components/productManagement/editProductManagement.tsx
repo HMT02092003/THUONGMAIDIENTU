@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Form, Input, Button, Upload, Row, Col } from 'antd';
+import { Form, Input, Button, Upload, Row, Col, Select, InputNumber } from 'antd';
 import { UploadOutlined, EditOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
@@ -17,9 +17,9 @@ const EditProductManagement: React.FC = () => {
   return (
     <div style={{borderRadius: '8px', }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ margin: 0 }}>Cập nhật thông tin sản phẩm</h2>
-        <Button type="primary" style={{ backgroundColor: '#ff7a45', borderColor: '#52c41a' }} onClick={handleFinish}>
-        <EditOutlined />Cập nhật thông tin sản phẩm
+        <h2 style={{ margin: 0 }}>Thêm thông tin sản phẩm</h2>
+        <Button type="primary" style={{ backgroundColor: '#fa541c', borderColor: '#52c41a' }} onClick={handleFinish}>
+        <EditOutlined />Thêm thông tin sản phẩm
         </Button>
       </div>
 
@@ -48,7 +48,7 @@ const EditProductManagement: React.FC = () => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item
-                  name="category"
+                  name="productName"
                   label="Tên sản phẩm"
                   rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
                   style={{ marginBottom: '20px' }}
@@ -58,12 +58,42 @@ const EditProductManagement: React.FC = () => {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  name="product"
+                  name="productID"
+                  label="Mã sản phẩm"
+                  rules={[{ required: true, message: 'Vui lòng nhập mã sản phẩm!' }]}
+                  style={{ marginBottom: '20px' }}
+                >
+                  <Input placeholder="Nhập mã sản phẩm" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="price"
                   label="Giá tiền"
                   rules={[{ required: true, message: 'Vui lòng nhập giá tiền!' }]}
                   style={{ marginBottom: '20px' }}
                 >
-                  <Input placeholder="Nhập giá tiền" />
+                  <InputNumber addonAfter="VNĐ" style={{width:"100%"}}/>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="category"
+                  label="Thể loại"
+                  rules={[{ required: true, message: 'Vui lòng nhập thể loại!' }]}
+                  style={{ marginBottom: '20px' }}
+                >
+                  <Select placeholder="Nhập thể loại" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="Trademark"
+                  label="Thương hiệu"
+                  rules={[{ required: true, message: 'Vui lòng nhập thương hiệu!' }]}
+                  style={{ marginBottom: '20px' }}
+                >
+                  <Select placeholder="Nhập thương hiệu" />
                 </Form.Item>
               </Col>
             </Row>
@@ -88,6 +118,10 @@ const EditProductManagement: React.FC = () => {
             </Form.Item>
           </Col>
         </Row>
+
+        <Form.Item name="configuration" label="Cấu hình đặc điểm">
+          <TextArea rows={4} placeholder="Nhập cấu hình đặc điểm" />
+        </Form.Item>
 
         {/* TextArea cho mô tả sản phẩm */}
         <Form.Item name="description" label="Mô tả sản phẩm">
