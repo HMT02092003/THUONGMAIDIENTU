@@ -23,14 +23,14 @@ const ForgotPassword = () => {
         try {
             const email = form.getFieldsValue();
 
-            const sendLink = await axios.post("http://localhost:4000/api/forgot-password",  email );
+            const sendLink = await axios.post("http://localhost:4000/api/forgot-password", email);
             console.log("sendLink", sendLink);
             // Gọi mutation sendOTP
             // await sendOTPMutation.mutateAsync({ email });
             message.success('Link dổi mật khẩu đã được gửi đến email của bạn');
             setStep('otp');
             setCountdown(30); // Bắt đầu đếm ngược 60 giây
-        } catch (error:any) {
+        } catch (error: any) {
             message.error(error.response.data.error);
         }
     };
@@ -53,9 +53,10 @@ const ForgotPassword = () => {
             <Row style={{ height: "101vh" }} gutter={[16, 0]}>
                 <Col span={14} className="login-illustration">
                     <img
-                        src="https://img.lovepik.com/photo/45009/7677.jpg_wh860.jpg"
+                        src="/logo/undraw_code_thinking_re_gka2.svg"
                         alt="Illustration"
                         className="illustration-image"
+                        style={{ width: 700 }}
                     />
                 </Col>
 
@@ -107,7 +108,7 @@ const ForgotPassword = () => {
                                         disabled={countdown > 0}
                                         style={{
                                             height: "50px",
-                                            backgroundColor: "#69b1ff",
+                                            backgroundColor: "#80c4e9",
                                             width: "100%",
                                         }}
                                     >
