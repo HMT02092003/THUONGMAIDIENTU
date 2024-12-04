@@ -5,6 +5,8 @@ import {
     AppstoreOutlined,
     TeamOutlined,
     UserOutlined,
+    UnorderedListOutlined,
+    GlobalOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme, Avatar, message } from 'antd';
@@ -36,6 +38,8 @@ const items: MenuItem[] = [
     getItem('Quản lí người dùng ', 'profileManagement', <UserOutlined />),
     getItem('Quản lí sản phẩm', 'productManagement', <AppstoreOutlined />),
     getItem('Quản lí đơn hàng', 'orderManagement', <ShoppingCartOutlined />),
+    getItem('Quản lí thể loại', 'categoryManagement', <UnorderedListOutlined />),
+    getItem('Quản lí thương hiệu', 'tradeMarkManagement', <GlobalOutlined />),
 ];
 
 const AdminMainLayout: React.FC<any> = ({ children, role }) => {
@@ -60,17 +64,23 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
             case 'orderManagement':
                 router.push('/orderManagement');
                 break;
+            case 'categoryManagement':
+                router.push('/categoryManagement');
+                break;
+            case 'tradeMarkManagement':
+                router.push('/tradeMarkManagement');
+                break;
             default:
                 break;
         }
     };
 
-    const logoutHandel = async() => {
-        try{
+    const logoutHandel = async () => {
+        try {
             await axios.post('/api/logout');
             console.log('Đăng xuất thành công');
             router.push('/login');
-        }catch(err){
+        } catch (err) {
             message.error('Đăng xuất thất bại');
         }
     }
@@ -86,11 +96,11 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
             <Layout>
                 <Header style={{ paddingLeft: "50px", background: colorBgContainer, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} >
                     <div onClick={logoutHandel}>
-                    <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="default" >
-                        {user}
-                    </Avatar>
-                    &nbsp;
-                    Đăng xuất
+                        <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="default" >
+                            {user}
+                        </Avatar>
+                        &nbsp;
+                        Đăng xuất
                     </div>
                 </Header>
                 <Content style={{ margin: '0 16px' }}>
