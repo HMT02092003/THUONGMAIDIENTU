@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, ConfigProvider } from 'antd';
 import HeaderPage from './header';
 import FooterPage from './footer';
 import Cookies from 'js-cookie';
@@ -44,9 +44,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 </AdminMainLayout>
             ) : (
                 <div>
-                    <Layout style={{ minHeight: '100vh', backgroundColor:'rgb(var(--b1)' }}>
+                    <ConfigProvider
+                    theme={{
+                        components: {
+                          Layout: {
+                            bodyBg:'#f6f9fc'
+                          },
+                        },
+                      }}>
+                    <Layout style={{ minHeight: '100vh'}}>
                         <HeaderPage />
-
                         <Layout>
                             <Content>
                                 <div style={{margin:'0 15%'}}>
@@ -61,6 +68,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                             <FooterPage />
                         </Footer>
                     </Layout>
+                    </ConfigProvider>
                 </div>
             )}
         </>
