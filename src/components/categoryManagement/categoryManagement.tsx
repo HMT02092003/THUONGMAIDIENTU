@@ -1,53 +1,45 @@
-"use client";
+'use client';
+import React, { useState } from 'react';
+import { Table, Button, Modal, Input, Form, Upload, message, TableProps, Image } from 'antd';
+import {
+  EditOutlined,
+  CloudDownloadOutlined,
+  CloudUploadOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
+import type { GetProp, UploadFile, UploadProps } from 'antd';
+import { useRouter } from 'next/navigation';
 
-import React from 'react';
-import { Space, Table, Tag, Button } from 'antd';
-import type { TableProps } from 'antd';
-import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/navigation'
-import { useState } from 'react';
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+const getBase64 = (file: FileType): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
 const CategoryManagement = () => {
   const router = useRouter();
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
-
-  const fakeData = [
-    {
-      id: 1,
-      categoryName: 'Thể loại 1',
-      description: 'Mô tả về thể loại 1',
-    },
-    {
-      id: 2,
-      categoryName: 'Thể loại 2',
-      description: 'Mô tả về thể loại 2',
-    },
-    {
-      id: 3,
-      categoryName: 'Thể loại 3',
-      description: 'Mô tả về thể loại 3',
-    },
-    {
-      id: 4,
-      categoryName: 'Thể loại 4',
-      description: 'Mô tả về thể loại 4',
-    },
-    {
-      id: 5,
-      categoryName: 'Thể loại 5',
-      description: 'Mô tả về thể loại 5',
-    },
-  ];
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [categoryData, setCategoryData] = useState([
+    { id: 1, tradeMarkName: 'Danh mục A', description: 'Danh mục về đồ điện tử', country: 'Nhật Bản' },
+    { id: 2, tradeMarkName: 'Danh mục B', description: 'Danh mục thời trang cao cấp', country: 'Pháp' },
+  ]);
+  const [fileList, setFileList] = useState<any[]>([]); // Đảm bảo fileList là mảng rỗng
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       setSelectedUsers(selectedRowKeys);
     },
-    getCheckboxProps: (record: any) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
   };
 
   const columns: any = [
@@ -59,17 +51,17 @@ const CategoryManagement = () => {
       render: (_: any, record: any) => (
         <div
           onClick={() => router.push(`/productManagement/edit/${record.id}`)}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <EditOutlined />
         </div>
       ),
     },
     {
-      title: 'Tên thể loại',
-      dataIndex: 'categoryName',
+      title: 'Tên danh mục',
+      dataIndex: 'tradeMarkName',
       align: 'center',
-      key: 'categoryName',
+      key: 'tradeMarkName',
     },
     {
       title: 'Mô tả',
@@ -78,18 +70,61 @@ const CategoryManagement = () => {
       align: 'center',
     },
   ];
+
+  const handleDelete = () => {
+    if (selectedUsers.length === 0) {
+      setIsModalVisible(true);
+    } else {
+      const updatedData = categoryData.filter(item => !selectedUsers.includes(item.id));
+      setCategoryData(updatedData);
+      setSelectedUsers([]);
+    }
+  };
+
+  const handleCreateNewCategory = (values: any) => {
+    const newCategory = {
+      id: categoryData.length + 1,
+      tradeMarkName: values.tradeMarkName,
+      description: values.description,
+      country: 'Chưa xác định',
+      image: fileList[0] ? fileList[0].url : '', // Lấy ảnh đầu tiên trong danh sách
+    };
+    setCategoryData([...categoryData, newCategory]);
+    setIsCreateModalVisible(false);
+    setFileList([]); // Xóa danh sách ảnh sau khi tạo danh mục mới
+    message.success('Tạo mới danh mục thành công!');
+  };
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as FileType);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
+    setFileList(newFileList);
+
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type="button">
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
+
   return (
     <>
-          <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-      <Button
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 40px' }}>
+        <Button
           type="primary"
-          // onClick={importExcel}
           style={{
-            display: "flex",
+            display: 'flex',
             justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#722ed1",
-            margin: "0 5px"
+            alignItems: 'center',
+            backgroundColor: '#722ed1',
+            margin: '0 5px',
           }}
         >
           <CloudUploadOutlined />
@@ -98,60 +133,133 @@ const CategoryManagement = () => {
 
         <Button
           type="primary"
-          // onClick={exportExcel}
           style={{
-            display: "flex",
+            display: 'flex',
             justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#4096ff",
-            margin: "0 5px"
+            alignItems: 'center',
+            backgroundColor: '#4096ff',
+            margin: '0 5px',
           }}
         >
           <CloudDownloadOutlined />
           Xuất excel
         </Button>
 
-        <Button type="primary"
-          onClick={() => router.push('/productManagement/create')}
+        <Button
+          type="primary"
+          onClick={() => setIsCreateModalVisible(true)}
           style={{
-            display: "flex",
+            display: 'flex',
             justifyContent: 'center',
-            alignItems: "center",
-            background: "#73d13d",
-            width: "100px",
-            margin: "0 5px",
-          }} >
+            alignItems: 'center',
+            background: '#73d13d',
+            width: '100px',
+            margin: '0 5px',
+          }}
+        >
           <PlusOutlined />
           Tạo mới
         </Button>
 
-        <Button 
+        <Button
           type="primary"
-          // onClick={handleDelete}
+          onClick={handleDelete}
           style={{
-            display: "flex",
+            display: 'flex',
             justifyContent: 'center',
-            alignItems: "center",
-            background: "#ff4d4f",
-            width: "100px",
-            margin: "0 5px"
+            alignItems: 'center',
+            background: '#ff4d4f',
+            width: '100px',
+            margin: '0 5px',
           }}
         >
           <DeleteOutlined />
           Xóa
         </Button>
       </div>
+
       <Table<any>
         columns={columns}
-        dataSource={fakeData}
+        dataSource={categoryData}
         rowSelection={{
           type: selectionType,
           ...rowSelection,
         }}
         rowKey="id"
       />
-    </>
-  )
-}
 
-export default CategoryManagement
+      {/* Modal cảnh báo */}
+      <Modal
+        title={
+          <span>
+            <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />
+            Cảnh báo
+          </span>
+        }
+        visible={isModalVisible}
+        onOk={() => setIsModalVisible(false)}
+        onCancel={() => setIsModalVisible(false)}
+        okText="Đồng ý"
+        cancelText="Hủy bỏ"
+      >
+        <p>Vui lòng chọn ít nhất một danh mục để xóa.</p>
+      </Modal>
+
+      {/* Modal tạo mới danh mục */}
+      <Modal
+        title="Tạo mới danh mục"
+        visible={isCreateModalVisible}
+        onCancel={() => setIsCreateModalVisible(false)}
+        footer={null}
+      >
+        <Form onFinish={handleCreateNewCategory} layout="vertical">
+          <Form.Item label="Thêm ảnh" name="image" valuePropName="fileList">
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 4 ? null : uploadButton}
+            </Upload>
+            {previewImage && (
+              <Image
+                wrapperStyle={{ display: 'none' }}
+                preview={{
+                  visible: previewOpen,
+                  onVisibleChange: visible => setPreviewOpen(visible),
+                  afterOpenChange: visible => !visible && setPreviewImage(''),
+                }}
+                src={previewImage}
+              />
+            )}
+          </Form.Item>
+
+          <Form.Item
+            label="Tên danh mục"
+            name="categoryName"
+            rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Mô tả"
+            name="description"
+            rules={[{ required: true, message: 'Vui lòng nhập mô tả!' }]}
+          >
+            <Input.TextArea rows={4} />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Tạo mới
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+export default CategoryManagement;
