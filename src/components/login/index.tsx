@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
+import { Button, Checkbox, Col, Input, Row, Typography, Form, message, ConfigProvider } from "antd";
 import "./LoginPage.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -39,18 +39,19 @@ const Login = () => {
       <Row style={{ height: "101vh" }} gutter={[16, 0]}>
         <Col span={14} className="login-illustration">
           <img
-            src="https://img.lovepik.com/photo/45009/7677.jpg_wh860.jpg"
+            src="/logo/undraw_in_the_office_re_jtgc.svg"
             alt="Illustration"
             className="illustration-image"
+            style={{ width: 700 }}
           />
         </Col>
 
-        <Col span={10} className="login-form">
+        <Col span={10} className="login-form" style={{ backgroundColor: 'white', boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
           <Form
             className="form-content"
             onFinish={onFinish}
           >
-            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", }}>
               <img src="../../../logo/logo.png" alt="" style={{ width: "300px" }} />
             </div>
             <br />

@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { ConfigProvider, Input, Button, Row, Col, Carousel } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import React, { useRef, useState } from 'react';
+import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Card } from 'antd';
+import { LeftOutlined, RightOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
 
@@ -9,7 +9,9 @@ const { Search } = Input;
 const HeaderPage = () => {
   const router = useRouter();
   const carouselRef = useRef<CarouselRef>(null);  // Khai báo ref đúng kiểu
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
+  //fake data ở đây
   const categories = [
     { name: 'Laptop', image: '/icon/laptop.png' },
     { name: 'Bàn phím', image: '/icon/banphim.png' },
@@ -22,6 +24,15 @@ const HeaderPage = () => {
     { name: 'Balo, túi', image: '/icon/balo,tui.png' },
     { name: 'Phần mềm', image: '/icon/phanmem.png' },
   ];
+
+  const brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Acer', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus'];
+  const priceRanges = ['10-15 triệu', '15-20 triệu', '20-25 triệu', '25-30 triệu', '30-35 triệu', '35-40 triệu'];
+  const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
+  //fake data over
+
+  const handleCategoryClick = (index: number) => {
+    setSelectedCategory(index);
+  }
 
   // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
@@ -37,20 +48,217 @@ const HeaderPage = () => {
     }
   };
 
+  const danhmuccontent = (
+    <div style={{ display: 'flex', gap: '16px', maxHeight: '400px', overflow: 'hidden' }}>
+      {/* Cột danh mục */}
+      <div
+        style={{
+          maxWidth: '200px',
+          maxHeight: '400px',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#f5f5f5 transparent',
+        }}
+      >
+        {categories.map((category, index) => (
+          <Button
+            type="text"
+            key={index}
+            style={{
+              color: selectedCategory === index ? 'black' : 'black',
+              fontWeight: 500,
+              backgroundColor: selectedCategory === index ? '#f6f9fc' : 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              marginBottom: '8px',
+              padding: '10px',
+              width: '100%',
+              height: '40px',
+              border: '#f6f9fc',
+              borderRadius: '4px',
+              transition: 'background-color 0.3s ease',
+            }}
+            onClick={() => handleCategoryClick(index)}
+          >
+            <img
+              src={category.image}
+              alt={category.name}
+              style={{ width: '35px', height: '35px', marginRight: '10px' }}
+            />
+            {category.name}
+          </Button>
+        ))}
+      </div>
+  
+      {/* Cột chi tiết */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn
+          overflowY: 'auto',   // Thêm scroll bar dọc
+          backgroundColor: '#f6f9fc',
+          flex: 1, // Đây để cột chi tiết chiếm không gian còn lại
+          scrollbarWidth: 'thin',  // Thêm thuộc tính scroll bar tương tự
+          scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu cho scroll bar
+        }}
+      >
+        <div style={{ paddingLeft: 5, marginTop: '10px' }}>
+          <Button
+            type="text"
+            style={{
+              margin: 0,
+              fontWeight: 700,
+              color: '#80c4e9',
+              backgroundColor: 'transparent',
+              borderRadius: '4px',
+              border: 'transparent',
+            }}
+          >
+            Xem tất cả {categories[selectedCategory]?.name}
+            <ArrowRightOutlined />
+          </Button>
+        </div>
+  
+        {/* Nội dung chính */}
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            gap: '16px',
+            overflowY: 'auto',  // Thêm scroll bar dọc cho nội dung
+            scrollbarWidth: 'thin',  // Tùy chỉnh chiều rộng scrollbar
+            scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu scrollbar
+            backgroundColor: '#f6f9fc',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+          }}
+        >
+          {/* Cột Thương hiệu */}
+          <div style={{ flex: 1, width: 200 }}>
+            <h4>Thương hiệu</h4>
+            {brands.map((brand, index) => (
+              <Button
+                type="text"
+                key={index}
+                style={{
+                  color: 'black',
+                  marginBottom: '8px',
+                  padding: '8px',
+                  width: '100%',
+                  justifyContent: 'left',
+                  backgroundColor: 'transparent',
+                  borderRadius: '4px',
+                  border: 'transparent',
+                }}
+              >
+                {brand}
+                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
+              </Button>
+            ))}
+          </div>
+  
+          {/* Cột Khoảng giá */}
+          <div style={{ flex: 1, width: 200 }}>
+            <h4>Khoảng giá</h4>
+            {priceRanges.map((range, index) => (
+              <Button
+                type="text"
+                key={index}
+                style={{
+                  marginBottom: '8px',
+                  padding: '8px',
+                  width: '100%',
+                  justifyContent: 'left',
+                  backgroundColor: 'transparent',
+                  borderRadius: '4px',
+                  border: 'transparent',
+                }}
+              >
+                {range}
+                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
+              </Button>
+            ))}
+          </div>
+  
+          {/* Cột Nhu cầu */}
+          <div style={{ flex: 1, width: 200 }}>
+            <h4>Nhu cầu</h4>
+            {needs.map((need, index) => (
+              <Button
+                type="text"
+                key={index}
+                style={{
+                  marginBottom: '8px',
+                  padding: '8px',
+                  width: '100%',
+                  justifyContent: 'left',
+                  backgroundColor: 'transparent',
+                  borderRadius: '4px',
+                  border: 'transparent',
+                }}
+              >
+                {need}
+                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+  
+      {/* Cột ngoài cùng bên phải chứa 4 thẻ */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          maxWidth: '250px',
+          backgroundColor: 'white',
+          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn cho cột ngoài cùng
+          overflowY: 'auto',   // Thêm scroll bar dọc cho cột này
+          scrollbarWidth: 'thin',  // Thêm thuộc tính scroll bar tương tự
+          scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu cho scroll bar
+        }}
+      >
+        <div style={{ padding: '8px', backgroundColor: '#faf4ff', borderRadius: '4px', fontWeight: 600, lineHeight: '150%', display: 'flex' }}>
+          <p style={{ fontSize: '14px' }}>Trải nghiệm thực tế sản phẩm trước khi mua</p>
+          <div><img src="/icon/usp-1.png" alt="" style={{ width: 80 }} /></div>
+        </div>
+        <div style={{ padding: '8px', backgroundColor: '#FEEECC', borderRadius: '4px', fontWeight: 600, lineHeight: '150%', display: 'flex' }}>
+          <p style={{ fontSize: '14px' }}>Chuyên gia tư vấn sản phẩm</p>
+          <div><img src="/icon/usp-2.png" alt="" style={{ width: 80 }} /></div>
+        </div>
+        <div style={{ padding: '8px', backgroundColor: '#CBE7FE', borderRadius: '4px', fontWeight: 600, lineHeight: '150%', display: 'flex' }}>
+          <p style={{ fontSize: '14px' }}>Trung tâm bảo vệ quyền lợi khách hàng</p>
+          <div><img src="/icon/usp-3.png" alt="" style={{ width: 80 }} /></div>
+        </div>
+        <div style={{ padding: '8px', backgroundColor: '#FBCFD8', borderRadius: '4px', fontWeight: 600, lineHeight: '150%', display: 'flex' }}>
+          <p style={{ fontSize: '14px' }}>Của hàng bán lẻ phục vụ khách hàng lâu nhất</p>
+          <div><img src="/icon/usp-4.png" alt="" style={{ width: 80 }} /></div>
+        </div>
+      </div>
+    </div>
+  )  
   return (
     <>
       {/* Header chính */}
       <Row style={{ backgroundColor: 'white', justifyContent: 'center' }}>
         <Row style={{ display: "flex", height: "80px", alignItems: "center" }}>
           <Col span={2}>
-            <img src="/logo/logo.png" alt="" style={{ flexShrink: '0', height: '2.5rem', width: "80px" }} />
+            <img
+              src="/logo/logo.png"
+              alt="logo"
+              style={{ flexShrink: '0', height: '2.5rem', width: "80px", cursor: 'pointer' }}
+              onClick={() => router.push('/home')} // Thêm sự kiện onClick
+            />
           </Col>
           <Col span={7}>
             <ConfigProvider
               theme={{
                 components: {
                   Input: {
-                    colorBgContainer: '#f5f5f5',
+                    colorBgContainer: '#f6f9fc',
                     colorBorder: '#f5f5f5',
                   }
                 }
@@ -67,11 +275,11 @@ const HeaderPage = () => {
                     defaultHoverBorderColor: 'transparent',
                     defaultHoverColor: 'black',
                     defaultShadow: '0',
-                    defaultHoverBg: '#f5f5f5'
+                    defaultHoverBg: '#f6f9fc'
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '30px', fontWeight: 600 }}>
+              <Button style={{ marginLeft: '30px', fontWeight: 600, border: 'transparent' }}>
                 <img src="/icon/phone-call.png" alt="" style={{ width: 18 }} />1900.63.3579
               </Button>
             </ConfigProvider>
@@ -85,11 +293,11 @@ const HeaderPage = () => {
                     defaultHoverBorderColor: 'transparent',
                     defaultHoverColor: 'black',
                     defaultShadow: '0',
-                    defaultHoverBg: '#f5f5f5'
+                    defaultHoverBg: '#f6f9fc'
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '20px', fontWeight: 600 }}>
+              <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent', }}>
                 <img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng
               </Button>
             </ConfigProvider>
@@ -103,11 +311,11 @@ const HeaderPage = () => {
                     defaultHoverBorderColor: 'transparent',
                     defaultHoverColor: 'black',
                     defaultShadow: '0',
-                    defaultHoverBg: '#f5f5f5'
+                    defaultHoverBg: '#f6f9fc'
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '40px', fontWeight: 600 }}>
+              <Button style={{ marginLeft: '40px', fontWeight: 600, border: 'transparent' }}>
                 <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Khiếu nại
               </Button>
             </ConfigProvider>
@@ -121,11 +329,11 @@ const HeaderPage = () => {
                     defaultHoverBorderColor: 'transparent',
                     defaultHoverColor: 'black',
                     defaultShadow: '0',
-                    defaultHoverBg: '#f5f5f5'
+                    defaultHoverBg: '#f6f9fc'
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '20px', fontWeight: 600 }}>
+              <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent' }}>
                 <img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ
               </Button>
             </ConfigProvider>
@@ -156,14 +364,16 @@ const HeaderPage = () => {
           }}
         >
           {/* Nút "Danh Mục" */}
-          <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' variant='text' style={{ height: '60px', fontWeight: 600 }}>
-              <img src="/icon/options-lines.png" alt="" style={{ width: 17 }} />Danh Mục
-            </Button>
+          <Col span={2.5} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Popover content={danhmuccontent} arrow={false} placement='bottomLeft' trigger={'click'} overlayInnerStyle={{ marginTop: '10px' }} >
+              <Button color='default' variant='text' style={{ height: '60px', fontWeight: 600, borderRadius: 8 }}>
+                <img src="/icon/options-lines.png" alt="" style={{ width: 17 }} />Danh Mục
+              </Button>
+            </Popover>
           </Col>
 
           {/* Carousel cho danh sách danh mục */}
-          <Col span={19} offset={1} style={{ position: 'relative' }}>
+          <Col span={19} style={{ position: 'relative' }}>
             <Carousel
               ref={carouselRef}  // Gán ref cho Carousel
               dots={false}
@@ -181,26 +391,40 @@ const HeaderPage = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  <Button
-                    style={{
-                      fontWeight: 500,
-                      border: 'transparent',
-                      borderRadius: '5px',
-                      width: '100%',
-                      maxWidth: '150px',
-                      display: 'flex', // Để sắp xếp ảnh và text theo chiều ngang
-                      alignItems: 'center', // Canh chỉnh ảnh và text
-                      justifyContent: 'center', // Canh giữa nội dung
-                    }}
-                  >
-                    {/* Thêm ảnh nhỏ trước text */}
-                    <img
-                      src={category.image}  // Đường dẫn đến ảnh cho mỗi danh mục
-                      alt={category.name}   // Thêm alt text cho ảnh
-                      style={{ width: '45px', marginRight: '8px' }} // Đặt kích thước ảnh và khoảng cách với text
-                    />
-                    {category.name}
-                  </Button>
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        Button: {
+                          colorBorder: 'transparent',
+                          defaultHoverBorderColor: 'transparent',
+                          defaultHoverColor: 'black',
+                          defaultShadow: '0',
+                          defaultHoverBg: '#f5f5f5'
+                        }
+                      }
+                    }}>
+                    <Button
+                      style={{
+                        fontWeight: 500,
+                        border: 'transparent',
+                        borderRadius: '8px',
+                        height: 60,
+                        width: '100%',
+                        maxWidth: '150px',
+                        display: 'flex', // Để sắp xếp ảnh và text theo chiều ngang
+                        alignItems: 'center', // Canh chỉnh ảnh và text
+                        justifyContent: 'center', // Canh giữa nội dung
+                      }}
+                    >
+                      {/* Thêm ảnh nhỏ trước text */}
+                      <img
+                        src={category.image}  // Đường dẫn đến ảnh cho mỗi danh mục
+                        alt={category.name}   // Thêm alt text cho ảnh
+                        style={{ width: '45px', marginRight: '8px' }} // Đặt kích thước ảnh và khoảng cách với text
+                      />
+                      {category.name}
+                    </Button>
+                  </ConfigProvider>
                 </div>
               ))}
             </Carousel>
@@ -209,22 +433,28 @@ const HeaderPage = () => {
           {/* Nút mũi tên bên ngoài carousel, ở bên phải */}
           <Col span={2} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
+              type='text'
               shape="circle"
               onClick={handlePrev}  // Gọi hàm handlePrev
               style={{
                 backgroundColor: 'white',
-                borderColor: 'transparent'
+                borderRadius: '8px',
+                borderColor: 'transparent',
+                border: 'transparent'
               }}
             >
               <LeftOutlined />
             </Button>
             <Button
+              type='text'
               shape="circle"
               onClick={handleNext}  // Gọi hàm handleNext
               style={{
                 marginLeft: '10px',
+                borderRadius: '8px',
                 backgroundColor: 'white',
-                borderColor: 'transparent'
+                borderColor: 'transparent',
+                border: 'transparent'
               }}
             >
               <RightOutlined />

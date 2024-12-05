@@ -191,9 +191,10 @@ const ReChangePassword = () => {
             <Row style={{ height: "101vh" }} gutter={[16, 0]}>
                 <Col span={14} className="login-illustration">
                     <img
-                        src="https://img.lovepik.com/photo/45009/7677.jpg_wh860.jpg"
+                        src="/logo/undraw_dev_focus_re_6iwt.svg"
                         alt="Illustration"
                         className="illustration-image"
+                        style={{ width: 700 }}
                     />
                 </Col>
 
@@ -271,7 +272,7 @@ const ReChangePassword = () => {
                                             justifyContent: "center",
                                             flexDirection: "row",
                                             width: "100%",
-                                            backgroundColor:"#69b1ff",
+                                            backgroundColor:"#80c4e9",
                                             height:"50px",
                                         }}>
                                         <CheckCircleOutlined />

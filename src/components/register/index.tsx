@@ -15,11 +15,11 @@ const Register = () => {
 
     const onFinish = async (values: any) => {
         console.log("Success:", values);
-        try{
+        try {
             const sendDataa = await axios.post("http://localhost:4000/api/register", values);
             message.success("Đăng ký thành công");
             router.push("/login");
-        }catch(err:any){
+        } catch (err: any) {
             console.log(err);
             message.error(err.response.data.error);
         }
@@ -33,9 +33,10 @@ const Register = () => {
             <Row style={{ height: "101vh" }} gutter={[16, 0]}>
                 <Col span={14} className="login-illustration">
                     <img
-                        src="https://img.lovepik.com/photo/45009/7677.jpg_wh860.jpg"
+                        src="/logo/undraw_podcast_re_wr88.svg"
                         alt="Illustration"
                         className="illustration-image"
+                        style={{ width: 700 }}
                     />
                 </Col>
 
