@@ -60,9 +60,6 @@ const Login = () => {
                 name="email"
                 label="Email"
                 labelCol={{ span: 24 }}
-                name="email"
-                label="Email"
-                labelCol={{ span: 24 }}
               >
                 <Input
                   placeholder="Email"
