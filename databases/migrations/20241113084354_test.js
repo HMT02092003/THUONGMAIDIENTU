@@ -59,6 +59,16 @@ export const up = async function (knex) {
   await knex.schema.createTable('Brand', (table) => {
     table.increments('id').primary();
     table.string('name').unique().notNullable();
+    table.text('description').nullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
+
+  // Bảng Category
+  await knex.schema.createTable('Category', (table) => {
+    table.increments('id').primary();
+    table.string('name').unique().notNullable();
+    table.text('description').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -68,12 +78,13 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.string('name').notNullable();
     table.integer('brandId').unsigned().references('id').inTable('Brand').onDelete('CASCADE');
+    table.integer('categoryId').unsigned().references('id').inTable('Category').onDelete('CASCADE');
     table.decimal('price', 10, 2).notNullable();
     table.integer('quantity').notNullable();
     table.text('description').nullable();
     table.json('specifications').nullable();
     table.string('imageUrl').nullable();
-    table.dateTime('createdAt').defaultTo(knex.fn.now()); 
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
@@ -96,12 +107,12 @@ export const up = async function (knex) {
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
     table.integer('productId').unsigned().references('id').inTable('Product').onDelete('CASCADE');
     table.integer('quantity').notNullable();
-    table.decimal('unitPrice', 10, 2).notNullable(); // Giá tại thời điểm mua
-    table.decimal('subtotal', 10, 2).notNullable(); // Tổng giá trị = unitPrice * quantity
-    table.string('productName').notNullable(); // Tên sản phẩm tại thời điểm mua
-    table.text('productDescription').nullable(); // Mô tả sản phẩm tại thời điểm mua
-    table.json('productSpecifications').nullable(); // Thông số kỹ thuật sản phẩm tại thời điểm mua
-    table.string('productImageUrl').nullable(); // Ảnh sản phẩm tại thời điểm mua
+    table.decimal('unitPrice', 10, 2).notNullable();
+    table.decimal('subtotal', 10, 2).notNullable();
+    table.string('productName').notNullable();
+    table.text('productDescription').nullable();
+    table.json('productSpecifications').nullable();
+    table.string('productImageUrl').nullable();
   });
 
   // Bảng Cart
@@ -123,6 +134,7 @@ export const down = async function (knex) {
   await knex.schema.dropTableIfExists('OrderDetail');
   await knex.schema.dropTableIfExists('Order');
   await knex.schema.dropTableIfExists('Product');
+  await knex.schema.dropTableIfExists('Category');
   await knex.schema.dropTableIfExists('Brand');
   await knex.schema.dropTableIfExists('RolePermission');
   await knex.schema.dropTableIfExists('UserRole');

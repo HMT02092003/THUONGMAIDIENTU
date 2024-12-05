@@ -46,12 +46,12 @@ const Login = () => {
           />
         </Col>
 
-        <Col span={10} className="login-form">
+        <Col span={10} className="login-form" style={{ backgroundColor: 'white', boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
           <Form
             className="form-content"
             onFinish={onFinish}
           >
-            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", }}>
               <img src="../../../logo/logo.png" alt="" style={{ width: "300px" }} />
             </div>
             <br />

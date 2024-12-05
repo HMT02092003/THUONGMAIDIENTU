@@ -64,4 +64,39 @@ router.post('/updateUser', (req, res) => {
   updateUserHandler(req, res);
 });
 
+// ===================================CATEGORY===================================
+router.get('/allCategory', (req, res) => {
+  // createCategory(req, res);
+});
+
+router.post('/createCategory', (req, res) => {
+
+});
+
+router.delete('/deleteCategory', (req, res) => {
+
+});
+
+router.patch('/getCategory', (req, res) => {
+
+});
+
+// ===================================BRAND===================================
+
+router.get('/allBrand', (req, res) => {
+
+});
+
+router.post('/createBrand', (req, res) => {
+
+});
+
+router.delete('/deleteBrand', (req, res) => {
+
+});
+
+router.patch('/getBrand', (req, res) => {
+
+});
+
 export default router;

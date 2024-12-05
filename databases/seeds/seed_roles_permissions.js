@@ -7,16 +7,16 @@ export async function seed(knex) {
     await knex('RolePermission').del();
     await knex('Permission').del();
     await knex('Role').del();
-  
+
     // Chèn các vai trò
     const roles = [
         { id: 1, name: 'admin' },
         { id: 2, name: 'manager' },
         { id: 3, name: 'user' }
     ];
-  
+
     await knex('Role').insert(roles);
-  
+
     // // Chèn các quyền
     // const permissions = [
     //     { id: 1, name: 'Thông tin cá nhân' },
@@ -46,9 +46,9 @@ export async function seed(knex) {
     //     { id: 25, name: 'Tạo dự án' },
     //     { id: 26, name: 'Cập nhật dự án' },        
     // ];
-  
+
     // await knex('Permission').insert(permissions);
-  
+
     // // Chèn RolePermissions
     // const rolePermissions = [
     //     // Admin có quyền đầy đủ
@@ -78,7 +78,7 @@ export async function seed(knex) {
     //     { roleId: 1, permissionId: 24, value: 31 }, // full permissions for 'Dự án'
     //     { roleId: 1, permissionId: 25, value: 31 }, // full permissions for 'Tạo dự án'
     //     { roleId: 1, permissionId: 26, value: 31 }, // full permissions for 'Cập nhật dự án'
-  
+
     //     // Manager permissions
     //     { roleId: 2, permissionId: 1, value: 2 }, // read
     //     { roleId: 2, permissionId: 2, value: 2 }, // read
@@ -102,7 +102,7 @@ export async function seed(knex) {
     //     { roleId: 2, permissionId: 24, value: 2 }, // read for 'Dự án'
     //     { roleId: 2, permissionId: 25, value: 3 }, // read + create for 'Tạo dự án'
     //     { roleId: 2, permissionId: 26, value: 6 }, // read + update for 'Cập nhật dự án'
-  
+
     //     // User permissions
     //     { roleId: 3, permissionId: 1, value: 2 }, // read
     //     { roleId: 3, permissionId: 2, value: 2 }, // read
@@ -124,6 +124,6 @@ export async function seed(knex) {
     //     { roleId: 3, permissionId: 25, value: 3 }, // read + create for 'Tạo dự án'
     //     { roleId: 3, permissionId: 26, value: 6 }, // read + update for 'Cập nhật dự án'
     // ];
-  
+
     // await knex('RolePermission').insert(rolePermissions);
 };
