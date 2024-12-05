@@ -66,7 +66,7 @@ router.post('/updateUser', (req, res) => {
 
 // ===================================CATEGORY===================================
 router.get('/allCategory', (req, res) => {
-
+  // createCategory(req, res);
 });
 
 router.post('/createCategory', (req, res) => {
