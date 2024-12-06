@@ -1,4 +1,3 @@
-// formData.ts
 
 class FormDataBuilder {
     private isBrowser(): boolean {

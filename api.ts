@@ -13,6 +13,9 @@ import {
   getUserHandler,
   updateUserHandler,
 } from './src/controller/user-controller';
+import {
+  createCategory,
+} from './src/controller/category-controller';
 
 const router = Router();
 
@@ -70,7 +73,7 @@ router.get('/allCategory', (req, res) => {
 });
 
 router.post('/createCategory', (req, res) => {
-
+  createCategory(req, res);
 });
 
 router.delete('/deleteCategory', (req, res) => {

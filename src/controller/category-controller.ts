@@ -1,5 +1,5 @@
-export const createCategory = async (req: Request, res: Response) => {
-
+export const createCategory = async (req: any, res: any) => {
+    console.log(req.body);
 }
 
 export const getAllCategory = async (req: Request, res: Response) => {

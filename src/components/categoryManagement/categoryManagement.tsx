@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -81,18 +82,16 @@ const CategoryManagement = () => {
     }
   };
 
-  const handleCreateNewCategory = (values: any) => {
-    const newCategory = {
-      id: categoryData.length + 1,
-      tradeMarkName: values.tradeMarkName,
-      description: values.description,
-      country: 'Chưa xác định',
-      image: fileList[0] ? fileList[0].url : '', // Lấy ảnh đầu tiên trong danh sách
-    };
-    setCategoryData([...categoryData, newCategory]);
-    setIsCreateModalVisible(false);
-    setFileList([]); // Xóa danh sách ảnh sau khi tạo danh mục mới
-    message.success('Tạo mới danh mục thành công!');
+  const handleCreateNewCategory = async (values: any) => {
+    try{
+
+      // const data = await axios.post('http://localhost:4000/api/createCategory', values);
+      setIsCreateModalVisible(false);
+      setFileList([]); // Xóa danh sách ảnh sau khi tạo danh mục mới
+      message.success('Tạo mới danh mục thành công!');
+    }catch(error){
+      console.log(error);
+    }
   };
 
   const handlePreview = async (file: UploadFile) => {
@@ -117,34 +116,6 @@ const CategoryManagement = () => {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 40px' }}>
-        <Button
-          type="primary"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#722ed1',
-            margin: '0 5px',
-          }}
-        >
-          <CloudUploadOutlined />
-          Nhập excel
-        </Button>
-
-        <Button
-          type="primary"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#4096ff',
-            margin: '0 5px',
-          }}
-        >
-          <CloudDownloadOutlined />
-          Xuất excel
-        </Button>
-
         <Button
           type="primary"
           onClick={() => setIsCreateModalVisible(true)}
@@ -196,7 +167,7 @@ const CategoryManagement = () => {
             Cảnh báo
           </span>
         }
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={() => setIsModalVisible(false)}
         onCancel={() => setIsModalVisible(false)}
         okText="Đồng ý"
@@ -208,7 +179,7 @@ const CategoryManagement = () => {
       {/* Modal tạo mới danh mục */}
       <Modal
         title="Tạo mới danh mục"
-        visible={isCreateModalVisible}
+        open={isCreateModalVisible}
         onCancel={() => setIsCreateModalVisible(false)}
         footer={null}
       >
@@ -220,7 +191,7 @@ const CategoryManagement = () => {
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList.length >= 4 ? null : uploadButton}
+              {fileList.length >= 1 ? null : uploadButton}
             </Upload>
             {previewImage && (
               <Image
@@ -246,13 +217,12 @@ const CategoryManagement = () => {
           <Form.Item
             label="Mô tả"
             name="description"
-            rules={[{ required: true, message: 'Vui lòng nhập mô tả!' }]}
           >
             <Input.TextArea rows={4} />
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" style={{width:"100%"}}>
               Tạo mới
             </Button>
           </Form.Item>

@@ -77,7 +77,7 @@ export const up = async function (knex) {
   await knex.schema.createTable('Product', (table) => {
     table.increments('id').primary();
     table.string('name').notNullable();
-    table.integer('brandId').unsigned().references('id').inTable('Brand').onDelete('CASCADE');
+    table.integer('brandId').unsigned().notNullable().references('id').inTable('Brand').onDelete('CASCADE');
     table.integer('categoryId').unsigned().references('id').inTable('Category').onDelete('CASCADE');
     table.decimal('price', 10, 2).notNullable();
     table.integer('quantity').notNullable();
@@ -123,6 +123,17 @@ export const up = async function (knex) {
     table.integer('quantity').notNullable();
     table.dateTime('addedAt').defaultTo(knex.fn.now());
   });
+
+  // Bảng Payment
+  await knex.schema.createTable('Payment', (table) => {
+    table.increments('id').primary();
+    table.integer('orderId').unsigned().notNullable().references('id').inTable('Order').onDelete('CASCADE');
+    table.string('paymentMethod').notNullable(); // Example: 'credit_card', 'paypal'
+    table.decimal('amount', 10, 2).notNullable();
+    table.dateTime('paymentDate').defaultTo(knex.fn.now());
+    table.text('transactionId').nullable();
+    table.enu('status', ['pending', 'completed', 'failed']).defaultTo('completed');
+  });
 };
 
 /**
@@ -130,6 +141,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
+  await knex.schema.dropTableIfExists('Payment');
   await knex.schema.dropTableIfExists('Cart');
   await knex.schema.dropTableIfExists('OrderDetail');
   await knex.schema.dropTableIfExists('Order');
