@@ -331,6 +331,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
             formDataBuilder.buildFormData(formData, Values);
 
             if (imageFile) {
+                console.log("imageFile", imageFile);
                 formData.append('img', imageFile);
             }
 
@@ -365,15 +366,6 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
             <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
-
-    // Validate input to only allow numbers
-    const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-        const keyCode = event.which || event.keyCode;
-        const keyValue = String.fromCharCode(keyCode);
-        if (!/^\d+$/.test(keyValue)) {
-            event.preventDefault();
-        }
-    };
 
     return (
         <div

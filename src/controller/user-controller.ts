@@ -89,7 +89,8 @@ export const createUserHandler = async (req: Request, res: Response) => {
         if (req.files && req.files.img) {
             const img = req.files.img as any;
             const ID: any = email;
-            avatarUrl = await saveFile(img, ID);
+            const action = "User";
+            avatarUrl = await saveFile(img, ID, action);
         }
 
         // Tạo đối tượng newUserData
@@ -281,13 +282,13 @@ export const updateUserHandler = async (req: Request, res: Response) => {
             name: hometownWardName,
         };
 
-
         // Xử lý upload ảnh (nếu có)
         let avatarUrl = '';
         if (req.files && req.files.img) {
             const img = req.files.img as any;
             const ID: any = email;
-            avatarUrl = await saveFile(img, ID);
+            const action = "User";
+            avatarUrl = await saveFile(img, ID, action);
         }
 
         // Kiểm tra người dùng tồn tại

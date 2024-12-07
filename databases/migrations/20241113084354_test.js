@@ -60,6 +60,7 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.string('name').unique().notNullable();
     table.text('description').nullable();
+    table.string('imageUrl').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -69,6 +70,7 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.string('name').unique().notNullable();
     table.text('description').nullable();
+    table.string('imageUrl').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
