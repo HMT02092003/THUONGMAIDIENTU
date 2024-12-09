@@ -31,7 +31,10 @@
   ul {
     list-style: none;
   }
-
+  
+  .socialIcon{
+    width: 10px;
+  }
   
   .primaryButton {
     margin-top: 10px;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Row, Col, Typography, Button, Space, Card } from "antd";
-import { FacebookOutlined, YoutubeOutlined } from "@ant-design/icons";
+import { FacebookOutlined, YoutubeOutlined, TikTokOutlined } from "@ant-design/icons";
 import "./footer.css"; // Import file CSS
 
 const { Title, Text, Link } = Typography;
@@ -127,10 +127,10 @@ const App: React.FC = () => {
               <YoutubeOutlined /> Youtube
             </Link>
             <Link href="https://tiktok.com" className="textStyle">
-              <img src="/icon/tik-tok.png" /> Tiktok
+            <TikTokOutlined /> Tiktok
             </Link>
             <Link href="https://telegram.org" className="textStyle">
-              <img src="/icon/telegram.png" /> Telegram
+              <img src="/icon/telegram.png"  className="socialIcon"/> Telegram
             </Link>
           </Space>
         </Col>
