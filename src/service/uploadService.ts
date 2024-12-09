@@ -11,10 +11,26 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../..'); // Thư mục gốc của dự án
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public'); // Đường dẫn tới `public`
 
-export const saveFile = async (file: UploadedFile, userId: string): Promise<string> => {
+export const saveFile = async (file: UploadedFile, userId: string, action: string): Promise<string> => {
     try {
-        // Xác định thư mục lưu trữ ảnh (nằm ngoài `src`)
-        const uploadDir = path.join(PUBLIC_DIR, 'uploads');
+        console.log("file", file);
+        let uploadDir = '';
+
+        // Xác định thư mục upload dựa trên action
+        switch (action) {
+            case 'Category':
+                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'categories');
+                break;
+            case 'User':
+                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'users');
+                break;
+            case 'Brand':
+                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'brands');
+                break;
+            default:
+                throw new Error('Không tìm thấy thể loại upload');
+        }
+
 
         // Đảm bảo thư mục upload tồn tại
         if (!fs.existsSync(uploadDir)) {
@@ -29,8 +45,25 @@ export const saveFile = async (file: UploadedFile, userId: string): Promise<stri
         // Ghi file vào thư mục upload
         await file.mv(filePath); // Sử dụng `mv` của `express-fileupload`
 
-        // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
-        const relativeFilePath = path.join('uploads', fileName);
+        let relativeFilePath = '';
+
+        switch (action) {
+            case 'Category':
+                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
+                relativeFilePath = path.join('uploads', "categories", fileName);
+                break;
+            case 'User':
+                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
+                relativeFilePath = path.join('uploads', "users", fileName);
+                break;
+            case 'Brand':
+                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
+                relativeFilePath = path.join('uploads', "brands", fileName);
+                break;
+            default:
+                throw new Error('Không tìm thấy thể loại upload');
+        }
+
         console.log("File saved at:", relativeFilePath);
         return relativeFilePath;
     } catch (err: any) {

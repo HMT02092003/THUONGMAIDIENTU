@@ -1,40 +1,24 @@
 'use client';
-import React, { useState } from 'react';
-import { Table, Button, Modal, Input, Form, Upload, message, TableProps, Image } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, message, TableProps } from 'antd';
 import {
   EditOutlined,
-  CloudDownloadOutlined,
-  CloudUploadOutlined,
   PlusOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
-import { useRouter } from 'next/navigation';
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import axios from 'axios';
+import CreateCategoryModal from './createCategoryModal';
+import UpdateCategoryModal from './updateCategoryModal';
 
 const CategoryManagement = () => {
-  const router = useRouter();
-  const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
+  const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [categoryData, setCategoryData] = useState([
-    { id: 1, tradeMarkName: 'Danh mục A', description: 'Danh mục về đồ điện tử', country: 'Nhật Bản' },
-    { id: 2, tradeMarkName: 'Danh mục B', description: 'Danh mục thời trang cao cấp', country: 'Pháp' },
-  ]);
-  const [fileList, setFileList] = useState<any[]>([]); // Đảm bảo fileList là mảng rỗng
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [categoryData, setCategoryData] = useState([]);
+  const [currentEditCategoryId, setCurrentEditCategoryId] = useState<string | null>(null);
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
@@ -50,7 +34,7 @@ const CategoryManagement = () => {
       fixed: 'left',
       render: (_: any, record: any) => (
         <div
-          onClick={() => router.push(`/productManagement/edit/${record.id}`)}
+          onClick={() => handleEditCategory(record.id)}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <EditOutlined />
@@ -58,10 +42,10 @@ const CategoryManagement = () => {
       ),
     },
     {
-      title: 'Tên danh mục',
-      dataIndex: 'tradeMarkName',
+      title: 'Tên thể loại',
+      dataIndex: 'name',
       align: 'center',
-      key: 'tradeMarkName',
+      key: 'name',
     },
     {
       title: 'Mô tả',
@@ -71,80 +55,64 @@ const CategoryManagement = () => {
     },
   ];
 
-  const handleDelete = () => {
+  const fetchData = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allCategory');
+      setCategoryData(data?.data);
+    } catch (error: any) {
+      message.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDelete = async () => {
     if (selectedUsers.length === 0) {
-      setIsModalVisible(true);
-    } else {
-      const updatedData = categoryData.filter(item => !selectedUsers.includes(item.id));
-      setCategoryData(updatedData);
-      setSelectedUsers([]);
-    }
-  };
-
-  const handleCreateNewCategory = (values: any) => {
-    const newCategory = {
-      id: categoryData.length + 1,
-      tradeMarkName: values.tradeMarkName,
-      description: values.description,
-      country: 'Chưa xác định',
-      image: fileList[0] ? fileList[0].url : '', // Lấy ảnh đầu tiên trong danh sách
-    };
-    setCategoryData([...categoryData, newCategory]);
-    setIsCreateModalVisible(false);
-    setFileList([]); // Xóa danh sách ảnh sau khi tạo danh mục mới
-    message.success('Tạo mới danh mục thành công!');
-  };
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType);
+      Modal.warning({
+        title: 'Cảnh báo',
+        content: 'Vui lòng chọn ít nhất một người dùng để xóa.',
+      });
+      return;
     }
 
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} người dùng đã chọn?`,
+      onOk: async () => {
+        try {
+          const deleteUser = await axios.delete('http://localhost:4000/api/deleteCategory', {
+            data: { ids: selectedUsers },
+          });
+
+          message.success('Xóa danh mục thành công!');
+          fetchData();
+          setSelectedUsers([]);
+
+          Modal.success({
+            title: 'Thành công',
+            content: 'Đã xóa người dùng thành công.',
+          });
+        } catch (error) {
+          console.error('Error deleting users:', error);
+          Modal.error({
+            title: 'Lỗi',
+            content: 'Có lỗi xảy ra khi xóa người dùng. Vui lòng thử lại.',
+          });
+        }
+      },
+    });
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
-
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
+  const handleEditCategory = (categoryId: string) => {
+    setCurrentEditCategoryId(categoryId);
+    setIsEditModalVisible(true);
+  };
 
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 40px' }}>
-        <Button
-          type="primary"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#722ed1',
-            margin: '0 5px',
-          }}
-        >
-          <CloudUploadOutlined />
-          Nhập excel
-        </Button>
-
-        <Button
-          type="primary"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#4096ff',
-            margin: '0 5px',
-          }}
-        >
-          <CloudDownloadOutlined />
-          Xuất excel
-        </Button>
-
         <Button
           type="primary"
           onClick={() => setIsCreateModalVisible(true)}
@@ -196,9 +164,9 @@ const CategoryManagement = () => {
             Cảnh báo
           </span>
         }
-        visible={isModalVisible}
-        onOk={() => setIsModalVisible(false)}
-        onCancel={() => setIsModalVisible(false)}
+        open={isWarningModalVisible}
+        onOk={() => setIsWarningModalVisible(false)}
+        onCancel={() => setIsWarningModalVisible(false)}
         okText="Đồng ý"
         cancelText="Hủy bỏ"
       >
@@ -206,58 +174,19 @@ const CategoryManagement = () => {
       </Modal>
 
       {/* Modal tạo mới danh mục */}
-      <Modal
-        title="Tạo mới danh mục"
-        visible={isCreateModalVisible}
-        onCancel={() => setIsCreateModalVisible(false)}
-        footer={null}
-      >
-        <Form onFinish={handleCreateNewCategory} layout="vertical">
-          <Form.Item label="Thêm ảnh" name="image" valuePropName="fileList">
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 4 ? null : uploadButton}
-            </Upload>
-            {previewImage && (
-              <Image
-                wrapperStyle={{ display: 'none' }}
-                preview={{
-                  visible: previewOpen,
-                  onVisibleChange: visible => setPreviewOpen(visible),
-                  afterOpenChange: visible => !visible && setPreviewImage(''),
-                }}
-                src={previewImage}
-              />
-            )}
-          </Form.Item>
+      <CreateCategoryModal 
+        isVisible={isCreateModalVisible}
+        onClose={() => setIsCreateModalVisible(false)}
+        onSuccess={fetchData}
+      />
 
-          <Form.Item
-            label="Tên danh mục"
-            name="categoryName"
-            rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="Mô tả"
-            name="description"
-            rules={[{ required: true, message: 'Vui lòng nhập mô tả!' }]}
-          >
-            <Input.TextArea rows={4} />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Tạo mới
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+      {/* Modal chỉnh sửa danh mục */}
+      <UpdateCategoryModal 
+        isVisible={isEditModalVisible}
+        categoryId={currentEditCategoryId}
+        onClose={() => setIsEditModalVisible(false)}
+        onSuccess={fetchData}
+      />
     </>
   );
 };

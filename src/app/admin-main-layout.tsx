@@ -120,7 +120,7 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                    Nhóm 11 ©{new Date().getFullYear()} Created by Nhóm 11 - 21CN5
                 </Footer>
             </Layout>
         </Layout>

@@ -13,6 +13,14 @@ import {
   getUserHandler,
   updateUserHandler,
 } from './src/controller/user-controller';
+import {
+  createCategory,
+  getAllCategory,
+  get1Category,
+  updateCategory,
+  deleteCategory,
+} from './src/controller/category-controller';
+import { get } from 'http';
 
 const router = Router();
 
@@ -66,21 +74,24 @@ router.post('/updateUser', (req, res) => {
 
 // ===================================CATEGORY===================================
 router.get('/allCategory', (req, res) => {
-  // createCategory(req, res);
+  getAllCategory(req, res);
 });
 
 router.post('/createCategory', (req, res) => {
+  createCategory(req, res);
+});
 
+router.post('/get1Category', (req, res) => {
+  get1Category(req, res);
+});
+
+router.put('/updateCategory', (req, res) => {
+  updateCategory(req, res);
 });
 
 router.delete('/deleteCategory', (req, res) => {
-
+  deleteCategory(req, res);
 });
-
-router.patch('/getCategory', (req, res) => {
-
-});
-
 // ===================================BRAND===================================
 
 router.get('/allBrand', (req, res) => {
