@@ -87,7 +87,12 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider style={{ backgroundColor: "white" }} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider
+                style={{ backgroundColor: "white" }}
+                collapsible collapsed={collapsed}
+                onCollapse={(value) => setCollapsed(value)}
+                theme="light"
+            >
                 <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "50px" }}>
                     <img src="/logo/logo.png" alt="" style={{ width: "100px" }} />
                 </div>

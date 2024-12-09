@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form, Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -13,14 +13,16 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-interface CreateCategoryModalProps {
+interface UpdateCategoryModalProps {
   isVisible: boolean;
+  categoryId: string | null;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({ 
+const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({ 
   isVisible, 
+  categoryId, 
   onClose, 
   onSuccess 
 }) => {
@@ -28,6 +30,36 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   const [fileList, setFileList] = useState<any[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
+
+  useEffect(() => {
+    if (isVisible && categoryId) {
+      fetchCategoryDetails();
+    }
+  }, [isVisible, categoryId]);
+
+  const fetchCategoryDetails = async () => {
+    try {
+      const data = await axios.post('http://localhost:4000/api/get1Category', { id: categoryId });
+      
+      form.setFieldsValue({
+        categoryName: data.data.name,
+        description: data.data.description,
+      });
+
+      if (data.data.imageUrl) {
+        setFileList([
+          {
+            uid: '-1',
+            name: 'image',
+            status: 'done',
+            url: data.data.imageUrl,
+          },
+        ]);
+      }
+    } catch (error: any) {
+      message.error(error.response.data.message);
+    }
+  };
 
   const validateImageUpload = (file: FileType) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -46,13 +78,21 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
     setPreviewOpen(true);
   };
 
-  const handleFileChange = ({ fileList: newFileList }: any) => {
-    setFileList(newFileList);
+  const handleFileChange = ({ file, fileList: newFileList }: any) => {
+    // Nếu là ảnh mới (status là 'done'), chỉ giữ lại ảnh cuối cùng được tải lên
+    if (file.status === 'done' || file.status === 'uploading') {
+      setFileList(newFileList.slice(-1));
+    }
+    // Nếu ảnh bị xóa, cập nhật danh sách
+    else if (file.status === 'removed') {
+      setFileList(newFileList);
+    }
   };
 
-  const handleCreateCategory = async (values: any) => {
+  const handleUpdateCategory = async (values: any) => {
     try {
       const formData = new FormData();
+      formData.append('id', categoryId || '');
       formData.append('categoryName', values.categoryName);
       
       if (values.description) {
@@ -63,9 +103,9 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
         formData.append('image', values.image.file.originFileObj);
       }
 
-      await axios.post('http://localhost:4000/api/createCategory', formData);
+      await axios.put(`http://localhost:4000/api/updateCategory`, formData);
       
-      message.success('Tạo mới danh mục thành công!');
+      message.success('Cập nhật danh mục thành công!');
       form.resetFields();
       setFileList([]);
       onSuccess();
@@ -85,7 +125,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   return (
     <>
       <Modal
-        title="Tạo mới thể loại"
+        title="Chỉnh sửa thương hiệu"
         open={isVisible}
         onCancel={() => {
           onClose();
@@ -94,11 +134,10 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
         }}
         footer={null}
       >
-        <Form onFinish={handleCreateCategory} layout="vertical" form={form}>
+        <Form onFinish={handleUpdateCategory} layout="vertical" form={form}>
           <Form.Item
             label="Thêm ảnh"
             name="image"
-            rules={[{ required: true, message: 'Vui lòng thêm ảnh!' }]}
           >
             <Upload
               listType="picture-card"
@@ -112,7 +151,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item
-            label="Tên thể loại"
+            label="Tên thương hiệu"
             name="categoryName"
             rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
           >
@@ -128,7 +167,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
 
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-              Tạo mới
+              Cập nhật
             </Button>
           </Form.Item>
         </Form>
@@ -146,4 +185,4 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   );
 };
 
-export default CreateCategoryModal;
+export default UpdateBrandModal;

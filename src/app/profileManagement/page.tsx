@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
 import MainLayout from "../main-layout"
 import ProfileManagement from '../../components/profileManagement/profileManagement';
 

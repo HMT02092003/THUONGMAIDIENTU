@@ -1,15 +1,15 @@
 import React from 'react'
 import MainLayout from '../main-layout'
-import TradeMarkManagement from '../../components/trademarkManagement/tradeMarkManagement' 
+import BrandManagement from '../../components/brandManagement/brandManagement' 
 
-const TradeMarkManagementPage = () => {
+const BrandManagementPage = () => {
   return (
     <>
     <MainLayout>
-        <TradeMarkManagement />
+        <BrandManagement />
     </MainLayout>
 </>
   )
 }
 
-export default TradeMarkManagementPage
+export default BrandManagementPage

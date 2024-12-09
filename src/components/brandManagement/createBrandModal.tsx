@@ -19,7 +19,7 @@ interface CreateCategoryModalProps {
   onSuccess: () => void;
 }
 
-const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({ 
+const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({ 
   isVisible, 
   onClose, 
   onSuccess 
@@ -85,7 +85,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   return (
     <>
       <Modal
-        title="Tạo mới thể loại"
+        title="Tạo mới thương hiệu"
         open={isVisible}
         onCancel={() => {
           onClose();
@@ -112,7 +112,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item
-            label="Tên thể loại"
+            label="Tên thương hiệu"
             name="categoryName"
             rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
           >
@@ -146,4 +146,4 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   );
 };
 
-export default CreateCategoryModal;
+export default CreateBrandModal;

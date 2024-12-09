@@ -125,7 +125,7 @@ const UpdateCategoryModal: React.FC<UpdateCategoryModalProps> = ({
   return (
     <>
       <Modal
-        title="Chỉnh sửa danh mục"
+        title="Chỉnh sửa thể loại"
         open={isVisible}
         onCancel={() => {
           onClose();
@@ -151,7 +151,7 @@ const UpdateCategoryModal: React.FC<UpdateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item
-            label="Tên danh mục"
+            label="Tên thể loại"
             name="categoryName"
             rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
           >
