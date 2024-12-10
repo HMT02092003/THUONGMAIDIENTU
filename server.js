@@ -17,9 +17,11 @@ const expressApp = express();
 
 // Middleware
 expressApp.use(cors());
-expressApp.use(express.json());
-expressApp.use(fileUpload());
-expressApp.use(express.urlencoded({ extended: true }));
+expressApp.use(express.json({ limit: '10mb' })); // Giới hạn payload JSON là 10MB
+expressApp.use(fileUpload({
+  limits: { fileSize: 10 * 1024 * 1024 }, // Giới hạn file upload 10MB
+}));
+expressApp.use(express.urlencoded({ limit: '10mb', extended: true })); // Giới hạn payload urlencoded 10MB
 expressApp.use(cookieParser());
 
 expressApp.use((req, res, next) => {

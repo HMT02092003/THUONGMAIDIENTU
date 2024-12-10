@@ -64,7 +64,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                             </Content>
                         </Layout>
 
-                        <Footer style={{ textAlign: 'center' }}>
+                        <Footer style={{ textAlign: 'center', backgroundColor:"white" }}>
                             <FooterPage />
                         </Footer>
                     </Layout>

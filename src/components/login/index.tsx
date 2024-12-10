@@ -5,6 +5,8 @@ import { Button, Checkbox, Col, Input, Row, Typography, Form, message, ConfigPro
 import "./LoginPage.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { getDecodedToken } from "../../utils/decode-token";
 
 const { Title, Text, Link } = Typography;
 
@@ -13,11 +15,18 @@ const Login = () => {
   const router = useRouter();
 
   const onFinish = async (values: any) => {
-    console.log('Success:', values);
     try {
       const login = await axios.post("http://localhost:4000/api/login", values);
       message.success("Đăng nhập thành công");
-      router.push("/home");
+
+      const token: any = Cookies.get('token')
+      const decoded = getDecodedToken(token);
+
+      if (decoded?.role === 'user') {
+        router.push("/home");
+      }else{
+        router.push("/profileManagement");
+      }
     } catch (err: any) {
       message.error(err.response.data.error);
     }

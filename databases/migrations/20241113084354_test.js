@@ -6,16 +6,16 @@ export const up = async function (knex) {
   // Bảng User
   await knex.schema.createTable('User', (table) => {
     table.increments('id').primary();
-    table.string('name');
-    table.string('email').unique();
+    table.string('name').notNullable();
+    table.string('email').unique().notNullable();
     table.boolean('verified').defaultTo(false);
-    table.string('password');
+    table.string('password').notNullable();
     table.string('role').defaultTo('user');
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
     table.string('provider').defaultTo('local');
     table.string('phoneNumber').nullable();
-    table.dateTime('dateOfBirth').nullable();
+    table.date('dateOfBirth').nullable();
     table.json('addressProvince').nullable();
     table.json('addressDistrict').nullable();
     table.json('addressWard').nullable();
@@ -31,13 +31,13 @@ export const up = async function (knex) {
   // Bảng Role
   await knex.schema.createTable('Role', (table) => {
     table.increments('id').primary();
-    table.string('name').unique();
+    table.string('name').unique().notNullable();
   });
 
   // Bảng Permission
   await knex.schema.createTable('Permission', (table) => {
     table.increments('id').primary();
-    table.string('name').unique();
+    table.string('name').unique().notNullable();
   });
 
   // Bảng UserRole
@@ -55,19 +55,32 @@ export const up = async function (knex) {
     table.primary(['roleId', 'permissionId']);
   });
 
-  // Bảng Brands
+  // Bảng Brand
   await knex.schema.createTable('Brand', (table) => {
     table.increments('id').primary();
     table.string('name').unique().notNullable();
+    table.text('description').nullable();
+    table.string('imageUrl').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng Products
+  // Bảng Category
+  await knex.schema.createTable('Category', (table) => {
+    table.increments('id').primary();
+    table.string('name').unique().notNullable();
+    table.text('description').nullable();
+    table.string('imageUrl').nullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
+
+  // Bảng Product
   await knex.schema.createTable('Product', (table) => {
     table.increments('id').primary();
     table.string('name').notNullable();
-    table.integer('brandId').unsigned().references('id').inTable('Brand').onDelete('CASCADE');
+    table.integer('brandId').unsigned().notNullable().references('id').inTable('Brand').onDelete('CASCADE');
+    table.integer('categoryId').unsigned().references('id').inTable('Category').onDelete('CASCADE');
     table.decimal('price', 10, 2).notNullable();
     table.integer('quantity').notNullable();
     table.text('description').nullable();
@@ -77,7 +90,7 @@ export const up = async function (knex) {
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng Orders
+  // Bảng Order
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
     table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
@@ -90,7 +103,7 @@ export const up = async function (knex) {
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 
-  // Bảng OrderDetails
+  // Bảng OrderDetail
   await knex.schema.createTable('OrderDetail', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
@@ -98,6 +111,10 @@ export const up = async function (knex) {
     table.integer('quantity').notNullable();
     table.decimal('unitPrice', 10, 2).notNullable();
     table.decimal('subtotal', 10, 2).notNullable();
+    table.string('productName').notNullable();
+    table.text('productDescription').nullable();
+    table.json('productSpecifications').nullable();
+    table.string('productImageUrl').nullable();
   });
 
   // Bảng Cart
@@ -108,6 +125,17 @@ export const up = async function (knex) {
     table.integer('quantity').notNullable();
     table.dateTime('addedAt').defaultTo(knex.fn.now());
   });
+
+  // Bảng Payment
+  await knex.schema.createTable('Payment', (table) => {
+    table.increments('id').primary();
+    table.integer('orderId').unsigned().notNullable().references('id').inTable('Order').onDelete('CASCADE');
+    table.string('paymentMethod').notNullable(); // Example: 'credit_card', 'paypal'
+    table.decimal('amount', 10, 2).notNullable();
+    table.dateTime('paymentDate').defaultTo(knex.fn.now());
+    table.text('transactionId').nullable();
+    table.enu('status', ['pending', 'completed', 'failed']).defaultTo('completed');
+  });
 };
 
 /**
@@ -115,10 +143,12 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
+  await knex.schema.dropTableIfExists('Payment');
   await knex.schema.dropTableIfExists('Cart');
   await knex.schema.dropTableIfExists('OrderDetail');
   await knex.schema.dropTableIfExists('Order');
   await knex.schema.dropTableIfExists('Product');
+  await knex.schema.dropTableIfExists('Category');
   await knex.schema.dropTableIfExists('Brand');
   await knex.schema.dropTableIfExists('RolePermission');
   await knex.schema.dropTableIfExists('UserRole');
