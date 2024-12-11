@@ -39,7 +39,7 @@ const items: MenuItem[] = [
     getItem('Quản lí sản phẩm', 'productManagement', <AppstoreOutlined />),
     getItem('Quản lí đơn hàng', 'orderManagement', <ShoppingCartOutlined />),
     getItem('Quản lí thể loại', 'categoryManagement', <UnorderedListOutlined />),
-    getItem('Quản lí thương hiệu', 'tradeMarkManagement', <GlobalOutlined />),
+    getItem('Quản lí thương hiệu', 'brandManagement', <GlobalOutlined />),
 ];
 
 const AdminMainLayout: React.FC<any> = ({ children, role }) => {
@@ -67,8 +67,8 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
             case 'categoryManagement':
                 router.push('/categoryManagement');
                 break;
-            case 'tradeMarkManagement':
-                router.push('/tradeMarkManagement');
+            case 'brandManagement':
+                router.push('/brandManagement');
                 break;
             default:
                 break;

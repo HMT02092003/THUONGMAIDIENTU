@@ -11,14 +11,14 @@ import axios from 'axios';
 import CreateBrandModal from './createBrandModal';
 import UpdateBrandModal from './updateBrandModal';
 
-const CategoryManagement = () => {
+const BrandManagement = () => {
   const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [categoryData, setCategoryData] = useState([]);
-  const [currentEditCategoryId, setCurrentEditCategoryId] = useState<string | null>(null);
+  const [brandData, setBrandData] = useState([]);
+  const [currentEditBrandId, setCurrentEditBrandId] = useState<string | null>(null);
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
@@ -34,7 +34,7 @@ const CategoryManagement = () => {
       fixed: 'left',
       render: (_: any, record: any) => (
         <div
-          onClick={() => handleEditCategory(record.id)}
+          onClick={() => handleEditBrand(record.id)}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <EditOutlined />
@@ -42,7 +42,7 @@ const CategoryManagement = () => {
       ),
     },
     {
-      title: 'Tên thể loại',
+      title: 'Tên thương hiệu',
       dataIndex: 'name',
       align: 'center',
       key: 'name',
@@ -57,8 +57,8 @@ const CategoryManagement = () => {
 
   const fetchData = async () => {
     try {
-      const data = await axios.get('http://localhost:4000/api/allCategory');
-      setCategoryData(data?.data);
+      const data = await axios.get('http://localhost:4000/api/allBrand');
+      setBrandData(data?.data);
     } catch (error: any) {
       message.error(error.response.data.message);
     }
@@ -82,7 +82,7 @@ const CategoryManagement = () => {
       content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} người dùng đã chọn?`,
       onOk: async () => {
         try {
-          const deleteUser = await axios.delete('http://localhost:4000/api/deleteCategory', {
+          const deleteUser = await axios.delete('http://localhost:4000/api/deleteBrand', {
             data: { ids: selectedUsers },
           });
 
@@ -105,8 +105,8 @@ const CategoryManagement = () => {
     });
   };
 
-  const handleEditCategory = (categoryId: string) => {
-    setCurrentEditCategoryId(categoryId);
+  const handleEditBrand = (brandId: string) => {
+    setCurrentEditBrandId(brandId);
     setIsEditModalVisible(true);
   };
 
@@ -148,7 +148,7 @@ const CategoryManagement = () => {
 
       <Table<any>
         columns={columns}
-        dataSource={categoryData}
+        dataSource={brandData}
         rowSelection={{
           type: selectionType,
           ...rowSelection,
@@ -183,7 +183,7 @@ const CategoryManagement = () => {
       {/* Modal chỉnh sửa danh mục */}
       <UpdateBrandModal 
         isVisible={isEditModalVisible}
-        categoryId={currentEditCategoryId}
+        brandId={currentEditBrandId}
         onClose={() => setIsEditModalVisible(false)}
         onSuccess={fetchData}
       />
@@ -191,4 +191,4 @@ const CategoryManagement = () => {
   );
 };
 
-export default CategoryManagement;
+export default BrandManagement;
