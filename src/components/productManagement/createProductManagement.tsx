@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button, Upload, Row, Col, InputNumber, Select } from 'antd';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -13,6 +13,10 @@ const EditProductManagement: React.FC = () => {
     const data = form.getFieldsValue();
     console.log('Form values:', data);
   };
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <div style={{borderRadius: '8px', }}>
