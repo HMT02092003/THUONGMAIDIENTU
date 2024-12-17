@@ -16,20 +16,7 @@ export const saveFile = async (file: UploadedFile, userId: string, action: strin
         console.log("file", file);
         let uploadDir = '';
 
-        // Xác định thư mục upload dựa trên action
-        switch (action) {
-            case 'Category':
-                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'categories');
-                break;
-            case 'User':
-                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'users');
-                break;
-            case 'Brand':
-                uploadDir = path.join(PUBLIC_DIR, 'uploads', 'brands');
-                break;
-            default:
-                throw new Error('Không tìm thấy thể loại upload');
-        }
+        uploadDir = path.join(PUBLIC_DIR, 'uploads', `${action.toLowerCase()}`);
 
 
         // Đảm bảo thư mục upload tồn tại
@@ -47,22 +34,7 @@ export const saveFile = async (file: UploadedFile, userId: string, action: strin
 
         let relativeFilePath = '';
 
-        switch (action) {
-            case 'Category':
-                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
-                relativeFilePath = path.join('uploads', "categories", fileName);
-                break;
-            case 'User':
-                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
-                relativeFilePath = path.join('uploads', "users", fileName);
-                break;
-            case 'Brand':
-                // Trả về đường dẫn tương đối để lưu trong cơ sở dữ liệu
-                relativeFilePath = path.join('uploads', "brands", fileName);
-                break;
-            default:
-                throw new Error('Không tìm thấy thể loại upload');
-        }
+        relativeFilePath = path.join('uploads', `${action.toLowerCase()}`, fileName);
 
         console.log("File saved at:", relativeFilePath);
         return relativeFilePath;

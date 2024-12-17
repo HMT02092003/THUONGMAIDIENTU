@@ -27,7 +27,11 @@ import {
   updateBrand,
   deleteBrand,
 } from './src/controller/brand-controller';
-import { get } from 'http';
+import {
+  createProduct,
+  getAllProduct,
+  getProductById,
+} from './src/controller/product-controller';
 
 const router = Router();
 
@@ -120,5 +124,20 @@ router.put('/updateBrand', (req, res) => {
 router.delete('/deleteBrand', (req, res) => {
   deleteBrand(req, res);
 });
+
+// ===================================PRODUCT===================================
+
+router.post('/createProduct', (req, res) => {
+  createProduct(req, res);
+});
+
+router.get('/getAllProduct', (req, res) => {
+  getAllProduct(req, res);
+});
+
+router.post('/getProductById', (req, res) => {
+  getProductById(req, res);
+});
+
 
 export default router;

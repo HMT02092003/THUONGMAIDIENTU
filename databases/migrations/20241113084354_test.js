@@ -79,15 +79,22 @@ export const up = async function (knex) {
   await knex.schema.createTable('Product', (table) => {
     table.increments('id').primary();
     table.string('name').notNullable();
+    table.string('productId').notNullable();
     table.integer('brandId').unsigned().notNullable().references('id').inTable('Brand').onDelete('CASCADE');
-    table.integer('categoryId').unsigned().references('id').inTable('Category').onDelete('CASCADE');
-    table.decimal('price', 10, 2).notNullable();
+    table.decimal('price', 15, 2).notNullable();
     table.integer('quantity').notNullable();
     table.text('description').nullable();
     table.json('specifications').nullable();
-    table.string('imageUrl').nullable();
+    table.json('imageUrl').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
+
+  // Bảng ProductCategory (trung gian giữa Product và Category)
+  await knex.schema.createTable('ProductCategory', (table) => {
+    table.increments('id').primary();
+    table.integer('productId').unsigned().notNullable().references('id').inTable('Product').onDelete('CASCADE');
+    table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
   });
 
   // Bảng Order
@@ -150,6 +157,7 @@ export const down = async function (knex) {
   await knex.schema.dropTableIfExists('Product');
   await knex.schema.dropTableIfExists('Category');
   await knex.schema.dropTableIfExists('Brand');
+  await knex.schema.dropTableIfExists('ProductCategory');
   await knex.schema.dropTableIfExists('RolePermission');
   await knex.schema.dropTableIfExists('UserRole');
   await knex.schema.dropTableIfExists('Permission');

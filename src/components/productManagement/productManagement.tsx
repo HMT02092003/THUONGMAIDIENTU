@@ -1,67 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Space, Table, Tag, Button } from 'antd';
-import type { TableProps } from 'antd';
 import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
+import axios from 'axios';
+import type { TableColumnsType, TableProps } from 'antd';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-
-const data: any[] = [
-  {
-    id: 1,
-    productType: 'Bàn phím',
-    category: 'Bàn phím Keychron K3 V2 Ultra-slim',
-    description: 'Loại switch: Optical Brown (Switch quang Low Profile)(Cho phép Hotswap), Kết nối qua: Bluetooth/USB Type C, Loại kết nối: Không dây, Bluetooth/USB Type C, Chất liệu khung: ABS & Aluminum, Số nút bấm: 84Nút, Loại bàn phím: Phím Cơ, Layout: 75%, Tương thích: Windows/MacOS',
-    product: '1.590.000',
-    version: ['Keychron Optical Red - RGB, Keychron Optical Brown - RGB'],
-    color: ['Dark Grey'],
-  },
-  {
-    id: 2,
-    productType: 'Bàn nâng hạ',
-    category: 'Bàn làm việc nâng hạ HyperWork ATLAS',
-    description: 'Chất liệu mặt bàn: Gỗ MDF, Chất liệu khung: Thép, Cao tối thiểu - tối đa: 60-125cm, Rộng mặt bàn: 75cm, Dài mặt bàn: 160cm, Tải trọng tối đa: 140kg, Khay đi dây: Chưa có',
-    product: '10.900.000',
-    version: [' Mặt Bàn Đen - 160x75x2.5cm, Mặt Bàn Trắng - 160x75x2.5cm, Mặt Bàn Vân Gỗ - 160x75x2.5cm'],
-    color: ['Khung đen'],
-  },
-  {
-    id : 3,
-    productType: 'Máy chơi game Sony PlayStation 5 - PS5',
-    category: 'Máy chơi game',
-    description: 'Trọng lượng: 4,78kg, RAM: 16GB',
-    product: '11.990.000',
-    version: ['Standard, Standard - Marvels Spider-Man 2'],
-    color: ['Frost White'],
-  },
-];
 
 const ProductManagement: React.FC = () => {
   const router = useRouter();
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
+  const [data, setData] = useState<any>([]);
+  console.log(data);
 
 
-  const rowSelection: TableProps<DataType>['rowSelection'] = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+  const rowSelection: TableProps<any>['rowSelection'] = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       setSelectedUsers(selectedRowKeys);
     },
-    getCheckboxProps: (record: DataType) => ({
+    getCheckboxProps: (record: any) => ({
       disabled: record.name === 'Disabled User',
       name: record.name,
     }),
   };
 
-  const columns: any = [
+  const getAllProduct = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/getAllProduct');
+      setData(response.data);
+    } catch (error) {
+      console.error('Failed to fetch product data:', error);
+    }
+  };
+
+  useEffect(() => {
+    getAllProduct();
+  }, []);
+
+  const columns: TableColumnsType<any> = [
     {
       title: '',
       key: 'action',
@@ -77,54 +55,69 @@ const ProductManagement: React.FC = () => {
       ),
     },
     {
-      title: 'Loại hàng',
-      dataIndex: 'productType',
+      title: 'Mã sản phẩm',
+      dataIndex: 'productId',
       align: 'center',
-      width: '10%',
-      key: 'productType',
+      key: 'productId',
+      fixed: 'left',
+      width: "5%",
     },
     {
       title: 'Tên sản phẩm',
-      dataIndex: 'category',
-      key: 'category',
-      width: '25%',
+      dataIndex: 'name',
+      key: 'name',
       align: 'center',
       fixed: 'left',
+      width: "15%",
     },
     {
-      title: 'Mô tả sản phẩm',
+      title: 'Thể loại',
+      dataIndex: 'categories',
+      key: 'categories',
+      align: 'center',
+      fixed: 'left',
+      width: "25%",
+      render: (categories: any) => categories.map((category: any) => {
+        const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return <Tag color={randomColor} key={category.id}>{category.name}</Tag>;
+      }),
+    },
+    {
+      title: 'Thương hiệu',
+      dataIndex: "brand",
+      key: 'brand',
+      align: 'center',
+      fixed: 'left',
+      width: "10%",
+      render: (brand: any) => brand ? brand.name : 'N/A',
+    },
+    {
+      title: 'Giá',
+      dataIndex: 'price',
+      key: 'price',
+      align: 'center',
+      width: "20%",
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      align: 'center',
+      key: 'quantity',
+      width: "15%",
+    },
+    {
+      title: 'Mô tả',
       dataIndex: 'description',
+      align: 'center',
       key: 'description',
-      align: 'center',
-      width: '30%',
+      width: "200px",
     },
-    {
-      title: 'Giá tiền',
-      dataIndex: 'product',
-      key: 'product',
-      align: 'center',
-      fixed: 'left',
-    },
-    {
-      title: 'Phiên bản',
-      dataIndex: 'version',
-      key: 'version',
-      width: '15%',
-      align: 'center',
-      fixed: 'left',
-    },
-    {
-      title: 'Màu',
-      dataIndex: 'color',
-      align: 'center',
-      key: 'color',
-    },
-
   ];
   return (
     <>
-          <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-      <Button
+      <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
+        <Button
           type="primary"
           // onClick={importExcel}
           style={{
@@ -168,7 +161,7 @@ const ProductManagement: React.FC = () => {
           Tạo mới
         </Button>
 
-        <Button 
+        <Button
           type="primary"
           // onClick={handleDelete}
           style={{
@@ -184,7 +177,7 @@ const ProductManagement: React.FC = () => {
           Xóa
         </Button>
       </div>
-      <Table<DataType>
+      <Table<any>
         columns={columns}
         dataSource={data}
         rowSelection={{
@@ -192,6 +185,7 @@ const ProductManagement: React.FC = () => {
           ...rowSelection,
         }}
         rowKey="id"
+        scroll={{ x: 'max-content' }}
       />
     </>
   )

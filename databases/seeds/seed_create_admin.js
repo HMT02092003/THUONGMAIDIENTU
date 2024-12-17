@@ -10,7 +10,7 @@ export const seed = async function (knex) {
       name: 'Admin User',
       email: 'admin@gmail.com',
       verified: true,
-      password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', // pre-hashed password
+      password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
       role: 'admin',
       provider: 'local',
     })

@@ -14,6 +14,7 @@ export const createCategory = async (req: any, res: any) => {
 
         if (category) return res.status(400).json({ message: "Thể loại đã tồn tại" });
 
+
         let avatarUrl = '';
         if (req.files && req.files.image) {
             const img = req.files.image as any;

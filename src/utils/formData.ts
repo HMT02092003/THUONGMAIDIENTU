@@ -4,7 +4,7 @@ class FormDataBuilder {
       return typeof window !== 'undefined';
     }
   
-    buildFormData(formData: FormData, data: any, parentKey?: any) {
+    buildFormData(formData: any, data: any, parentKey?: any) {
       if (typeof data === 'function') {
         data(formData, parentKey);
         return;
@@ -16,7 +16,8 @@ class FormDataBuilder {
         });
       } else {
         const value = data == null ? '' : data;
-        console.log('parentKey: ', parentKey)
+        // console.log('parentKey: ', parentKey)
+        console.log('value: ', value)
         formData.append(parentKey, value);
       }
     }
