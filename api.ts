@@ -31,6 +31,7 @@ import {
   createProduct,
   getAllProduct,
   getProductById,
+  deleteProduct,
 } from './src/controller/product-controller';
 
 const router = Router();
@@ -139,5 +140,8 @@ router.post('/getProductById', (req, res) => {
   getProductById(req, res);
 });
 
+router.delete('/deleteProduct', (req, res) => {
+  deleteProduct(req, res);
+});
 
 export default router;

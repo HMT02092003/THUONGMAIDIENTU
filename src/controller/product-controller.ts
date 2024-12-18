@@ -8,7 +8,7 @@ import BrandModel from '../Models/BrandModel';
 export const createProduct = async (req: Request, res: Response) => {
     const transaction = await ProductModel.startTransaction();
     try {
-        const dataAfterParse = req.body;
+        const dataAfterParse = parseNestedData(req.body);
         console.log(dataAfterParse);
         
         // Kiểm tra sản phẩm đã tồn tại (theo mã sản phẩm - productID)
@@ -99,3 +99,59 @@ export const getProductById = async (req: Request, res: Response) => {
     }
 };
 
+export const deleteProduct = async (req: Request, res: Response) => {
+    try {
+        // Lấy token từ cookie
+        const token = req.cookies.token;
+        if (!token) {
+            // Báo lỗi khi không có token (người dùng chưa đăng nhập)
+            return res.status(401).json({ message: 'Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.' });
+        }
+        console.log('Received data:', req.body);
+        // Lấy danh sách userIds từ body
+        const { ids: productIds } = req.body;
+        console.log('User IDs to delete:', productIds);
+        if (!Array.isArray(productIds) || productIds.length === 0) {
+            return res.status(400).json({ message: 'Danh sách ID snr phẩm không hợp lệ.' });
+        }
+
+        // Bắt đầu transaction
+        const trx = await ProductModel.startTransaction();
+
+        try {
+            // Tìm các user cần xóa
+            const productsToDelete = await ProductModel.query(trx).findByIds(productIds);
+
+            if (productsToDelete.length !== productIds.length) {
+                await trx.rollback();
+                return res.status(404).json({ message: 'Không tìm thấy một hoặc nhiều người dùng.' });
+            }
+
+            // Xóa dữ liệu từ các bảng liên quan
+            await ProductCategoryModel.query(trx).delete().whereIn('productId', productIds);
+
+            // Xóa users từ bảng chính
+            const deletedCount = await ProductModel.query(trx).delete().whereIn('id', productIds);
+
+            // Commit transaction
+            await trx.commit();
+
+            // Trả về kết quả thành công
+            res.status(200).json({
+                status: 'success',
+                message: 'Xóa người dùng và dữ liệu liên quan thành công.',
+                data: {
+                    deletedCount,
+                    deletedUserIds: productIds,
+                },
+            });
+        } catch (error: any) {
+            await trx.rollback();
+            console.error('Transaction failed:', error);
+            res.status(500).json({ message: 'Xóa người dùng thất bại.', error: error.message });
+        }
+    } catch (err: any) {
+        console.error('Error deleting users:', err);
+        res.status(500).json({ message: 'Lỗi máy chủ nội bộ.', error: err.message });
+    }
+};

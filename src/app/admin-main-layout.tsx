@@ -100,7 +100,7 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
             </Sider>
             <Layout>
                 <Header style={{ paddingLeft: "50px", background: colorBgContainer, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} >
-                    <div onClick={logoutHandel}>
+                    <div onClick={logoutHandel} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                         <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="default" >
                             {user}
                         </Avatar>

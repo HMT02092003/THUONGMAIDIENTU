@@ -19,6 +19,7 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [fileList, setFileList] = useState<any[]>([]);
+  console.log("fileList==========================", fileList);
 
   const fetchData = async () => {
     if (id) {
@@ -42,18 +43,14 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
 
         const imgUrl = Product.data.imageUrl;
 
-        const imageList = Object.entries(imgUrl).map(([key, value]) => {
-          console.log("value==========================", value);
-          console.log("key==========================", key);
-          return {
-            uid: key,
-            name: `${key}.png`,
-            status: 'done',
-            url: `http://localhost:4000/${(value as string).replace(/\\/g, '/')}`,
-          };
-        });
+        const imageList = Object.entries(imgUrl).map(([key, value]) => ({
+          uid: key,
+          name: `image-${key}.png`,
+          status: 'done',
+          url: (value as string), // Sử dụng đường dẫn relative
+        }));
 
-        console.log("imageList==========================", imageList);  
+        console.log("imageList==========================", imageList);
         setFileList(imageList);
 
         setConfigurations(Product.data.specifications);
@@ -174,7 +171,8 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                 name="image"
                 listType="picture-card"
                 fileList={fileList}
-                onChange={({ fileList }) => setFileList(fileList)}
+                // onChange={({ fileList }) => setFileList(fileList)}
+                beforeUpload={() => false} // Ngăn không cho tự động upload
               >
                 {fileList.length >= 4 ? null : (
                   <div>
