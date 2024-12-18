@@ -23,11 +23,15 @@ class Category extends Model {
   static get relationMappings() {
     return {
       products: {
-        relation: Model.HasManyRelation,
+        relation: Model.ManyToManyRelation,
         modelClass: Product,
         join: {
           from: 'Category.id',
-          to: 'Product.categoryId'
+          through: {
+            from: 'ProductCategory.categoryId',
+            to: 'ProductCategory.productId'
+          },
+          to: 'Product.id'
         }
       }
     };

@@ -15,14 +15,14 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 interface UpdateCategoryModalProps {
   isVisible: boolean;
-  categoryId: string | null;
+  brandId: string | null;
   onClose: () => void;
   onSuccess: () => void;
 }
 
 const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({ 
   isVisible, 
-  categoryId, 
+  brandId, 
   onClose, 
   onSuccess 
 }) => {
@@ -32,17 +32,17 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
   const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
-    if (isVisible && categoryId) {
-      fetchCategoryDetails();
+    if (isVisible && brandId) {
+      fetchBrandDetails();
     }
-  }, [isVisible, categoryId]);
+  }, [isVisible, brandId]);
 
-  const fetchCategoryDetails = async () => {
+  const fetchBrandDetails = async () => {
     try {
-      const data = await axios.post('http://localhost:4000/api/get1Category', { id: categoryId });
+      const data = await axios.post('http://localhost:4000/api/get1Brand', { id: brandId });
       
       form.setFieldsValue({
-        categoryName: data.data.name,
+        brandName: data.data.name,
         description: data.data.description,
       });
 
@@ -89,11 +89,11 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
     }
   };
 
-  const handleUpdateCategory = async (values: any) => {
+  const handleUpdateBrand = async (values: any) => {
     try {
       const formData = new FormData();
-      formData.append('id', categoryId || '');
-      formData.append('categoryName', values.categoryName);
+      formData.append('id', brandId || '');
+      formData.append('brandName', values.brandName);
       
       if (values.description) {
         formData.append('description', values.description);
@@ -103,7 +103,7 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
         formData.append('image', values.image.file.originFileObj);
       }
 
-      await axios.put(`http://localhost:4000/api/updateCategory`, formData);
+      await axios.put(`http://localhost:4000/api/updateBrand`, formData);
       
       message.success('Cập nhật danh mục thành công!');
       form.resetFields();
@@ -134,7 +134,7 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
         }}
         footer={null}
       >
-        <Form onFinish={handleUpdateCategory} layout="vertical" form={form}>
+        <Form onFinish={handleUpdateBrand} layout="vertical" form={form}>
           <Form.Item
             label="Thêm ảnh"
             name="image"
@@ -152,7 +152,7 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
 
           <Form.Item
             label="Tên thương hiệu"
-            name="categoryName"
+            name="brandName"
             rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
           >
             <Input />

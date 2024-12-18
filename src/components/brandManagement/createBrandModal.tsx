@@ -13,13 +13,13 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-interface CreateCategoryModalProps {
+interface CreateBrandModalProps {
   isVisible: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({ 
+const CreateBrandModal: React.FC<CreateBrandModalProps> = ({ 
   isVisible, 
   onClose, 
   onSuccess 
@@ -50,10 +50,10 @@ const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({
     setFileList(newFileList);
   };
 
-  const handleCreateCategory = async (values: any) => {
+  const handleCreateBrand = async (values: any) => {
     try {
       const formData = new FormData();
-      formData.append('categoryName', values.categoryName);
+      formData.append('brandName', values.brandName);
       
       if (values.description) {
         formData.append('description', values.description);
@@ -63,7 +63,7 @@ const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({
         formData.append('image', values.image.file.originFileObj);
       }
 
-      await axios.post('http://localhost:4000/api/createCategory', formData);
+      await axios.post('http://localhost:4000/api/createBrand', formData);
       
       message.success('Tạo mới danh mục thành công!');
       form.resetFields();
@@ -94,7 +94,7 @@ const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({
         }}
         footer={null}
       >
-        <Form onFinish={handleCreateCategory} layout="vertical" form={form}>
+        <Form onFinish={handleCreateBrand} layout="vertical" form={form}>
           <Form.Item
             label="Thêm ảnh"
             name="image"
@@ -113,7 +113,7 @@ const CreateBrandModal: React.FC<CreateCategoryModalProps> = ({
 
           <Form.Item
             label="Tên thương hiệu"
-            name="categoryName"
+            name="brandName"
             rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
           >
             <Input />

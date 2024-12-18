@@ -1,32 +1,31 @@
 import { Request, Response } from 'express';
 import { saveFile } from '../service/uploadService';
-import Category from '../Models/CategoryModel';
+import Brand from '../Models/BrandModel';
 
-export const createCategory = async (req: any, res: any) => {
+export const createBrand = async (req: any, res: any) => {
     console.log(req.body);
     try {
         const token = req.cookies.token;
         if (!token) return res.status(401).json({ message: "Chưa đăng nhập" });
 
-        const { categoryName, description } = req.body;
+        const { brandName, description } = req.body;
 
-        const category = await Category.query().findOne({ name: categoryName });
+        const brand = await Brand.query().findOne({ name: brandName });
 
-        if (category) return res.status(400).json({ message: "Thể loại đã tồn tại" });
-
+        if (brand) return res.status(400).json({ message: "Thể loại đã tồn tại" });
 
         let avatarUrl = '';
         if (req.files && req.files.image) {
             const img = req.files.image as any;
-            const ID: any = categoryName;
-            const action = "Category";
+            const ID: any = brandName;
+            const action = "Brand";
             avatarUrl = await saveFile(img, ID, action);
         }
 
         console.log("avatarUrl", avatarUrl);
 
         const newData = {
-            name: categoryName,
+            name: brandName,
             description: description,
             imageUrl: avatarUrl,
             createdAt: new Date().toISOString(),
@@ -34,53 +33,53 @@ export const createCategory = async (req: any, res: any) => {
 
         console.log(newData);
 
-        const newCategory = await Category.query().insert(newData);
+        const newBrand = await Brand.query().insert(newData);
 
-        return res.status(200).json(newCategory);
+        return res.status(200).json(newBrand);
 
     } catch (error) {
         console.log(error);
     }
 }
 
-export const getAllCategory = async (req: Request, res: Response) => {
+export const getAllBrand = async (req: Request, res: Response) => {
     try {
-        const categories = await Category.query();
+        const categories = await Brand.query();
         return res.status(200).json(categories);
     } catch (error) {
         res.status(500).json({ message: "Lỗi 500 - Lấy danh mục thất bại" });
     }
 }
 
-export const get1Category = async (req: Request, res: Response) => {
+export const get1Brand = async (req: Request, res: Response) => {
     try {
         const { id } = req.body;
         console.log("id", id);
-        const category = await Category.query().findById(id);
-        return res.status(200).json(category);
+        const brand = await Brand.query().findById(id);
+        return res.status(200).json(brand);
     } catch (error) {
         res.status(500).json({ message: "Lỗi 500 - Lấy danh mục thất bại" });
     }
 }
 
-export const updateCategory = async (req: Request, res: Response) => {
+export const updateBrand = async (req: Request, res: Response) => {
     console.log(req.body);
     try {
-        const { id, categoryName, description } = req.body;
+        const { id, brandName, description } = req.body;
 
         console.log("req.files.image", req.files);
 
         let avatarUrl = '';
         if (req.files && req.files.image) {
             const img = req.files.image as any;
-            const ID: any = categoryName;
-            const action = "Category";
+            const ID: any = brandName;
+            const action = "Brand";
             avatarUrl = await saveFile(img, ID, action);
         }
 
         // Chỉ thêm trường `imageUrl` khi có avatarUrl
         const newData: any = {
-            name: categoryName,
+            name: brandName,
             description: description,
             updatedAt: new Date().toISOString(),
         };
@@ -89,7 +88,7 @@ export const updateCategory = async (req: Request, res: Response) => {
             newData.imageUrl = avatarUrl;
         }
 
-        await Category.query().findById(id).patch(newData);
+        await Brand.query().findById(id).patch(newData);
 
         return res.status(200).json({ message: "Cập nhật danh mục thành công" });
     } catch (error) {
@@ -98,13 +97,13 @@ export const updateCategory = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteCategory = async (req: any, res: any) => {
+export const deleteBrand = async (req: any, res: any) => {
     try {
         const { ids: userIds } = req.body;
         console.log("userIds", userIds);
 
         if (userIds && userIds.length > 0) {
-            await Category.query().delete().whereIn("id", userIds);
+            await Brand.query().delete().whereIn("id", userIds);
         } else {
             return res.status(400).json({ message: "Danh sách ID không hợp lệ" });
         }

@@ -20,7 +20,18 @@ import {
   updateCategory,
   deleteCategory,
 } from './src/controller/category-controller';
-import { get } from 'http';
+import {
+  createBrand,
+  getAllBrand,
+  get1Brand,
+  updateBrand,
+  deleteBrand,
+} from './src/controller/brand-controller';
+import {
+  createProduct,
+  getAllProduct,
+  getProductById,
+} from './src/controller/product-controller';
 
 const router = Router();
 
@@ -95,19 +106,38 @@ router.delete('/deleteCategory', (req, res) => {
 // ===================================BRAND===================================
 
 router.get('/allBrand', (req, res) => {
-
+  getAllBrand(req, res);
 });
 
 router.post('/createBrand', (req, res) => {
+  createBrand(req, res);
+});
 
+router.post('/get1Brand', (req, res) => {
+  get1Brand(req, res);
+});
+
+router.put('/updateBrand', (req, res) => {
+  updateBrand(req, res);
 });
 
 router.delete('/deleteBrand', (req, res) => {
-
+  deleteBrand(req, res);
 });
 
-router.patch('/getBrand', (req, res) => {
+// ===================================PRODUCT===================================
 
+router.post('/createProduct', (req, res) => {
+  createProduct(req, res);
 });
+
+router.get('/getAllProduct', (req, res) => {
+  getAllProduct(req, res);
+});
+
+router.post('/getProductById', (req, res) => {
+  getProductById(req, res);
+});
+
 
 export default router;

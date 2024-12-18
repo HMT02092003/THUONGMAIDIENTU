@@ -4,6 +4,23 @@ import Category from './CategoryModel';
 import OrderDetail from './OrderDetailModel';
 
 class Product extends Model {
+  id?: number;
+  name?: string;
+  productId?: string;
+  brandId?: number;
+  price?: number;
+  quantity?: number;
+  description?: string;
+  specifications?: object;
+  imageUrl?: object;
+  createdAt?: string;
+  updatedAt?: string;
+    
+
+  static get idColumn() {
+    return 'id';
+  }
+
   static get tableName() {
     return 'Product';
   }
@@ -11,17 +28,17 @@ class Product extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'brandId', 'price', 'quantity'],
+      required: ['name', 'brandId', 'price', 'productId'],
       properties: {
         id: { type: 'integer' },
         name: { type: 'string', maxLength: 255 },
+        productId: { type: 'string', maxLength: 255 },
         brandId: { type: 'integer' },
-        categoryId: { type: ['integer', 'null'] },
         price: { type: 'number' },
         quantity: { type: 'integer' },
         description: { type: ['string', 'null'] },
-        specifications: { type: ['object', 'null'] },
-        imageUrl: { type: ['string', 'null'] },
+        specifications: { type: ['object','array','null'] },
+        imageUrl: { type: ['object', 'null'] },
         createdAt: { type: 'string', format: 'date-time' },
         updatedAt: { type: 'string', format: 'date-time' }
       }
@@ -38,11 +55,15 @@ class Product extends Model {
           to: 'Brand.id'
         }
       },
-      category: {
-        relation: Model.BelongsToOneRelation,
+      categories: {
+        relation: Model.ManyToManyRelation,
         modelClass: Category,
         join: {
-          from: 'Product.categoryId',
+          from: 'Product.id',
+          through: {
+            from: 'ProductCategory.productId',
+            to: 'ProductCategory.categoryId'
+          },
           to: 'Category.id'
         }
       },

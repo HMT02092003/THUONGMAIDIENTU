@@ -30,6 +30,10 @@ const HeaderPage = () => {
   const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
   //fake data over
 
+  const handleLoginclick = () => {
+    router.push('/login'); // Thay 'target-page' bằng đường dẫn bạn muốn
+  };
+
   const handleCategoryClick = (index: number) => {
     setSelectedCategory(index);
   }
@@ -339,7 +343,7 @@ const HeaderPage = () => {
             </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' shape='circle' size='large' variant='filled' style={{ marginRight: '10px' }}>
+            <Button color='default' shape='circle' size='large' variant='filled' style={{ marginRight: '10px' }}  onClick={handleLoginclick}>
               <img src="/icon/user.png" alt="" style={{ width: 15 }} />
             </Button>
           </Col>
