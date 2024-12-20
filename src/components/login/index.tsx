@@ -92,6 +92,12 @@ const Login = () => {
                 Chưa có tài khoản? <Link href="../../register">Đăng ký</Link>
               </Text>
             </div>
+            <br />
+            <div className="register-link">
+              <Text style={{ fontSize: "15px" }}>
+                Quay trở lại trang chủ? <Link href="../home" style={{fontSize:"15px"}}>Trang chủ</Link>
+              </Text>
+            </div>
           </Form>
         </Col>
       </Row>

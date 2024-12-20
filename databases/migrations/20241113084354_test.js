@@ -85,6 +85,7 @@ export const up = async function (knex) {
     table.integer('quantity').notNullable();
     table.text('description').nullable();
     table.json('specifications').nullable();
+    table.json('productImage').nullable();
     table.json('imageUrl').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());

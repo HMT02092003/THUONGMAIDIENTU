@@ -15,6 +15,7 @@ class Product extends Model {
   imageUrl?: object;
   createdAt?: string;
   updatedAt?: string;
+  productImage?: string;
     
 
   static get idColumn() {
@@ -38,6 +39,7 @@ class Product extends Model {
         quantity: { type: 'integer' },
         description: { type: ['string', 'null'] },
         specifications: { type: ['object','array','null'] },
+        productImage: { type: ['object', "string", 'null'] },
         imageUrl: { type: ['object', 'null'] },
         createdAt: { type: 'string', format: 'date-time' },
         updatedAt: { type: 'string', format: 'date-time' }

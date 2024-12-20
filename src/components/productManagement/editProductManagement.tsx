@@ -13,13 +13,10 @@ const { TextArea } = Input;
 const EditProductManagement: React.FC<any> = ({ id }) => {
   const router = useRouter();
   const [form] = Form.useForm();
-  const [configurations, setConfigurations] = useState<{ title: string; info: string }[]>([
-    { title: '', info: '' },
-  ]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [fileList, setFileList] = useState<any[]>([]);
-  console.log("fileList==========================", fileList);
+  const [mainImageFileList, setMainImageFileList] = useState<any[]>([]);
+  const [descImageFileList, setDescImageFileList] = useState<any[]>([]);
 
   const fetchData = async () => {
     if (id) {
@@ -37,25 +34,41 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
           price: Product.data.price,
           quantity: Product.data.quantity,
           description: Product.data.description,
+          configurations: Product.data.specifications.map((spec: any) => ({
+            title: spec.title,
+            info: spec.info
+          }))
         };
 
         form.setFieldsValue(value);
 
+        // Xử lý ảnh chính
+        if (Product.data.productImage) {
+          const mainImage = {
+            uid: '-1',
+            name: 'main-image.png',
+            status: 'done',
+            url: `http://localhost:4000/${Product.data.productImage}`,
+          };
+          setMainImageFileList([mainImage]);
+          form.setFieldsValue({ productImage: [mainImage] });
+        }
+
+        // Xử lý ảnh mô tả
         const imgUrl = Product.data.imageUrl;
+        if (imgUrl) {
+          const imageList = Object.entries(imgUrl).map(([key, value]) => ({
+            uid: `-${key}`,
+            name: `-${key}.png`,
+            status: 'done',
+            url: `http://localhost:4000/${value}`,
+          }));
+          setDescImageFileList(imageList);
+          form.setFieldsValue({ descriptionImages: imageList });
+        }
 
-        const imageList = Object.entries(imgUrl).map(([key, value]) => ({
-          uid: key,
-          name: `image-${key}.png`,
-          status: 'done',
-          url: (value as string), // Sử dụng đường dẫn relative
-        }));
-
-        console.log("imageList==========================", imageList);
-        setFileList(imageList);
-
-        setConfigurations(Product.data.specifications);
       } catch (error) {
-        console.error('Error fetching user:', error);
+        console.error('Error fetching product:', error);
       }
     }
   };
@@ -67,14 +80,14 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
   const handleFinish = async () => {
     try {
       const data = form.getFieldsValue();
-      data.configurations = configurations;
+      data.id = id;
 
       let formData = new FormData();
       const formDataBuilder = new FormDataBuilder();
       formDataBuilder.buildFormData(formData, data);
 
-      const API = await axios.post('http://localhost:4000/api/updateProduct', formData);
-      message.success("Tạo sản phẩm thành công");
+      const API = await axios.put('http://localhost:4000/api/updateProduct', formData);
+      message.success("Cập nhật sản phẩm thành công");
       router.push('/productManagement');
     } catch (err: any) {
       console.log(err);
@@ -82,34 +95,13 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
     }
   };
 
-  const handleAddConfiguration = () => {
-    setConfigurations([...configurations, { title: '', info: '' }]); // Thêm một cấu hình rỗng
-  };
-
-  const handleRemoveConfiguration = (index: number) => {
-    const updatedConfigurations = configurations.filter((_, i) => i !== index);
-    setConfigurations(updatedConfigurations);
-  };
-
-  const handleConfigurationChange = (
-    value: string,
-    index: number,
-    field: 'title' | 'info'
-  ) => {
-    const updatedConfigurations = [...configurations];
-    updatedConfigurations[index][field] = value; // Cập nhật giá trị tại vị trí được thay đổi
-    setConfigurations(updatedConfigurations);
-  };
-
   const getAllCategories = async () => {
     try {
       const data = await axios.get('http://localhost:4000/api/allCategory');
-      let categoryData = data.data.map((item: any) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      });
+      let categoryData = data.data.map((item: any) => ({
+        label: item.name,
+        value: item.id,
+      }));
       setCategories(categoryData);
     } catch (err: any) {
       message.error(err.response.data.message);
@@ -119,12 +111,10 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
   const getAllBrand = async () => {
     try {
       const data = await axios.get('http://localhost:4000/api/allBrand');
-      let brandData = data.data.map((item: any) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      });
+      let brandData = data.data.map((item: any) => ({
+        label: item.name,
+        value: item.id,
+      }));
       setBrands(brandData);
     } catch (err: any) {
       message.error(err.response.data.error);
@@ -146,38 +136,63 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
           marginBottom: '20px',
         }}
       >
-        <h2 style={{ margin: 0 }}>Thêm thông tin sản phẩm</h2>
+        <h2 style={{ margin: 0 }}>Chỉnh sửa thông tin sản phẩm</h2>
         <Button
           type="primary"
           style={{ backgroundColor: '#73d13d', borderColor: '#52c41a' }}
           onClick={handleFinish}
         >
-          <PlusOutlined /> Thêm thông tin sản phẩm
+          <PlusOutlined /> Lưu thay đổi
         </Button>
       </div>
 
       <Form layout="vertical" form={form}>
-        {/* Form layout */}
         <Row gutter={[16, 16]} align="top">
           <Col span={8} style={{ textAlign: 'center', paddingTop: '20px' }}>
+            {/* Ảnh chính sản phẩm */}
             <Form.Item
-              name="imageUrl"
-              label="Thêm ảnh sản phẩm"
+              name="productImage"
+              label="Ảnh chính sản phẩm"
               valuePropName="fileList"
               getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
-              style={{ marginBottom: '20px' }}
+              rules={[{ required: true, message: 'Vui lòng tải lên ảnh chính sản phẩm!' }]}
             >
               <Upload
-                name="image"
+                name="mainImage"
                 listType="picture-card"
-                fileList={fileList}
-                // onChange={({ fileList }) => setFileList(fileList)}
-                beforeUpload={() => false} // Ngăn không cho tự động upload
+                fileList={mainImageFileList}
+                onChange={({ fileList }) => setMainImageFileList(fileList)}
+                beforeUpload={() => false}
+                maxCount={1}
               >
-                {fileList.length >= 4 ? null : (
+                {mainImageFileList.length >= 1 ? null : (
                   <div>
                     <UploadOutlined />
-                    <div style={{ marginTop: 8 }}>Tải lên</div>
+                    <div style={{ marginTop: 8 }}>Tải ảnh chính</div>
+                  </div>
+                )}
+              </Upload>
+            </Form.Item>
+
+            {/* Ảnh mô tả sản phẩm */}
+            <Form.Item
+              name="descriptionImages"
+              label="Ảnh mô tả sản phẩm"
+              valuePropName="fileList"
+              getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
+            >
+              <Upload
+                name="descriptionImages"
+                listType="picture-card"
+                fileList={descImageFileList}
+                onChange={({ fileList }) => setDescImageFileList(fileList)}
+                beforeUpload={() => false}
+                multiple
+              >
+                {descImageFileList.length >= 3 ? null : (
+                  <div>
+                    <UploadOutlined />
+                    <div style={{ marginTop: 8 }}>Tải ảnh mô tả</div>
                   </div>
                 )}
               </Upload>
@@ -209,7 +224,6 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                   name="category"
                   label="Thể loại"
                   rules={[{ required: true, message: 'Vui lòng nhập thể loại!' }]}
-                  style={{ marginBottom: '20px' }}
                 >
                   <Select
                     placeholder="Nhập thể loại"
@@ -224,7 +238,6 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                   name="brand"
                   label="Thương hiệu"
                   rules={[{ required: true, message: 'Vui lòng nhập thương hiệu!' }]}
-                  style={{ marginBottom: '20px' }}
                 >
                   <Select placeholder="Nhập thương hiệu" options={brands} />
                 </Form.Item>
@@ -234,7 +247,6 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                   name="price"
                   label="Giá tiền"
                   rules={[{ required: true, message: 'Vui lòng nhập giá tiền!' }]}
-                  style={{ marginBottom: '20px' }}
                 >
                   <InputNumber
                     addonAfter="VNĐ"
@@ -248,8 +260,7 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                 <Form.Item
                   name="quantity"
                   label="Số lượng trong kho:"
-                  rules={[{ required: true, message: 'Vui lòng nhập giá tiền!' }]}
-                  style={{ marginBottom: '20px' }}
+                  rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
                 >
                   <InputNumber
                     style={{ width: '100%' }}
@@ -261,40 +272,56 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
           </Col>
         </Row>
 
-        {/* Danh sách cấu hình đặc điểm */}
-        <Form.Item label="Cấu hình đặc điểm">
-          {configurations.map((config, index) => (
-            <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <Form.Item label={`Tiêu đề cấu hình ${index + 1}`} style={{ flex: 1 }}>
-                <Input
-                  value={config.title}
-                  placeholder="Nhập tiêu đề cấu hình"
-                  onChange={(e) => handleConfigurationChange(e.target.value, index, 'title')}
-                />
+        <Form.List name="configurations" initialValue={[{ title: '', info: '' }]}>
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Row key={key} gutter={16} style={{ marginBottom: 16 }}>
+                  <Col span={8}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'title']}
+                      rules={[{ required: true, message: 'Vui lòng nhập tiêu đề cấu hình' }]}
+                      label={`Tiêu đề cấu hình ${name + 1}`}
+                    >
+                      <Input placeholder="Nhập tiêu đề cấu hình" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={14}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'info']}
+                      rules={[{ required: true, message: 'Vui lòng nhập thông tin cấu hình' }]}
+                      label={`Thông tin cấu hình ${name + 1}`}
+                    >
+                      <Input placeholder="Nhập thông tin cấu hình" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={2} style={{ display: 'flex', alignItems: 'center', fontSize:"25px", marginTop:"5px" }}>
+                    <MinusCircleOutlined onClick={() => remove(name)} style={{ color: '#ff4d4f' }} />
+                  </Col>
+                </Row>
+              ))}
+              <Form.Item>
+                <Button 
+                  type="dashed" 
+                  onClick={() => add()} 
+                  block 
+                  icon={<PlusOutlined />}
+                  style={{ maxWidth: 200 }}
+                >
+                  Thêm cấu hình đặc điểm
+                </Button>
               </Form.Item>
-              <Form.Item label={`Thông tin cấu hình ${index + 1}`} style={{ flex: 2 }}>
-                <Input
-                  value={config.info}
-                  placeholder="Nhập thông tin cấu hình"
-                  onChange={(e) => handleConfigurationChange(e.target.value, index, 'info')}
-                />
-              </Form.Item>
-              <Button
-                type="text"
-                danger
-                style={{ marginTop: '30px' }}
-                onClick={() => handleRemoveConfiguration(index)}
-                icon={<MinusCircleOutlined />}
-              />
-            </div>
-          ))}
-          <Button style={{ color: "#1677ff" }} onClick={handleAddConfiguration} icon={<PlusOutlined />}>
-            Thêm cấu hình đặc điểm
-          </Button>
-        </Form.Item>
+            </>
+          )}
+        </Form.List>
 
-        {/* TextArea cho mô tả sản phẩm */}
-        <Form.Item name="description" label="Mô tả sản phẩm">
+        <Form.Item 
+          name="description" 
+          label="Mô tả sản phẩm"
+          rules={[{ required: true, message: 'Vui lòng nhập mô tả sản phẩm!' }]}
+        >
           <TextArea rows={4} placeholder="Nhập mô tả sản phẩm" />
         </Form.Item>
       </Form>
