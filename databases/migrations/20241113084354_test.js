@@ -81,9 +81,8 @@ export const up = async function (knex) {
     table.string('name').notNullable();
     table.string('productId').notNullable();
     table.integer('brandId').unsigned().notNullable().references('id').inTable('Brand').onDelete('CASCADE');
-    table.decimal('price', 15, 2).notNullable();
-    table.integer('quantity').notNullable();
     table.text('description').nullable();
+    table.json('variants').nullable();
     table.json('specifications').nullable();
     table.json('productImage').nullable();
     table.json('imageUrl').nullable();

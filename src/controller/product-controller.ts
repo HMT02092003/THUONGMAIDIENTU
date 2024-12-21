@@ -6,6 +6,7 @@ import { parseNestedData } from '../utils/parseNestedData';
 import BrandModel from '../Models/BrandModel';
 import _ from 'lodash';
 import crypto from 'crypto';
+import { version } from 'os';
 
 function generateRandomSuffix(length: number = 3): string {
     return crypto.randomBytes(length).toString('hex').slice(0, length);
@@ -56,15 +57,16 @@ export const createProduct = async (req: Request, res: Response) => {
             name: dataAfterParse.productName,
             productId: dataAfterParse.productID,
             brandId: parseInt(dataAfterParse.brand, 10),
-            price: parseFloat(dataAfterParse.price),
-            quantity: parseInt(dataAfterParse.quantity, 10),
-            specifications: dataAfterParse.configurations,
+            variants: dataAfterParse.variants,
+            specifications: dataAfterParse.specifications,
             productImage: productImage, // Ảnh chính sản phẩm
             imageUrl: imageUrls, // Ảnh mô tả sản phẩm
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             description: dataAfterParse.description || null,
         };
+
+        console.log('New product:', newProduct);
 
         // Chèn sản phẩm và lấy ID tự động từ cơ sở dữ liệu
         const insertedProduct = await ProductModel.query(transaction).insertAndFetch(newProduct);
@@ -233,8 +235,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             name: dataAfterParse.productName || existingProduct.name,
             productId: dataAfterParse.productID || existingProduct.productId,
             brandId: dataAfterParse.brand ? parseInt(dataAfterParse.brand, 10) : existingProduct.brandId,
-            price: dataAfterParse.price ? parseFloat(dataAfterParse.price) : existingProduct.price,
-            quantity: dataAfterParse.quantity ? parseInt(dataAfterParse.quantity, 10) : existingProduct.quantity,
+            variants : dataAfterParse.variants || existingProduct.variants,
             specifications: dataAfterParse.configurations || existingProduct.specifications,
             productImage: productImage,
             imageUrl: imageUrls,

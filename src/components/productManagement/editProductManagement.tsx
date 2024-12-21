@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Upload, Row, Col, InputNumber, Select, message } from 'antd';
-import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Upload, Row, Col, InputNumber, Select, message, Card, Divider } from 'antd';
+import { UploadOutlined, PlusOutlined, MinusCircleOutlined, EditOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import FormDataBuilder from '../../utils/formData';
-import router from '@/api';
 import { useRouter } from 'next/navigation';
 
 const { TextArea } = Input;
@@ -22,19 +21,25 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
     if (id) {
       try {
         const Product: any = await axios.post('http://localhost:4000/api/getProductById', { id });
-        console.log(Product.data);
 
+        console.log("Product", Product);
         const categoryData = Product.data.categories.map((item: any) => item.id);
+        console.log("categoryData", categoryData);
 
         const value = {
           productName: Product.data.name,
           productID: Product.data.productId,
           category: categoryData,
-          brand: Product.data.brand.id,
-          price: Product.data.price,
-          quantity: Product.data.quantity,
+          brand: Product.data.brandId,
+          variants: Product.data.variants?.map((variant: any) => ({
+            color: variant.color,
+            version: variant.version,
+            type: variant.type,
+            price: variant.price,
+            quantity: variant.quantity
+          })) || [{ color: '', version: '', type: '', price: 0, quantity: 0 }],
           description: Product.data.description,
-          configurations: Product.data.specifications.map((spec: any) => ({
+          specifications: Product.data.specifications.map((spec: any) => ({
             title: spec.title,
             info: spec.info
           }))
@@ -69,6 +74,7 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
 
       } catch (error) {
         console.error('Error fetching product:', error);
+        message.error('Không thể tải thông tin sản phẩm');
       }
     }
   };
@@ -86,38 +92,38 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
       const formDataBuilder = new FormDataBuilder();
       formDataBuilder.buildFormData(formData, data);
 
-      const API = await axios.put('http://localhost:4000/api/updateProduct', formData);
+      await axios.put('http://localhost:4000/api/updateProduct', formData);
       message.success("Cập nhật sản phẩm thành công");
       router.push('/productManagement');
     } catch (err: any) {
-      console.log(err);
-      message.error(err.response.data.message);
+      console.error(err);
+      message.error(err.response?.data?.message || 'Có lỗi xảy ra khi cập nhật sản phẩm');
     }
   };
 
   const getAllCategories = async () => {
     try {
-      const data = await axios.get('http://localhost:4000/api/allCategory');
-      let categoryData = data.data.map((item: any) => ({
+      const { data } = await axios.get('http://localhost:4000/api/allCategory');
+      const categoryData = data.map((item: any) => ({
         label: item.name,
         value: item.id,
       }));
       setCategories(categoryData);
     } catch (err: any) {
-      message.error(err.response.data.message);
+      message.error(err.response?.data?.message || "Không thể tải danh sách thể loại");
     }
   };
 
   const getAllBrand = async () => {
     try {
-      const data = await axios.get('http://localhost:4000/api/allBrand');
-      let brandData = data.data.map((item: any) => ({
+      const { data } = await axios.get('http://localhost:4000/api/allBrand');
+      const brandData = data.map((item: any) => ({
         label: item.name,
         value: item.id,
       }));
       setBrands(brandData);
     } catch (err: any) {
-      message.error(err.response.data.error);
+      message.error(err.response?.data?.message || "Không thể tải danh sách thương hiệu");
     }
   };
 
@@ -126,205 +132,298 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
     getAllBrand();
   }, []);
 
-  return (
-    <div style={{ borderRadius: '8px' }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px',
-        }}
-      >
-        <h2 style={{ margin: 0 }}>Chỉnh sửa thông tin sản phẩm</h2>
-        <Button
-          type="primary"
-          style={{ backgroundColor: '#73d13d', borderColor: '#52c41a' }}
-          onClick={handleFinish}
-        >
-          <PlusOutlined /> Lưu thay đổi
-        </Button>
-      </div>
+  // Component con
+  const BasicProductInfo = () => (
+    <Card title="Thông tin cơ bản" bordered={false}>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Form.Item
+            name="productName"
+            label="Tên sản phẩm"
+            rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
+          >
+            <Input placeholder="Nhập tên sản phẩm" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="productID"
+            label="Mã sản phẩm"
+            rules={[{ required: true, message: 'Vui lòng nhập mã sản phẩm!' }]}
+          >
+            <Input placeholder="Nhập mã sản phẩm" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="category"
+            label="Thể loại"
+            rules={[{ required: true, message: 'Vui lòng chọn thể loại!' }]}
+          >
+            <Select
+              placeholder="Chọn thể loại"
+              options={categories}
+              mode="multiple"
+              allowClear
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="brand"
+            label="Thương hiệu"
+            rules={[{ required: true, message: 'Vui lòng chọn thương hiệu!' }]}
+          >
+            <Select placeholder="Chọn thương hiệu" options={brands} />
+          </Form.Item>
+        </Col>
+      </Row>
+    </Card>
+  );
 
-      <Form layout="vertical" form={form}>
-        <Row gutter={[16, 16]} align="top">
-          <Col span={8} style={{ textAlign: 'center', paddingTop: '20px' }}>
-            {/* Ảnh chính sản phẩm */}
-            <Form.Item
-              name="productImage"
-              label="Ảnh chính sản phẩm"
-              valuePropName="fileList"
-              getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
-              rules={[{ required: true, message: 'Vui lòng tải lên ảnh chính sản phẩm!' }]}
+  const ProductImages = () => (
+    <Card title="Hình ảnh sản phẩm" bordered={false}>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Form.Item
+            name="productImage"
+            label="Ảnh chính sản phẩm"
+            valuePropName="fileList"
+            getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
+            rules={[{ required: true, message: 'Vui lòng tải lên ảnh chính sản phẩm!' }]}
+          >
+            <Upload
+              name="mainImage"
+              listType="picture-card"
+              fileList={mainImageFileList}
+              onChange={({ fileList }) => setMainImageFileList(fileList)}
+              beforeUpload={() => false}
+              maxCount={1}
             >
-              <Upload
-                name="mainImage"
-                listType="picture-card"
-                fileList={mainImageFileList}
-                onChange={({ fileList }) => setMainImageFileList(fileList)}
-                beforeUpload={() => false}
-                maxCount={1}
-              >
-                {mainImageFileList.length >= 1 ? null : (
-                  <div>
-                    <UploadOutlined />
-                    <div style={{ marginTop: 8 }}>Tải ảnh chính</div>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-
-            {/* Ảnh mô tả sản phẩm */}
-            <Form.Item
+              {mainImageFileList.length >= 1 ? null : (
+                <div>
+                  <UploadOutlined />
+                  <div style={{ marginTop: 8 }}>Tải ảnh chính</div>
+                </div>
+              )}
+            </Upload>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="descriptionImages"
+            label="Ảnh mô tả sản phẩm"
+            valuePropName="fileList"
+            getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
+          >
+            <Upload
               name="descriptionImages"
-              label="Ảnh mô tả sản phẩm"
-              valuePropName="fileList"
-              getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
+              listType="picture-card"
+              fileList={descImageFileList}
+              onChange={({ fileList }) => setDescImageFileList(fileList)}
+              beforeUpload={() => false}
+              multiple
             >
-              <Upload
-                name="descriptionImages"
-                listType="picture-card"
-                fileList={descImageFileList}
-                onChange={({ fileList }) => setDescImageFileList(fileList)}
-                beforeUpload={() => false}
-                multiple
+              {descImageFileList.length >= 3 ? null : (
+                <div>
+                  <UploadOutlined />
+                  <div style={{ marginTop: 8 }}>Tải ảnh mô tả</div>
+                </div>
+              )}
+            </Upload>
+          </Form.Item>
+        </Col>
+      </Row>
+    </Card>
+  );
+
+  const ProductVariants = () => (
+    <Card title="Phiên bản sản phẩm" bordered={false}>
+      <Form.List name="variants">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, ...restField }, index) => (
+              <Card
+                key={key}
+                type="inner"
+                title={`Phiên bản ${index + 1}`}
+                extra={
+                  fields.length > 1 && (
+                    <MinusCircleOutlined
+                      onClick={() => remove(name)}
+                      style={{ color: '#ff4d4f', fontSize: '18px' }}
+                    />
+                  )
+                }
+                style={{ marginBottom: 16 }}
               >
-                {descImageFileList.length >= 3 ? null : (
-                  <div>
-                    <UploadOutlined />
-                    <div style={{ marginTop: 8 }}>Tải ảnh mô tả</div>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-          </Col>
-
-          <Col span={16}>
-            <Row gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  name="productName"
-                  label="Tên sản phẩm"
-                  rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
-                >
-                  <Input placeholder="Nhập tên sản phẩm" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="productID"
-                  label="Mã sản phẩm"
-                  rules={[{ required: true, message: 'Vui lòng nhập mã sản phẩm!' }]}
-                >
-                  <Input placeholder="Nhập mã sản phẩm" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="category"
-                  label="Thể loại"
-                  rules={[{ required: true, message: 'Vui lòng nhập thể loại!' }]}
-                >
-                  <Select
-                    placeholder="Nhập thể loại"
-                    options={categories}
-                    mode="multiple"
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="brand"
-                  label="Thương hiệu"
-                  rules={[{ required: true, message: 'Vui lòng nhập thương hiệu!' }]}
-                >
-                  <Select placeholder="Nhập thương hiệu" options={brands} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="price"
-                  label="Giá tiền"
-                  rules={[{ required: true, message: 'Vui lòng nhập giá tiền!' }]}
-                >
-                  <InputNumber
-                    addonAfter="VNĐ"
-                    style={{ width: '100%' }}
-                    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="quantity"
-                  label="Số lượng trong kho:"
-                  rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
-                >
-                  <InputNumber
-                    style={{ width: '100%' }}
-                    min={0}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-
-        <Form.List name="configurations" initialValue={[{ title: '', info: '' }]}>
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Row key={key} gutter={16} style={{ marginBottom: 16 }}>
+                <Row gutter={[16, 16]}>
                   <Col span={8}>
                     <Form.Item
                       {...restField}
-                      name={[name, 'title']}
-                      rules={[{ required: true, message: 'Vui lòng nhập tiêu đề cấu hình' }]}
-                      label={`Tiêu đề cấu hình ${name + 1}`}
+                      name={[name, 'color']}
+                      label="Màu sắc"
+                      rules={[{ required: true, message: 'Vui lòng nhập màu sắc!' }]}
                     >
-                      <Input placeholder="Nhập tiêu đề cấu hình" />
+                      <Input placeholder="Nhập màu sắc" />
                     </Form.Item>
                   </Col>
-                  <Col span={14}>
+                  <Col span={8}>
                     <Form.Item
                       {...restField}
-                      name={[name, 'info']}
-                      rules={[{ required: true, message: 'Vui lòng nhập thông tin cấu hình' }]}
-                      label={`Thông tin cấu hình ${name + 1}`}
+                      name={[name, 'version']}
+                      label="Phiên bản"
+                      rules={[{ required: true, message: 'Vui lòng nhập phiên bản!' }]}
                     >
-                      <Input placeholder="Nhập thông tin cấu hình" />
+                      <Input placeholder="Nhập phiên bản" />
                     </Form.Item>
                   </Col>
-                  <Col span={2} style={{ display: 'flex', alignItems: 'center', fontSize:"25px", marginTop:"5px" }}>
-                    <MinusCircleOutlined onClick={() => remove(name)} style={{ color: '#ff4d4f' }} />
+                  <Col span={8}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'type']}
+                      label="Loại"
+                      rules={[{ required: true, message: 'Vui lòng nhập loại!' }]}
+                    >
+                      <Input placeholder="Nhập loại" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'price']}
+                      label="Giá"
+                      rules={[{ required: true, message: 'Vui lòng nhập giá!' }]}
+                    >
+                      <InputNumber
+                        style={{ width: '100%' }}
+                        min={0}
+                        formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as any}
+                        addonAfter="VNĐ"
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'quantity']}
+                      label="Số lượng"
+                      rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
+                    >
+                      <InputNumber style={{ width: '100%' }} min={0} />
+                    </Form.Item>
                   </Col>
                 </Row>
-              ))}
-              <Form.Item>
-                <Button 
-                  type="dashed" 
-                  onClick={() => add()} 
-                  block 
-                  icon={<PlusOutlined />}
-                  style={{ maxWidth: 200 }}
-                >
-                  Thêm cấu hình đặc điểm
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+              </Card>
+            ))}
+            <Button
+              type="dashed"
+              onClick={() => add()}
+              block
+              icon={<PlusOutlined />}
+              style={{ marginTop: 16 }}
+            >
+              Thêm phiên bản sản phẩm
+            </Button>
+          </>
+        )}
+      </Form.List>
+    </Card>
+  );
 
-        <Form.Item 
-          name="description" 
-          label="Mô tả sản phẩm"
-          rules={[{ required: true, message: 'Vui lòng nhập mô tả sản phẩm!' }]}
+  const ProductSpecifications = () => (
+    <Card title="Cấu hình đặc điểm" bordered={false}>
+      <Form.List name="specifications">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, ...restField }, index) => (
+              <Row key={key} gutter={16} align="middle" style={{ marginBottom: 16 }}>
+                <Col span={10}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'title']}
+                    rules={[{ required: true, message: 'Vui lòng nhập tiêu đề cấu hình!' }]}
+                  >
+                    <Input placeholder={`Tiêu đề cấu hình ${index + 1}`} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'info']}
+                    rules={[{ required: true, message: 'Vui lòng nhập thông tin cấu hình!' }]}
+                  >
+                    <Input placeholder={`Thông tin cấu hình ${index + 1}`} />
+                  </Form.Item>
+                </Col>
+                <Col span={2}>
+                  {fields.length > 1 && (
+                    <MinusCircleOutlined
+                      onClick={() => remove(name)}
+                      style={{ color: '#ff4d4f', fontSize: '18px' }}
+                    />
+                  )}
+                </Col>
+              </Row>
+            ))}
+            <Button
+              type="dashed"
+              onClick={() => add()}
+              block
+              icon={<PlusOutlined />}
+            >
+              Thêm cấu hình đặc điểm
+            </Button>
+          </>
+        )}
+      </Form.List>
+    </Card>
+  );
+
+  const ProductDescription = () => (
+    <Card title="Mô tả sản phẩm" bordered={false}>
+      <Form.Item name="description" rules={[{ required: true, message: 'Vui lòng nhập mô tả sản phẩm!' }]}>
+        <TextArea rows={6} placeholder="Nhập mô tả chi tiết về sản phẩm..." />
+      </Form.Item>
+    </Card>
+  );
+
+  return (
+    <div style={{ padding: '24px', backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
+      <Card
+        title="Cập nhật thông tin sản phẩm "
+        extra={
+          <Button
+            type="primary"
+            onClick={handleFinish}
+            icon={<EditOutlined/>}
+            style={{ backgroundColor: '#fa541c' }}
+          >
+            Cập nhật sản phẩm
+          </Button>
+        }
+        bordered={false}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={{
+            specifications: [{ title: '', info: '' }],
+            variants: [{ color: '', version: '', type: '', price: 0, quantity: 0 }]
+          }}
         >
-          <TextArea rows={4} placeholder="Nhập mô tả sản phẩm" />
-        </Form.Item>
-      </Form>
+          <BasicProductInfo />
+          <Divider />
+          <ProductImages />
+          <Divider />
+          <ProductVariants />
+          <Divider />
+          <ProductSpecifications />
+          <Divider />
+          <ProductDescription />
+        </Form>
+      </Card>
     </div>
   );
 };
