@@ -40,6 +40,7 @@ const CreateProductManagement: React.FC = () => {
       }
       console.error(err);
     }
+    
   };
 
   const getAllCategories = async () => {
