@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Card } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Card, message } from 'antd';
 import { LeftOutlined, RightOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
+import axios from "axios";
 
 const { Search } = Input;
 
@@ -10,6 +11,8 @@ const HeaderPage = () => {
   const router = useRouter();
   const carouselRef = useRef<CarouselRef>(null);  // Khai báo ref đúng kiểu
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [category, setCategory] = useState<any>([])
+  const [Brand, setBrand] = useState<any>([])
 
   //fake data ở đây
   const categories = [
@@ -30,9 +33,34 @@ const HeaderPage = () => {
   const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
   //fake data over
 
-  const handleLoginclick = () => {
-    router.push('/login'); // Thay 'target-page' bằng đường dẫn bạn muốn
+  const handleLoginClick = () => {
+    router.push('/login');
   };
+
+  const handleRegisterClick = () => {
+    router.push('/register');
+  };
+
+  const popoverContent = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Button
+        color="primary"
+        variant="text"
+        onClick={handleLoginClick}
+        style={{ width: '100%' }}
+      >
+        Đăng nhập
+      </Button>
+      <Button
+        color="default"
+        variant="text"
+        onClick={handleRegisterClick}
+        style={{ width: '100%' }}
+      >
+        Đăng ký
+      </Button>
+    </div>
+  );
 
   const handleCategoryClick = (index: number) => {
     setSelectedCategory(index);
@@ -52,19 +80,48 @@ const HeaderPage = () => {
     }
   };
 
+  const getAllCategory = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allCategory')
+      console.log('count:', data)
+      setCategory(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllCategory();
+  }, [])
+
+  const getAllBrand = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allBrand')
+      console.log('count:', data)
+      setBrand(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllBrand();
+  }, [])
+
+
   const danhmuccontent = (
-    <div style={{ display: 'flex', gap: '16px', maxHeight: '400px', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', gap: '16px', height: '465px', overflow: 'hidden' }}>
       {/* Cột danh mục */}
       <div
         style={{
           maxWidth: '200px',
-          maxHeight: '400px',
+          maxHeight: '465px',
           overflowY: 'auto',
           scrollbarWidth: 'thin',
           scrollbarColor: '#f5f5f5 transparent',
         }}
       >
-        {categories.map((category, index) => (
+        {category.map((category: any, index: any) => (
           <Button
             type="text"
             key={index}
@@ -86,7 +143,7 @@ const HeaderPage = () => {
             onClick={() => handleCategoryClick(index)}
           >
             <img
-              src={category.image}
+              src={category.imageUrl}
               alt={category.name}
               style={{ width: '35px', height: '35px', marginRight: '10px' }}
             />
@@ -94,13 +151,13 @@ const HeaderPage = () => {
           </Button>
         ))}
       </div>
-  
+
       {/* Cột chi tiết */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn
+          maxHeight: '465x',  // Đảm bảo chiều cao giới hạn
           overflowY: 'auto',   // Thêm scroll bar dọc
           backgroundColor: '#f6f9fc',
           flex: 1, // Đây để cột chi tiết chiếm không gian còn lại
@@ -124,93 +181,130 @@ const HeaderPage = () => {
             <ArrowRightOutlined />
           </Button>
         </div>
-  
         {/* Nội dung chính */}
         <div
           style={{
             flex: 1,
             display: 'flex',
+            flexDirection: 'column',
             gap: '16px',
-            overflowY: 'auto',  // Thêm scroll bar dọc cho nội dung
-            scrollbarWidth: 'thin',  // Tùy chỉnh chiều rộng scrollbar
-            scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu scrollbar
+            overflowY: 'auto', // Thêm scroll bar dọc cho nội dung
+            scrollbarWidth: 'thin', // Tùy chỉnh chiều rộng scrollbar
+            scrollbarColor: '#f5f5f5 transparent', // Tùy chỉnh màu scrollbar
             backgroundColor: '#f6f9fc',
             paddingLeft: '20px',
             paddingRight: '20px',
           }}
         >
           {/* Cột Thương hiệu */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Thương hiệu</h4>
-            {brands.map((brand, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  color: 'black',
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {brand}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Thương hiệu</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {Brand.map((Brand: any, index: any) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    color: 'black',
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {Brand.name}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
-  
+
           {/* Cột Khoảng giá */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Khoảng giá</h4>
-            {priceRanges.map((range, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {range}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Khoảng giá</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {priceRanges.map((range, index) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {range}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
-  
+
           {/* Cột Nhu cầu */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Nhu cầu</h4>
-            {needs.map((need, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {need}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Nhu cầu</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {needs.map((need, index) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {need}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
+
         </div>
       </div>
-  
+
       {/* Cột ngoài cùng bên phải chứa 4 thẻ */}
       <div
         style={{
@@ -219,7 +313,7 @@ const HeaderPage = () => {
           gap: '16px',
           maxWidth: '250px',
           backgroundColor: 'white',
-          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn cho cột ngoài cùng
+          maxHeight: '465px',  // Đảm bảo chiều cao giới hạn cho cột ngoài cùng
           overflowY: 'auto',   // Thêm scroll bar dọc cho cột này
           scrollbarWidth: 'thin',  // Thêm thuộc tính scroll bar tương tự
           scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu cho scroll bar
@@ -243,7 +337,8 @@ const HeaderPage = () => {
         </div>
       </div>
     </div>
-  )  
+  )
+  
   return (
     <>
       {/* Header chính */}
@@ -343,9 +438,21 @@ const HeaderPage = () => {
             </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' shape='circle' size='large' variant='filled' style={{ marginRight: '10px' }}  onClick={handleLoginclick}>
-              <img src="/icon/user.png" alt="" style={{ width: 15 }} />
-            </Button>
+            <Popover
+              content={popoverContent}
+              trigger="click" // Hiện popover khi click
+              placement="bottom" // Định vị popover ở góc phải dưới
+            >
+              <Button
+                color="default"
+                shape="circle"
+                size="large"
+                variant="filled"
+                style={{ marginRight: '10px' }}
+              >
+                <img src="/icon/user.png" alt="" style={{ width: 15 }} />
+              </Button>
+            </Popover>
           </Col>
           <Col span={1} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
             <Button color='default' shape='circle' size='large' variant='filled' onClick={() => { router.push('/shoppingCart') }}>
@@ -385,7 +492,7 @@ const HeaderPage = () => {
               slidesToScroll={5}
               infinite={false}
             >
-              {categories.map((category, index) => (
+              {category.map((category: any, index: any) => (
                 <div
                   key={index}
                   style={{
@@ -422,7 +529,7 @@ const HeaderPage = () => {
                     >
                       {/* Thêm ảnh nhỏ trước text */}
                       <img
-                        src={category.image}  // Đường dẫn đến ảnh cho mỗi danh mục
+                        src={category.imageUrl}  // Đường dẫn đến ảnh cho mỗi danh mục
                         alt={category.name}   // Thêm alt text cho ảnh
                         style={{ width: '45px', marginRight: '8px' }} // Đặt kích thước ảnh và khoảng cách với text
                       />

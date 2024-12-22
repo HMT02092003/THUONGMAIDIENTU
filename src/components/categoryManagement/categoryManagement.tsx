@@ -72,14 +72,14 @@ const CategoryManagement = () => {
     if (selectedUsers.length === 0) {
       Modal.warning({
         title: 'Cảnh báo',
-        content: 'Vui lòng chọn ít nhất một người dùng để xóa.',
+        content: 'Vui lòng chọn ít nhất một danh mục để xóa.',
       });
       return;
     }
 
     Modal.confirm({
       title: 'Xác nhận xóa',
-      content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} người dùng đã chọn?`,
+      content: `Bạn có chắc chắn muốn xóa ${selectedUsers.length} danh mục đã chọn?`,
       onOk: async () => {
         try {
           const deleteUser = await axios.delete('http://localhost:4000/api/deleteCategory', {
@@ -92,13 +92,13 @@ const CategoryManagement = () => {
 
           Modal.success({
             title: 'Thành công',
-            content: 'Đã xóa người dùng thành công.',
+            content: 'Đã xóa danh mục thành công.',
           });
         } catch (error) {
           console.error('Error deleting users:', error);
           Modal.error({
             title: 'Lỗi',
-            content: 'Có lỗi xảy ra khi xóa người dùng. Vui lòng thử lại.',
+            content: 'Có lỗi xảy ra khi xóa danh mục. Vui lòng thử lại.',
           });
         }
       },

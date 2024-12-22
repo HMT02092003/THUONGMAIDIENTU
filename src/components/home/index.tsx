@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message } from "antd";
 import {
   CheckCircleFilled,
   FacebookOutlined,
@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Color } from "antd/es/color-picker";
 import { CarouselRef } from 'antd/es/carousel';
+import axios from "axios";
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -19,24 +20,8 @@ const App: React.FC = () => {
   const carouselRef = useRef<CarouselRef>(null);
   const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
   const titleStyle = { fontSize: "15px", marginBottom: "8px" };
-  const buttons = [
-    { id: 1, image: "/icon/laptop.png", text: "Laptop" },
-    { id: 2, image: "/icon/banphim.png", text: "Bàn phím" },
-    { id: 3, image: "/icon/amthanh.png", text: "Ghế gaming" },
-    { id: 4, image: "/icon/bannangha.png", text: "Bàn nâng hạ" },
-    { id: 5, image: "/icon/manhinh.png", text: "màn hình" },
-    { id: 6, image: "/icon/phukien.png", text: "Phụ kiện" },
-    { id: 7, image: "/icon/thucteao.png", text: "Thực tế ảo" },
-    { id: 8, image: "/icon/balo,tui.png", text: "Balo, túi" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-  ];
+
+  const [category, setCategory] = useState<any>([])
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -76,6 +61,20 @@ const App: React.FC = () => {
     }
   };
 
+  const getAllCategory = async () => {
+    try {
+      const data=await axios.get('http://localhost:4000/api/allCategory')
+      console.log('count:',data)
+      setCategory(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  useEffect(()=>{
+    getAllCategory();
+  },[])
+
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
@@ -95,8 +94,8 @@ const App: React.FC = () => {
           <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
               <Row gutter={[16, 16]} justify="center">
-                {buttons.map((button, index) => (
-                  <Col key={button.id} xs={6} sm={6} md={3}>
+                {category.map((category:any, index:any) => (
+                  <Col key={category.id} xs={6} sm={6} md={3}>
                     <ConfigProvider
                       theme={{
                         components: {
@@ -124,11 +123,11 @@ const App: React.FC = () => {
                         }}
                       >
                         <img
-                          src={button.image}
-                          alt={button.text}
+                          src={category.imageUrl}
+                          alt={category.name}
                           style={{ width: "103px", height: "103px", marginBottom: "8px" }}
                         />
-                        <span>{button.text}</span>
+                        <span>{category.name}</span>
                       </Button>
                     </ConfigProvider>
                   </Col>
@@ -202,7 +201,7 @@ const App: React.FC = () => {
         </div>
         <div style={{ width: '1200px', height: '196px', marginTop: '3rem' }}>
           <Row>
-            <span style={{ fontSize: 28, fontWeight: 600 }}>Gợi ý cho bạn</span>
+            <span style={{ fontSize: 28, fontWeight: 600 }}></span>
             <Row>
               <span style={{ fontSize: 28, fontWeight: 600 }}>Gợi ý cho bạn</span>
             </Row>
@@ -233,7 +232,7 @@ const App: React.FC = () => {
                         { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
                       ]}
                     >
-                      {categories.map((category, index) => (
+                      {category.map((category:any, index:any) => (
                         <div
                           key={index}
                           style={{
