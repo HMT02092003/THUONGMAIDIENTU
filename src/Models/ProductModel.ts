@@ -2,19 +2,21 @@ import { Model } from 'objection';
 import Brand from './BrandModel';
 import Category from './CategoryModel';
 import OrderDetail from './OrderDetailModel';
+import { version } from 'os';
 
 class Product extends Model {
   id?: number;
   name?: string;
   productId?: string;
   brandId?: number;
-  price?: number;
-  quantity?: number;
+  variants?: object;
   description?: string;
   specifications?: object;
+  tagName?: string;
   imageUrl?: object;
   createdAt?: string;
   updatedAt?: string;
+  productImage?: string;
     
 
   static get idColumn() {
@@ -28,16 +30,17 @@ class Product extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'brandId', 'price', 'productId'],
+      required: ['name', 'brandId', 'productId'],
       properties: {
         id: { type: 'integer' },
         name: { type: 'string', maxLength: 255 },
         productId: { type: 'string', maxLength: 255 },
         brandId: { type: 'integer' },
-        price: { type: 'number' },
-        quantity: { type: 'integer' },
+        variants : { type: ['object','array', 'null'] },
+        tagName: { type: ['string', 'null'] },
         description: { type: ['string', 'null'] },
         specifications: { type: ['object','array','null'] },
+        productImage: { type: ['object', "string", 'null'] },
         imageUrl: { type: ['object', 'null'] },
         createdAt: { type: 'string', format: 'date-time' },
         updatedAt: { type: 'string', format: 'date-time' }

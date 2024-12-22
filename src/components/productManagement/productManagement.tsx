@@ -94,18 +94,28 @@ const ProductManagement: React.FC = () => {
       render: (brand: any) => brand ? brand.name : 'N/A',
     },
     {
-      title: 'Giá',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Màu',
+      dataIndex: 'variants',
+      key: ' variants',
       align: 'center',
       width: "20%",
+      render: (variants: any) => variants.map((variants: any) => {
+        const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return <Tag color={randomColor} key={variants.version}>{variants.color}</Tag>;
+      }),
     },
     {
-      title: 'Số lượng',
-      dataIndex: 'quantity',
+      title: 'Loại hàng',
+      dataIndex: 'variants',
       align: 'center',
-      key: 'quantity',
+      key: 'variants',
       width: "15%",
+      render: (variants: any) => variants.map((variants: any) => {
+        const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return <Tag color={randomColor} key={variants.version}>{variants.type}</Tag>;
+      }),
     },
     {
       title: 'Mô tả',
