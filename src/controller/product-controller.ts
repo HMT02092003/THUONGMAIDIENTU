@@ -59,6 +59,7 @@ export const createProduct = async (req: Request, res: Response) => {
             brandId: parseInt(dataAfterParse.brand, 10),
             variants: dataAfterParse.variants,
             specifications: dataAfterParse.specifications,
+            tagName: dataAfterParse.tagName,
             productImage: productImage, // Ảnh chính sản phẩm
             imageUrl: imageUrls, // Ảnh mô tả sản phẩm
             createdAt: new Date().toISOString(),
@@ -237,6 +238,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             brandId: dataAfterParse.brand ? parseInt(dataAfterParse.brand, 10) : existingProduct.brandId,
             variants : dataAfterParse.variants || existingProduct.variants,
             specifications: dataAfterParse.configurations || existingProduct.specifications,
+            tagName: dataAfterParse.tagName || existingProduct.tagName,
             productImage: productImage,
             imageUrl: imageUrls,
             updatedAt: new Date().toISOString(),

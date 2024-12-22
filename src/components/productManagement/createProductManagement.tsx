@@ -118,6 +118,15 @@ const CreateProductManagement: React.FC = () => {
             <Select placeholder="Chọn thương hiệu" options={brands} />
           </Form.Item>
         </Col>
+        <Col span={12}>
+          <Form.Item
+            name="tagName"
+            label="Tag sản phẩm"
+            rules={[{ required: true, message: 'Vui lòng chọn tag sản phẩm!' }]}
+          >
+            <Input placeholder="Nhập tag snar phẩm" />
+          </Form.Item>
+        </Col>
       </Row>
     </Card>
   );
@@ -165,7 +174,7 @@ const CreateProductManagement: React.FC = () => {
               beforeUpload={() => false}
               multiple
             >
-              {descImageFileList.length >= 3 ? null : (
+              {descImageFileList.length >= 4 ? null : (
                 <div>
                   <UploadOutlined />
                   <div style={{ marginTop: 8 }}>Tải ảnh mô tả</div>
@@ -226,7 +235,12 @@ const CreateProductManagement: React.FC = () => {
                       label="Loại"
                       rules={[{ required: true, message: 'Vui lòng nhập loại!' }]}
                     >
-                      <Input placeholder="Nhập loại" />
+                      <Select placeholder="Nhập loại" 
+                      options={[
+                        { value: 'Chính hãng ', label: 'Chính hãng' },
+                        { value: 'Xách tay', label: 'Xách tay' },
+                      ]}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={12}>

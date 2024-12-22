@@ -177,6 +177,15 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
             <Select placeholder="Chọn thương hiệu" options={brands} />
           </Form.Item>
         </Col>
+        <Col span={12}>
+          <Form.Item
+            name="tagName"
+            label="Tag sản phẩm"
+            rules={[{ required: true, message: 'Vui lòng chọn tag sản phẩm!' }]}
+          >
+            <Input placeholder="Nhập tag snar phẩm" />
+          </Form.Item>
+        </Col>
       </Row>
     </Card>
   );
@@ -224,7 +233,7 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
               beforeUpload={() => false}
               multiple
             >
-              {descImageFileList.length >= 3 ? null : (
+              {descImageFileList.length >= 4 ? null : (
                 <div>
                   <UploadOutlined />
                   <div style={{ marginTop: 8 }}>Tải ảnh mô tả</div>
@@ -397,7 +406,7 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
           <Button
             type="primary"
             onClick={handleFinish}
-            icon={<EditOutlined/>}
+            icon={<EditOutlined />}
             style={{ backgroundColor: '#fa541c' }}
           >
             Cập nhật sản phẩm

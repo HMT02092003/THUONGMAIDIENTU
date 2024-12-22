@@ -12,6 +12,7 @@ class Product extends Model {
   variants?: object;
   description?: string;
   specifications?: object;
+  tagName?: string;
   imageUrl?: object;
   createdAt?: string;
   updatedAt?: string;
@@ -36,6 +37,7 @@ class Product extends Model {
         productId: { type: 'string', maxLength: 255 },
         brandId: { type: 'integer' },
         variants : { type: ['object','array', 'null'] },
+        tagName: { type: ['string', 'null'] },
         description: { type: ['string', 'null'] },
         specifications: { type: ['object','array','null'] },
         productImage: { type: ['object', "string", 'null'] },
