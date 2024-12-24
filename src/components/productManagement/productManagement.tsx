@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Space, Table, Tag, Button } from 'antd';
+import { Space, Table, Tag, Button, Modal } from 'antd';
 import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
@@ -10,15 +10,16 @@ import type { TableColumnsType, TableProps } from 'antd';
 const ProductManagement: React.FC = () => {
   const router = useRouter();
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
-  const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<React.Key[]>([]);
   const [data, setData] = useState<any>([]);
+  const [productData, setProductData] = useState<any[]>([]);
   console.log(data);
 
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      setSelectedUsers(selectedRowKeys);
+      setSelectedProducts(selectedRowKeys);
     },
     getCheckboxProps: (record: any) => ({
       disabled: record.name === 'Disabled User',
@@ -93,18 +94,28 @@ const ProductManagement: React.FC = () => {
       render: (brand: any) => brand ? brand.name : 'N/A',
     },
     {
-      title: 'Giá',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Màu',
+      dataIndex: 'variants',
+      key: ' variants',
       align: 'center',
       width: "20%",
+      render: (variants: any) => variants.map((variants: any) => {
+        const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return <Tag color={randomColor} key={variants.version}>{variants.color}</Tag>;
+      }),
     },
     {
-      title: 'Số lượng',
-      dataIndex: 'quantity',
+      title: 'Loại hàng',
+      dataIndex: 'variants',
       align: 'center',
-      key: 'quantity',
+      key: 'variants',
       width: "15%",
+      render: (variants: any) => variants.map((variants: any) => {
+        const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        return <Tag color={randomColor} key={variants.version}>{variants.type}</Tag>;
+      }),
     },
     {
       title: 'Mô tả',
@@ -114,38 +125,48 @@ const ProductManagement: React.FC = () => {
       width: "200px",
     },
   ];
+
+  const handleDelete = () => {
+    if (selectedProducts.length === 0) {
+      Modal.warning({
+        title: 'Cảnh báo',
+        content: 'Vui lòng chọn ít nhất một người dùng để xóa.',
+      });
+      return;
+    }
+
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc chắn muốn xóa ${selectedProducts.length} sản phẩm đã chọn?`,
+      onOk: async () => {
+        try {
+          const deleteProduct = await axios.delete('http://localhost:4000/api/deleteProduct', {
+            data: { ids: selectedProducts },
+          });
+
+          setProductData(prevData => prevData.filter(product => !selectedProducts.includes(product.id)));
+          setSelectedProducts([]);
+
+          Modal.success({
+            title: 'Thành công',
+            content: 'Đã xóa người dùng thành công.',
+          });
+
+          getAllProduct();
+        } catch (error) {
+          console.error('Error deleting users:', error);
+          Modal.error({
+            title: 'Lỗi',
+            content: 'Có lỗi xảy ra khi xóa người dùng. Vui lòng thử lại.',
+          });
+        }
+      },
+    });
+  };
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-        <Button
-          type="primary"
-          // onClick={importExcel}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#722ed1",
-            margin: "0 5px"
-          }}
-        >
-          <CloudUploadOutlined />
-          Nhập excel
-        </Button>
-
-        <Button
-          type="primary"
-          // onClick={exportExcel}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#4096ff",
-            margin: "0 5px"
-          }}
-        >
-          <CloudDownloadOutlined />
-          Xuất excel
-        </Button>
 
         <Button type="primary"
           onClick={() => router.push('/productManagement/create')}
@@ -163,7 +184,7 @@ const ProductManagement: React.FC = () => {
 
         <Button
           type="primary"
-          // onClick={handleDelete}
+          onClick={handleDelete}
           style={{
             display: "flex",
             justifyContent: 'center',
