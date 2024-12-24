@@ -119,24 +119,26 @@ const Profile: React.FC = () => {
 
   return (
     <Layout>
-      {/* Sidebar */}
-      <Sider theme="light" width={250}>
-        <Menu
-          mode="vertical"
-          defaultSelectedKeys={["1"]}
-          selectedKeys={[selectedMenu]}
-          onClick={({ key }) => setSelectedMenu(key)}
-        >
-          <Menu.Item key="1" icon={<UserOutlined />}>Thông tin tài khoản</Menu.Item>
-          <Menu.Item key="2" icon={<HistoryOutlined />}>Lịch sử đơn hàng</Menu.Item>
-          <Menu.Item key="3" icon={<EnvironmentOutlined />}>Sổ địa chỉ</Menu.Item>
-          <Menu.Item key="4" icon={<LogoutOutlined />}>Đăng xuất</Menu.Item>
-        </Menu>
-      </Sider>
+      {/* Sidebar được bọc trong khung */}
+      <div style={{ border: "2px solid #1890ff", borderRadius: "8px", padding: "10px", background: "#fff" }}>
+        <Sider theme="light" width={250}>
+          <Menu
+            mode="vertical"
+            defaultSelectedKeys={["1"]}
+            selectedKeys={[selectedMenu]}
+            onClick={({ key }) => setSelectedMenu(key)}
+          >
+            <Menu.Item key="1" icon={<UserOutlined />}>Thông tin tài khoản</Menu.Item>
+            <Menu.Item key="2" icon={<HistoryOutlined />}>Lịch sử đơn hàng</Menu.Item>
+            <Menu.Item key="3" icon={<EnvironmentOutlined />}>Sổ địa chỉ</Menu.Item>
+            <Menu.Item key="4" icon={<LogoutOutlined />}>Đăng xuất</Menu.Item>
+          </Menu>
+        </Sider>
+      </div>
 
       {/* Nội dung */}
       <Layout>
-        <Content style={{ padding: "20px" }}>
+        <Content style={{ padding: "20px", backgroundColor: "#ffffff" }}>
           {/* Thông tin tài khoản */}
           {selectedMenu === "1" && (
             <>

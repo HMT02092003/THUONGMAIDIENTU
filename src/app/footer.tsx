@@ -2,10 +2,14 @@ import React from "react";
 import { Layout, Row, Col, Typography, Button, Space, Card } from "antd";
 import { FacebookOutlined, YoutubeOutlined, TikTokOutlined } from "@ant-design/icons";
 import "./footer.css"; // Import file CSS
+import {useRouter} from "next/navigation"
+
 
 const { Title, Text, Link } = Typography;
 
 const App: React.FC = () => {
+  const router = useRouter()
+ 
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -88,8 +92,9 @@ const App: React.FC = () => {
             Thông tin hữu ích
           </Title>
           <div>
-            <div>
+            <div onClick={() => router.push('/warrantypolicy')}>
               <img src="/icon/check.png" className="icon" /> Chính sách bảo hành
+              
             </div>
             <div>
               <img src="/icon/transfer.png" className="icon" /> Chính sách đổi trả
