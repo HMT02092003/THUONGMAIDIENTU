@@ -3,14 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { Card, Col, Row, Typography, Divider, Tag, Button, Spin, message } from 'antd';
 import { TagOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { add } from 'lodash';
+import { useRouter } from 'next/navigation';
 
 const { Title, Text } = Typography;
 
 const ProductDetail: React.FC<any> = ({ id }) => {
+  const router = useRouter();
   const [mainImage, setMainImage] = useState('');
   const [productData, setProductData] = useState<any>(null);
   const [selectedType, setSelectedType] = useState<any>(null);
   console.log(selectedType);
+
 
   // Fake API call
   useEffect(() => {
@@ -23,42 +27,6 @@ const ProductDetail: React.FC<any> = ({ id }) => {
       } catch (error: any) {
         message.error(error.response?.data?.message)
       }
-
-      // const response = await new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve({
-      //       name: 'Dell Inspiron 16 5630',
-      //       sku: 'Inspiron1656300',
-      //       price: 15990000,
-      //       options: ['i5 1340P, 16GB, 512GB, FHD+'],
-      //       color: 'Platinum Silver',
-      //       status: 'Mới, Sealed, Nhập khẩu',
-      //       gift: 'Chuột không dây M3 199.000đ',
-      //       thumbnails: [
-      //         'https://imagor.owtg.one/unsafe/fit-in/1000x1000/filters:quality(100)/https://d28jzcg6y4v9j1.cloudfront.net/media/core/products/2023/3/14/in5630nt-cnb-00060rb055-sl.jpg',
-      //         'https://imagor.owtg.one/unsafe/fit-in/200x200/filters:quality(100)/https://d28jzcg6y4v9j1.cloudfront.net/media/core/products/2023/3/14/in5630nt-cnb-00000ff090-sl.jpg',
-      //         'https://imagor.owtg.one/unsafe/fit-in/200x200/filters:quality(100)/https://d28jzcg6y4v9j1.cloudfront.net/media/core/products/2023/3/14/in5630nt-cnb-90000td090-sl-fpr.jpg',
-      //       ],
-      //       specs:
-      //         'CPU: Intel Core i5 1340P, 12C/16T; Speed: 1.0GHz, lên tới 4.6GHz; Cache: 12MB; Graphics: Intel Iris Xe Graphics; RAM: 16GB LPDDR5 5200MHz; Storage: 512GB SSD (M.2 NVMe); Upgrade: Không hỗ trợ nâng cấp',
-      //       description: `
-      //         Dell Inspiron 16 5630 là một lựa chọn tuyệt vời dành cho những người dùng đang tìm kiếm một chiếc laptop văn phòng với hiệu năng vượt trội và thiết kế hiện đại. 
-      //         Với bộ vi xử lý Intel Core i5 thế hệ 13, máy đáp ứng tốt nhu cầu làm việc từ cơ bản đến nâng cao, từ việc chỉnh sửa tài liệu đến các tác vụ đồ họa nhẹ.
-      //         Điểm nổi bật của sản phẩm là màn hình FHD+ 16 inch, mang lại trải nghiệm hình ảnh sắc nét và không gian làm việc rộng rãi, lý tưởng cho các ứng dụng đa nhiệm hoặc giải trí.
-
-      //         Thiết kế của máy được hoàn thiện với lớp vỏ Platinum Silver cao cấp, mang đến cảm giác chắc chắn và chuyên nghiệp. Cấu hình mạnh mẽ với RAM 16GB LPDDR5 và ổ SSD 512GB NVMe giúp khởi động nhanh, chạy mượt các ứng dụng nặng, và có khả năng lưu trữ dữ liệu lớn.
-
-      //         Ngoài ra, chiếc laptop này được trang bị bàn phím gõ êm, touchpad nhạy, cùng công nghệ Intel Iris Xe Graphics hỗ trợ các nhu cầu thiết kế đồ họa cơ bản hoặc chơi các tựa game nhẹ. Với cân nặng chỉ khoảng 1.8kg, Dell Inspiron 16 5630 là người bạn đồng hành lý tưởng cho công việc và học tập.
-
-      //         Khi mua hàng, khách hàng sẽ được tặng kèm chuột không dây M3 trị giá 199.000đ, giúp trải nghiệm sử dụng trở nên tiện lợi hơn bao giờ hết. Sản phẩm có sẵn hàng với chế độ bảo hành chính hãng 12 tháng và dịch vụ hỗ trợ kỹ thuật nhanh chóng.
-      //       `,
-      //     });
-      //   }, 1000); // Giả lập độ trễ 1s
-      // });
-      // setProductData(response);
-      // setMainImage(
-      //   'https://imagor.owtg.one/unsafe/fit-in/1000x1000/filters:quality(100)/https://d28jzcg6y4v9j1.cloudfront.net/media/core/products/2023/3/14/in5630nt-cnb-00055rf110-sl.jpg'
-      // );
     };
 
     fetchProductData();
@@ -66,7 +34,31 @@ const ProductDetail: React.FC<any> = ({ id }) => {
 
   if (!productData) return <div><Spin /></div>;
 
-  // const specsArray = productData.specs.split(';').map((spec: string) => spec.trim());
+  const addProductToCart = () => {
+    try {
+      let cartData: any = localStorage.getItem('cart');
+
+      if (!cartData) {
+        cartData = [];
+      } else {
+        cartData = JSON.parse(cartData);
+      }
+
+      const existingProductIndex = cartData.findIndex((item: any) => item.id === productData.id);
+      if (existingProductIndex !== -1) {
+        cartData[existingProductIndex].quantity += 1;
+      } else {
+        cartData.push({ ...productData, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cartData));
+
+      message.success("Sản phẩm đã được thêm vào giỏ hàng");
+    } catch (error: any) {
+      message.error("Lỗi trong quá trình thêm sản phẩm vào giỏ hàng");
+    }
+  };
+
 
   return (
     <div style={{ padding: '20px' }}>
@@ -85,7 +77,7 @@ const ProductDetail: React.FC<any> = ({ id }) => {
           {/* Hình ảnh phụ */}
           <Row gutter={[8, 8]} style={{ marginTop: '16px' }}>
             {Object.keys(productData.imageUrl).map((key: any) => (
-              <Col span={6}>
+              <Col span={6} key={key}>
                 <img
                   alt={productData.name}
                   src={`http://localhost:4000/${productData.imageUrl[key]}`}
@@ -139,23 +131,23 @@ const ProductDetail: React.FC<any> = ({ id }) => {
               <Text type="secondary">MSP: {productData.productId}</Text>
               <Divider />
               <Title level={5}>Phiên bản ( Chọn phiên bản )</Title>
-              {productData.variants.map((item: any) => {
+              {productData.variants.map((item: any, index: number) => {
                 return (
-                  <Tag color='blue' style={{ fontSize: '16px', padding: '5px 10px', cursor: 'pointer' }} onClick={() => setSelectedType(item.price)}>{item.version}</Tag>
+                  <Tag key={`version-${item.version}-${index}`} color='blue' style={{ fontSize: '16px', padding: '5px 10px', cursor: 'pointer' }} onClick={() => setSelectedType(item.price)}>{item.version}</Tag>
                 )
               })}
               <br />
               <Title level={5}>Màu</Title>
-              {productData.variants.map((item: any) => {
+              {productData.variants.map((item: any, index: number) => {
                 return (
-                  <Tag color='lime' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.color}</Tag>
+                  <Tag key={`color-${item.color}-${index}`} color='lime' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.color}</Tag>
                 )
               })}
               <br />
               <Title level={5}>Loại hàng</Title>
-              {productData.variants.map((item: any) => {
+              {productData.variants.map((item: any, index: number) => {
                 return (
-                  <Tag color='volcano' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.type}</Tag>
+                  <Tag key={`type-${item.type}-${index}`} color='volcano' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.type}</Tag>
                 )
               })}
               <Divider />
@@ -172,13 +164,18 @@ const ProductDetail: React.FC<any> = ({ id }) => {
               <Divider />
               <Row gutter={[16, 0]}>
                 <Col span={12}>
-                  <Button style={{ width: "100%", height: "40px", backgroundColor: "#69c0ff", color: "white", fontWeight: "bold" }}>
+                  <Button style={{ width: "100%", height: "40px", backgroundColor: "#69c0ff", color: "white", fontWeight: "bold" }} onClick={() => addProductToCart()}>
                     Thêm vào giỏ
                   </Button>
                 </Col>
 
                 <Col span={12}>
-                  <Button style={{ width: "100%", height: "40px", backgroundColor: "#ff4d4f", fontWeight: "bold", color: "white" }}>
+                  <Button
+                    style={{ width: "100%", height: "40px", backgroundColor: "#ff4d4f", fontWeight: "bold", color: "white" }}
+                    onClick={() => {
+                      addProductToCart()
+                      router.push('/shoppingCart')
+                    }}>
                     Mua ngay
                   </Button>
                 </Col>

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from "react";
-import { Button, Card, Col, Empty, Row, Typography, Image } from "antd";
-import { ShoppingCartOutlined, MinusOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import React, { use, useState, useEffect } from "react";
+import { Button, Card, Col, Empty, Row, Typography, Image, message } from "antd";
+import { ShoppingCartOutlined, MinusOutlined, PlusOutlined, DeleteOutlined, DollarOutlined } from "@ant-design/icons";
 import "./ShoppingCart.css";
 
 const { Title } = Typography;
@@ -26,6 +26,47 @@ const initialCartData: CartItem[] = [
 
 const ShoppingCart: React.FC = () => {
   const [cartData, setCartData] = useState<CartItem[]>(initialCartData);
+  const [mainImage, setMainImage] = useState('');
+  const [productData, setProductData] = useState<any[]>([]);
+  const [paymentMethod, setPaymentMethod] = useState<boolean>(false);
+
+  console.log("productData", productData);
+
+  const fetchProductData = async () => {
+    try {
+      const storedData = localStorage.getItem('cart'); // Lấy dữ liệu từ localStorage
+      if (!storedData) {
+        throw new Error("No product data found in cart");
+      }
+
+      const parsedData = JSON.parse(storedData); // Chuyển chuỗi JSON thành object
+
+      const transformedData = parsedData.map((product: any) => ({
+        id: product.id,
+        name: product.name,
+        price: product.variants[0]?.price || 0,
+        quantity: product.quantity || 1,
+        image: product.productImage,
+        version: product.variants[0]?.version || 'N/A',
+        color: product.variants[0]?.color || 'N/A',
+        productType: product.categories[0]?.name || 'Unknown',
+      }));
+
+      setCartData(transformedData);
+    } catch (error: any) {
+      // Kiểm tra lỗi và hiển thị thông báo
+      if (error instanceof SyntaxError) {
+        message.error("Failed to parse product data. Invalid format in localStorage.");
+      } else {
+        message.error(error.message || "An unknown error occurred.");
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    fetchProductData();
+  }, []);
 
   // Tính tổng tiền
   const totalPrice = cartData.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -34,7 +75,7 @@ const ShoppingCart: React.FC = () => {
   // Hàm xử lý tăng số lượng sản phẩm
   const increaseQuantity = (id: number) => {
     setCartData(
-      cartData.map(item =>
+      productData.map(item =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
@@ -43,7 +84,7 @@ const ShoppingCart: React.FC = () => {
   // Hàm xử lý giảm số lượng sản phẩm
   const decreaseQuantity = (id: number) => {
     setCartData(
-      cartData.map(item =>
+      productData.map(item =>
         item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
       )
     );
@@ -90,7 +131,7 @@ const ShoppingCart: React.FC = () => {
 
                   {/* Giá sản phẩm */}
                   <p style={{ color: "red", textAlign: "right", fontWeight: "bold", marginBottom: 4 }}>
-                    Giá: {item.price.toLocaleString()} đ
+                    Giá: {Number(item.price).toLocaleString()} đ
                   </p>
 
                   {/* Khung chứa tăng/giảm số lượng */}
@@ -126,10 +167,38 @@ const ShoppingCart: React.FC = () => {
           <Title level={5}>Tóm tắt đơn hàng</Title>
           <p>Tạm tính: {totalPrice.toLocaleString()} đ</p>
           <p style={{ fontWeight: "bold" }}>Tổng cộng: {totalPriceWithVAT.toLocaleString()} đ</p>
-          <Button type="primary" block disabled={totalPrice === 0}>
+          <Button type="primary" block disabled={totalPrice === 0} onClick={() => setPaymentMethod(true)}>
             Đặt hàng
           </Button>
         </Card>
+
+        <br />
+
+        {paymentMethod == true && (
+          <Card bordered={false} title="Chọn hình thức thanh toán">
+            <Button type="primary" block style={{ marginBottom: "8px", backgroundColor: "#73d13d" }} onClick={() => console.log("Thanh toán khi nhận hàng")}>
+              <DollarOutlined />Thanh toán khi nhận hàng
+            </Button>
+            <Button.Group style={{ width: '100%', display: 'flex' }}>
+              <Button
+                type="primary"
+                block
+                style={{ backgroundColor: '#005BAA' }}
+                onClick={() => console.log("Thanh toán qua VNPay")}
+              >
+                VNPay
+              </Button>
+              <Button
+                type="primary"
+                block
+                style={{ backgroundColor: '#AF2070' }}
+                onClick={() => console.log("Thanh toán qua MoMo")}
+              >
+                MoMo
+              </Button>
+            </Button.Group>
+          </Card>
+        )}
       </Col>
     </Row>
   );
