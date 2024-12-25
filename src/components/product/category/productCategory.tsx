@@ -26,6 +26,7 @@ const fakeData: Laptop[] = [
     imageUrl: "https://via.placeholder.com/200",
     tags: ["Core i7", "16GB RAM", "SSD 512GB"],
   },
+
   {
     id: 2,
     name: "Dell Inspiron 15 5630",
@@ -154,6 +155,9 @@ const fakeData: Laptop[] = [
   },
 ];
 
+// Dữ liệu mô phỏng mô tả
+const fakeDescription = "Laptop là một thiết bị máy tính có kích thước nhỏ gọn và di động. Nó được thiết kế để sử dụng trong các hoạt động làm việc, giải trí hoặc học tập khi di chuyển mà không cần phải sử dụng những chiếc máy tính để bàn cồng kềnh.";
+
 const brands = [
   "Lenovo", "Dell", "Asus", "HP", "Acer", "MSI", "LG", "Apple", "Microsoft",
   "GIGABYTE", "Razer", "Samsung", "HUAWEI", "AVITA", "VAIO", "Colorful", "Xiaomi"
@@ -164,13 +168,12 @@ const LaptopPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [visibleItems, setVisibleItems] = useState(12);
 
+  // Hàm giả lập gọi API và nhận dữ liệu mô tả
   const fetchDescription = async (): Promise<void> => {
     setTimeout(() => {
-      setDescription(
-        "Laptop là một thiết bị máy tính có kích thước nhỏ gọn và di động. Nó được thiết kế để sử dụng trong các hoạt động làm việc, giải trí hoặc học tập khi di chuyển mà không cần phải sử dụng những chiếc máy tính để bàn cồng kềnh."
-      );
+      setDescription(fakeDescription); // Thay vì lấy từ API, gán trực tiếp fake data
       setLoading(false);
-    }, 1000);
+    }, 1000); // Giả lập thời gian trễ khi gọi API
   };
 
   useEffect(() => {
@@ -187,20 +190,22 @@ const LaptopPage: React.FC = () => {
       <div style={{ marginBottom: "20px" }}>
         <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
           <Title level={2}>Laptop</Title>
-          <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
-            Laptop là một thiết bị máy tính có kích thước nhỏ gọn và di động. Nó được thiết kế để sử dụng
-            trong các hoạt động làm việc, giải trí hoặc học tập khi di chuyển mà không cần phải sử dụng
-            những chiếc máy tính để bàn cồng kềnh.
-          </Paragraph>
+          {loading ? (
+            <Spin size="large" />
+          ) : (
+            <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
+              {description}
+            </Paragraph>
+          )}
           <Carousel
             autoplay
             dots={false}
             slidesToShow={8}
             arrows
-            style={{ padding: "0 10px"}} // Giảm padding chung của carousel
+            style={{ padding: "0 10px" }} // Giảm padding chung của carousel
           >
             {brands.map((brand, index) => (
-              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}> {/* Giảm padding giữa các item */}
+              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}>
                 <Tag
                   style={{
                     fontSize: "14px", // Giữ kích thước font chữ vừa phải
@@ -219,9 +224,7 @@ const LaptopPage: React.FC = () => {
               </div>
             ))}
           </Carousel>
-
         </Card>
-
       </div>
 
       {/* Product list */}
@@ -244,26 +247,14 @@ const LaptopPage: React.FC = () => {
                   }}
                 >
                   <Card.Meta
-                    title={
-                      <div
-                        style={{
-                          wordWrap: "break-word",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {laptop.name}
-                      </div>
-                    }
+                    title={laptop.name}
                     description={
                       <>
                         <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
                           Giá: {laptop.price} VND
                         </p>
                         <div>
-                          <Text
-                            type="secondary"
-                            style={{ fontSize: "14px", fontWeight: "bold" }}
-                          >
+                          <Text type="secondary" style={{ fontSize: "14px", fontWeight: "bold" }}>
                             Thương hiệu: {laptop.brand}
                           </Text>
                         </div>
@@ -274,11 +265,7 @@ const LaptopPage: React.FC = () => {
                               {laptop.category}
                             </Tag>
                             {laptop.tags.map((tag, index) => (
-                              <Tag
-                                color="gold"
-                                key={index}
-                                style={{ fontSize: "12px" }}
-                              >
+                              <Tag color="gold" key={index} style={{ fontSize: "12px" }}>
                                 {tag}
                               </Tag>
                             ))}
@@ -306,3 +293,4 @@ const LaptopPage: React.FC = () => {
 };
 
 export default LaptopPage;
+
