@@ -16,18 +16,6 @@ const HeaderPage = () => {
   const [Brand, setBrand] = useState<any>([])
 
   //fake data ở đây
-  const categories = [
-    { name: 'Laptop', image: '/icon/laptop.png' },
-    { name: 'Bàn phím', image: '/icon/banphim.png' },
-    { name: 'Âm thanh', image: '/icon/amthanh.png' },
-    { name: 'Ghế gaming', image: '/icon/ghecongthaihoc.png' },
-    { name: 'Bàn', image: '/icon/bannangha.png' },
-    { name: 'Màn hình', image: '/icon/manhinh.png' },
-    { name: 'Phụ kiện', image: '/icon/phukien.png' },
-    { name: 'Thực tế ảo', image: '/icon/thucteao.png' },
-    { name: 'Balo, túi', image: '/icon/balo,tui.png' },
-    { name: 'Phần mềm', image: '/icon/phanmem.png' },
-  ];
 
   const brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Acer', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus'];
   const priceRanges = ['10-15 triệu', '15-20 triệu', '20-25 triệu', '25-30 triệu', '30-35 triệu', '35-40 triệu'];
@@ -178,7 +166,7 @@ const HeaderPage = () => {
               border: 'transparent',
             }}
           >
-            Xem tất cả {categories[selectedCategory]?.name}
+            Xem tất cả {category[selectedCategory]?.name}
             <ArrowRightOutlined />
           </Button>
         </div>
