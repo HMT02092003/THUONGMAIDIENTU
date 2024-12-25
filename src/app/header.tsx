@@ -12,6 +12,7 @@ const HeaderPage = () => {
   const carouselRef = useRef<CarouselRef>(null);  // Khai báo ref đúng kiểu
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [category, setCategory] = useState<any>([])
+  console.log('category:', category)
   const [Brand, setBrand] = useState<any>([])
 
   //fake data ở đây
