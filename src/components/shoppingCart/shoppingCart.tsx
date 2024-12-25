@@ -163,8 +163,7 @@ const ShoppingCart: React.FC = () => {
       </Col>
 
       <Col span={8}>
-        <Card bordered={false}>
-          <Title level={5}>Tóm tắt đơn hàng</Title>
+        <Card bordered={false} title="Tóm tắt đơn hàng">
           <p>Tạm tính: {totalPrice.toLocaleString()} đ</p>
           <p style={{ fontWeight: "bold" }}>Tổng cộng: {totalPriceWithVAT.toLocaleString()} đ</p>
           <Button type="primary" block disabled={totalPrice === 0} onClick={() => setPaymentMethod(true)}>
