@@ -11,6 +11,7 @@ import {
 import { Color } from "antd/es/color-picker";
 import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -34,6 +35,8 @@ const App: React.FC = () => {
 
   const [category, setCategory] = useState<any>([])
   const [products, setProducts] = useState<any[]>([]);
+
+  const router = useRouter()
 
 
   const boxes = [
@@ -64,17 +67,17 @@ const App: React.FC = () => {
 
   const getAllCategory = async () => {
     try {
-      const data=await axios.get('http://localhost:4000/api/allCategory')
-      console.log('count:',data)
+      const data = await axios.get('http://localhost:4000/api/allCategory')
+      console.log('count:', data)
       setCategory(data.data)
     } catch (err: any) {
       message.error(err.response.data.message);
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllCategory();
-  },[])
+  }, [])
 
   const getAllProduct = async () => {
     try {
@@ -95,7 +98,7 @@ const App: React.FC = () => {
       message.error(err.response?.data?.message || 'Lỗi khi tải sản phẩm');
     }
   };
-  
+
   useEffect(() => {
     getAllProduct();
   }, []);
@@ -113,7 +116,7 @@ const App: React.FC = () => {
           <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
               <Row gutter={[16, 16]} justify="center">
-                {category.map((category:any, index:any) => (
+                {category.map((category: any, index: any) => (
                   <Col key={category.id} xs={6} sm={6} md={3}>
                     <ConfigProvider
                       theme={{
@@ -140,6 +143,7 @@ const App: React.FC = () => {
                           fontWeight: 600,
                           fontSize: '14px'
                         }}
+                        onClick={() => { router.push(`/product/category/${category.id}`) }}
                       >
                         <img
                           src={category.imageUrl}
@@ -251,7 +255,7 @@ const App: React.FC = () => {
                         { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
                       ]}
                     >
-                      {category.map((category:any, index:any) => (
+                      {category.map((category: any, index: any) => (
                         <div
                           key={index}
                           style={{
@@ -330,68 +334,68 @@ const App: React.FC = () => {
           </Row>
         </div>
         <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
-        {products.slice(0, visibleItems).map((product) => (
-          <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
-            <Card
-              hoverable
-              cover={<img alt={product.name} src={product.imageUrl} />}
-              style={{
-                borderRadius: '10px',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-              }}
-            >
-              <Card.Meta
-                title={
-                  <div
-                    style={{
-                      wordWrap: 'break-word',
-                      whiteSpace: 'normal',
-                    }}
-                  >
-                    {product.name}
-                  </div>
-                }
-                description={
-                  <>
-                    <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
-                      Giá: {product.price} VND
-                    </p>
-                    <div>
-                      <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                        Thương hiệu: {product.brand}
-                      </Text>
+          {products.slice(0, visibleItems).map((product) => (
+            <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={<img alt={product.name} src={product.imageUrl} />}
+                style={{
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+              >
+                <Card.Meta
+                  title={
+                    <div
+                      style={{
+                        wordWrap: 'break-word',
+                        whiteSpace: 'normal',
+                      }}
+                    >
+                      {product.name}
                     </div>
-                    <div style={{ marginTop: '10px' }}>
-                      <Text style={{ fontSize: '12px' }}>Thể loại:</Text>
-                      <div style={{ marginTop: '5px' }}>
-                        <Tag color="blue" style={{ fontSize: '12px' }}>
-                          {product.category}
-                        </Tag>
-                        {product.tags.map((tag: string, index: number) => (
-                          <Tag color="gold" key={index} style={{ fontSize: '12px' }}>
-                            {tag}
-                          </Tag>
-                        ))}
+                  }
+                  description={
+                    <>
+                      <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                        Giá: {product.price} VND
+                      </p>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          Thương hiệu: {product.brand}
+                        </Text>
                       </div>
-                    </div>
-                  </>
-                }
-              />
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      {visibleItems < products.length && (
-        <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
-          <Button type="primary" onClick={handleLoadMore}>
-            Xem thêm
-          </Button>
-        </div>
-      )}
-    </div>
+                      <div style={{ marginTop: '10px' }}>
+                        <Text style={{ fontSize: '12px' }}>Thể loại:</Text>
+                        <div style={{ marginTop: '5px' }}>
+                          <Tag color="blue" style={{ fontSize: '12px' }}>
+                            {product.category}
+                          </Tag>
+                          {product.tags.map((tag: string, index: number) => (
+                            <Tag color="gold" key={index} style={{ fontSize: '12px' }}>
+                              {tag}
+                            </Tag>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        {visibleItems < products.length && (
+          <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
+            <Button type="primary" onClick={handleLoadMore}>
+              Xem thêm
+            </Button>
+          </div>
+        )}
+      </div>
     </>
   );
 };

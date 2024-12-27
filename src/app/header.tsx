@@ -132,7 +132,7 @@ const HeaderPage = () => {
             onClick={() => handleCategoryClick(index)}
           >
             <img
-              src={category.imageUrl}
+              src={`http://localhost:4000/${category.imageUrl}`}
               alt={category.name}
               style={{ width: '35px', height: '35px', marginRight: '10px' }}
             />
@@ -327,7 +327,7 @@ const HeaderPage = () => {
       </div>
     </div>
   )
-  
+
   return (
     <>
       {/* Header chính */}
@@ -516,9 +516,8 @@ const HeaderPage = () => {
                         justifyContent: 'center', // Canh giữa nội dung
                       }}
                     >
-                      {/* Thêm ảnh nhỏ trước text */}
                       <img
-                        src={category.imageUrl}  // Đường dẫn đến ảnh cho mỗi danh mục
+                        src={`http://localhost:4000/${category.imageUrl}`}  // Đường dẫn đến ảnh từ localhost:4000
                         alt={category.name}   // Thêm alt text cho ảnh
                         style={{ width: '45px', marginRight: '8px' }} // Đặt kích thước ảnh và khoảng cách với text
                       />
