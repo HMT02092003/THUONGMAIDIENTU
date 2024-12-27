@@ -33,6 +33,8 @@ const App: React.FC = () => {
   const [visibleItems, setVisibleItems] = useState(12);
 
   const [category, setCategory] = useState<any>([])
+  const [products, setProducts] = useState<any[]>([]);
+
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -41,160 +43,6 @@ const App: React.FC = () => {
     { id: 4, text: 'Bảo hành dài lâu', img: '/icon/usp-4.png', Color: '#FBCFD8' },
   ];
 
-  const categories = [
-    { name: 'Laptop' },
-    { name: 'Bàn phím' },
-    { name: 'Âm thanh' },
-    { name: 'Ghế gaming' },
-    { name: 'Bàn' },
-    { name: 'Màn hình' },
-    { name: 'Phụ kiện' },
-    { name: 'Thực tế ảo' },
-    { name: 'Balo, túi' },
-    { name: 'Phần mềm' },
-    { name: 'Hộc tủ' },
-    { name: 'Arm màn mình' },
-    { name: 'Online giá rẻ' },
-    { name: 'Phần mềm' },
-  ];
-
-  const fakeData: Laptop[] = [
-    {
-      id: 1,
-      name: "Lenovo ThinkPad X1 Carbon Gen 11",
-      price: "26.990.000",
-      category: "Ultrabook",
-      brand: "Lenovo",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 2,
-      name: "Dell Inspiron 15 5630",
-      price: "15.990.000",
-      category: "Laptop phổ thông",
-      brand: "Dell",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 3,
-      name: "HP Spectre x360 14",
-      price: "24.990.000",
-      category: "Ultrabook",
-      brand: "HP",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-    },
-    {
-      id: 4,
-      name: "Asus ZenBook 14",
-      price: "19.990.000",
-      category: "Laptop cao cấp",
-      brand: "Asus",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 5,
-      name: "Acer Aspire 5",
-      price: "12.990.000",
-      category: "Laptop phổ thông",
-      brand: "Acer",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i3", "4GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 6,
-      name: "MacBook Air M2",
-      price: "30.990.000",
-      category: "Ultrabook",
-      brand: "Apple",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["M2 Chip", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 7,
-      name: "Dell XPS 13",
-      price: "27.990.000",
-      category: "Laptop cao cấp",
-      brand: "Dell",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-    },
-    {
-      id: 8,
-      name: "MSI GF63 Thin",
-      price: "18.990.000",
-      category: "Laptop gaming",
-      brand: "MSI",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB", "GTX 1650"],
-    },
-    {
-      id: 9,
-      name: "Razer Blade 15",
-      price: "40.990.000",
-      category: "Laptop gaming",
-      brand: "Razer",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB", "RTX 3070"],
-    },
-    {
-      id: 10,
-      name: "Gigabyte Aero 15",
-      price: "35.990.000",
-      category: "Laptop gaming",
-      brand: "Gigabyte",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i9", "32GB RAM", "SSD 1TB", "RTX 3080"],
-    },
-    {
-      id: 11,
-      name: "Lenovo IdeaPad Flex 5",
-      price: "14.990.000",
-      category: "Laptop 2-in-1",
-      brand: "Lenovo",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 12,
-      name: "HP Pavilion x360",
-      price: "16.990.000",
-      category: "Laptop 2-in-1",
-      brand: "HP",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 13,
-      name: "Microsoft Surface Laptop 4",
-      price: "29.990.000",
-      category: "Ultrabook",
-      brand: "Microsoft",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 14,
-      name: "Asus TUF Gaming F15",
-      price: "22.990.000",
-      category: "Laptop gaming",
-      brand: "Asus",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB", "RTX 3050"],
-    },
-    {
-      id: 15,
-      name: "Samsung Galaxy Book Pro",
-      price: "23.990.000",
-      category: "Ultrabook",
-      brand: "Samsung",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-  ];
 
   // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
@@ -227,6 +75,30 @@ const App: React.FC = () => {
   useEffect(()=>{
     getAllCategory();
   },[])
+
+  const getAllProduct = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/getAllProduct');
+      const products = response.data.map((product: any) => ({
+        id: product.id,
+        name: product.name,
+        price: product.variants[0]?.price || 'Chưa có giá',
+        brand: product.brand?.name || 'Không rõ thương hiệu',
+        category: product.tagName || 'Không rõ thể loại',
+        imageUrl: product.productImage
+          ? `http://localhost:4000/${product.productImage}`
+          : 'https://via.placeholder.com/150',
+        tags: product.variants.map((variant: any) => variant.type),
+      }));
+      setProducts(products);
+    } catch (err: any) {
+      message.error(err.response?.data?.message || 'Lỗi khi tải sản phẩm');
+    }
+  };
+  
+  useEffect(() => {
+    getAllProduct();
+  }, []);
 
   return (
     <>
@@ -457,77 +329,69 @@ const App: React.FC = () => {
             </Row>
           </Row>
         </div>
-        <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom:'3rem'}}>
-            {fakeData.slice(0, visibleItems).map((laptop) => (
-              <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  cover={<img alt={laptop.name} src={laptop.imageUrl} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
-                >
-                  <Card.Meta
-                    title={
-                      <div
-                        style={{
-                          wordWrap: "break-word",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {laptop.name}
+        <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
+        {products.slice(0, visibleItems).map((product) => (
+          <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
+            <Card
+              hoverable
+              cover={<img alt={product.name} src={product.imageUrl} />}
+              style={{
+                borderRadius: '10px',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+              }}
+            >
+              <Card.Meta
+                title={
+                  <div
+                    style={{
+                      wordWrap: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
+                  >
+                    {product.name}
+                  </div>
+                }
+                description={
+                  <>
+                    <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                      Giá: {product.price} VND
+                    </p>
+                    <div>
+                      <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                        Thương hiệu: {product.brand}
+                      </Text>
+                    </div>
+                    <div style={{ marginTop: '10px' }}>
+                      <Text style={{ fontSize: '12px' }}>Thể loại:</Text>
+                      <div style={{ marginTop: '5px' }}>
+                        <Tag color="blue" style={{ fontSize: '12px' }}>
+                          {product.category}
+                        </Tag>
+                        {product.tags.map((tag: string, index: number) => (
+                          <Tag color="gold" key={index} style={{ fontSize: '12px' }}>
+                            {tag}
+                          </Tag>
+                        ))}
                       </div>
-                    }
-                    description={
-                      <>
-                        <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
-                          Giá: {laptop.price} VND
-                        </p>
-                        <div>
-                          <Text
-                            type="secondary"
-                            style={{ fontSize: "14px", fontWeight: "bold" }}
-                          >
-                            Thương hiệu: {laptop.brand}
-                          </Text>
-                        </div>
-                        <div style={{ marginTop: "10px" }}>
-                          <Text style={{ fontSize: "12px" }}>Thể loại:</Text>
-                          <div style={{ marginTop: "5px" }}>
-                            <Tag color="blue" style={{ fontSize: "12px" }}>
-                              {laptop.category}
-                            </Tag>
-                            {laptop.tags.map((tag, index) => (
-                              <Tag
-                                color="gold"
-                                key={index}
-                                style={{ fontSize: "12px" }}
-                              >
-                                {tag}
-                              </Tag>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    }
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-
-          {visibleItems < fakeData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px", marginBottom:'20px' }}>
-              <Button type="primary" onClick={handleLoadMore}>
-                Xem thêm
-              </Button>
-            </div>
-          )}
-      </div>
+                    </div>
+                  </>
+                }
+              />
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      {visibleItems < products.length && (
+        <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
+          <Button type="primary" onClick={handleLoadMore}>
+            Xem thêm
+          </Button>
+        </div>
+      )}
+    </div>
     </>
   );
 };
