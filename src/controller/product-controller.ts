@@ -282,10 +282,10 @@ export const getProductByCategory = async (req: Request, res: Response) => {
     console.log('Category ID:', categoryId);
     try {
         const products = await ProductModel.query()
-            .withGraphFetched('categories')
-            .whereExists(
-                ProductCategoryModel.query()
-                    .where('categoryId', categoryId));
+            .withGraphFetched('[categories, brand]')
+            .joinRelated('categories')
+            .where('categories.id', categoryId);
+
         res.status(200).json(products);
     } catch (error: any) {
         console.error("Error fetching products by category:", error);
@@ -297,7 +297,9 @@ export const getProductByBrand = async (req: Request, res: Response) => {
     const brandId = req.params.id;
     console.log('Category ID:', brandId);
     try {
-        const products = await ProductModel.query().where('brandId', brandId)
+        const products = await ProductModel.query()
+            .where('brandId', brandId)
+            .withGraphFetched('brand')
 
         res.status(200).json(products);
     } catch (error: any) {

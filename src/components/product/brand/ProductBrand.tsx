@@ -158,12 +158,12 @@ interface LaptopPageProps {
   id: number;
 }
 
-const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
+const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   const [description, setDescription] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [visibleItems, setVisibleItems] = useState(12);
   const [productData, setProductData] = useState<any[]>([]);
-  const [category, setCategory] = useState<any>({});
+  const [brand, setBrand] = useState<any>({});
 
   // Hàm giả lập gọi API và nhận dữ liệu mô tả
   const fetchDescription = async (): Promise<void> => {
@@ -175,7 +175,7 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 
   const fectchProdutByCategoryData = async () => {
     try {
-      const api = await axios.get(`http://localhost:4000/api/getProductByCategory/${id}`);
+      const api = await axios.get(`http://localhost:4000/api/getProductByBrand/${id}`);
       setProductData(api.data);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu sản phẩm");
@@ -184,8 +184,8 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 
   const fetchCategory = async () => {
     try {
-      const api = await axios.post(`http://localhost:4000/api/get1Category`, { id: id });
-      setCategory(api.data);
+      const api = await axios.post(`http://localhost:4000/api/get1Brand`, { id: id });
+      setBrand(api.data);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu sản phẩm");
     }
@@ -206,12 +206,12 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
       {/* Header with carousel */}
       <div style={{ marginBottom: "20px" }}>
         <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
-          <Title level={2}>{category.name}</Title>
+          <Title level={2}>{brand.name}</Title>
           {loading ? (
             <Spin size="large" />
           ) : (
             <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
-              {category.description}
+              {brand.description}
             </Paragraph>
           )}
           <Carousel
@@ -309,5 +309,5 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
   );
 };
 
-export default ProductCategory;
+export default ProductBrand;
 
