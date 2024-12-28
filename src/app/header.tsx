@@ -53,7 +53,7 @@ const HeaderPage = () => {
 
   const handleCategoryClick = (index: number, categoryId: number) => {
     setSelectedCategory(index);
-    router.push(`${categoryId}`);
+    router.push(`http://localhost:4000/product/category/${categoryId}`);
   }
 
   // Hàm xử lý khi nhấn nút mũi tên trái
