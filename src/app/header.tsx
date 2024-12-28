@@ -51,8 +51,9 @@ const HeaderPage = () => {
     </div>
   );
 
-  const handleCategoryClick = (index: number) => {
+  const handleCategoryClick = (index: number, categoryId: number) => {
     setSelectedCategory(index);
+    router.push(`${categoryId}`);
   }
 
   // Hàm xử lý khi nhấn nút mũi tên trái
@@ -129,7 +130,7 @@ const HeaderPage = () => {
               borderRadius: '4px',
               transition: 'background-color 0.3s ease',
             }}
-            onClick={() => handleCategoryClick(index)}
+            onClick={() => handleCategoryClick(index, category.id)}
           >
             <img
               src={`http://localhost:4000/${category.imageUrl}`}
@@ -515,6 +516,7 @@ const HeaderPage = () => {
                         alignItems: 'center', // Canh chỉnh ảnh và text
                         justifyContent: 'center', // Canh giữa nội dung
                       }}
+                      onClick={() => router.push(`${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
                     >
                       <img
                         src={`http://localhost:4000/${category.imageUrl}`}  // Đường dẫn đến ảnh từ localhost:4000

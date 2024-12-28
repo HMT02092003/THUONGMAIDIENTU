@@ -33,6 +33,8 @@ import {
   getProductById,
   deleteProduct,
   updateProduct,
+  getProductByCategory,
+  getProductByBrand,
 } from './src/controller/product-controller';
 
 const router = Router();
@@ -147,6 +149,14 @@ router.delete('/deleteProduct', (req, res) => {
 
 router.put('/updateProduct', (req, res) => {
   updateProduct(req, res);
+});
+
+router.get('/getProductByCategory/:id', (req, res) => {
+  getProductByCategory(req, res);
+});
+
+router.get('/getProductByBrand/:id', (req, res) => {
+  getProductByBrand(req, res);
 });
 
 export default router;
