@@ -1,70 +1,114 @@
+// /**
+//  * @param { import("knex").Knex } knex
+//  * @returns { Promise<void> }
+//  */
+// export const seed = async function (knex) {
+//   try {
+//     // Xóa dữ liệu cũ nếu cần (Chỉ nên làm khi chắc chắn không ảnh hưởng đến dữ liệu quan trọng)
+//     await knex('ProductCategory').del();
+//     await knex('Product').del();
+
+//     // Thêm dữ liệu vào bảng Product
+//     await knex('Product').insert([
+//       {
+//         id: 1,
+//         name: 'ASUS Laptop X123',
+//         productId: 'ASUS-X123',
+//         brandId: 1, // Đảm bảo Brand với id=1 đã tồn tại
+//         description: 'Laptop ASUS với cấu hình mạnh mẽ, màn hình sắc nét, và thời lượng pin ấn tượng.',
+//         tagName: 'laptop, asus, gaming',
+//         variants: JSON.stringify([
+//           { color: 'Trắng', version: '2024', type: 'Chính hãng', price: '123333333', quantity: '123' },
+//           { version: '131', color: 'red', type: 'Xách tay', price: '123123123', quantity: '12312' },
+//         ]),
+//         specifications: JSON.stringify([
+//           { title: 'CPU', info: 'i7' },
+//           { title: 'VGA', info: '3070' },
+//         ]),
+//         productImage: JSON.stringify('uploads/product/12-main.png'),
+//         imageUrl: JSON.stringify({
+//           img0: 'uploads/product/adasdassa-desc-a7d.jpg',
+//           img1: 'uploads/product/adasdassa-desc-22c.webp',
+//           img2: 'uploads/product/adasdassa-desc-4a7.jpg',
+//           img3: 'uploads/product/adasdassa-desc-89b.png',
+//         }),
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//       },
+//     ]);
+
+//     // Thêm dữ liệu vào bảng ProductCategory
+//     await knex('ProductCategory').insert([
+//       {
+//         productId: 1, // ASUS Laptop X123
+//         categoryId: 1, // Đảm bảo Category với id=1 đã tồn tại
+//       },
+//     ]);
+
+//     console.log('Seed dữ liệu thành công!');
+//   } catch (error) {
+//     console.error('Lỗi khi seed dữ liệu:', error);
+//   }
+// };
+
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 export const seed = async function (knex) {
-  // Xóa dữ liệu cũ để tránh trùng lặp
-  await knex('Product').del();
+  try {
+    // Xóa dữ liệu cũ nếu cần (Chỉ nên làm khi chắc chắn không ảnh hưởng đến dữ liệu quan trọng)
+    await knex('ProductCategory').del();
+    await knex('Product').del();
 
-  // Thêm dữ liệu mới vào bảng Product
-  await knex('Product').insert([
-    {
-      id: 1,
-      name: 'ASUS Laptop X123',
-      productId: 'ASUS-X123',
-      brandId: 1, // ASUS
-      description: 'Laptop ASUS với cấu hình mạnh mẽ, màn hình sắc nét, và thời lượng pin ấn tượng.',
-      tagName: 'laptop, asus, gaming',
-      variants: JSON.stringify([{ color: 'black', size: '15 inch' }, { color: 'silver', size: '13 inch' }]),
-      specifications: JSON.stringify({ processor: 'Intel i7', ram: '16GB', storage: '512GB SSD' }),
-      productImage: JSON.stringify(['uploads/products/asus_x123_1.png', 'uploads/products/asus_x123_2.png']),
-      imageUrl: 'uploads/products/asus_x123.png',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      name: 'Dell Inspiron 15',
-      productId: 'DELL-INSPIRON15',
-      brandId: 2, // Dell
-      description: 'Laptop Dell với thiết kế mỏng nhẹ, hiệu năng ổn định và mức giá hợp lý.',
-      tagName: 'laptop, dell, office',
-      variants: JSON.stringify([{ color: 'black', size: '15 inch' }]),
-      specifications: JSON.stringify({ processor: 'Intel i5', ram: '8GB', storage: '256GB SSD' }),
-      productImage: JSON.stringify(['uploads/products/dell_inspiron_1.png']),
-      imageUrl: 'uploads/products/dell_inspiron.png',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 3,
-      name: 'Lenovo ThinkPad T14',
-      productId: 'LENOVO-TP-T14',
-      brandId: 3, // Lenovo
-      description: 'Laptop Lenovo ThinkPad T14 được thiết kế chắc chắn, phù hợp cho công việc văn phòng và doanh nhân.',
-      tagName: 'laptop, lenovo, business',
-      variants: JSON.stringify([{ color: 'black', size: '14 inch' }]),
-      specifications: JSON.stringify({ processor: 'Intel i7', ram: '16GB', storage: '1TB SSD' }),
-      productImage: JSON.stringify(['uploads/products/lenovo_t14_1.png']),
-      imageUrl: 'uploads/products/lenovo_t14.png',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ]);
+    // Tạo mảng để lưu trữ các bản ghi sản phẩm
+    const products = [];
 
-  // Liên kết sản phẩm với thể loại (Category)
-  await knex('ProductCategory').insert([
-    {
-      productId: 1, // ASUS Laptop X123
-      categoryId: 1, // Laptop
-    },
-    {
-      productId: 2, // Dell Inspiron 15
-      categoryId: 1, // Laptop
-    },
-    {
-      productId: 3, // Lenovo ThinkPad T14
-      categoryId: 1, // Laptop
-    },
-  ]);
+    for (let i = 1; i <= 100; i++) {
+      const product = {
+        id: i,
+        name: `ASUS Laptop X${i}`,
+        productId: `ASUS-X${i}`,
+        brandId: 1, // Đảm bảo Brand với id=1 đã tồn tại
+        description: `Laptop ASUS với cấu hình mạnh mẽ, màn hình sắc nét, và thời lượng pin ấn tượng. (Sản phẩm ${i})`,
+        tagName: `laptop, asus, gaming`,
+        variants: JSON.stringify([
+          { color: 'Trắng', version: `2024-${i}`, type: 'Chính hãng', price: (100000000 + i * 1000000).toString(), quantity: `${i * 10}` },
+          { version: `131-${i}`, color: 'red', type: 'Xách tay', price: (90000000 + i * 1000000).toString(), quantity: `${i * 15}` },
+        ]),
+        specifications: JSON.stringify([
+          { title: 'CPU', info: `i7-${i}` },
+          { title: 'VGA', info: `3070-${i}` },
+        ]),
+        productImage: JSON.stringify(`uploads/product/${i}-main.png`),
+        imageUrl: JSON.stringify({
+          img0: `uploads/product/${i}-desc-a7d.jpg`,
+          img1: `uploads/product/${i}-desc-22c.webp`,
+          img2: `uploads/product/${i}-desc-4a7.jpg`,
+          img3: `uploads/product/${i}-desc-89b.png`,
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      products.push(product);
+    }
+
+    // Thêm dữ liệu vào bảng Product
+    await knex('Product').insert(products);
+
+    // Thêm dữ liệu vào bảng ProductCategory (một mối quan hệ giữa sản phẩm và danh mục)
+    const productCategories = [];
+    for (let i = 1; i <= 100; i++) {
+      productCategories.push({
+        productId: i, // Sản phẩm với id=i
+        categoryId: 1, // Đảm bảo Category với id=1 đã tồn tại
+      });
+    }
+    await knex('ProductCategory').insert(productCategories);
+
+    console.log('Seed dữ liệu thành công!');
+  } catch (error) {
+    console.error('Lỗi khi seed dữ liệu:', error);
+  }
 };
