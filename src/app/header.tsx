@@ -516,7 +516,7 @@ const HeaderPage = () => {
                         alignItems: 'center', // Canh chỉnh ảnh và text
                         justifyContent: 'center', // Canh giữa nội dung
                       }}
-                      onClick={() => router.push(`${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
+                      onClick={() => router.push(`http://localhost:4000/product/category/${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
                     >
                       <img
                         src={`http://localhost:4000/${category.imageUrl}`}  // Đường dẫn đến ảnh từ localhost:4000
