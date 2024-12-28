@@ -214,6 +214,7 @@ const HeaderPage = () => {
                     maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
                     boxSizing: 'border-box',
                   }}
+                  onClick={() => router.push(`/product/brand/${Brand.id}`)}  // Gọi hàm handleBrandClick khi click vào button
                 >
                   {Brand.name}
                   <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />

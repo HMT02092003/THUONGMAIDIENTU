@@ -3,151 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const { Title, Paragraph, Text } = Typography;
-
-// Dữ liệu giả lập
-// const fakeData: Laptop[] = [
-//   {
-//     id: 1,
-//     name: "Lenovo ThinkPad X1 Carbon Gen 11",
-//     price: "26.990.000",
-//     category: "Ultrabook",
-//     brand: "Lenovo",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-//   },
-
-//   {
-//     id: 2,
-//     name: "Dell Inspiron 15 5630",
-//     price: "15.990.000",
-//     category: "Laptop phổ thông",
-//     brand: "Dell",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-//   },
-//   {
-//     id: 3,
-//     name: "HP Spectre x360 14",
-//     price: "24.990.000",
-//     category: "Ultrabook",
-//     brand: "HP",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-//   },
-//   {
-//     id: 4,
-//     name: "Asus ZenBook 14",
-//     price: "19.990.000",
-//     category: "Laptop cao cấp",
-//     brand: "Asus",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-//   },
-//   {
-//     id: 5,
-//     name: "Acer Aspire 5",
-//     price: "12.990.000",
-//     category: "Laptop phổ thông",
-//     brand: "Acer",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i3", "4GB RAM", "SSD 256GB"],
-//   },
-//   {
-//     id: 6,
-//     name: "MacBook Air M2",
-//     price: "30.990.000",
-//     category: "Ultrabook",
-//     brand: "Apple",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["M2 Chip", "8GB RAM", "SSD 512GB"],
-//   },
-//   {
-//     id: 7,
-//     name: "Dell XPS 13",
-//     price: "27.990.000",
-//     category: "Laptop cao cấp",
-//     brand: "Dell",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-//   },
-//   {
-//     id: 8,
-//     name: "MSI GF63 Thin",
-//     price: "18.990.000",
-//     category: "Laptop gaming",
-//     brand: "MSI",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 512GB", "GTX 1650"],
-//   },
-//   {
-//     id: 9,
-//     name: "Razer Blade 15",
-//     price: "40.990.000",
-//     category: "Laptop gaming",
-//     brand: "Razer",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 1TB", "RTX 3070"],
-//   },
-//   {
-//     id: 10,
-//     name: "Gigabyte Aero 15",
-//     price: "35.990.000",
-//     category: "Laptop gaming",
-//     brand: "Gigabyte",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i9", "32GB RAM", "SSD 1TB", "RTX 3080"],
-//   },
-//   {
-//     id: 11,
-//     name: "Lenovo IdeaPad Flex 5",
-//     price: "14.990.000",
-//     category: "Laptop 2-in-1",
-//     brand: "Lenovo",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-//   },
-//   {
-//     id: 12,
-//     name: "HP Pavilion x360",
-//     price: "16.990.000",
-//     category: "Laptop 2-in-1",
-//     brand: "HP",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-//   },
-//   {
-//     id: 13,
-//     name: "Microsoft Surface Laptop 4",
-//     price: "29.990.000",
-//     category: "Ultrabook",
-//     brand: "Microsoft",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-//   },
-//   {
-//     id: 14,
-//     name: "Asus TUF Gaming F15",
-//     price: "22.990.000",
-//     category: "Laptop gaming",
-//     brand: "Asus",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i7", "16GB RAM", "SSD 512GB", "RTX 3050"],
-//   },
-//   {
-//     id: 15,
-//     name: "Samsung Galaxy Book Pro",
-//     price: "23.990.000",
-//     category: "Ultrabook",
-//     brand: "Samsung",
-//     imageUrl: "https://via.placeholder.com/200",
-//     tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-//   },
-// ];
-
-// Dữ liệu mô phỏng mô tả
-// const fakeDescription = "Laptop là một thiết bị máy tính có kích thước nhỏ gọn và di động. Nó được thiết kế để sử dụng trong các hoạt động làm việc, giải trí hoặc học tập khi di chuyển mà không cần phải sử dụng những chiếc máy tính để bàn cồng kềnh.";
 
 const brands = [
   "Lenovo", "Dell", "Asus", "HP", "Acer", "MSI", "LG", "Apple", "Microsoft",
@@ -161,9 +19,11 @@ interface LaptopPageProps {
 const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   const [description, setDescription] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [visibleItems, setVisibleItems] = useState(12);
+  const [visibleItems, setVisibleItems] = useState(8);
   const [productData, setProductData] = useState<any[]>([]);
   const [brand, setBrand] = useState<any>({});
+
+  const router = useRouter();
 
   // Hàm giả lập gọi API và nhận dữ liệu mô tả
   const fetchDescription = async (): Promise<void> => {
@@ -198,7 +58,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   }, []);
 
   const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => prevVisibleItems + 5);
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
   };
 
   return (
@@ -254,7 +114,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
               <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
                 <Card
                   hoverable
-                  cover={<img alt={laptop.name} src={laptop.productImage} />}
+                  cover={<img alt={laptop.name} src={`http://localhost:4000/${laptop.productImage}`} />}
                   style={{
                     borderRadius: "10px",
                     overflow: "hidden",
@@ -262,32 +122,21 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
                     flexDirection: "column",
                     height: "100%",
                   }}
+                  onClick={() => router.push(`/product/detail/${laptop.id}`)}
                 >
                   <Card.Meta
                     title={laptop.name}
                     description={
                       <>
-                        {/* <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
-                          Giá: {laptop.price} VND
-                        </p> */}
+                        <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                          Giá: {Number(laptop.variants[0]?.price || 0).toLocaleString()} VNĐ
+                        </p>
                         <div>
-                          <Text type="secondary" style={{ fontSize: "14px", fontWeight: "bold" }}>
-                            Thương hiệu: {laptop.brand.name}
+                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                            Thương hiệu: <Tag color="cyan">{laptop.brand.name}</Tag>
                           </Text>
                         </div>
-                        <div style={{ marginTop: "10px" }}>
-                          <Text style={{ fontSize: "12px" }}>Thể loại:</Text>
-                          <div style={{ marginTop: "5px" }}>
-                            <Tag color="blue" style={{ fontSize: "12px" }}>
-                              {laptop.category}
-                            </Tag>
-                            {/* {laptop.tags.map((tag, index) => (
-                              <Tag color="gold" key={index} style={{ fontSize: "12px" }}>
-                                {tag}
-                              </Tag>
-                            ))} */}
-                          </div>
-                        </div>
+                        <br />
                       </>
                     }
                   />

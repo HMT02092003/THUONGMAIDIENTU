@@ -29,12 +29,11 @@ interface Laptop {
 
 const App: React.FC = () => {
   const carouselRef = useRef<CarouselRef>(null);
-  const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
-  const titleStyle = { fontSize: "15px", marginBottom: "8px" };
-  const [visibleItems, setVisibleItems] = useState(12);
+  const [visibleItems, setVisibleItems] = useState(8);
 
-  const [category, setCategory] = useState<any>([])
+  const [category, setCategory] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([]);
+  console.log('products:', products)
 
   const router = useRouter()
 
@@ -62,7 +61,7 @@ const App: React.FC = () => {
   };
 
   const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => prevVisibleItems + 5);
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
   };
 
   const getAllCategory = async () => {
@@ -75,31 +74,17 @@ const App: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    getAllCategory();
-  }, [])
-
   const getAllProduct = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/getAllProduct');
-      const products = response.data.map((product: any) => ({
-        id: product.id,
-        name: product.name,
-        price: product.variants[0]?.price || 'Chưa có giá',
-        brand: product.brand?.name || 'Không rõ thương hiệu',
-        category: product.tagName || 'Không rõ thể loại',
-        imageUrl: product.productImage
-          ? `http://localhost:4000/${product.productImage}`
-          : 'https://via.placeholder.com/150',
-        tags: product.variants.map((variant: any) => variant.type),
-      }));
-      setProducts(products);
+      setProducts(response.data);
     } catch (err: any) {
       message.error(err.response?.data?.message || 'Lỗi khi tải sản phẩm');
     }
   };
 
   useEffect(() => {
+    getAllCategory();
     getAllProduct();
   }, []);
 
@@ -338,7 +323,7 @@ const App: React.FC = () => {
             <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
               <Card
                 hoverable
-                cover={<img alt={product.name} src={product.imageUrl} />}
+                cover={<img alt={product.name} src={`http://localhost:4000/${product.productImage}`} />}
                 style={{
                   borderRadius: '10px',
                   overflow: 'hidden',
@@ -346,40 +331,27 @@ const App: React.FC = () => {
                   flexDirection: 'column',
                   height: '100%',
                 }}
+                onClick={() => router.push(`/product/detail/${product.id}`)}
               >
                 <Card.Meta
-                  title={
-                    <div
-                      style={{
-                        wordWrap: 'break-word',
-                        whiteSpace: 'normal',
-                      }}
-                    >
-                      {product.name}
-                    </div>
-                  }
+                  title={product.name}
                   description={
                     <>
                       <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
-                        Giá: {product.price} VND
+                        Giá: {Number(product.variants[0]?.price || 0).toLocaleString()} VNĐ
                       </p>
                       <div>
                         <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                          Thương hiệu: {product.brand}
+                          Thương hiệu: <Tag color="cyan">{product.brand.name}</Tag>
                         </Text>
                       </div>
-                      <div style={{ marginTop: '10px' }}>
-                        <Text style={{ fontSize: '12px' }}>Thể loại:</Text>
-                        <div style={{ marginTop: '5px' }}>
-                          <Tag color="blue" style={{ fontSize: '12px' }}>
-                            {product.category}
-                          </Tag>
-                          {product.tags.map((tag: string, index: number) => (
-                            <Tag color="gold" key={index} style={{ fontSize: '12px' }}>
-                              {tag}
-                            </Tag>
+                      <br />
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          Thể loại: {product.categories.map((item: { id: number; name: string }) => (
+                            <Tag key={item.id} color="green">{item.name}</Tag>
                           ))}
-                        </div>
+                        </Text>
                       </div>
                     </>
                   }
@@ -387,6 +359,7 @@ const App: React.FC = () => {
               </Card>
             </Col>
           ))}
+
         </Row>
         {visibleItems < products.length && (
           <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
