@@ -1089,7 +1089,736 @@ export const seed = async function (knex) {
         }),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      }
+      },
+      {
+        id: 37,
+        name: 'Balo ASUS Rog Strix',
+        productId: 'RogBag2302BL',
+        brandId: 1,
+        description: '',
+        tagName: 'SALE BALO GAMING',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Pro Gaming', type: 'Chính hãng', price: '1990000', quantity: '10' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Chất liệu', info: 'Vải chống nước' },
+          { title: 'Kích thước', info: '50cm x 32cm x 18cm' },
+          { title: 'Trọng lượng', info: '1.2kg' },
+          { title: 'Dung tích', info: '25L' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\RogBag2302BL-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Balo ASUS Rog Strix-desc-20e.webp",
+          img1: "uploads\\product\\Balo ASUS Rog Strix-desc-de0.webp",
+          img2: "uploads\\product\\Balo ASUS Rog Strix-desc-1bf.webp",
+          img3: "uploads\\product\\Balo ASUS Rog Strix-desc-83a.webp" 
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 38,
+        name: 'Túi Lenovo ThinkPad X1',
+        productId: 'ThinkPadX1Case01',
+        brandId: 3,
+        description: '',
+        tagName: 'SALE TÚI LAPTOP',
+        variants: JSON.stringify([
+          { color: 'Xám', version: 'Classic', type: 'Chính hãng', price: '1390000', quantity: '20' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Chất liệu', info: 'Polyester' },
+          { title: 'Kích thước', info: '40cm x 30cm x 8cm' },
+          { title: 'Trọng lượng', info: '0.9kg' },
+          { title: 'Dung tích', info: '15L' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\ThinkPadX1Case01-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Túi Lenovo ThinkPad X1-desc-c0a.webp",
+          img1: "uploads\\product\\Túi Lenovo ThinkPad X1-desc-bed.webp",
+          img2: "uploads\\product\\Túi Lenovo ThinkPad X1-desc-2a1.webp",
+          img3: "uploads\\product\\Túi Lenovo ThinkPad X1-desc-3c3.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 39,
+        name: 'Balo Dell XPS Travel',
+        productId: 'XPSBagTravel2023',
+        brandId: 2,
+        description: '',
+        tagName: 'GIẢM GIÁ PHỤ KIỆN',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Business', type: 'Chính hãng', price: '1590000', quantity: '15' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Chất liệu', info: 'Canvas chống nước' },
+          { title: 'Kích thước', info: '45cm x 28cm x 15cm' },
+          { title: 'Trọng lượng', info: '1kg' },
+          { title: 'Dung tích', info: '20L' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\XPSBagTravel2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Balo Dell XPS Travel-desc-25f.webp",
+          img1: "uploads\\product\\Balo Dell XPS Travel-desc-479.webp",
+          img2: "uploads\\product\\Balo Dell XPS Travel-desc-1df.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 40,
+        name: 'Bàn nâng hạ ASUS ProDesk',
+        productId: 'ASUSDeskLift2023',
+        brandId: 1, // ASUS
+        description: 'Bàn nâng hạ chuyên dụng cho làm việc và học tập.',
+        tagName: 'GIẢM GIÁ THIẾT BỊ',
+        variants: JSON.stringify([
+          { color: 'Trắng', version: 'Standard', type: 'Chính hãng', price: '5290000', quantity: '10' },
+          { color: 'Đen', version: 'Premium', type: 'Chính hãng', price: '6290000', quantity: '8' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước mặt bàn', info: '120cm x 60cm' },
+          { title: 'Tải trọng tối đa', info: '80kg' },
+          { title: 'Chất liệu', info: 'Gỗ MDF và khung thép' },
+          { title: 'Điều chỉnh độ cao', info: '70cm - 120cm' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\ASUSDeskLift2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Bàn nâng hạ ASUS ProDesk-desc-b0e.webp",
+          img1: "uploads\\product\\Bàn nâng hạ ASUS ProDesk-desc-da4.webp",
+          img2: "uploads\\product\\Bàn nâng hạ ASUS ProDesk-desc-4cc.webp",
+          img3: "uploads\\product\\Bàn nâng hạ ASUS ProDesk-desc-784.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 41,
+        name: 'Bàn nâng hạ Dell ProLift',
+        productId: 'DellDeskLift2023',
+        brandId: 2, // Dell
+        description: 'Bàn nâng hạ bền bỉ, phù hợp với mọi không gian.',
+        tagName: 'GIẢM GIÁ THIẾT BỊ',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Basic', type: 'Chính hãng', price: '4990000', quantity: '12' },
+          { color: 'Xám', version: 'Advanced', type: 'Chính hãng', price: '5990000', quantity: '9' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước mặt bàn', info: '140cm x 70cm' },
+          { title: 'Tải trọng tối đa', info: '100kg' },
+          { title: 'Chất liệu', info: 'Gỗ công nghiệp phủ Melamine' },
+          { title: 'Điều chỉnh độ cao', info: '65cm - 115cm' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\DellDeskLift2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Bàn nâng hạ Dell ProLift-desc-82b.webp",
+          img1: "uploads\\product\\Bàn nâng hạ Dell ProLift-desc-5e0.webp",
+          img2: "uploads\\product\\Bàn nâng hạ Dell ProLift-desc-e04.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 42,
+        name: 'Bàn nâng hạ Lenovo FlexLift',
+        productId: 'LenovoDeskLift2023',
+        brandId: 3, // Lenovo
+        description: 'Thiết kế hiện đại, đa năng, giúp tối ưu không gian làm việc.',
+        tagName: 'GIẢM GIÁ THIẾT BỊ',
+        variants: JSON.stringify([
+          { color: 'Trắng', version: 'Standard', type: 'Chính hãng', price: '5490000', quantity: '10' },
+          { color: 'Đen', version: 'Deluxe', type: 'Chính hãng', price: '6490000', quantity: '7' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước mặt bàn', info: '160cm x 80cm' },
+          { title: 'Tải trọng tối đa', info: '120kg' },
+          { title: 'Chất liệu', info: 'Gỗ Plywood và khung hợp kim nhôm' },
+          { title: 'Điều chỉnh độ cao', info: '60cm - 125cm' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\LenovoDeskLift2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Bàn nâng hạ Lenovo FlexLift-desc-aad.webp",
+          img1: "uploads\\product\\Bàn nâng hạ Lenovo FlexLift-desc-8c7.webp",
+          img2: "uploads\\product\\Bàn nâng hạ Lenovo FlexLift-desc-ed1.webp",
+          img3: "uploads\\product\\Bàn nâng hạ Lenovo FlexLift-desc-eeb.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 43,
+        name: 'Sạc nhanh Dell PowerCharge',
+        productId: 'DellCharger2023',
+        brandId: 2, // Dell
+        description: 'Sạc nhanh và an toàn cho các thiết bị của bạn.',
+        tagName: 'PHỤ KIỆN SẠC',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Type-C', type: 'Chính hãng', price: '990000', quantity: '25' },
+          { color: 'Trắng', version: 'USB-A', type: 'Chính hãng', price: '890000', quantity: '20' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Công suất', info: '65W' },
+          { title: 'Loại cổng', info: 'Type-C, USB-A' },
+          { title: 'Bảo hành', info: '12 tháng' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\DellCharger2023-main.webp"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 44,
+        name: 'Kệ màn hình ASUS MonitorStand Pro',
+        productId: 'ASUSMonitorStand2023',
+        brandId: 1, // ASUS
+        description: 'Kệ màn hình chắc chắn, hỗ trợ công thái học tối ưu.',
+        tagName: 'PHỤ KIỆN VĂN PHÒNG',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Standard', type: 'Chính hãng', price: '1290000', quantity: '15' },
+          { color: 'Xám', version: 'Premium', type: 'Chính hãng', price: '1590000', quantity: '10' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '60cm x 20cm x 10cm' },
+          { title: 'Tải trọng', info: '20kg' },
+          { title: 'Chất liệu', info: 'Hợp kim nhôm' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\ASUSMonitorStand2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Kệ màn hình ASUS MonitorStand Pro-desc-174.webp",
+          img1: "uploads\\product\\Kệ màn hình ASUS MonitorStand Pro-desc-f5e.webp",
+          img2: "uploads\\product\\Kệ màn hình ASUS MonitorStand Pro-desc-216.webp",
+          img3: "uploads\\product\\Kệ màn hình ASUS MonitorStand Pro-desc-5fa.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 45,
+        name: 'Giá đỡ tai nghe MSI SoundStand',
+        productId: 'MSISoundStand2023',
+        brandId: 5, // MSI
+        description: 'Giá đỡ tai nghe tiện dụng, phong cách.',
+        tagName: 'PHỤ KIỆN ÂM THANH',
+        variants: JSON.stringify([
+          { color: 'Đen', version: 'Standard', type: 'Chính hãng', price: '590000', quantity: '30' },
+          { color: 'Đỏ', version: 'Gaming', type: 'Chính hãng', price: '690000', quantity: '25' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Chiều cao', info: '25cm' },
+          { title: 'Chất liệu', info: 'Nhựa ABS cao cấp' },
+          { title: 'Khối lượng', info: '0.5kg' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\MSISoundStand2023-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Giá đỡ tai nghe MSI SoundStand-desc-91c.webp",
+          img1: "uploads\\product\\Giá đỡ tai nghe MSI SoundStand-desc-d36.webp",
+          img2: "uploads\\product\\Giá đỡ tai nghe MSI SoundStand-desc-233.webp",
+          img3: "uploads\\product\\Giá đỡ tai nghe MSI SoundStand-desc-1be.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 46,
+        name: 'Kính thực tế ảo Oculus Quest 2',
+        productId: 'OculusQuest2',
+        brandId: 7, // Razer
+        description: 'Kính thực tế ảo thế hệ mới với hiệu suất mạnh mẽ và chất lượng hình ảnh đỉnh cao.',
+        tagName: 'THỰC TẾ ẢO',
+        variants: JSON.stringify([
+          { storage: '128GB', version: 'Standard', type: 'Chính hãng', price: '8500000', quantity: '20' },
+          { storage: '256GB', version: 'Pro', type: 'Chính hãng', price: '10500000', quantity: '15' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Trọng lượng', info: '503g' },
+          { title: 'Thời lượng pin', info: '2-3 giờ' },
+          { title: 'Độ phân giải', info: '1832x1920 mỗi mắt' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\OculusQuest2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Kính thực tế ảo Oculus Quest 2-desc-a89.webp",
+          img1: "uploads\\product\\Kính thực tế ảo Oculus Quest 2-desc-9ad.webp",
+          img2: "uploads\\product\\Kính thực tế ảo Oculus Quest 2-desc-b60.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 47,
+        name: 'Kính thực tế ảo HTC Vive Pro 2',
+        productId: 'HTCVivePro2',
+        brandId: 6, // Acer
+        description: 'HTC Vive Pro 2 mang đến trải nghiệm VR chất lượng cao với thiết kế thoải mái và hiệu năng mạnh mẽ.',
+        tagName: 'THỰC TẾ ẢO',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Chính hãng', price: '24000000', quantity: '10' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Độ phân giải', info: '4896x2448' },
+          { title: 'Tần số quét', info: '120Hz' },
+          { title: 'Hệ điều hành hỗ trợ', info: 'Windows 10' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\HTCVivePro2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Kính thực tế ảo HTC Vive Pro 2-desc-458.webp",
+          img1: "uploads\\product\\Kính thực tế ảo HTC Vive Pro 2-desc-060.webp",
+          img2: "uploads\\product\\Kính thực tế ảo HTC Vive Pro 2-desc-1cc.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 48,
+        name: 'Kính thực tế ảo PlayStation VR2',
+        productId: 'PSVR2',
+        brandId: 4, // Microsoft
+        description: 'Trải nghiệm thực tế ảo đỉnh cao với PlayStation VR2 dành riêng cho hệ máy PS5.',
+        tagName: 'THỰC TẾ ẢO',
+        variants: JSON.stringify([
+          { version: 'Bundle', type: 'Chính hãng', price: '14990000', quantity: '12' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Độ phân giải', info: '2000x2040 mỗi mắt' },
+          { title: 'Góc nhìn', info: '110 độ' },
+          { title: 'Hỗ trợ âm thanh', info: '3D Audio' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\PSVR2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Kính thực tế ảo PlayStation VR2-desc-f0c.webp",
+          img1: "uploads\\product\\Kính thực tế ảo PlayStation VR2-desc-9c5.webp",
+          img2: "uploads\\product\\Kính thực tế ảo PlayStation VR2-desc-34d.webp",
+          img3: "uploads\\product\\Kính thực tế ảo PlayStation VR2-desc-82b.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 49,
+        name: 'Phần mềm thiết kế đồ họa CorelDRAW 2024',
+        productId: 'Corel2024',
+        brandId: 2, // Dell
+        description: 'Công cụ thiết kế đồ họa mạnh mẽ, phù hợp cho nhà thiết kế chuyên nghiệp.',
+        tagName: 'PHẦN MỀM',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Digital', price: '6990000', quantity: '50' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Hỗ trợ nền tảng', info: 'Windows, macOS' },
+          { title: 'Phiên bản', info: '2024' },
+          { title: 'Ngôn ngữ', info: 'Tiếng Anh' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\Corel2024-main.webp"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 50,
+        name: 'Phần mềm văn phòng Microsoft Office 2024',
+        productId: 'Office2024',
+        brandId: 4, // Microsoft
+        description: 'Bộ phần mềm văn phòng phổ biến nhất với tính năng cải tiến.',
+        tagName: 'PHẦN MỀM',
+        variants: JSON.stringify([
+          { version: 'Home & Student', type: 'Digital', price: '2590000', quantity: '100' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Hỗ trợ nền tảng', info: 'Windows, macOS' },
+          { title: 'Phiên bản', info: '2024' },
+          { title: 'Ngôn ngữ', info: 'Đa ngôn ngữ' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\Office2024-main.webp"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 51,
+        name: 'Phần mềm bảo mật Kaspersky Total Security',
+        productId: 'KTS2024',
+        brandId: 8, // GIGABYTE
+        description: 'Giải pháp bảo mật toàn diện dành cho cá nhân và doanh nghiệp.',
+        tagName: 'PHẦN MỀM',
+        variants: JSON.stringify([
+          { version: '1 Device', type: 'Digital', price: '890000', quantity: '150' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Hỗ trợ nền tảng', info: 'Windows, macOS, Android, iOS' },
+          { title: 'Phiên bản', info: '2024' },
+          { title: 'Ngôn ngữ', info: 'Đa ngôn ngữ' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\KTS2024-main.jpg"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 52,
+        name: 'Chuột gaming Logitech G502 Hero',
+        productId: 'G502HERO',
+        brandId: 1, // ASUS
+        description: 'Chuột gaming hiệu suất cao với cảm biến Hero và độ chính xác tối ưu.',
+        tagName: 'CHUỘT',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Wired', price: '1490000', quantity: '100' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Cảm biến', info: 'Hero 25K' },
+          { title: 'Đèn LED', info: 'RGB 16.8 triệu màu' },
+          { title: 'Kết nối', info: 'Có dây USB' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\G502HERO-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Chuột gaming Logitech G502 Hero-desc-578.webp",
+          img1: "uploads\\product\\Chuột gaming Logitech G502 Hero-desc-a16.webp",
+          img2: "uploads\\product\\Chuột gaming Logitech G502 Hero-desc-fd7.webp",
+          img3: "uploads\\product\\Chuột gaming Logitech G502 Hero-desc-240.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 53,
+        name: 'Chuột không dây Microsoft Surface Mouse',
+        productId: 'SURFACEMOUSE',
+        brandId: 4, // Microsoft
+        description: 'Thiết kế thanh lịch, tối ưu cho trải nghiệm làm việc và giải trí.',
+        tagName: 'CHUỘT',
+        variants: JSON.stringify([
+          { version: 'Bluetooth', type: 'Wireless', price: '890000', quantity: '75' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Công nghệ', info: 'Bluetooth 4.0' },
+          { title: 'Trọng lượng', info: '90g' },
+          { title: 'Pin', info: '2 x AAA, tuổi thọ lên tới 12 tháng' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\SURFACEMOUSE-main.webp"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 54,
+        name: 'Chuột gaming Razer DeathAdder V2',
+        productId: 'DEATHADDERV2',
+        brandId: 7, // Razer
+        description: 'Dòng chuột gaming huyền thoại với hiệu suất và thiết kế tối ưu.',
+        tagName: 'CHUỘT',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Wired', price: '1590000', quantity: '50' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Cảm biến', info: 'Focus+ Optical' },
+          { title: 'DPI tối đa', info: '20000' },
+          { title: 'Trọng lượng', info: '82g' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\DEATHADDERV2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Chuột gaming Razer DeathAdder V2-desc-477.webp",
+          img1: "uploads\\product\\Chuột gaming Razer DeathAdder V2-desc-d1e.webp",
+          img2: "uploads\\product\\Chuột gaming Razer DeathAdder V2-desc-15f.webp",
+          img3: "uploads\\product\\Chuột gaming Razer DeathAdder V2-desc-59a.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 55,
+        name: 'PlayStation 5',
+        productId: 'PS5',
+        brandId: 8, // GIGABYTE
+        description: 'Máy chơi game thế hệ mới với hiệu suất cao và đồ họa vượt trội.',
+        tagName: 'CONSOLE',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Disk Edition', price: '14990000', quantity: '30' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'CPU', info: '8x Zen 2 Cores at 3.5GHz' },
+          { title: 'GPU', info: '10.28 TFLOPs, RDNA 2 Architecture' },
+          { title: 'Storage', info: '825GB SSD' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\PS5-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\PlayStation 5-desc-ef0.webp",
+          img1: "uploads\\product\\PlayStation 5-desc-05d.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 56,
+        name: 'Xbox Series X',
+        productId: 'XBOXSERIESX',
+        brandId: 4, // Microsoft
+        description: 'Cỗ máy chơi game mạnh mẽ nhất từ trước đến nay, trải nghiệm chơi game 4K tuyệt hảo.',
+        tagName: 'CONSOLE',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Disk Edition', price: '13990000', quantity: '40' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'CPU', info: '8x Zen 2 Cores at 3.8GHz' },
+          { title: 'GPU', info: '12 TFLOPs, RDNA 2 Architecture' },
+          { title: 'Storage', info: '1TB SSD' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\XBOXSERIESX-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Xbox Series X-desc-10c.webp",
+          img1: "uploads\\product\\Xbox Series X-desc-e11.webp",
+          img2: "uploads\\product\\Xbox Series X-desc-de8.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 57,
+        name: 'Nintendo Switch OLED',
+        productId: 'SWITCHOLED',
+        brandId: 9, // VAIO
+        description: 'Phiên bản nâng cấp của Nintendo Switch với màn hình OLED rực rỡ.',
+        tagName: 'CONSOLE',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Handheld & Docked', price: '9500000', quantity: '60' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Màn hình', info: '7-inch OLED' },
+          { title: 'Dung lượng pin', info: '4.5 - 9 giờ' },
+          { title: 'Bộ nhớ trong', info: '64GB' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\SWITCHOLED-main.webp"),
+        imageUrl: JSON.stringify({
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 58,
+        name: 'VAIO VisionBeam X2',
+        productId: 'VBEAMX2',
+        brandId: 9, // VAIO
+        description: 'Máy chiếu cao cấp với độ phân giải 4K và công nghệ HDR.',
+        tagName: 'PROJECTOR',
+        variants: JSON.stringify([
+          { version: 'Deluxe', type: 'Home Cinema', price: '25000000', quantity: '30' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Độ phân giải', info: '4K UHD' },
+          { title: 'Độ sáng', info: '3000 Lumens' },
+          { title: 'Kết nối', info: 'HDMI, WiFi, Bluetooth' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\VBEAMX2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\VAIO VisionBeam X2-desc-de7.webp",
+          img1: "uploads\\product\\VAIO VisionBeam X2-desc-f0d.webp",
+          img2: "uploads\\product\\VAIO VisionBeam X2-desc-0a4.webp",
+          img3: "uploads\\product\\VAIO VisionBeam X2-desc-6fe.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 59,
+        name: 'ASUS ProBeam Lite',
+        productId: 'APBLITE',
+        brandId: 1, // ASUS
+        description: 'Máy chiếu nhỏ gọn với khả năng trình chiếu sắc nét và dễ di chuyển.',
+        tagName: 'PROJECTOR',
+        variants: JSON.stringify([
+          { version: 'Compact', type: 'Portable', price: '12000000', quantity: '50' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Độ phân giải', info: '1080p Full HD' },
+          { title: 'Độ sáng', info: '2500 Lumens' },
+          { title: 'Kết nối', info: 'HDMI, USB-C' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\APBLITE-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\ASUS ProBeam Lite-desc-08a.webp",
+          img1: "uploads\\product\\ASUS ProBeam Lite-desc-4d0.webp",
+          img2: "uploads\\product\\ASUS ProBeam Lite-desc-7db.webp",
+          img3: "uploads\\product\\ASUS ProBeam Lite-desc-aa6.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 60,
+        name: 'Lenovo BrightCast P7',
+        productId: 'LBCP7',
+        brandId: 3, // Lenovo
+        description: 'Máy chiếu văn phòng với độ sáng cao và tuổi thọ bóng đèn lâu dài.',
+        tagName: 'PROJECTOR',
+        variants: JSON.stringify([
+          { version: 'Professional', type: 'Office', price: '17000000', quantity: '40' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Độ phân giải', info: 'WUXGA (1920x1200)' },
+          { title: 'Độ sáng', info: '4000 Lumens' },
+          { title: 'Kết nối', info: 'HDMI, VGA, LAN' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\LBCP7-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Lenovo BrightCast P7-desc-380.webp",
+          img1: "uploads\\product\\Lenovo BrightCast P7-desc-878.webp",
+          img2: "uploads\\product\\Lenovo BrightCast P7-desc-bd7.webp",
+          img3: "uploads\\product\\Lenovo BrightCast P7-desc-151.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 61,
+        name: 'ASUS LockerPro A3',
+        productId: 'ALPA3',
+        brandId: 1, // ASUS
+        description: 'Hộc tủ bảo mật cao dành cho văn phòng hiện đại.',
+        tagName: 'FILING_CABINET',
+        variants: JSON.stringify([
+          { version: 'Standard', type: 'Office', price: '9000000', quantity: '25' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '600x800x450mm' },
+          { title: 'Chất liệu', info: 'Thép không gỉ' },
+          { title: 'Tính năng', info: 'Khóa điện tử, chống nước' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\ALPA3-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\ASUS LockerPro A3-desc-bb0.webp",
+          img1: "uploads\\product\\ASUS LockerPro A3-desc-c92.webp",
+          img2: "uploads\\product\\ASUS LockerPro A3-desc-255.webp",
+          img3: "uploads\\product\\ASUS LockerPro A3-desc-cfa.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 62,
+        name: 'Dell SafeBox D9',
+        productId: 'DSBD9',
+        brandId: 2, // Dell
+        description: 'Hộc tủ văn phòng bền bỉ với không gian lưu trữ rộng.',
+        tagName: 'FILING_CABINET',
+        variants: JSON.stringify([
+          { version: 'Premium', type: 'Office', price: '12000000', quantity: '15' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '700x900x500mm' },
+          { title: 'Chất liệu', info: 'Gỗ ép cao cấp' },
+          { title: 'Tính năng', info: 'Khóa từ, ngăn chống trộm' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\DSBD9-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Dell SafeBox D9-desc-d65.webp",
+          img1: "uploads\\product\\Dell SafeBox D9-desc-ffd.webp",
+          img2: "uploads\\product\\Dell SafeBox D9-desc-b6d.webp",
+          img3: "uploads\\product\\Dell SafeBox D9-desc-e20.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 63,
+        name: 'Acer SecureVault S2',
+        productId: 'ACSVS2',
+        brandId: 6, // Acer
+        description: 'Hộc tủ thông minh với thiết kế hiện đại và công nghệ tiên tiến.',
+        tagName: 'FILING_CABINET',
+        variants: JSON.stringify([
+          { version: 'Advanced', type: 'Office', price: '14000000', quantity: '10' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '800x1000x600mm' },
+          { title: 'Chất liệu', info: 'Nhôm hợp kim' },
+          { title: 'Tính năng', info: 'Cảm biến vân tay, bảo vệ RFID' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\ACSVS2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Acer SecureVault S2-desc-174.webp",
+          img1: "uploads\\product\\Acer SecureVault S2-desc-662.webp",
+          img2: "uploads\\product\\Acer SecureVault S2-desc-220.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 64,
+        name: 'Dell LaptopStand Flex',
+        productId: 'DLFS1',
+        brandId: 2, // Dell
+        description: 'Giá đỡ laptop với thiết kế gọn nhẹ, dễ dàng điều chỉnh để phù hợp với nhiều góc nhìn.',
+        tagName: 'LAPTOP_STAND',
+        variants: JSON.stringify([
+          { version: 'Basic', type: 'Home', price: '6000000', quantity: '15' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '350x250x50mm' },
+          { title: 'Chất liệu', info: 'Hợp kim nhôm' },
+          { title: 'Tính năng', info: 'Điều chỉnh góc độ, chống trượt' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\DLFS1-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Dell LaptopStand Flex-desc-d0d.webp",
+          img1: "uploads\\product\\Dell LaptopStand Flex-desc-ea0.webp",
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 65,
+        name: 'Lenovo TabletStand Pro',
+        productId: 'LTS1',
+        brandId: 3, // Lenovo
+        description: 'Giá đỡ tablet chuyên nghiệp với thiết kế chắc chắn, hỗ trợ đa thiết bị.',
+        tagName: 'TABLET_STAND',
+        variants: JSON.stringify([
+          { version: 'Premium', type: 'Office', price: '8000000', quantity: '12' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '200x150x40mm' },
+          { title: 'Chất liệu', info: 'Hợp kim thép' },
+          { title: 'Tính năng', info: 'Chống rung, xoay 360 độ' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\LTS1-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Lenovo TabletStand Pro-desc-69f.webp",
+          img1: "uploads\\product\\Lenovo TabletStand Pro-desc-6ed.webp",
+          img2: "uploads\\product\\Lenovo TabletStand Pro-desc-dd6.webp",
+          img3: "uploads\\product\\Lenovo TabletStand Pro-desc-22c.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 66,
+        name: 'Razer BladeStand V2',
+        productId: 'RZBS2',
+        brandId: 7, // Razer
+        description: 'Giá đỡ laptop tối ưu cho gaming, thiết kế mạnh mẽ, phù hợp với game thủ chuyên nghiệp.',
+        tagName: 'LAPTOP_STAND',
+        variants: JSON.stringify([
+          { version: 'Gaming', type: 'Pro', price: '9500000', quantity: '8' }
+        ]),
+        specifications: JSON.stringify([
+          { title: 'Kích thước', info: '400x300x60mm' },
+          { title: 'Chất liệu', info: 'Kim loại cao cấp' },
+          { title: 'Tính năng', info: 'Hệ thống tản nhiệt, đèn LED RGB' }
+        ]),
+        productImage: JSON.stringify("uploads\\product\\RZBS2-main.webp"),
+        imageUrl: JSON.stringify({
+          img0: "uploads\\product\\Razer BladeStand V2-desc-25d.webp",
+          img1: "uploads\\product\\Razer BladeStand V2-desc-07c.webp",
+          img2: "uploads\\product\\Razer BladeStand V2-desc-c75.webp",
+          img3: "uploads\\product\\Razer BladeStand V2-desc-9d6.webp"
+        }),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
     ]);
 
     // Thêm dữ liệu vào bảng ProductCategory
@@ -1237,7 +1966,139 @@ export const seed = async function (knex) {
       {
         productId: 36, 
         categoryId: 5,
-      }
+      },
+      {
+        productId: 37, 
+        categoryId: 6,
+      },
+      {
+        productId: 38, 
+        categoryId: 6,
+      },
+      {
+        productId: 39, 
+        categoryId: 6,
+      },
+      {
+        productId: 40, 
+        categoryId: 7,
+      },
+      {
+        productId: 41, 
+        categoryId: 7,
+      },
+      {
+        productId: 42, 
+        categoryId: 7,
+      },
+      {
+        productId: 43, 
+        categoryId: 8,
+      },
+      {
+        productId: 44, 
+        categoryId: 8,
+      },
+      {
+        productId: 45, 
+        categoryId: 8,
+      },
+      {
+        productId: 46, 
+        categoryId: 9,
+      },
+      {
+        productId: 47, 
+        categoryId: 9,
+      },
+      {
+        productId: 48, 
+        categoryId: 9,
+      },
+      {
+        productId: 49, 
+        categoryId: 10,
+      },
+      {
+        productId: 50, 
+        categoryId: 10,
+      },
+      {
+        productId: 51, 
+        categoryId: 10,
+      },
+      {
+        productId: 52, 
+        categoryId: 11,
+      },
+      {
+        productId: 53, 
+        categoryId: 11,
+      },
+      {
+        productId: 54, 
+        categoryId: 11,
+      },
+      {
+        productId: 55, 
+        categoryId: 12,
+      },
+      {
+        productId: 56, 
+        categoryId: 12,
+      },
+      {
+        productId: 57, 
+        categoryId: 12,
+      },
+      {
+        productId: 58, 
+        categoryId: 13,
+      },
+      {
+        productId: 59, 
+        categoryId: 13,
+      },
+      {
+        productId: 60, 
+        categoryId: 13,
+      },
+      {
+        productId: 61, 
+        categoryId: 14,
+      },
+      {
+        productId: 62, 
+        categoryId: 14,
+      },
+      {
+        productId: 63, 
+        categoryId: 14,
+      },
+      {
+        productId: 46, 
+        categoryId: 15,
+      },
+      {
+        productId: 47, 
+        categoryId: 15,
+      },
+      {
+        productId: 48, 
+        categoryId: 15,
+      },
+      {
+        productId: 64, 
+        categoryId: 16,
+      },
+      {
+        productId: 65, 
+        categoryId: 16,
+      },
+      {
+        productId: 66, 
+        categoryId: 16,
+      },
     ]);
 
     console.log('Seed dữ liệu thành công!');
