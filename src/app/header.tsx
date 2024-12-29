@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Card, message } from 'antd';
+import React, { use, useEffect, useRef, useState } from 'react';
+import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Form, message, Dropdown } from 'antd';
 import { LeftOutlined, RightOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
 import axios from "axios";
+import _, { set } from 'lodash';
 
 const { Search } = Input;
 
@@ -12,8 +13,11 @@ const HeaderPage = () => {
   const carouselRef = useRef<CarouselRef>(null);  // Khai báo ref đúng kiểu
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [category, setCategory] = useState<any>([])
-  console.log('category:', category)
   const [Brand, setBrand] = useState<any>([])
+  const [results, setResults] = useState([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [form] = Form.useForm();
 
   //fake data ở đây
 
@@ -73,7 +77,6 @@ const HeaderPage = () => {
   const getAllCategory = async () => {
     try {
       const data = await axios.get('http://localhost:4000/api/allCategory')
-      console.log('count:', data)
       setCategory(data.data)
     } catch (err: any) {
       message.error(err.response.data.message);
@@ -94,9 +97,21 @@ const HeaderPage = () => {
     }
   }
 
+  const getSearchData = _.debounce(async () => {
+    try {
+      const searchTerm = form.getFieldValue('search')
+      const data = await axios.get(`http://localhost:4000/api/search?search=${searchTerm}`)
+      setResults(data.data)
+      setIsSearchOpen(true)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }, 1000);
+
   useEffect(() => {
     getAllBrand();
   }, [])
+
 
 
   const danhmuccontent = (
@@ -197,7 +212,7 @@ const HeaderPage = () => {
                 justifyContent: 'flex-start', // Căn trái
               }}
             >
-              {Brand.map((Brand: any, index: any) => (
+              {Brand?.map((Brand: any, index: any) => (
                 <Button
                   type="text"
                   key={index}
@@ -353,7 +368,66 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Search size='large' placeholder="Tên sản phẩm, nhu cầu hãng" allowClear style={{ width: 350 }} />
+              <Form form={form}>
+                <Form.Item
+                  name="search"
+                  style={{ width: 350 }}
+                >
+                  <Search
+                    size='large'
+                    placeholder="Tên sản phẩm, nhu cầu hãng"
+                    allowClear
+                    onChange={() => getSearchData()}
+                    style={{ width: 350, marginTop: '25px' }}
+                    onClick={() => setIsSearchOpen(prev => !prev)}
+                  />
+                </Form.Item>
+                {results.length > 0 && isSearchOpen == true && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '75%',
+                      left: 0,
+                      right: 0,
+                      backgroundColor: 'white',
+                      border: '1px solid #f5f5f5',
+                      borderRadius: '4px',
+                      zIndex: 1,
+                      maxHeight: '400px',
+                      overflowY: 'auto',
+                    }}
+                  >
+                    <style>
+                      {`
+                        /* Custom Webkit scrollbar styles */
+                        div::-webkit-scrollbar {
+                          width: 8px;
+                        }
+                        div::-webkit-scrollbar-thumb {
+                          background-color: #888;
+                          border-radius: 4px;
+                        }
+                        div::-webkit-scrollbar-track {
+                          background-color: #f5f5f5;
+                        }
+                      `}
+                    </style>
+                    {results.map((result: any, index: any) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '8px',
+                          borderBottom: '1px solid #f5f5f5',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {result.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+              </Form>
             </ConfigProvider>
           </Col>
           <Col span={3}>
