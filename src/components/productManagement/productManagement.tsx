@@ -13,6 +13,7 @@ const ProductManagement: React.FC = () => {
   const [selectedProducts, setSelectedProducts] = useState<React.Key[]>([]);
   const [data, setData] = useState<any>([]);
   const [productData, setProductData] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState('');
   console.log(data);
 
   const rowSelection: TableProps<any>['rowSelection'] = {
@@ -39,6 +40,16 @@ const ProductManagement: React.FC = () => {
     getAllProduct();
   }, []);
 
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+  };
+
+  const filteredData = data.filter((item: any) =>
+    Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchText.toLowerCase())
+    )
+  );
+
   const columns: TableColumnsType<any> = [
     {
       title: '',
@@ -61,6 +72,15 @@ const ProductManagement: React.FC = () => {
       key: 'productId',
       fixed: 'left',
       width: "5%",
+      filters: [
+        ...Array.from(new Set(data.map((item: any) => item.name))).map((name) => ({
+          text: name as string,
+          value: name as string,
+        })),
+      ],
+      filterMode: 'tree',
+      filterSearch: true,
+      onFilter: (value, record) => record.name.startsWith(value as string),
     },
     {
       title: 'Tên sản phẩm',

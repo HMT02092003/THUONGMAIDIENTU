@@ -70,7 +70,7 @@ export const createProduct = async (req: Request, res: Response) => {
         console.log('New product:', newProduct);
 
         // Chèn sản phẩm và lấy ID tự động từ cơ sở dữ liệu
-        const insertedProduct = await ProductModel.query(transaction).insertAndFetch(newProduct);
+        const insertedProduct = await ProductModel.query(transaction).insert(newProduct);
 
         // Thêm vào bảng ProductCategoryModel
         if (Array.isArray(dataAfterParse.category)) {
