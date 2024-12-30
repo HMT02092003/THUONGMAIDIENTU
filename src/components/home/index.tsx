@@ -12,6 +12,8 @@ import { Color } from "antd/es/color-picker";
 import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Snowflakes from 'magic-snowflakes';
+const snowflakes = new Snowflakes();
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -61,7 +63,7 @@ const App: React.FC = () => {
   };
 
   const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 8);
   };
 
   const getAllCategory = async () => {
@@ -86,7 +88,10 @@ const App: React.FC = () => {
   useEffect(() => {
     getAllCategory();
     getAllProduct();
+    snowflakes.start();
   }, []);
+
+
 
   return (
     <>
@@ -370,7 +375,10 @@ const App: React.FC = () => {
         )}
       </div>
     </>
+
   );
 };
+
+
 
 export default App;

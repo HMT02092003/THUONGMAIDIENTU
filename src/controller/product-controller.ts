@@ -70,7 +70,7 @@ export const createProduct = async (req: Request, res: Response) => {
         console.log('New product:', newProduct);
 
         // Chèn sản phẩm và lấy ID tự động từ cơ sở dữ liệu
-        const insertedProduct = await ProductModel.query(transaction).insertAndFetch(newProduct);
+        const insertedProduct = await ProductModel.query(transaction).insert(newProduct);
 
         // Thêm vào bảng ProductCategoryModel
         if (Array.isArray(dataAfterParse.category)) {
@@ -307,3 +307,21 @@ export const getProductByBrand = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
     }
 };
+
+export const getSearchProduct = async (req: Request, res: Response) => {
+    try {
+        const { search } = req.query;
+        console.log('Keyword:', search);
+
+        const products = await ProductModel.query()
+            .where('productId', 'ILIKE', `%${search}%`)
+            .orWhere('name', 'ILIKE', `%${search}%`)
+            .orWhere('tagName', 'ILIKE', `%${search}%`)
+
+
+        res.status(200).json(products);
+    } catch (error: any) {
+        console.error("Error fetching products by category:", error);
+        res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
+    }
+}

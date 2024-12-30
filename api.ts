@@ -35,6 +35,7 @@ import {
   updateProduct,
   getProductByCategory,
   getProductByBrand,
+  getSearchProduct,
 } from './src/controller/product-controller';
 
 const router = Router();
@@ -157,6 +158,11 @@ router.get('/getProductByCategory/:id', (req, res) => {
 
 router.get('/getProductByBrand/:id', (req, res) => {
   getProductByBrand(req, res);
+});
+
+// ===================================SEARCH===================================
+router.get('/search', (req, res) => {
+  getSearchProduct(req, res);
 });
 
 export default router;
