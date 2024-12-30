@@ -1,62 +1,74 @@
-// Node.js ES Module Syntax
-import axios from 'axios'; // npm install axios
-import CryptoJS from 'crypto-js'; // npm install crypto-js
-import { v1 as uuid } from 'uuid'; // npm install uuid
-import moment from 'moment'; // npm install moment
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+import { v1 as uuid } from 'uuid';
 import express from 'express';
+import moment from 'moment';
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const config = {
+    appid: "554", // ID ứng dụng của bạn trên ZaloPay
+    key1: "8NdU5pG5R2spGHGhyO99HN1OhD8IQJBn", // Key1 của bạn
+    key2: "uUfsWgfLkRLzq6W2uNXTCxrfxs51auny", // Key2 của bạn
+    endpoint: "https://sandbox.zalopay.com.vn/v001/tpe/createorder",
+};
+
 app.post('/payment', async (req, res) => {
-    // APP INFO
-    const config = {
-        appid: "554",
-        key1: "8NdU5pG5R2spGHGhyO99HN1OhD8IQJBn",
-        key2: "uUfsWgfLkRLzq6W2uNXTCxrfxs51auny",
-        endpoint: "https://sandbox.zalopay.com.vn/v001/tpe/createorder"
-    };
-
-    const embeddata = {
-        merchantinfo: "embeddata123",
-        redirecturl: "https://localhost:4000/home",
-    };
-
-    const items = [{
-        itemid: "knb",
-        itemname: "kim nguyen bao",
-        itemprice: 198400,
-        itemquantity: 1
-    }];
+    const { amount, orderInfo, redirecturl, orderid, appid } = req.body;
 
     const order = {
         appid: config.appid,
-        apptransid: `${moment().format('YYMMDD')}_${uuid()}`, // mã giao dịch có định dạng yyMMdd_xxxx
-        appuser: "demo",
-        apptime: Date.now(), // miliseconds
-        item: JSON.stringify(items),
-        embeddata: JSON.stringify(embeddata),
-        amount: 150000,
-        description: "ZaloPay Integration Demo",
-        bankcode: "",
+        amount: amount, // Tổng tiền thanh toán
+        orderid: orderid, // ID đơn hàng duy nhất
+        orderInfo: orderInfo, // Thông tin đơn hàng
+        redirecturl: redirecturl, // URL sau khi thanh toán
+        embeddata: "embeddata123", // Thông tin thêm (có thể tùy chỉnh)
+        items: [{
+            itemid: "knb",
+            itemname: "Kim Nguyen Bao",
+            itemprice: amount,
+            itemquantity: 1,
+        }],
     };
 
-    // appid|apptransid|appuser|amount|apptime|embeddata|item
-    const data = config.appid + "|" + order.apptransid + "|" + order.appuser + "|" + order.amount + "|" + order.apptime + "|" + order.embeddata + "|" + order.item;
-    order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
+    const requestData = {
+        appid: config.appid,
+        appuser: "testuser",
+        orderid: orderid,
+        amount: amount,
+        description: orderInfo,
+        returnurl: redirecturl,
+        bankcode: "",
+        buyeremail: "buyer@example.com",
+        items: JSON.stringify(order.items),
+        embeddata: order.embeddata,
+    };
 
+    // Tạo signature
+    const signature = CryptoJS.HmacSHA256(
+        `${config.key1}|${requestData.appid}|${requestData.orderid}|${requestData.amount}|${requestData.description}|${config.key2}`,
+        config.key1
+    ).toString(CryptoJS.enc.Base64);
+
+    // Tạo đơn hàng ZaloPay
     try {
-        const result = await axios.post(config.endpoint, null, { params: order });
-        console.log(result.data);
-        res.status(200).send(result.data);
+        const response = await axios.post(config.endpoint, {
+            ...requestData,
+            signature: signature,
+        });
+
+        if (response.data && response.data.orderurl) {
+            return res.json({ orderurl: response.data.orderurl }); // Trả về link thanh toán
+        } else {
+            return res.status(400).json({ error: "Lỗi tạo đơn hàng thanh toán." });
+        }
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Something went wrong" });
+        return res.status(500).json({ error: "Lỗi kết nối với ZaloPay." });
     }
 });
 
-app.listen(6000, () => {
-    console.log('Server is running on port 6000');
+app.listen(5000, () => {
+    console.log("Server is running on http://localhost:5000");
 });

@@ -159,4 +159,8 @@ router.get('/getProductByBrand/:id', (req, res) => {
   getProductByBrand(req, res);
 });
 
+
+
+// ===================================PRODUCT===================================
+
 export default router;
