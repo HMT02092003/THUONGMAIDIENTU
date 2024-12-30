@@ -63,7 +63,7 @@ const App: React.FC = () => {
   };
 
   const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 8);
   };
 
   const getAllCategory = async () => {
@@ -88,9 +88,11 @@ const App: React.FC = () => {
   useEffect(() => {
     getAllCategory();
     getAllProduct();
+    snowflakes.start();
   }, []);
 
-  snowflakes.start();
+
+
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>

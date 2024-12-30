@@ -416,14 +416,62 @@ const HeaderPage = () => {
                       <div
                         key={index}
                         style={{
-                          padding: '8px',
-                          borderBottom: '1px solid #f5f5f5',
+                          padding: '12px 20px',
+                          border: '1px solid #e0e0e0',
                           cursor: 'pointer',
+                          transition: 'box-shadow 0.3s, transform 0.3s'
                         }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)')
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)')
+                        }
+                        onClick={() => router.push(`http://localhost:4000/product/detail/${result.id}`)}
                       >
-                        {result.name}
+                        <Row align="middle" gutter={[16, 16]}>
+                          {/* Image */}
+                          <Col flex="0 0 60px" style={{ display: 'flex', justifyContent: 'center' }}>
+                            <img
+                              src={`http://localhost:4000/${result.productImage}`}
+                              alt={result.name}
+                              style={{
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '8px',
+                                objectFit: 'cover',
+                              }}
+                            />
+                          </Col>
+
+                          {/* Content */}
+                          <Col flex="1" style={{ textAlign: 'left' }}>
+                            <div
+                              style={{
+                                fontWeight: 'bold',
+                                fontSize: '16px',
+                                marginBottom: '4px',
+                                whiteSpace: 'normal',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {result.name}
+                            </div>
+                            <div
+                              style={{
+                                color: '#888',
+                                fontSize: '14px',
+                                whiteSpace: 'normal',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {result.description || 'No description available'}
+                            </div>
+                          </Col>
+                        </Row>
                       </div>
                     ))}
+
                   </div>
                 )}
 
