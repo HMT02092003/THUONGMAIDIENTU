@@ -167,7 +167,7 @@ const ShoppingCart: React.FC = () => {
                 style={{ backgroundColor: '#005BAA' }}
                 onClick={() => console.log("Thanh toán qua VNPay")}
               >
-                VNPay
+                ZaloPay
               </Button>
               <Button
                 type="primary"
