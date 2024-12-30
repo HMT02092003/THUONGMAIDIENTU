@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
-type FileType = any;
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import '@/src/cssfolder/CreateBrandModal.css'; // Import file CSS
 
 interface CreateBrandModalProps {
   isVisible: boolean;
@@ -19,17 +10,13 @@ interface CreateBrandModalProps {
   onSuccess: () => void;
 }
 
-const CreateBrandModal: React.FC<CreateBrandModalProps> = ({ 
-  isVisible, 
-  onClose, 
-  onSuccess 
-}) => {
+const CreateBrandModal = ({ isVisible, onClose, onSuccess }: CreateBrandModalProps) => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
 
-  const validateImageUpload = (file: FileType) => {
+  const validateImageUpload = (file: { type: string }) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
       message.error('Chỉ được upload file định dạng JPG hoặc PNG!');
@@ -38,6 +25,15 @@ const CreateBrandModal: React.FC<CreateBrandModalProps> = ({
     return isJpgOrPng;
   };
 
+  const getBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+  
   const handlePreview = async (file: any) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -54,7 +50,7 @@ const CreateBrandModal: React.FC<CreateBrandModalProps> = ({
     try {
       const formData = new FormData();
       formData.append('brandName', values.brandName);
-      
+
       if (values.description) {
         formData.append('description', values.description);
       }
@@ -64,7 +60,7 @@ const CreateBrandModal: React.FC<CreateBrandModalProps> = ({
       }
 
       await axios.post('http://localhost:4000/api/createBrand', formData);
-      
+
       message.success('Tạo mới danh mục thành công!');
       form.resetFields();
       setFileList([]);
@@ -76,16 +72,16 @@ const CreateBrandModal: React.FC<CreateBrandModalProps> = ({
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
+    <button className="upload-button" type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div>Upload</div>
     </button>
   );
 
   return (
     <>
       <Modal
-        title="Tạo mới thương hiệu"
+        title={<div className="modal-title">Tạo mới thương hiệu</div>}
         open={isVisible}
         onCancel={() => {
           onClose();
@@ -119,15 +115,16 @@ const CreateBrandModal: React.FC<CreateBrandModalProps> = ({
             <Input />
           </Form.Item>
 
-          <Form.Item
-            label="Mô tả"
-            name="description"
-          >
+          <Form.Item label="Mô tả" name="description">
             <Input.TextArea rows={4} />
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="full-width-button"
+            >
               Tạo mới
             </Button>
           </Form.Item>

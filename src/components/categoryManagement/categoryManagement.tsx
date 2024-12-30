@@ -11,6 +11,9 @@ import axios from 'axios';
 import CreateCategoryModal from './createCategoryModal';
 import UpdateCategoryModal from './updateCategoryModal';
 
+// Import CSS file
+import '@/src/cssfolder/CategoryManagement.css';
+
 const CategoryManagement = () => {
   const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
@@ -112,18 +115,11 @@ const CategoryManagement = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 40px' }}>
+      <div className="button-container">
         <Button
           type="primary"
           onClick={() => setIsCreateModalVisible(true)}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: '#73d13d',
-            width: '100px',
-            margin: '0 5px',
-          }}
+          className="create-button"
         >
           <PlusOutlined />
           Tạo mới
@@ -132,14 +128,7 @@ const CategoryManagement = () => {
         <Button
           type="primary"
           onClick={handleDelete}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: '#ff4d4f',
-            width: '100px',
-            margin: '0 5px',
-          }}
+          className="delete-button"
         >
           <DeleteOutlined />
           Xóa

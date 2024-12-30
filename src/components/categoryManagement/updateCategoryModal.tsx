@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import '@/src/cssfolder/UpdateCategoryModal.css'; // Import CSS file
 
 type FileType = any;
 
@@ -116,7 +117,7 @@ const UpdateCategoryModal: React.FC<UpdateCategoryModalProps> = ({
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
+    <button className="upload-button" type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
@@ -166,7 +167,7 @@ const UpdateCategoryModal: React.FC<UpdateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <Button type="primary" htmlType="submit" className="modal-footer-button">
               Cập nhật
             </Button>
           </Form.Item>
