@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Empty, Row, Typography, Image, message, Divider } from "antd";
 import { ShoppingCartOutlined, MinusOutlined, PlusOutlined, DeleteOutlined, DollarOutlined } from "@ant-design/icons";
-import "./shoppingCart.css";
+import "@/src/cssfolder/shoppingCart.css";
 
 const { Title, Text } = Typography;
 
