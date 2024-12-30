@@ -155,7 +155,7 @@ const App: React.FC = () => {
         </Col>
         {/* Footer */}
             <div className="footerContent" style={{ textAlign: "center", width:"100%" }}>
-            <Text>© ThinkPro 2024 - CREATE BY NHÓM 4 </Text>
+            <Text>© ThinkPro 2024 - CREATE BY NHÓM 11 </Text>
           </div>
       </Row>
     </>

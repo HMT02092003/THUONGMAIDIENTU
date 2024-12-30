@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import '@/src/cssfolder/UpdateBrandModal.css'; // Import file CSS
 
 type FileType = any;
 
@@ -79,12 +80,9 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
   };
 
   const handleFileChange = ({ file, fileList: newFileList }: any) => {
-    // Nếu là ảnh mới (status là 'done'), chỉ giữ lại ảnh cuối cùng được tải lên
     if (file.status === 'done' || file.status === 'uploading') {
       setFileList(newFileList.slice(-1));
-    }
-    // Nếu ảnh bị xóa, cập nhật danh sách
-    else if (file.status === 'removed') {
+    } else if (file.status === 'removed') {
       setFileList(newFileList);
     }
   };
@@ -116,9 +114,9 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
+    <button className="upload-button" type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div>Upload</div>
     </button>
   );
 
@@ -166,7 +164,7 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <Button className="submit-button" type="primary" htmlType="submit">
               Cập nhật
             </Button>
           </Form.Item>
@@ -179,7 +177,7 @@ const UpdateBrandModal: React.FC<UpdateCategoryModalProps> = ({
         footer={null}
         onCancel={() => setPreviewOpen(false)}
       >
-        <img alt="preview" style={{ width: '100%' }} src={previewImage} />
+        <img alt="preview" className="preview-image" src={previewImage} />
       </Modal>
     </>
   );

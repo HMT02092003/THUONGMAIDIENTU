@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Space, Table, Tag, Button, Modal } from 'antd';
 import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import type { TableColumnsType, TableProps } from 'antd';
-
+import styles from '@/src/cssfolder/ProductManagement.module.css';  // Import CSS module
 
 const ProductManagement: React.FC = () => {
   const router = useRouter();
@@ -14,7 +14,6 @@ const ProductManagement: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [productData, setProductData] = useState<any[]>([]);
   console.log(data);
-
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
@@ -166,18 +165,10 @@ const ProductManagement: React.FC = () => {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-
+      <div className={styles.container}>
         <Button type="primary"
           onClick={() => router.push('/productManagement/create')}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#73d13d",
-            width: "100px",
-            margin: "0 5px",
-          }} >
+          className={`${styles.button} ${styles.createButton}`} >
           <PlusOutlined />
           Tạo mới
         </Button>
@@ -185,15 +176,7 @@ const ProductManagement: React.FC = () => {
         <Button
           type="primary"
           onClick={handleDelete}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#ff4d4f",
-            width: "100px",
-            margin: "0 5px"
-          }}
-        >
+          className={`${styles.button} ${styles.deleteButton}`} >
           <DeleteOutlined />
           Xóa
         </Button>
@@ -207,9 +190,10 @@ const ProductManagement: React.FC = () => {
         }}
         rowKey="id"
         scroll={{ x: 'max-content' }}
+        className={styles.table}
       />
     </>
-  )
+  );
 };
 
 export default ProductManagement;

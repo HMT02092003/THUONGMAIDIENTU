@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import CreateBrandModal from './createBrandModal';
 import UpdateBrandModal from './updateBrandModal';
+import '@/src/cssfolder/BrandManagement.css'; 
 
 const BrandManagement = () => {
   const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
@@ -35,7 +36,7 @@ const BrandManagement = () => {
       render: (_: any, record: any) => (
         <div
           onClick={() => handleEditBrand(record.id)}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          className="centered-edit-icon"
         >
           <EditOutlined />
         </div>
@@ -112,18 +113,11 @@ const BrandManagement = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '10px 40px' }}>
+      <div className="action-buttons">
         <Button
           type="primary"
           onClick={() => setIsCreateModalVisible(true)}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: '#73d13d',
-            width: '100px',
-            margin: '0 5px',
-          }}
+          className="create-button"
         >
           <PlusOutlined />
           Tạo mới
@@ -132,14 +126,7 @@ const BrandManagement = () => {
         <Button
           type="primary"
           onClick={handleDelete}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            background: '#ff4d4f',
-            width: '100px',
-            margin: '0 5px',
-          }}
+          className="delete-button"
         >
           <DeleteOutlined />
           Xóa
@@ -156,7 +143,6 @@ const BrandManagement = () => {
         rowKey="id"
       />
 
-      {/* Modal cảnh báo */}
       <Modal
         title={
           <span>
@@ -173,14 +159,12 @@ const BrandManagement = () => {
         <p>Vui lòng chọn ít nhất một danh mục để xóa.</p>
       </Modal>
 
-      {/* Modal tạo mới danh mục */}
       <CreateBrandModal 
         isVisible={isCreateModalVisible}
         onClose={() => setIsCreateModalVisible(false)}
         onSuccess={fetchData}
       />
 
-      {/* Modal chỉnh sửa danh mục */}
       <UpdateBrandModal 
         isVisible={isEditModalVisible}
         brandId={currentEditBrandId}
