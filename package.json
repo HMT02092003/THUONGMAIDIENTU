@@ -45,6 +45,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-highlight-words": "^0.20.0",
     "magic-snowflakes": "^7.0.1",
     "nodemon": "^3.1.7",
     "tsx": "^4.19.2",

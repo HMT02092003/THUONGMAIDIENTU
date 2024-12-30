@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
-import { Space, Table, Tag, Button, Modal } from 'antd';
-import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { useEffect, useRef } from 'react';
+import { Space, Table, Tag, Button, Modal, Input } from 'antd';
+import { EditOutlined, SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import type { TableColumnsType, TableProps } from 'antd';
 import styles from '@/src/cssfolder/ProductManagement.module.css';  // Import CSS module
+import type { FilterDropdownProps } from 'antd/es/table/interface';
+
 
 const ProductManagement: React.FC = () => {
   const router = useRouter();
@@ -14,6 +16,8 @@ const ProductManagement: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [productData, setProductData] = useState<any[]>([]);
   const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef<any>(null);
   console.log(data);
 
   const rowSelection: TableProps<any>['rowSelection'] = {
@@ -40,15 +44,59 @@ const ProductManagement: React.FC = () => {
     getAllProduct();
   }, []);
 
-  const handleSearch = (value: string) => {
-    setSearchText(value);
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: FilterDropdownProps['confirm'],
+    dataIndex: string
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
-  const filteredData = data.filter((item: any) =>
-    Object.values(item).some((value) =>
-      String(value).toLowerCase().includes(searchText.toLowerCase())
-    )
-  );
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex: string): TableColumnsType<any>[number] => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]?.toString().toLowerCase().includes((value as string).toLowerCase()),
+  });
+
 
   const columns: TableColumnsType<any> = [
     {
@@ -72,15 +120,7 @@ const ProductManagement: React.FC = () => {
       key: 'productId',
       fixed: 'left',
       width: "5%",
-      filters: [
-        ...Array.from(new Set(data.map((item: any) => item.name))).map((name) => ({
-          text: name as string,
-          value: name as string,
-        })),
-      ],
-      filterMode: 'tree',
-      filterSearch: true,
-      onFilter: (value, record) => record.name.startsWith(value as string),
+      ...getColumnSearchProps('productId'),
     },
     {
       title: 'Tên sản phẩm',
@@ -89,6 +129,7 @@ const ProductManagement: React.FC = () => {
       align: 'center',
       fixed: 'left',
       width: "15%",
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Thể loại',
@@ -102,6 +143,7 @@ const ProductManagement: React.FC = () => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         return <Tag color={randomColor} key={category.id}>{category.name}</Tag>;
       }),
+      ...getColumnSearchProps('categories'),
     },
     {
       title: 'Thương hiệu',
@@ -111,6 +153,7 @@ const ProductManagement: React.FC = () => {
       fixed: 'left',
       width: "10%",
       render: (brand: any) => brand ? brand.name : 'N/A',
+      ...getColumnSearchProps('brand'),
     },
     {
       title: 'Màu',
@@ -141,7 +184,7 @@ const ProductManagement: React.FC = () => {
       dataIndex: 'description',
       align: 'center',
       key: 'description',
-      width: "200px",
+      width: "100%",
     },
   ];
 
