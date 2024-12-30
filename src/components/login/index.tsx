@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button, Checkbox, Col, Input, Row, Typography, Form, message, ConfigProvider } from "antd";
-import "./LoginPage.css";
+import "@/src/cssfolder/LoginPage.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";

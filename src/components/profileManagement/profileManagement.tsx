@@ -1,13 +1,15 @@
+// ProfileManagement.tsx
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import type { TableColumnsType, TableProps } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined,CloudUploadOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, PlusOutlined, CloudUploadOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { Table, Button, Modal, Tag } from "antd";
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+import styles from '@/src/cssfolder/ProfileManagement.module.css';
 
 type OnChange = NonNullable<TableProps<DataType>['onChange']>;
 type Filters = Parameters<OnChange>[1];
@@ -41,8 +43,7 @@ const ProfileManagement = () => {
   const [userData, setUserData] = useState<DataType[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
   const [selectedUsers, setSelectedUsers] = useState<React.Key[]>([]);
-  console.log(selectedUsers)
-
+  console.log(selectedUsers);
 
   const router = useRouter();
 
@@ -58,7 +59,7 @@ const ProfileManagement = () => {
         const authUser: any = await axios.get('http://localhost:4000/api/allUser');
         console.log(authUser.data.data.users);
 
-        const newUserData: any[] = authUser.data.data.users
+        const newUserData: any[] = authUser.data.data.users;
 
         setUserData(newUserData);
 
@@ -120,7 +121,7 @@ const ProfileManagement = () => {
     'magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'
   ];
   const colorMap: { [key: string]: string } = {};
-  
+
   const getColor = (tag: string) => {
     if (!colorMap[tag]) {
       const colorIndex = Object.keys(colorMap).length % colors.length;
@@ -154,11 +155,11 @@ const ProfileManagement = () => {
       render: (_, record) => (
         <div
           onClick={() => router.push(`/profileManagement/edit/${record.id}`)}
-          style={{display:"flex",alignItems:"center",justifyContent:"center"}}
+          className={styles.editIcon}
         >
           <EditOutlined />
         </div>
-      ),  
+      ),
     },
     {
       title: 'Name',
@@ -227,21 +228,15 @@ const ProfileManagement = () => {
 
   const importExcel = () => {
     router.push('/profileManagement/importExcel');
-  }
+  };
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-      <Button
+      <div className={styles.buttonContainer}>
+        <Button
           type="primary"
           onClick={importExcel}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#722ed1",
-            margin: "0 5px"
-          }}
+          className={styles.uploadButton}
         >
           <CloudUploadOutlined />
           Nhập excel
@@ -249,51 +244,32 @@ const ProfileManagement = () => {
 
         <Button
           type="primary"
-          // onClick={exportExcel}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            backgroundColor: "#4096ff",
-            margin: "0 5px"
-          }}
+          className={styles.downloadButton}
         >
           <CloudDownloadOutlined />
           Xuất excel
         </Button>
 
-        <Button type="primary"
+        <Button
+          type="primary"
           onClick={() => router.push('/profileManagement/create')}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#73d13d",
-            width: "100px",
-            margin: "0 5px",
-          }} >
+          className={styles.createButton}
+        >
           <PlusOutlined />
           Tạo mới
         </Button>
 
-        <Button 
+        <Button
           type="primary"
           onClick={handleDelete}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#ff4d4f",
-            width: "100px",
-            margin: "0 5px"
-          }}
+          className={styles.deleteButton}
         >
           <DeleteOutlined />
           Xóa
         </Button>
       </div>
 
-      <div >
+      <div>
         <Table
           rowSelection={{
             type: selectionType,
