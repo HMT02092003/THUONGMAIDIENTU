@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Spin } from 'antd'; // Hiển thị spinner khi tải dữ liệu
-import './Info.css'; // Import CSS
+import '@/src/cssfolder/Info.css'; // Import CSS
 
 // Fake dữ liệu bài viết chi tiết
 const fakeDetailData = {

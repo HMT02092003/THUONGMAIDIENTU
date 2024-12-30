@@ -1,9 +1,8 @@
-
 "use client";
 
 import * as React from "react";
 import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
-import "./ForgotPassword.css";
+import "@/src/cssfolder/ForgotPassword.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { SendOutlined, LeftCircleOutlined } from "@ant-design/icons";
@@ -17,19 +16,13 @@ const ForgotPassword = () => {
     const [step, setStep] = useState<'email' | 'otp' | 'newPassword'>('email');
     const [countdown, setCountdown] = useState<number>(0);
 
-    // const sendOTPMutation: any = trpc.sendOTP.useMutation();
-
     const handleSendOTP = async () => {
         try {
             const email = form.getFieldsValue();
-
             const sendLink = await axios.post("http://localhost:4000/api/forgot-password", email);
-            console.log("sendLink", sendLink);
-            // Gọi mutation sendOTP
-            // await sendOTPMutation.mutateAsync({ email });
-            message.success('Link dổi mật khẩu đã được gửi đến email của bạn');
+            message.success('Link đổi mật khẩu đã được gửi đến email của bạn');
             setStep('otp');
-            setCountdown(30); // Bắt đầu đếm ngược 60 giây
+            setCountdown(30);
         } catch (error: any) {
             message.error(error.response.data.error);
         }
@@ -48,6 +41,7 @@ const ForgotPassword = () => {
     React.useEffect(() => {
         document.body.style.margin = "0";
     }, []);
+
     return (
         <div className="login-container">
             <Row style={{ height: "101vh" }} gutter={[16, 0]}>
@@ -56,7 +50,6 @@ const ForgotPassword = () => {
                         src="/logo/undraw_code_thinking_re_gka2.svg"
                         alt="Illustration"
                         className="illustration-image"
-                        style={{ width: 700 }}
                     />
                 </Col>
 
@@ -65,8 +58,8 @@ const ForgotPassword = () => {
                         className="form-content"
                         form={form}
                     >
-                        <div style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center" }}>
-                            <img src="../../../logo/logo.png" alt="" style={{ width: "300px" }} />
+                        <div className="form-header">
+                            <img src="../../../logo/logo.png" alt="" />
                         </div>
                         <br />
                         <div className="form-fields">
@@ -79,7 +72,6 @@ const ForgotPassword = () => {
                                 <Input
                                     placeholder="Email"
                                     className="input-field"
-                                    style={{ height: '50px', borderRadius: '10px' }}
                                 />
                             </Form.Item>
                         </div>
@@ -87,14 +79,11 @@ const ForgotPassword = () => {
                         <Row>
                             <Col md={12} style={{ padding: "0 5px" }}>
                                 <Form.Item>
-                                    <Button onClick={() => { router.push('/login') }}
-                                        style={{
-                                            backgroundColor: "#8c8c8c",
-                                            width: "100%",
-                                            height: "50px",
-                                            color: "white",
-                                        }}>
-                                        <LeftCircleOutlined />Trở lại
+                                    <Button 
+                                        onClick={() => { router.push('/login') }}
+                                        className="secondary"
+                                    >
+                                        <LeftCircleOutlined /> Trở lại
                                     </Button>
                                 </Form.Item>
                             </Col>
@@ -106,15 +95,15 @@ const ForgotPassword = () => {
                                         htmlType="submit"
                                         onClick={handleSendOTP}
                                         disabled={countdown > 0}
-                                        style={{
-                                            height: "50px",
-                                            backgroundColor: "#80c4e9",
-                                            width: "100%",
-                                        }}
+                                        className="primary"
                                     >
-                                        {countdown > 0 ? <div style={{ width: "100%", color: "white", textAlign: "center" }}>{`${countdown}s`}</div>
-                                            :
-                                            <><div style={{ width: "100%", color: "white", textAlign: "center" }}><SendOutlined /> Gửi link đổi mật khẩu</div></>}
+                                        {countdown > 0 ? (
+                                            <div>{`${countdown}s`}</div>
+                                        ) : (
+                                            <div>
+                                                <SendOutlined /> Gửi link đổi mật khẩu
+                                            </div>
+                                        )}
                                     </Button>
                                 </Form.Item>
                             </Col>
@@ -127,4 +116,3 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-

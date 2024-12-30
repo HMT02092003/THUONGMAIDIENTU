@@ -120,7 +120,7 @@ const Profile: React.FC = () => {
   return (
     <Layout>
       {/* Sidebar được bọc trong khung */}
-      <div style={{ border: "2px solid #1890ff", borderRadius: "8px", padding: "10px", background: "#fff" }}>
+      <div style={{ border: "2px solidrgb(255, 255, 255)", borderRadius: "8px", padding: "10px", background: "#fff" }}>
         <Sider theme="light" width={250}>
           <Menu
             mode="vertical"

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
-import "./RegisterPage.css";
+import "@/src/cssfolder/RegisterPage.css";
 import axios from "axios";
 import router from "@/api";
 import { useRouter } from "next/navigation";
