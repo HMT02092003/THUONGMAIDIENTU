@@ -6,6 +6,8 @@ import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/i
 import axios from 'axios';
 import FormDataBuilder from '../../utils/formData';
 import { useRouter } from 'next/navigation';
+import '@/src/cssfolder/CreateProductManagement.css'; // Import CSS file here
+
 
 const { TextArea } = Input;
 
@@ -29,7 +31,7 @@ const CreateProductManagement: React.FC = () => {
         url: 'http://localhost:4000/api/createProduct',
         data: formData,
       });
-      
+
       message.success("Tạo sản phẩm thành công");
       router.push('/productManagement');
     } catch (err: any) {
@@ -40,7 +42,7 @@ const CreateProductManagement: React.FC = () => {
       }
       console.error(err);
     }
-    
+
   };
 
   const getAllCategories = async () => {
@@ -235,11 +237,11 @@ const CreateProductManagement: React.FC = () => {
                       label="Loại"
                       rules={[{ required: true, message: 'Vui lòng nhập loại!' }]}
                     >
-                      <Select placeholder="Nhập loại" 
-                      options={[
-                        { value: 'Chính hãng ', label: 'Chính hãng' },
-                        { value: 'Xách tay', label: 'Xách tay' },
-                      ]}
+                      <Select placeholder="Nhập loại"
+                        options={[
+                          { value: 'Chính hãng ', label: 'Chính hãng' },
+                          { value: 'Xách tay', label: 'Xách tay' },
+                        ]}
                       />
                     </Form.Item>
                   </Col>
@@ -345,8 +347,9 @@ const CreateProductManagement: React.FC = () => {
   );
 
   return (
-    <div style={{ padding: '24px', backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
+    <div className="product-management-container">
       <Card
+        className="product-management-card"
         title="Thêm sản phẩm mới"
         extra={
           <Button
@@ -358,7 +361,6 @@ const CreateProductManagement: React.FC = () => {
             Tạo sản phẩm
           </Button>
         }
-        bordered={false}
       >
         <Form
           form={form}

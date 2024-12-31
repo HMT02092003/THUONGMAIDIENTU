@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
-import { Space, Table, Tag, Button, Modal } from 'antd';
-import { EditOutlined, CloudDownloadOutlined, CloudUploadOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useRef } from 'react';
+import { Space, Table, Tag, Button, Modal, Input } from 'antd';
+import { EditOutlined, SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import type { TableColumnsType, TableProps } from 'antd';
+import styles from '@/src/cssfolder/ProductManagement.module.css';  // Import CSS module
+import type { FilterDropdownProps } from 'antd/es/table/interface';
 
 
 const ProductManagement: React.FC = () => {
@@ -13,8 +15,10 @@ const ProductManagement: React.FC = () => {
   const [selectedProducts, setSelectedProducts] = useState<React.Key[]>([]);
   const [data, setData] = useState<any>([]);
   const [productData, setProductData] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef<any>(null);
   console.log(data);
-
 
   const rowSelection: TableProps<any>['rowSelection'] = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
@@ -40,6 +44,60 @@ const ProductManagement: React.FC = () => {
     getAllProduct();
   }, []);
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: FilterDropdownProps['confirm'],
+    dataIndex: string
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex: string): TableColumnsType<any>[number] => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]?.toString().toLowerCase().includes((value as string).toLowerCase()),
+  });
+
+
   const columns: TableColumnsType<any> = [
     {
       title: '',
@@ -62,6 +120,7 @@ const ProductManagement: React.FC = () => {
       key: 'productId',
       fixed: 'left',
       width: "5%",
+      ...getColumnSearchProps('productId'),
     },
     {
       title: 'Tên sản phẩm',
@@ -70,6 +129,7 @@ const ProductManagement: React.FC = () => {
       align: 'center',
       fixed: 'left',
       width: "15%",
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Thể loại',
@@ -83,6 +143,7 @@ const ProductManagement: React.FC = () => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         return <Tag color={randomColor} key={category.id}>{category.name}</Tag>;
       }),
+      ...getColumnSearchProps('categories'),
     },
     {
       title: 'Thương hiệu',
@@ -92,6 +153,7 @@ const ProductManagement: React.FC = () => {
       fixed: 'left',
       width: "10%",
       render: (brand: any) => brand ? brand.name : 'N/A',
+      ...getColumnSearchProps('brand'),
     },
     {
       title: 'Màu',
@@ -122,7 +184,7 @@ const ProductManagement: React.FC = () => {
       dataIndex: 'description',
       align: 'center',
       key: 'description',
-      width: "200px",
+      width: "100%",
     },
   ];
 
@@ -166,18 +228,10 @@ const ProductManagement: React.FC = () => {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "flex-end", margin: "10px 40px" }}>
-
+      <div className={styles.container}>
         <Button type="primary"
           onClick={() => router.push('/productManagement/create')}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#73d13d",
-            width: "100px",
-            margin: "0 5px",
-          }} >
+          className={`${styles.button} ${styles.createButton}`} >
           <PlusOutlined />
           Tạo mới
         </Button>
@@ -185,15 +239,7 @@ const ProductManagement: React.FC = () => {
         <Button
           type="primary"
           onClick={handleDelete}
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            alignItems: "center",
-            background: "#ff4d4f",
-            width: "100px",
-            margin: "0 5px"
-          }}
-        >
+          className={`${styles.button} ${styles.deleteButton}`} >
           <DeleteOutlined />
           Xóa
         </Button>
@@ -207,9 +253,10 @@ const ProductManagement: React.FC = () => {
         }}
         rowKey="id"
         scroll={{ x: 'max-content' }}
+        className={styles.table}
       />
     </>
-  )
+  );
 };
 
 export default ProductManagement;

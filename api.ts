@@ -35,7 +35,9 @@ import {
   updateProduct,
   getProductByCategory,
   getProductByBrand,
+  getSearchProduct,
 } from './src/controller/product-controller';
+import { momoPayment } from './src/controller/payment-controllers';
 
 const router = Router();
 
@@ -159,8 +161,15 @@ router.get('/getProductByBrand/:id', (req, res) => {
   getProductByBrand(req, res);
 });
 
+// ===================================SEARCH===================================
+router.get('/search', (req, res) => {
+  getSearchProduct(req, res);
+});
 
+// ===================================MOMO===================================
+router.post('/momopayment', (req, res) => {
+  momoPayment(req, res);
+});
 
-// ===================================PRODUCT===================================
 
 export default router;

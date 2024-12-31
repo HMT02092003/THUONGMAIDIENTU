@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Tag, Button, Spin } from "antd";
 import "antd/dist/reset.css";
-import "./index.css"; // 
+import "@/src/cssfolder/index.css"; // 
 
 const { Meta } = Card;
 
