@@ -1,3 +1,4 @@
+
 // /**
 //  * @param { import("knex").Knex } knex
 //  * @returns { Promise<void> }
@@ -91,58 +92,33 @@
 //     table.dateTime('updatedAt').defaultTo(knex.fn.now());
 //   });
 
-//   // Bảng ProductCategory (trung gian giữa Product và Category)
+//   // Bảng ProductCategory
 //   await knex.schema.createTable('ProductCategory', (table) => {
 //     table.increments('id').primary();
 //     table.integer('productId').unsigned().notNullable().references('id').inTable('Product').onDelete('CASCADE');
 //     table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
 //   });
 
-//   // Bảng Order
+//   // Bảng Order (Updated with combined information)
 //   await knex.schema.createTable('Order', (table) => {
 //     table.increments('id').primary();
 //     table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
 //     table.dateTime('orderDate').defaultTo(knex.fn.now());
-//     table.enu('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled']).defaultTo('pending');
+//     table.string('status').defaultTo('pending');
 //     table.decimal('totalAmount', 10, 2).notNullable();
 //     table.text('shippingAddress').nullable();
-//     table.enu('paymentMethod', ['cod', 'credit_card', 'paypal', 'bank_transfer']).notNullable();
+//     table.string('paymentMethod').notNullable();
+
+//     // Payment information
+//     table.text('transactionId').nullable();
+//     table.string('paymentStatus').defaultTo('pending');
+//     table.dateTime('paymentDate').nullable();
+
+//     // Order items stored as JSON
+//     table.json('orderItems').notNullable().comment('Array of ordered products with details: [{productId, quantity, unitPrice, productName, description, specifications, imageUrl}]');
+
 //     table.dateTime('createdAt').defaultTo(knex.fn.now());
 //     table.dateTime('updatedAt').defaultTo(knex.fn.now());
-//   });
-
-//   // Bảng OrderDetail
-//   await knex.schema.createTable('OrderDetail', (table) => {
-//     table.increments('id').primary();
-//     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
-//     table.integer('productId').unsigned().references('id').inTable('Product').onDelete('CASCADE');
-//     table.integer('quantity').notNullable();
-//     table.decimal('unitPrice', 10, 2).notNullable();
-//     table.decimal('subtotal', 10, 2).notNullable();
-//     table.string('productName').notNullable();
-//     table.text('productDescription').nullable();
-//     table.json('productSpecifications').nullable();
-//     table.string('productImageUrl').nullable();
-//   });
-
-//   // Bảng Cart
-//   await knex.schema.createTable('Cart', (table) => {
-//     table.increments('id').primary();
-//     table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
-//     table.integer('productId').unsigned().references('id').inTable('Product').onDelete('CASCADE');
-//     table.integer('quantity').notNullable();
-//     table.dateTime('addedAt').defaultTo(knex.fn.now());
-//   });
-
-//   // Bảng Payment
-//   await knex.schema.createTable('Payment', (table) => {
-//     table.increments('id').primary();
-//     table.integer('orderId').unsigned().notNullable().references('id').inTable('Order').onDelete('CASCADE');
-//     table.string('paymentMethod').notNullable(); // Example: 'credit_card', 'paypal'
-//     table.decimal('amount', 10, 2).notNullable();
-//     table.dateTime('paymentDate').defaultTo(knex.fn.now());
-//     table.text('transactionId').nullable();
-//     table.enu('status', ['pending', 'completed', 'failed']).defaultTo('completed');
 //   });
 // };
 
@@ -151,9 +127,6 @@
 //  * @returns { Promise<void> }
 //  */
 // export const down = async function (knex) {
-//   await knex.schema.dropTableIfExists('Payment');
-//   await knex.schema.dropTableIfExists('Cart');
-//   await knex.schema.dropTableIfExists('OrderDetail');
 //   await knex.schema.dropTableIfExists('Order');
 //   await knex.schema.dropTableIfExists('Product');
 //   await knex.schema.dropTableIfExists('Category');
@@ -165,7 +138,6 @@
 //   await knex.schema.dropTableIfExists('Role');
 //   await knex.schema.dropTableIfExists('User');
 // };
-
 
 /**
  * @param { import("knex").Knex } knex
@@ -256,6 +228,8 @@ export const up = async function (knex) {
     table.json('specifications').nullable();
     table.json('productImage').nullable();
     table.json('imageUrl').nullable();
+    table.decimal('price', 10, 2).notNullable().defaultTo(0);
+    table.integer('stock').notNullable().defaultTo(0);
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -267,24 +241,75 @@ export const up = async function (knex) {
     table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
   });
 
-  // Bảng Order (Updated with combined information)
+  // Bảng Customer
+  await knex.schema.createTable('Customer', (table) => {
+    table.increments('id').primary();
+    table.string('customerNumber').unique().notNullable();
+    table.string('name').notNullable();
+    table.string('email').nullable();
+    table.string('phoneNumber').nullable();
+    table.string('address').nullable();
+    table.json('addressProvince').nullable();
+    table.json('addressDistrict').nullable();
+    table.json('addressWard').nullable();
+    table.date('dateOfBirth').nullable();
+    table.string('gender').nullable();
+    table.string('CCCD').nullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
+
+  // Bảng Order
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
-    table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
+    table.string('orderNumber').unique().notNullable();
+    table.integer('customerId').unsigned().references('id').inTable('Customer').onDelete('CASCADE');
     table.dateTime('orderDate').defaultTo(knex.fn.now());
     table.string('status').defaultTo('pending');
+    table.decimal('subtotal', 10, 2).notNullable();
+    table.decimal('shipping', 10, 2).defaultTo(0);
     table.decimal('totalAmount', 10, 2).notNullable();
-    table.text('shippingAddress').nullable();
+    table.text('shippingAddress').notNullable();
     table.string('paymentMethod').notNullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
 
-    // Payment information
-    table.text('transactionId').nullable();
-    table.string('paymentStatus').defaultTo('pending');
-    table.dateTime('paymentDate').nullable();
+  // Bảng OrderDetail
+  await knex.schema.createTable('OrderDetail', (table) => {
+    table.increments('id').primary();
+    table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+    table.integer('productId').unsigned().references('id').inTable('Product');
+    table.integer('quantity').notNullable();
+    table.decimal('unitPrice', 10, 2).notNullable();
+    table.decimal('subtotal', 10, 2).notNullable();
+    table.json('productSnapshot').nullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+  });
 
-    // Order items stored as JSON
-    table.json('orderItems').notNullable().comment('Array of ordered products with details: [{productId, quantity, unitPrice, productName, description, specifications, imageUrl}]');
+  // Bảng OrderStatusHistory
+  await knex.schema.createTable('OrderStatusHistory', (table) => {
+    table.increments('id').primary();
+    table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+    table.string('fromStatus').notNullable();
+    table.string('toStatus').notNullable();
+    table.integer('updatedBy').unsigned().references('id').inTable('User');
+    table.text('note').nullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+  });
 
+  // Bảng Payment
+  await knex.schema.createTable('Payment', (table) => {
+    table.increments('id').primary();
+    table.string('paymentNumber').unique().notNullable();
+    table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+    table.decimal('amount', 10, 2).notNullable();
+    table.string('paymentMethod').notNullable();
+    table.string('status').defaultTo('pending');
+    table.string('transactionId').nullable();
+    table.dateTime('paymentDate').defaultTo(knex.fn.now());
+    table.text('note').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -295,11 +320,15 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async function (knex) {
+  await knex.schema.dropTableIfExists('Payment');
+  await knex.schema.dropTableIfExists('OrderStatusHistory');
+  await knex.schema.dropTableIfExists('OrderDetail');
   await knex.schema.dropTableIfExists('Order');
+  await knex.schema.dropTableIfExists('Customer');
+  await knex.schema.dropTableIfExists('ProductCategory');
   await knex.schema.dropTableIfExists('Product');
   await knex.schema.dropTableIfExists('Category');
   await knex.schema.dropTableIfExists('Brand');
-  await knex.schema.dropTableIfExists('ProductCategory');
   await knex.schema.dropTableIfExists('RolePermission');
   await knex.schema.dropTableIfExists('UserRole');
   await knex.schema.dropTableIfExists('Permission');
