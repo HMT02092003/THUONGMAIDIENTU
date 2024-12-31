@@ -358,7 +358,7 @@ const HeaderPage = () => {
     <>
       {/* Header chính */}
       <Row style={{ backgroundColor: 'white', justifyContent: 'center' }}>
-        <Row style={{ display: "flex", height: "80px", alignItems: "center" }}>
+        <Row style={{ display: "flex", height: "80px", alignItems: "center", width: "1200px"}}>
           <Col span={2}>
             <img
               src="/logo/logo.png"
@@ -576,7 +576,6 @@ const HeaderPage = () => {
                 shape="circle"
                 size="large"
                 variant="filled"
-                style={{ marginRight: '10px' }}
               >
                 <img src="/icon/user.png" alt="" style={{ width: 15 }} />
               </Button>
