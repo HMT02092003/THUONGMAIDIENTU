@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { Typography, Divider } from 'antd';
+import '@/src/cssfolder/ExchangePolicy.css'; // Import file CSS
 
 const { Title, Paragraph } = Typography;
 
 const ExchangePolicy: React.FC = () => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '20px', backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
-      <div style={{ maxWidth: 2000, width: '100%', backgroundColor: '#fff', borderRadius: '10px', padding: '20px' }}>
+    <div className="container">
+      <div className="content">
         <Typography>
           {/* Header */}
           <Title level={2}>Chính sách đổi trả - ThinkPro</Title>

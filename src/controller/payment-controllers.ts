@@ -16,7 +16,7 @@ export const momoPayment = async (req: Request, res: Response) => {
     const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
     const orderInfo = 'pay with MoMo';
     const partnerCode = 'MOMO';
-    const redirectUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
+    const redirectUrl = 'http://localhost:4000/paymentSuccess';
     const ipnUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
     const requestType = "payWithMethod";
     const orderId = partnerCode + new Date().getTime();
@@ -64,6 +64,10 @@ export const momoPayment = async (req: Request, res: Response) => {
 
     try {
         const result = await axios(options);
+
+        console.log(result.data);
+
+
         return res.status(200).json(result.data);
     } catch (error: any) {
         return res.status(500).json({

@@ -27,17 +27,15 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 
   const router = useRouter();
 
-  // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
     if (carouselRef.current) {
-      carouselRef.current.prev();  // Di chuyển về slide trước
+      carouselRef.current.prev();
     }
   };
 
-  // Hàm xử lý khi nhấn nút mũi tên phải
   const handleNext = () => {
     if (carouselRef.current) {
-      carouselRef.current.next();  // Di chuyển đến slide tiếp theo
+      carouselRef.current.next();
     }
   };
 
@@ -68,17 +66,15 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
     fetchCategory();
   }, []);
 
-
   return (
-    <div style={{ padding: "20px" }}>
-      {/* Header with carousel */}
-      <div style={{ marginBottom: "20px" }}>
-        <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
-          <Title level={2}>{category.name}</Title>
+    <div className="container">
+      <div className="header-card">
+        <Card>
+          <Title className="category-title">{category.name}</Title>
           {loading ? (
             <Spin size="large" />
           ) : (
-            <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
+            <Paragraph className="category-description">
               {category.description}
             </Paragraph>
           )}
@@ -158,7 +154,6 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
         </Card>
       </div>
 
-      {/* Product list */}
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -169,30 +164,24 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
                 <Card
                   hoverable
                   cover={<img alt={laptop.name} src={`http://localhost:4000/${laptop.productImage}`} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
+                  className="product-card"
                   onClick={() => router.push(`/product/detail/${laptop.id}`)}
                 >
                   <Card.Meta
                     title={laptop.name}
                     description={
                       <>
-                        <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                        <p className="product-card-title">
                           Giá: {Number(laptop.variants[0]?.price || 0).toLocaleString()} VNĐ
                         </p>
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          <Text type="secondary" className="product-card-brand">
                             Thương hiệu: <Tag color="cyan">{laptop.brand.name}</Tag>
                           </Text>
                         </div>
                         <br />
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          <Text type="secondary" className="product-card-category">
                             Thể loại: {laptop.categories.map((item: { id: number; name: string }) => (
                               <Tag key={item.id} color="green">{item.name}</Tag>
                             ))}
@@ -207,7 +196,7 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
           </Row>
 
           {visibleItems < productData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <div className="load-more-container">
               <Button type="primary" onClick={handleLoadMore}>
                 Xem thêm
               </Button>
@@ -220,4 +209,3 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 };
 
 export default ProductCategory;
-

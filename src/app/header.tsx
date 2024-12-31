@@ -523,7 +523,7 @@ const HeaderPage = () => {
               </Button>
             </ConfigProvider>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <ConfigProvider
               theme={{
                 components: {
@@ -537,11 +537,11 @@ const HeaderPage = () => {
                 }
               }}>
               <Button style={{ marginLeft: '40px', fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Khiếu nại
+                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Lịch sử đơn hàng
               </Button>
             </ConfigProvider>
           </Col>
-          <Col span={3}>
+          <Col span={2}>
             <ConfigProvider
               theme={{
                 components: {
