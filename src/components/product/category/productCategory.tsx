@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect, useState, useRef } from "react";
-import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message, ConfigProvider } from "antd";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Brand from "@/src/Models/BrandModel";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -11,6 +12,7 @@ const brands = [
   "Lenovo", "Dell", "Asus", "HP", "Acer", "MSI", "LG", "Apple", "Microsoft",
   "GIGABYTE", "Razer", "Samsung", "HUAWEI", "AVITA", "VAIO", "Colorful", "Xiaomi"
 ];
+
 
 interface LaptopPageProps {
   id: number;
@@ -80,33 +82,79 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
               {category.description}
             </Paragraph>
           )}
-          <Carousel
-            autoplay
-            dots={false}
-            slidesToShow={8}
-            arrows
-            style={{ padding: "0 10px" }} // Giảm padding chung của carousel
+          <Row
+            style={{
+              paddingTop: '10px',
+              paddingBottom: '10px',
+              display: 'flex',
+              height: '80px',
+              alignItems: 'center',
+              maxWidth: '1200px',
+              margin: '0 auto',
+            }}
           >
-            {brands.map((brand, index) => (
-              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}>
-                <Tag
-                  style={{
-                    fontSize: "14px", // Giữ kích thước font chữ vừa phải
-                    padding: "4px 8px", // Giảm padding của tag
-                    borderRadius: "15px",
-                    cursor: "pointer",
-                    backgroundColor: "#f0f2f5",
-                    margin: "0 10px", // Loại bỏ margin của mỗi tag
-                    letterSpacing: "-0.05em", // Giảm khoảng cách giữa các ký tự trong mỗi từ
-                    width: "90%",
-                    textAlign: "center",
-                  }}
-                >
-                  {brand}
-                </Tag>
-              </div>
-            ))}
-          </Carousel>
+            <Col span={1} style={{ display: 'flex' }}>
+              <Button
+                type='text'
+                shape="circle"
+                onClick={handlePrev}  // Gọi hàm handlePrev
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  borderColor: 'transparent',
+                  border: 'transparent'
+                }}
+              >
+                <LeftOutlined />
+              </Button>
+              </Col>
+            <Col span={22} style={{ position: 'relative' }}>
+              <Carousel
+                ref={carouselRef}  // Gán ref cho Carousel
+                dots={false}
+                slidesToShow={9}
+                slidesToScroll={5}
+                infinite={false}
+              >
+                {brands.map((category: any, index: any) => (
+                  <div
+                    key={index}
+                    style={{
+                      padding: '10px',
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                      <Button
+                        color="default" variant="outlined"
+                        style={{ width:'100px' }}
+                        onClick={() => router.push(`http://localhost:4000/product/category/${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
+                      >
+                        {brands[index]}
+                      </Button>
+                  </div>
+                ))}
+              </Carousel>
+            </Col>
+
+            {/* Nút mũi tên bên ngoài carousel, ở bên phải */}
+            <Col span={1} style={{ display: 'flex' }}>
+              <Button
+                type='text'
+                shape="circle"
+                onClick={handleNext}  // Gọi hàm handleNext
+                style={{
+                  borderRadius: '8px',
+                  backgroundColor: 'white',
+                  borderColor: 'transparent',
+                  border: 'transparent'
+                }}
+              >
+                <RightOutlined />
+              </Button>
+            </Col>
+          </Row>
         </Card>
       </div>
 

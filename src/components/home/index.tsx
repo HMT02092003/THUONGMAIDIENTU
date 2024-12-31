@@ -96,11 +96,89 @@ const App: React.FC = () => {
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
-        <div>
-          <Row style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '5px', color: 'white' }}>
-            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} /></Col>
-          </Row>
-        </div>
+        <Carousel autoplay style={{ marginTop: '30px', marginBottom: '30px', borderRadius: '5px' }}>
+      <div>
+        <Row
+          style={{
+            height: '300px',
+            backgroundColor: 'black',
+            borderRadius: '5px',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Col>
+            <img
+              src="/logo/frame-961182-optimized-thinkpro.webp"
+              alt=""
+              style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '5px' }}
+            />
+          </Col>
+        </Row>
+      </div>
+      {/* Thêm các slide khác nếu cần */}
+      <div>
+  <Row
+    style={{
+      height: '300px',
+      width: '1200px',
+      backgroundColor: 'black',
+      borderRadius: '5px',
+      color: 'white',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+      overflow: 'hidden', // Đảm bảo không bị tràn nội dung
+    }}
+  >
+    <Col>
+      <img
+        src="\logo\463619220_8995302087161212_7163680046961849591_n.png"
+        alt=""
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: '5px',
+          objectFit: 'cover', // Đảm bảo hình ảnh lấp đầy container
+        }}
+      />
+    </Col>
+  </Row>
+</div>
+
+<div>
+  <Row
+    style={{
+      height: '300px',
+      width: '1200px',
+      backgroundColor: 'black',
+      borderRadius: '5px',
+      color: 'white',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+      overflow: 'hidden', // Đảm bảo không bị tràn nội dung
+    }}
+  >
+    <Col>
+      <img
+        src="\logo\465268162_9097154670309286_6455482618138693215_n.jpg"
+        alt=""
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: '5px',
+          objectFit: 'cover', // Đảm bảo hình ảnh lấp đầy container
+        }}
+      />
+    </Col>
+  </Row>
+</div>
+    </Carousel>
         <Row style={{ fontWeight: '600', fontSize: '28px', lineHeight: '40px' }}>Danh mục nổi bật</Row>
         <div style={{ marginTop: '1.25rem' }}>
           <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
