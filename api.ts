@@ -37,7 +37,7 @@ import {
   getProductByBrand,
   getSearchProduct,
 } from './src/controller/product-controller';
-import { momoPayment } from './src/controller/payment-controllers';
+import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
 
 const router = Router();
 
@@ -169,6 +169,10 @@ router.get('/search', (req, res) => {
 // ===================================MOMO===================================
 router.post('/momopayment', (req, res) => {
   momoPayment(req, res);
+});
+
+router.post('/zalopayment', (req, res) => {
+  zaloPayment(req, res);
 });
 
 
