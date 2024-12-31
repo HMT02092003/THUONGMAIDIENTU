@@ -1,10 +1,9 @@
-'use client';
 import React, { useState, useEffect } from 'react';
 import { Card, Col, Row, Typography, Divider, Tag, Button, Spin, message } from 'antd';
 import { TagOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { add } from 'lodash';
 import { useRouter } from 'next/navigation';
+import '@/src/cssfolder/ProductDetail.css';
 
 const { Title, Text } = Typography;
 
@@ -13,26 +12,22 @@ const ProductDetail: React.FC<any> = ({ id }) => {
   const [mainImage, setMainImage] = useState('');
   const [productData, setProductData] = useState<any>(null);
   const [selectedType, setSelectedType] = useState<any>(null);
-  console.log(selectedType);
 
-
-  // Fake API call
   useEffect(() => {
-    // Giả lập fetch từ API
     const fetchProductData = async () => {
       try {
         const response = await axios.post('http://localhost:4000/api/getProductById', { id });
         setProductData(response.data);
         setMainImage(response.data.image);
       } catch (error: any) {
-        message.error(error.response?.data?.message)
+        message.error(error.response?.data?.message);
       }
     };
 
     fetchProductData();
   }, [id]);
 
-  if (!productData) return <div><Spin /></div>;
+  if (!productData) return <div className="spinner-container"><Spin /></div>;
 
   const addProductToCart = () => {
     try {
@@ -52,130 +47,111 @@ const ProductDetail: React.FC<any> = ({ id }) => {
       }
 
       localStorage.setItem('cart', JSON.stringify(cartData));
-
       message.success("Sản phẩm đã được thêm vào giỏ hàng");
-    } catch (error: any) {
+    } catch {
       message.error("Lỗi trong quá trình thêm sản phẩm vào giỏ hàng");
     }
   };
 
-
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="product-detail-container">
       <Row gutter={24}>
-        {/* Hình ảnh sản phẩm */}
         <Col span={14}>
           <Card
             cover={
               <img
                 alt={productData.name}
                 src={`http://localhost:4000/${productData.productImage}`}
-                style={{ height: '500px', objectFit: 'contain' }}
+                className="product-card"
               />
             }
           />
-          {/* Hình ảnh phụ */}
-          <Row gutter={[8, 8]} style={{ marginTop: '16px' }}>
+          <Row gutter={[8, 8]} className="product-image-list">
             {Object.keys(productData.imageUrl).map((key: any) => (
               <Col span={6} key={key}>
                 <img
                   alt={productData.name}
                   src={`http://localhost:4000/${productData.imageUrl[key]}`}
-                  style={{ width: '100%', objectFit: 'contain', cursor: 'pointer' }}
+                  className="product-image"
                   onClick={() => setMainImage(productData.imageUrl[key])}
                 />
               </Col>
             ))}
           </Row>
-          <br />
-          <Card title="Cấu hình đặc điểm" style={{ marginTop: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            <ul style={{ padding: '0 20px' }}>
+          <Card title="Cấu hình đặc điểm" className="specifications-card">
+            <ul className="specifications-list">
               {productData.specifications.map((item: any) => (
-                <li key={item.title} style={{ marginBottom: '10px', listStyleType: 'disc' }}>
-                  <Title level={5}>
-                    <Text >{item.title}: {item.info}</Text>
-                  </Title>
+                <li key={item.title} className="specifications-item">
+                  <Title level={5}><Text>{item.title}: {item.info}</Text></Title>
                 </li>
               ))}
             </ul>
           </Card>
-          <br />
-          <Card title="Chính sách bảo hành & đổi trả" style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+          <Card title="Chính sách bảo hành & đổi trả" className="warranty-card">
             <div>Bảo hành 12 tháng tại chuỗi cửa hàng</div>
             <div>Đổi mới trong 15 ngày đầu tiên</div>
           </Card>
-          <br />
           <Card title="Bài viết mô tả">
             {productData.description}
           </Card>
         </Col>
-
-        {/* Thông tin sản phẩm */}
         <Col span={10}>
-          <div
-            style={{
-              position: 'sticky',
-              top: '20px',
-              background: '#fff',
-              border: '1px solid #f0f0f0',
-              borderRadius: '8px',
-              maxHeight: '100vh',
-              overflow: 'auto',
-            }}
-          >
-            <div style={{ fontSize: '14px', backgroundColor: "#ff4d4f", padding: "20px", color: "white", fontWeight: "bold" }}>
+          <div className="sticky-info">
+            <div className="tag-section">
               <TagOutlined /> {productData.tagName.toUpperCase()}
             </div>
-            <div style={{ padding: "20px" }}>
+            <div className="product-details">
               <Title level={3}>{productData.name}</Title>
               <Text type="secondary">MSP: {productData.productId}</Text>
               <Divider />
-              <Title level={5}>Phiên bản ( Chọn phiên bản )</Title>
-              {productData.variants.map((item: any, index: number) => {
-                return (
-                  <Tag key={`version-${item.version}-${index}`} color='blue' style={{ fontSize: '16px', padding: '5px 10px', cursor: 'pointer' }} onClick={() => setSelectedType(item.price)}>{item.version}</Tag>
-                )
-              })}
-              <br />
+              <Title level={5}>Phiên bản (Chọn phiên bản)</Title>
+              {productData.variants.map((item: any, index: number) => (
+                <Tag
+                  key={`version-${item.version}-${index}`}
+                  className="version-tag"
+                  onClick={() => setSelectedType(item.price)}
+                >
+                  {item.version}
+                </Tag>
+              ))}
               <Title level={5}>Màu</Title>
-              {productData.variants.map((item: any, index: number) => {
-                return (
-                  <Tag key={`color-${item.color}-${index}`} color='lime' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.color}</Tag>
-                )
-              })}
-              <br />
+              {productData.variants.map((item: any, index: number) => (
+                <Tag key={`color-${item.color}-${index}`} className="color-tag">
+                  {item.color}
+                </Tag>
+              ))}
               <Title level={5}>Loại hàng</Title>
-              {productData.variants.map((item: any, index: number) => {
-                return (
-                  <Tag key={`type-${item.type}-${index}`} color='volcano' style={{ fontSize: '16px', padding: '5px 10px' }}>{item.type}</Tag>
-                )
-              })}
+              {productData.variants.map((item: any, index: number) => (
+                <Tag key={`type-${item.type}-${index}`} className="type-tag">
+                  {item.type}
+                </Tag>
+              ))}
               <Divider />
               {selectedType ? (
-                <Title level={2} style={{ color: 'red' }}>
-                  {Number(selectedType).toLocaleString() + 'đ'}
+                <Title level={2} className="price-text">
+                  {Number(selectedType).toLocaleString()}đ
                 </Title>
               ) : (
-                <Text type="secondary">
-                  Vui lòng chọn phiên bản để xem giá!
-                </Text>
+                <Text type="secondary">Vui lòng chọn phiên bản để xem giá!</Text>
               )}
-
               <Divider />
               <Row gutter={[16, 0]}>
                 <Col span={12}>
-                  <Button style={{ width: "100%", height: "40px", backgroundColor: "#69c0ff", color: "white", fontWeight: "bold" }} onClick={() => addProductToCart()}>
+                  <Button
+                    className="add-to-cart-btn"
+                    onClick={addProductToCart}
+                  >
                     Thêm vào giỏ
                   </Button>
                 </Col>
-
                 <Col span={12}>
                   <Button
-                    style={{ width: "100%", height: "40px", backgroundColor: "#ff4d4f", fontWeight: "bold", color: "white" }}
+                    className="buy-now-btn"
                     onClick={() => {
-                      addProductToCart()
-                      router.push('/shoppingCart')
-                    }}>
+                      addProductToCart();
+                      router.push('/shoppingCart');
+                    }}
+                  >
                     Mua ngay
                   </Button>
                 </Col>
