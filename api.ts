@@ -36,7 +36,6 @@ import {
   getProductByCategory,
   getProductByBrand,
   getSearchProduct,
-  getRecommendProduct
 } from './src/controller/product-controller';
 import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
 import { createOrder } from './src/controller/order-controller';
@@ -161,10 +160,6 @@ router.get('/getProductByCategory/:id', (req, res) => {
 
 router.get('/getProductByBrand/:id', (req, res) => {
   getProductByBrand(req, res);
-});
-
-router.get('/getrecommend/:productId', (req, res) => {
-  getRecommendProduct(req, res);
 });
 
 // ===================================SEARCH===================================
