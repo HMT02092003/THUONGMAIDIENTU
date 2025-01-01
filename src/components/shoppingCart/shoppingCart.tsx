@@ -134,11 +134,55 @@ const ShoppingCart: React.FC = () => {
     },
     {
       title: 'Thanh toán',
-      content: 'Last-content',
+      content: (
+        <>
+          <Card
+            title={<Title level={5}>Tóm tắt đơn hàng</Title>}
+            className="cartSummary"
+          >
+            <Text>Tạm tính: <strong>{totalPrice.toLocaleString()} đ</strong></Text>
+            <Divider />
+            <Text style={{ fontSize: "16px" }}>Tổng cộng: <strong className="totalPrice">{totalPriceWithVAT.toLocaleString()} đ</strong></Text>
+            <Divider />
+            <Button type="primary" block disabled={totalPrice === 0} onClick={() => setPaymentMethod(true)}>
+              Đặt hàng
+            </Button>
+          </Card>
+    
+          <br />
+    
+          {paymentMethod === true && (
+            <Card bordered={false} title="Chọn hình thức thanh toán" className="paymentMethod">
+              <Button type="primary" block style={{ marginBottom: "8px", backgroundColor: "#73d13d" }} onClick={() => console.log("Thanh toán khi nhận hàng")}>
+                <DollarOutlined />Thanh toán khi nhận hàng
+              </Button>
+              <Divider>Hoặc</Divider>
+              <Button.Group style={{ width: '100%', display: 'flex' }}>
+                <Button
+                  type="primary"
+                  block
+                  style={{ backgroundColor: '#005BAA' }}
+                  onClick={() => console.log("Thanh toán qua VNPay")}
+                >
+                  ZaloPay
+                </Button>
+                <Button
+                  type="primary"
+                  block
+                  style={{ backgroundColor: '#AF2070' }}
+                  onClick={() => MomoHandel()}
+                >
+                  MoMo
+                </Button>
+              </Button.Group>
+            </Card>
+          )}
+        </>
+      ),
     },
     {
       title: 'Hoàn thành',
-      content: 'Last-content',
+      content: ''
     },
   ];
 

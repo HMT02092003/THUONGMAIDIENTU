@@ -2,7 +2,9 @@
     padding: 24px;
 }
 
-.cartCard,
+.cartCard{}
+
+
 .paymentMethod,
 .cartSummary {
     border-radius: 8px;
