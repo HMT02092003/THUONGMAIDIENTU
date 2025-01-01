@@ -15,8 +15,8 @@ import {
   Steps,
   theme,
   Form,
-  Input
-
+  Input,
+  Result,
 } from "antd";
 import {
   ShoppingCartOutlined,
@@ -29,6 +29,7 @@ import {
   CheckCircleOutlined,
   RollbackOutlined,
   CheckOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
 import "@/src/cssfolder/shoppingCart.css";
 import axios from "axios";
@@ -94,6 +95,50 @@ const ShoppingCart: React.FC = () => {
   // Declare totalPrice and totalPriceWithVAT only once
   const totalPrice = cartData.reduce((total, item) => total + item.variants[0]?.price * item.quantity, 0);
   const totalPriceWithVAT = totalPrice * 1;
+
+  const increaseQuantity = (id: number) => {
+    const updatedCart = cartData.map(item =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCartData(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const decreaseQuantity = (id: number) => {
+    const updatedCart = cartData.map(item =>
+      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+    );
+    setCartData(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const removeItem = (id: number, selectedVersion: string) => {
+    const updatedCart = cartData.filter(item =>
+      !(item.id === id && item.selectedVersion === selectedVersion)
+    );
+    setCartData(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+
+  const MomoHandel = async () => {
+    try {
+      const data = { amount: totalPrice, cartData: cartData };
+      const api = await axios.post('http://localhost:4000/api/momopayment', { data });
+      router.push(api.data.payUrl);
+    } catch (error: any) {
+      message.error(error.message || "Lỗi trong quá trình thanh toán.");
+    }
+  };
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
 
   const steps = [
     {
@@ -217,9 +262,12 @@ const ShoppingCart: React.FC = () => {
                 fontWeight: 'bold',
                 backgroundColor: totalPrice === 0 ? '#d9d9d9' : '#1890ff',
               }}
-              onClick={() => setPaymentMethod(true)}
+              onClick={() => {
+                setPaymentMethod(true)
+
+              }}
             >
-              Đặt hàng
+              Chọn phương thức thanh toán
             </Button>
           </Card>
 
@@ -243,7 +291,7 @@ const ShoppingCart: React.FC = () => {
                   backgroundColor: '#73d13d',
                   borderColor: '#73d13d',
                 }}
-                onClick={() => console.log("Thanh toán khi nhận hàng")}
+                onClick={next}
               >
                 <DollarOutlined /> Thanh toán khi nhận hàng
               </Button>
@@ -284,57 +332,33 @@ const ShoppingCart: React.FC = () => {
     {
       title: 'Hoàn thành',
       icon: <CheckCircleOutlined />,
-      content: ''
+      content: (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Result
+              status="success"
+              title="Thanh toán thành công!"
+              subTitle="Cảm ơn bạn đã mua hàng. Chúng tôi đã nhận được thanh toán của bạn."
+              icon={<SmileOutlined />}
+              extra={[
+                <Button type="primary" key="home" onClick={() => router.push('/home')} >
+                  Quay lại trang chủ
+                </Button>,
+                <Button key="orders" >
+                  Xem lịch sử đơn hàng
+                </Button>,
+              ]}
+            />
+          </div>
+        </>
+      )
     },
   ];
-
-  const increaseQuantity = (id: number) => {
-    const updatedCart = cartData.map(item =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-  const decreaseQuantity = (id: number) => {
-    const updatedCart = cartData.map(item =>
-      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-    );
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-  const removeItem = (id: number, selectedVersion: string) => {
-    const updatedCart = cartData.filter(item =>
-      !(item.id === id && item.selectedVersion === selectedVersion)
-    );
-    setCartData(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-
-  const MomoHandel = async () => {
-    try {
-      const data = { amount: totalPrice, cartData: cartData };
-      const api = await axios.post('http://localhost:4000/api/momopayment', { data });
-      router.push(api.data.payUrl);
-    } catch (error: any) {
-      message.error(error.message || "Lỗi trong quá trình thanh toán.");
-    }
-  };
-
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
 
   const renderStepButtons = () => {
     const buttons = [];
 
-    if (current > 0) {
+    if (current > 0 && current < steps.length - 1) {
       buttons.push(
         <Button key="back" onClick={prev} className="prevButton">
           <RollbackOutlined />Trở lại
@@ -362,14 +386,6 @@ const ShoppingCart: React.FC = () => {
           // Only show back button during payment step
           break;
       }
-    }
-
-    if (current === steps.length - 1) {
-      buttons.push(
-        <Button key="done" type="primary" onClick={() => router.push('/')}>
-          Hoàn tất
-        </Button>
-      );
     }
 
     return buttons;

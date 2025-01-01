@@ -70,8 +70,10 @@
 
 .nextButton {
     background-color: #ff4d4f;
+    padding: 20px 15px;
 }
 
 .prevButton {
     margin: 0 8px;
+    padding: 20px 70px;
 }
