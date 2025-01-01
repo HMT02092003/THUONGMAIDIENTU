@@ -325,3 +325,39 @@ export const getSearchProduct = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
     }
 }
+
+export const getRecommendProduct = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params; // Lấy productId từ params
+        if (!productId) {
+            return res.status(400).json({ message: "productId is required" }); // Báo lỗi nếu productId không tồn tại
+        }
+
+        console.log('Product ID:', productId);
+
+        const recommendedProducts = await ProductModel.query()
+            .join('ProductCategory', 'Product.id', 'ProductCategory.productId') // Join với bảng ProductCategory
+            .whereIn(
+                'ProductCategory.categoryId',
+                ProductCategoryModel.query()
+                    .select('categoryId')
+                    .where('ProductCategory.productId', productId) // Lấy các categoryId liên quan đến sản phẩm gốc
+                    .skipUndefined() // Bỏ qua điều kiện nếu productId không tồn tại
+            )
+            .andWhere('Product.brandId', ProductModel.query()
+                .select('brandId')
+                .where('Product.id', productId) // Lấy brandId của sản phẩm gốc
+                .skipUndefined() // Bỏ qua điều kiện nếu productId không tồn tại
+            )
+            .andWhereNot('Product.id', productId) // Loại bỏ chính sản phẩm gốc
+            .distinctOn('Product.id') // Loại bỏ trùng lặp sản phẩm
+            .limit(10); // Giới hạn kết quả trả về
+
+        // Trả kết quả
+        res.status(200).json(recommendedProducts);
+    } catch (error: any) {
+        console.error("Error fetching recommended products:", error);
+        res.status(500).json({ message: "Lỗi 500 - Lấy sản phẩm gợi ý thất bại", error: error.message });
+    }
+};
+
