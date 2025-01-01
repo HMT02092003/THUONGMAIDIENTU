@@ -4,6 +4,7 @@ import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from
 import { RightOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import '@/src/cssfolder/ProductBrand.css'; // Import file CSS
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -25,12 +26,10 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
 
   const router = useRouter();
 
-  // Hàm giả lập gọi API và nhận dữ liệu mô tả
   const fetchDescription = async (): Promise<void> => {
     setTimeout(() => {
-      // setDescription(fakeDescription); // Thay vì lấy từ API, gán trực tiếp fake data
       setLoading(false);
-    }, 1000); // Giả lập thời gian trễ khi gọi API
+    }, 1000);
   };
 
   const fectchProdutByCategoryData = async () => {
@@ -62,49 +61,27 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {/* Header with carousel */}
-      <div style={{ marginBottom: "20px" }}>
-        <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
-          <Title level={2}>{brand.name}</Title>
+    <div className="container">
+      <div className="header-card">
+        <Card>
+          <Title className="brand-title">{brand.name}</Title>
           {loading ? (
             <Spin size="large" />
           ) : (
-            <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
+            <Paragraph className="brand-description">
               {brand.description}
             </Paragraph>
           )}
-          <Carousel
-            autoplay
-            dots={false}
-            slidesToShow={8}
-            arrows
-            style={{ padding: "0 10px" }} // Giảm padding chung của carousel
-          >
+          <Carousel autoplay dots={false} slidesToShow={8} arrows className="carousel-container">
             {brands.map((brand, index) => (
-              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}>
-                <Tag
-                  style={{
-                    fontSize: "14px", // Giữ kích thước font chữ vừa phải
-                    padding: "4px 8px", // Giảm padding của tag
-                    borderRadius: "15px",
-                    cursor: "pointer",
-                    backgroundColor: "#f0f2f5",
-                    margin: "0 10px", // Loại bỏ margin của mỗi tag
-                    letterSpacing: "-0.05em", // Giảm khoảng cách giữa các ký tự trong mỗi từ
-                    width: "90%",
-                    textAlign: "center",
-                  }}
-                >
-                  {brand}
-                </Tag>
+              <div key={index} className="carousel-tag-container">
+                <Tag className="carousel-tag">{brand}</Tag>
               </div>
             ))}
           </Carousel>
         </Card>
       </div>
 
-      {/* Product list */}
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -115,28 +92,21 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
                 <Card
                   hoverable
                   cover={<img alt={laptop.name} src={`http://localhost:4000/${laptop.productImage}`} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
+                  className="product-card"
                   onClick={() => router.push(`/product/detail/${laptop.id}`)}
                 >
                   <Card.Meta
                     title={laptop.name}
                     description={
                       <>
-                        <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                        <p className="product-card-title">
                           Giá: {Number(laptop.variants[0]?.price || 0).toLocaleString()} VNĐ
                         </p>
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          <Text type="secondary" className="product-card-brand">
                             Thương hiệu: <Tag color="cyan">{laptop.brand.name}</Tag>
                           </Text>
                         </div>
-                        <br />
                       </>
                     }
                   />
@@ -146,7 +116,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
           </Row>
 
           {visibleItems < productData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <div className="load-more-container">
               <Button type="primary" onClick={handleLoadMore}>
                 Xem thêm
               </Button>
@@ -159,4 +129,3 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
 };
 
 export default ProductBrand;
-

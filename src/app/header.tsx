@@ -60,6 +60,15 @@ const HeaderPage = () => {
     router.push(`http://localhost:4000/product/category/${categoryId}`);
   }
 
+  const handleNewsClick = (index: number, categoryId: number) => {
+    // Thực hiện một số logic nếu cần
+    setSelectedCategory(index);
+    
+    // Điều hướng tới trang Tin Công Nghệ
+    router.push('http://localhost:4000/technologyNews');
+  };
+  
+
   // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
     if (carouselRef.current) {
@@ -349,7 +358,7 @@ const HeaderPage = () => {
     <>
       {/* Header chính */}
       <Row style={{ backgroundColor: 'white', justifyContent: 'center' }}>
-        <Row style={{ display: "flex", height: "80px", alignItems: "center" }}>
+        <Row style={{ display: "flex", height: "80px", alignItems: "center", width: "1200px"}}>
           <Col span={2}>
             <img
               src="/logo/logo.png"
@@ -541,15 +550,21 @@ const HeaderPage = () => {
                     defaultHoverBorderColor: 'transparent',
                     defaultHoverColor: 'black',
                     defaultShadow: '0',
-                    defaultHoverBg: '#f6f9fc'
-                  }
-                }
-              }}>
-              <Button style={{ fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ
+                    defaultHoverBg: '#f6f9fc',
+                  },
+                },
+              }}
+            >
+              <Button
+                style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent' }}
+                onClick={() => handleNewsClick(1, 101)} // Truyền tham số (nếu cần)
+              >
+                <img src="/icon/news.png" alt="" style={{ width: 18 }} />
+                Tin công nghệ
               </Button>
             </ConfigProvider>
           </Col>
+
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
             <Popover
               content={popoverContent}
@@ -561,7 +576,6 @@ const HeaderPage = () => {
                 shape="circle"
                 size="large"
                 variant="filled"
-                style={{ marginRight: '10px' }}
               >
                 <img src="/icon/user.png" alt="" style={{ width: 15 }} />
               </Button>

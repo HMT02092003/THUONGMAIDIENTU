@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect, useState, useRef } from "react";
-import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message, ConfigProvider } from "antd";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Brand from "@/src/Models/BrandModel";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -11,6 +12,7 @@ const brands = [
   "Lenovo", "Dell", "Asus", "HP", "Acer", "MSI", "LG", "Apple", "Microsoft",
   "GIGABYTE", "Razer", "Samsung", "HUAWEI", "AVITA", "VAIO", "Colorful", "Xiaomi"
 ];
+
 
 interface LaptopPageProps {
   id: number;
@@ -25,17 +27,15 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 
   const router = useRouter();
 
-  // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
     if (carouselRef.current) {
-      carouselRef.current.prev();  // Di chuyển về slide trước
+      carouselRef.current.prev();
     }
   };
 
-  // Hàm xử lý khi nhấn nút mũi tên phải
   const handleNext = () => {
     if (carouselRef.current) {
-      carouselRef.current.next();  // Di chuyển đến slide tiếp theo
+      carouselRef.current.next();
     }
   };
 
@@ -66,51 +66,94 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
     fetchCategory();
   }, []);
 
-
   return (
-    <div style={{ padding: "20px" }}>
-      {/* Header with carousel */}
-      <div style={{ marginBottom: "20px" }}>
-        <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
-          <Title level={2}>{category.name}</Title>
+    <div className="container">
+      <div className="header-card">
+        <Card>
+          <Title className="category-title">{category.name}</Title>
           {loading ? (
             <Spin size="large" />
           ) : (
-            <Paragraph style={{ fontSize: "16px", marginBottom: "20px" }}>
+            <Paragraph className="category-description">
               {category.description}
             </Paragraph>
           )}
-          <Carousel
-            autoplay
-            dots={false}
-            slidesToShow={8}
-            arrows
-            style={{ padding: "0 10px" }} // Giảm padding chung của carousel
+          <Row
+            style={{
+              paddingTop: '10px',
+              paddingBottom: '10px',
+              display: 'flex',
+              height: '80px',
+              alignItems: 'center',
+              maxWidth: '1200px',
+              margin: '0 auto',
+            }}
           >
-            {brands.map((brand, index) => (
-              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}>
-                <Tag
-                  style={{
-                    fontSize: "14px", // Giữ kích thước font chữ vừa phải
-                    padding: "4px 8px", // Giảm padding của tag
-                    borderRadius: "15px",
-                    cursor: "pointer",
-                    backgroundColor: "#f0f2f5",
-                    margin: "0 10px", // Loại bỏ margin của mỗi tag
-                    letterSpacing: "-0.05em", // Giảm khoảng cách giữa các ký tự trong mỗi từ
-                    width: "90%",
-                    textAlign: "center",
-                  }}
-                >
-                  {brand}
-                </Tag>
-              </div>
-            ))}
-          </Carousel>
+            <Col span={1} style={{ display: 'flex' }}>
+              <Button
+                type='text'
+                shape="circle"
+                onClick={handlePrev}  // Gọi hàm handlePrev
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  borderColor: 'transparent',
+                  border: 'transparent'
+                }}
+              >
+                <LeftOutlined />
+              </Button>
+              </Col>
+            <Col span={22} style={{ position: 'relative' }}>
+              <Carousel
+                ref={carouselRef}  // Gán ref cho Carousel
+                dots={false}
+                slidesToShow={9}
+                slidesToScroll={5}
+                infinite={false}
+              >
+                {brands.map((category: any, index: any) => (
+                  <div
+                    key={index}
+                    style={{
+                      padding: '10px',
+                      textAlign: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                      <Button
+                        color="default" variant="outlined"
+                        style={{ width:'100px' }}
+                        onClick={() => router.push(`http://localhost:4000/product/category/${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
+                      >
+                        {brands[index]}
+                      </Button>
+                  </div>
+                ))}
+              </Carousel>
+            </Col>
+
+            {/* Nút mũi tên bên ngoài carousel, ở bên phải */}
+            <Col span={1} style={{ display: 'flex' }}>
+              <Button
+                type='text'
+                shape="circle"
+                onClick={handleNext}  // Gọi hàm handleNext
+                style={{
+                  borderRadius: '8px',
+                  backgroundColor: 'white',
+                  borderColor: 'transparent',
+                  border: 'transparent'
+                }}
+              >
+                <RightOutlined />
+              </Button>
+            </Col>
+          </Row>
         </Card>
       </div>
 
-      {/* Product list */}
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -121,30 +164,24 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
                 <Card
                   hoverable
                   cover={<img alt={laptop.name} src={`http://localhost:4000/${laptop.productImage}`} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
+                  className="product-card"
                   onClick={() => router.push(`/product/detail/${laptop.id}`)}
                 >
                   <Card.Meta
                     title={laptop.name}
                     description={
                       <>
-                        <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                        <p className="product-card-title">
                           Giá: {Number(laptop.variants[0]?.price || 0).toLocaleString()} VNĐ
                         </p>
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          <Text type="secondary" className="product-card-brand">
                             Thương hiệu: <Tag color="cyan">{laptop.brand.name}</Tag>
                           </Text>
                         </div>
                         <br />
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          <Text type="secondary" className="product-card-category">
                             Thể loại: {laptop.categories.map((item: { id: number; name: string }) => (
                               <Tag key={item.id} color="green">{item.name}</Tag>
                             ))}
@@ -159,7 +196,7 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
           </Row>
 
           {visibleItems < productData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <div className="load-more-container">
               <Button type="primary" onClick={handleLoadMore}>
                 Xem thêm
               </Button>
@@ -172,4 +209,3 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
 };
 
 export default ProductCategory;
-
