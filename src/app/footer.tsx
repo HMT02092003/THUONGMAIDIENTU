@@ -2,14 +2,14 @@ import React from "react";
 import { Layout, Row, Col, Typography, Button, Space, Card } from "antd";
 import { FacebookOutlined, YoutubeOutlined, TikTokOutlined } from "@ant-design/icons";
 import "./footer.css"; // Import file CSS
-import { useRouter } from "next/navigation"
+import {useRouter} from "next/navigation"
 
 
 const { Title, Text, Link } = Typography;
 
 const App: React.FC = () => {
   const router = useRouter()
-
+ 
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -62,7 +62,7 @@ const App: React.FC = () => {
           </Row>
         </Col>
 
-        <Col span={6} className="colContainer" style={{ paddingLeft: "2%" }}>
+        <Col span={6} className="colContainer" style={{paddingLeft:"2%"}}>
           <Title level={5} className="titleStyle">
             Đa dạng thanh toán
           </Title>
@@ -93,36 +93,29 @@ const App: React.FC = () => {
           </Title>
           <div>
             <div onClick={() => router.push('/warrantypolicy')}>
-              <img src="/icon/check.png" className="icon" /> <Button color="default" variant="link">Chính sách bảo hành
-              </Button>
+              <img src="/icon/check.png" className="icon" /> Chính sách bảo hành
+              
             </div>
-            <div onClick={() => router.push('/exchangepolicy')}>
-              <img src="/icon/transfer.png" className="icon" /> <Button color="default" variant="link">Chính sách đổi trả
-              </Button>
+            <div>
+              <img src="/icon/transfer.png" className="icon" /> Chính sách đổi trả
             </div>
-            <div onClick={() => router.push('/shippingpolicy')}>
-              <img src="/icon/trailer-truck.png" className="icon" /> <Button color="default" variant="link">Chính sách vận chuyển
-              </Button>
+            <div>
+              <img src="/icon/trailer-truck.png" className="icon" /> Chính sách vận chuyển
             </div>
-            <div onClick={() => router.push('/privacypolicy')}>
-              <img src="/icon/lock.png" className="icon" /> <Button color="default" variant="link">Chính sách bảo mật
-              </Button>
+            <div>
+              <img src="/icon/lock.png" className="icon" /> Chính sách bảo mật
             </div>
-            <div onClick={() => router.push('/policypayment')}>
-              <img src="/icon/atm-card.png" className="icon" /> <Button color="default" variant="link">Chính sách thanh toán
-              </Button>
+            <div>
+              <img src="/icon/atm-card.png" className="icon" /> Chính sách thanh toán
             </div>
-            <div onClick={() => router.push('/inspectionpolicy')}>
-              <img src="/icon/scan.png" className="icon" /> <Button color="default" variant="link">Chính sách kiểm hàng
-              </Button>
+            <div>
+              <img src="/icon/scan.png" className="icon" /> Chính sách kiểm hàng
             </div>
-            <div onClick={() => router.push('/guide')}>
-              <img src="/icon/shopping-cart.png" className="icon" /> <Button color="default" variant="link">Hướng dẫn mua hàng online
-              </Button>
+            <div>
+              <img src="/icon/shopping-cart.png" className="icon" /> Hướng dẫn mua hàng online
             </div>
-            <div onClick={() => router.push('/aboutUs')}>
-              <img src="/icon/information.png" className="icon" /> <Button color="default" variant="link">Về chúng tôi
-              </Button>
+            <div>
+              <img src="/icon/information.png" className="icon" /> Về chúng tôi
             </div>
           </div>
         </Col>
@@ -139,15 +132,15 @@ const App: React.FC = () => {
               <YoutubeOutlined /> Youtube
             </Link>
             <Link href="https://tiktok.com" className="textStyle">
-              <TikTokOutlined /> Tiktok
+            <TikTokOutlined /> Tiktok
             </Link>
             <Link href="https://telegram.org" className="textStyle">
-              <img src="/icon/telegram.png" className="socialIcon" /> Telegram
+              <img src="/icon/telegram.png"  className="socialIcon"/> Telegram
             </Link>
           </Space>
         </Col>
 
-        <Col span={6} className="colContainer" style={{ paddingRight: "2%" }}>
+        <Col span={6} className="colContainer" style={{paddingRight:"2%"}}>
           <Title level={5} className="titleStyle">
             Phản hồi, góp ý, khiếu nại
           </Title>
@@ -161,9 +154,9 @@ const App: React.FC = () => {
           </Button>
         </Col>
         {/* Footer */}
-        <div className="footerContent" style={{ textAlign: "center", width: "100%" }}>
-          <Text>© ThinkPro 2024 - CREATE BY NHÓM 11 </Text>
-        </div>
+            <div className="footerContent" style={{ textAlign: "center", width:"100%" }}>
+            <Text>© ThinkPro 2024 - CREATE BY NHÓM 11 </Text>
+          </div>
       </Row>
     </>
   );
