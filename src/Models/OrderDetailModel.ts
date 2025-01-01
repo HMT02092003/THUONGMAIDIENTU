@@ -2,6 +2,24 @@ import { Model } from 'objection';
 import { Order } from './OrderModel';
 
 export class OrderDetail extends Model {
+
+  id?: number;
+  orderId?: number;
+  quantity?: number;
+  name?: string;
+  productId?: string;
+  description?: string;
+  tagName?: string;
+  variants?: object;
+  specifications?: object;
+  productImage?: string;
+  imageUrl?: string;
+  price?: number;
+  stock?: number;
+  createdAt?: string;
+  updatedAt?: string;
+
+
   static get tableName() {
     return 'OrderDetail';
   }
@@ -9,16 +27,23 @@ export class OrderDetail extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['orderId', 'quantity', 'unitPrice', 'subtotal'],
+      required: ['orderId', 'quantity'],
       properties: {
         id: { type: 'integer' },
         orderId: { type: 'integer' },
         quantity: { type: 'integer' },
-        unitPrice: { type: 'number' },
-        subtotal: { type: 'number' },
-        productSnapshot: { type: 'object' },
+        name: { type: 'string', maxLength: 255 },
+        productId: { type: 'string', maxLength: 255 },
+        description: { type: ['string', 'null'] },
+        tagName: { type: ['string', 'null'] },
+        variants: { type: ['object', 'array', 'null'] },
+        specifications: { type: ['object', 'array', 'null'] },
+        productImage: { type: ['object', "string", 'null'] },
+        imageUrl: { type: ['object', 'null'] },
+        price: { type: 'number' },
+        stock: { type: 'integer' },
         createdAt: { type: 'string', format: 'date-time' },
-        updatedAt: { type: 'string', format: 'date-time' }
+        updatedAt: { type: 'string', format: 'date-time' },
       }
     };
   }

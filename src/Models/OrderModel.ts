@@ -4,6 +4,19 @@ import { OrderStatusHistory } from './OrderStatusHistoryModel';
 import { Payment } from './PaymentModel';
 
 export class Order extends Model {
+
+    id?: number;
+    orderNumber?: string;
+    orderDate?: string;
+    status?: string;
+    subtotal?: number;
+    totalAmount?: number;
+    shippingAddress?: string;
+    paymentMethod?: string;
+    createdAt?: string;
+    updatedAt?: string;
+
+
     static get tableName() {
         return 'Order';
     }
@@ -11,14 +24,13 @@ export class Order extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['orderNumber', 'shippingAddress', 'paymentMethod', 'subtotal', 'totalAmount'],
+            required: ['orderNumber', 'shippingAddress', 'totalAmount'],
             properties: {
                 id: { type: 'integer' },
                 orderNumber: { type: 'string' },
                 orderDate: { type: 'string', format: 'date-time' },
                 status: { type: 'string', default: 'pending' },
                 subtotal: { type: 'number' },
-                shipping: { type: 'number', default: 0 },
                 totalAmount: { type: 'number' },
                 shippingAddress: { type: 'string' },
                 paymentMethod: { type: 'string' },

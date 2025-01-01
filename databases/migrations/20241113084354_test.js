@@ -247,7 +247,6 @@ export const up = async function (knex) {
     table.string('orderNumber').unique().notNullable();
     table.dateTime('orderDate').defaultTo(knex.fn.now());
     table.string('status').defaultTo('pending');
-    table.decimal('shipping', 10, 2).defaultTo(0);
     table.decimal('totalAmount', 10, 2).notNullable();
     table.text('shippingAddress').nullable();
     table.string('paymentMethod').nullable();
@@ -262,9 +261,16 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
     table.integer('quantity').notNullable();
-    table.decimal('unitPrice', 10, 2).notNullable();
-    table.decimal('subtotal', 10, 2).notNullable();
-    table.json('productSnapshot').nullable();
+    table.string('name').notNullable();
+    table.string('productId').notNullable();
+    table.text('description').nullable();
+    table.string('tagName').nullable();
+    table.json('variants').nullable();
+    table.json('specifications').nullable();
+    table.json('productImage').nullable();
+    table.json('imageUrl').nullable();
+    table.decimal('price', 10, 2).notNullable().defaultTo(0);
+    table.integer('stock').notNullable().defaultTo(0);
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });

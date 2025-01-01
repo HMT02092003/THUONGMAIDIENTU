@@ -106,7 +106,7 @@ const HeaderPage = () => {
     } catch (err: any) {
       message.error(err.response.data.message);
     }
-  }, 1000);
+  }, 500);
 
   useEffect(() => {
     getAllBrand();

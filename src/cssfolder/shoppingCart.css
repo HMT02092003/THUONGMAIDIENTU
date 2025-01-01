@@ -2,11 +2,19 @@
     padding: 24px;
 }
 
-.cartCard,
+.cartCard {}
+
 .paymentMethod,
 .cartSummary {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    margin: 0 50px;
+}
+
+.stepStyle {
+    background-color: #e6f4ff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
 }
 
 .cartItem {
@@ -58,4 +66,12 @@
 
 .removeButton {
     margin-top: 8px;
+}
+
+.nextButton {
+    background-color: #ff4d4f;
+}
+
+.prevButton {
+    margin: 0 8px;
 }
