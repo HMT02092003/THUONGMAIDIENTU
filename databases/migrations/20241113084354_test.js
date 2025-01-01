@@ -241,36 +241,18 @@ export const up = async function (knex) {
     table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
   });
 
-  // Bảng Customer
-  await knex.schema.createTable('Customer', (table) => {
-    table.increments('id').primary();
-    table.string('customerNumber').unique().notNullable();
-    table.string('name').notNullable();
-    table.string('email').nullable();
-    table.string('phoneNumber').nullable();
-    table.string('address').nullable();
-    table.json('addressProvince').nullable();
-    table.json('addressDistrict').nullable();
-    table.json('addressWard').nullable();
-    table.date('dateOfBirth').nullable();
-    table.string('gender').nullable();
-    table.string('CCCD').nullable();
-    table.dateTime('createdAt').defaultTo(knex.fn.now());
-    table.dateTime('updatedAt').defaultTo(knex.fn.now());
-  });
-
   // Bảng Order
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
     table.string('orderNumber').unique().notNullable();
-    table.integer('customerId').unsigned().references('id').inTable('Customer').onDelete('CASCADE');
     table.dateTime('orderDate').defaultTo(knex.fn.now());
     table.string('status').defaultTo('pending');
-    table.decimal('subtotal', 10, 2).notNullable();
     table.decimal('shipping', 10, 2).defaultTo(0);
     table.decimal('totalAmount', 10, 2).notNullable();
-    table.text('shippingAddress').notNullable();
-    table.string('paymentMethod').notNullable();
+    table.text('shippingAddress').nullable();
+    table.string('paymentMethod').nullable();
+    table.string('name').notNullable();
+    table.string('phoneNumber').notNullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -279,7 +261,6 @@ export const up = async function (knex) {
   await knex.schema.createTable('OrderDetail', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
-    table.integer('productId').unsigned().references('id').inTable('Product');
     table.integer('quantity').notNullable();
     table.decimal('unitPrice', 10, 2).notNullable();
     table.decimal('subtotal', 10, 2).notNullable();

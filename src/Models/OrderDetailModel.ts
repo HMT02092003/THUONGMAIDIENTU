@@ -1,8 +1,7 @@
 import { Model } from 'objection';
-import Product from './ProductModel';
-import Order from './OrderDetailModel';
+import { Order } from './OrderModel';
 
-class OrderDetail extends Model {
+export class OrderDetail extends Model {
   static get tableName() {
     return 'OrderDetail';
   }
@@ -10,32 +9,22 @@ class OrderDetail extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['orderId', 'productId', 'quantity', 'unitPrice', 'subtotal', 'productName'],
+      required: ['orderId', 'quantity', 'unitPrice', 'subtotal'],
       properties: {
         id: { type: 'integer' },
         orderId: { type: 'integer' },
-        productId: { type: 'integer' },
         quantity: { type: 'integer' },
         unitPrice: { type: 'number' },
         subtotal: { type: 'number' },
-        productName: { type: 'string' },
-        productDescription: { type: ['string', 'null'] },
-        productSpecifications: { type: ['object', 'null'] },
-        productImageUrl: { type: ['string', 'null'] }
+        productSnapshot: { type: 'object' },
+        createdAt: { type: 'string', format: 'date-time' },
+        updatedAt: { type: 'string', format: 'date-time' }
       }
     };
   }
 
   static get relationMappings() {
     return {
-      product: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Product,
-        join: {
-          from: 'OrderDetail.productId',
-          to: 'Product.id'
-        }
-      },
       order: {
         relation: Model.BelongsToOneRelation,
         modelClass: Order,
@@ -47,5 +36,3 @@ class OrderDetail extends Model {
     };
   }
 }
-
-export default OrderDetail;
