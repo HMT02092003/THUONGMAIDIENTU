@@ -1,5 +1,5 @@
 import React from 'react'
-import Guide from "../../components/guide/index"
+import Guide from "../../components/OnlineShoppingGuide/index"
 import MainLayout from "../main-layout"
 
 const GuidePage = () => {

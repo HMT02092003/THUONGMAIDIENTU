@@ -8,7 +8,6 @@ import { Table, Button, Modal, Tag } from "antd";
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-
 import styles from '@/src/cssfolder/ProfileManagement.module.css';
 
 type OnChange = NonNullable<TableProps<DataType>['onChange']>;
