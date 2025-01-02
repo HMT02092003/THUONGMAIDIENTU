@@ -4,7 +4,7 @@ import React from 'react'
 import OrderDetailManagement from "../../../../components/orderManagement/orderDetailManagement"
 import MainLayout from "../../../main-layout"
 
-const OrderDetialManagementPage = () => {
+const OrderDetailManagementPage = () => {
     return (
         <MainLayout>
             <OrderDetailManagement />
@@ -12,4 +12,4 @@ const OrderDetialManagementPage = () => {
     )
 }
 
-export default OrderDetialManagementPage
+export default OrderDetailManagementPage
