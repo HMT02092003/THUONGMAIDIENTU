@@ -33,7 +33,12 @@ import {
   getProductById,
   deleteProduct,
   updateProduct,
+  getProductByCategory,
+  getProductByBrand,
+  getSearchProduct,
 } from './src/controller/product-controller';
+import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
+import { createOrder } from './src/controller/order-controller';
 
 const router = Router();
 
@@ -147,6 +152,34 @@ router.delete('/deleteProduct', (req, res) => {
 
 router.put('/updateProduct', (req, res) => {
   updateProduct(req, res);
+});
+
+router.get('/getProductByCategory/:id', (req, res) => {
+  getProductByCategory(req, res);
+});
+
+router.get('/getProductByBrand/:id', (req, res) => {
+  getProductByBrand(req, res);
+});
+
+// ===================================SEARCH===================================
+router.get('/search', (req, res) => {
+  getSearchProduct(req, res);
+});
+
+// ===================================MOMO===================================
+router.post('/momopayment', (req, res) => {
+  momoPayment(req, res);
+});
+
+router.post('/zalopayment', (req, res) => {
+  zaloPayment(req, res);
+});
+
+
+// ===================================ORDER===================================
+router.post('/createOrder', (req, res) => {
+  createOrder(req, res);
 });
 
 export default router;

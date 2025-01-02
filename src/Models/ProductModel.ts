@@ -1,7 +1,7 @@
 import { Model } from 'objection';
 import Brand from './BrandModel';
 import Category from './CategoryModel';
-import OrderDetail from './OrderDetailModel';
+import { OrderDetail } from './OrderDetailModel';
 import { version } from 'os';
 
 class Product extends Model {
@@ -17,7 +17,7 @@ class Product extends Model {
   createdAt?: string;
   updatedAt?: string;
   productImage?: string;
-    
+
 
   static get idColumn() {
     return 'id';
@@ -36,10 +36,10 @@ class Product extends Model {
         name: { type: 'string', maxLength: 255 },
         productId: { type: 'string', maxLength: 255 },
         brandId: { type: 'integer' },
-        variants : { type: ['object','array', 'null'] },
+        variants: { type: ['object', 'array', 'null'] },
         tagName: { type: ['string', 'null'] },
         description: { type: ['string', 'null'] },
-        specifications: { type: ['object','array','null'] },
+        specifications: { type: ['object', 'array', 'null'] },
         productImage: { type: ['object', "string", 'null'] },
         imageUrl: { type: ['object', 'null'] },
         createdAt: { type: 'string', format: 'date-time' },

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message, Tag, Spin } from "antd";
+import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message, Tag } from "antd";
 import {
   CheckCircleFilled,
   FacebookOutlined,
@@ -11,30 +11,34 @@ import {
 import { Color } from "antd/es/color-picker";
 import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import Snowflakes from 'magic-snowflakes';
+const snowflakes = new Snowflakes();
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
 
+interface Laptop {
+  id: number;
+  name: string;
+  price: string;
+  category: string;
+  brand: string;
+  imageUrl: string;
+  tags: string[];
+}
+
 
 const App: React.FC = () => {
   const carouselRef = useRef<CarouselRef>(null);
-  const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
-  const titleStyle = { fontSize: "15px", marginBottom: "8px" };
-  const { Title, Paragraph, Text } = Typography;
-  const [visibleItems, setVisibleItems] = useState(12);
-  const [loading, setLoading] = useState(true);
+  const [visibleItems, setVisibleItems] = useState(8);
 
-  interface Laptop {
-    id: number;
-    name: string;
-    price: string;
-    category: string;
-    brand: string;
-    imageUrl: string;
-    tags: string[];
-  }
+  const [category, setCategory] = useState<any[]>([])
+  const [products, setProducts] = useState<any[]>([]);
+  console.log('products:', products)
 
-  const [category, setCategory] = useState<any>([])
+  const router = useRouter()
+
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -43,160 +47,6 @@ const App: React.FC = () => {
     { id: 4, text: 'Bảo hành dài lâu', img: '/icon/usp-4.png', Color: '#FBCFD8' },
   ];
 
-  const categories = [
-    { name: 'Laptop' },
-    { name: 'Bàn phím' },
-    { name: 'Âm thanh' },
-    { name: 'Ghế gaming' },
-    { name: 'Bàn' },
-    { name: 'Màn hình' },
-    { name: 'Phụ kiện' },
-    { name: 'Thực tế ảo' },
-    { name: 'Balo, túi' },
-    { name: 'Phần mềm' },
-    { name: 'Hộc tủ' },
-    { name: 'Arm màn mình' },
-    { name: 'Online giá rẻ' },
-    { name: 'Phần mềm' },
-  ];
-
-  const fakeData: Laptop[] = [
-    {
-      id: 1,
-      name: "Lenovo ThinkPad X1 Carbon Gen 11",
-      price: "26.990.000",
-      category: "Ultrabook",
-      brand: "Lenovo",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 2,
-      name: "Dell Inspiron 15 5630",
-      price: "15.990.000",
-      category: "Laptop phổ thông",
-      brand: "Dell",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 3,
-      name: "HP Spectre x360 14",
-      price: "24.990.000",
-      category: "Ultrabook",
-      brand: "HP",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-    },
-    {
-      id: 4,
-      name: "Asus ZenBook 14",
-      price: "19.990.000",
-      category: "Laptop cao cấp",
-      brand: "Asus",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 5,
-      name: "Acer Aspire 5",
-      price: "12.990.000",
-      category: "Laptop phổ thông",
-      brand: "Acer",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i3", "4GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 6,
-      name: "MacBook Air M2",
-      price: "30.990.000",
-      category: "Ultrabook",
-      brand: "Apple",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["M2 Chip", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 7,
-      name: "Dell XPS 13",
-      price: "27.990.000",
-      category: "Laptop cao cấp",
-      brand: "Dell",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
-    },
-    {
-      id: 8,
-      name: "MSI GF63 Thin",
-      price: "18.990.000",
-      category: "Laptop gaming",
-      brand: "MSI",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB", "GTX 1650"],
-    },
-    {
-      id: 9,
-      name: "Razer Blade 15",
-      price: "40.990.000",
-      category: "Laptop gaming",
-      brand: "Razer",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 1TB", "RTX 3070"],
-    },
-    {
-      id: 10,
-      name: "Gigabyte Aero 15",
-      price: "35.990.000",
-      category: "Laptop gaming",
-      brand: "Gigabyte",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i9", "32GB RAM", "SSD 1TB", "RTX 3080"],
-    },
-    {
-      id: 11,
-      name: "Lenovo IdeaPad Flex 5",
-      price: "14.990.000",
-      category: "Laptop 2-in-1",
-      brand: "Lenovo",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-    {
-      id: 12,
-      name: "HP Pavilion x360",
-      price: "16.990.000",
-      category: "Laptop 2-in-1",
-      brand: "HP",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 13,
-      name: "Microsoft Surface Laptop 4",
-      price: "29.990.000",
-      category: "Ultrabook",
-      brand: "Microsoft",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
-    },
-    {
-      id: 14,
-      name: "Asus TUF Gaming F15",
-      price: "22.990.000",
-      category: "Laptop gaming",
-      brand: "Asus",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i7", "16GB RAM", "SSD 512GB", "RTX 3050"],
-    },
-    {
-      id: 15,
-      name: "Samsung Galaxy Book Pro",
-      price: "23.990.000",
-      category: "Ultrabook",
-      brand: "Samsung",
-      imageUrl: "https://via.placeholder.com/200",
-      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
-    },
-  ];
 
   // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
@@ -213,7 +63,7 @@ const App: React.FC = () => {
   };
 
   const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => prevVisibleItems + 5);
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 8);
   };
 
   const getAllCategory = async () => {
@@ -226,22 +76,29 @@ const App: React.FC = () => {
     }
   }
 
+  const getAllProduct = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/getAllProduct');
+      setProducts(response.data);
+    } catch (err: any) {
+      message.error(err.response?.data?.message || 'Lỗi khi tải sản phẩm');
+    }
+  };
+
   useEffect(() => {
     getAllCategory();
-  }, [])
+    getAllProduct();
+    snowflakes.start();
+  }, []);
+
+
 
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
         <div>
           <Row style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '5px', color: 'white' }}>
-            <Col span={8} style={{ paddingTop: '2rem', paddingBottom: '2rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-              <h1 style={{ fontSize: '28px', lineHeight: '40px', fontWeight: '600' }}>💥 Ra mắt KM mới</h1>
-              <p style={{ fontSize: '16px', marginTop: '.5rem' }}>
-                ThinkPro ra mắt chương trình Deal Hời Mỗi Ngày, giúp bạn dễ dàng mua sắm các sản phẩm công nghệ chất lượng với Giá Rẻ Nhất Thị Trường!!
-              </p>
-            </Col>
-            <Col span={16}><img src="/logo/frame-96101455-thinkpro.webp" alt="" width={800} /></Col>
+            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} /></Col>
           </Row>
         </div>
         <Row style={{ fontWeight: '600', fontSize: '28px', lineHeight: '40px' }}>Danh mục nổi bật</Row>
@@ -276,6 +133,7 @@ const App: React.FC = () => {
                           fontWeight: 600,
                           fontSize: '14px'
                         }}
+                        onClick={() => { router.push(`/product/category/${category.id}`) }}
                       >
                         <img
                           src={category.imageUrl}
@@ -349,7 +207,7 @@ const App: React.FC = () => {
                 }}
               >
                 <CheckCircleFilled style={{ marginTop: '10px', fontSize: '23px', color: 'rgb(59 179 70)' }} />
-                <span style={{ fontSize: '12px', fontWeight: 400, marginTop: '8px' }}>Thành viên thuộc Group 4. Made with love</span> {/* Thêm khoảng cách giữa icon và text */}
+                <span style={{ fontSize: '12px', fontWeight: 400, marginTop: '8px' }}>Thành viên thuộc Group 11. Made with love</span> {/* Thêm khoảng cách giữa icon và text */}
               </div>
             </Col>
           </Row>
@@ -464,81 +322,134 @@ const App: React.FC = () => {
               </div>
             </Row>
 
-          <Row gutter={[16, 16]}>
-            {fakeData.slice(0, visibleItems).map((laptop) => (
-              <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  cover={<img alt={laptop.name} src={laptop.imageUrl} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
-                >
-                  <Card.Meta
-                    title={
-                      <div
-                        style={{
-                          wordWrap: "break-word",
-                          whiteSpace: "normal",
-                        }}
-                      >
-                        {laptop.name}
-                      </div>
-                    }
-                    description={
-                      <>
-                        <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
-                          Giá: {laptop.price} VND
-                        </p>
-                        <div>
-                          <Text
-                            type="secondary"
-                            style={{ fontSize: "14px", fontWeight: "bold" }}
-                          >
-                            Thương hiệu: {laptop.brand}
-                          </Text>
+            <Row gutter={[16, 16]}>
+              {fakeData.slice(0, visibleItems).map((laptop) => (
+                <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
+                  <Card
+                    hoverable
+                    cover={<img alt={laptop.name} src={laptop.imageUrl} />}
+                    style={{
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                    }}
+                  >
+                    <Card.Meta
+                      title={
+                        <div
+                          style={{
+                            wordWrap: "break-word",
+                            whiteSpace: "normal",
+                          }}
+                        >
+                          {laptop.name}
                         </div>
-                        <div style={{ marginTop: "10px" }}>
-                          <Text style={{ fontSize: "12px" }}>Thể loại:</Text>
-                          <div style={{ marginTop: "5px" }}>
-                            <Tag color="blue" style={{ fontSize: "12px" }}>
-                              {laptop.category}
-                            </Tag>
-                            {laptop.tags.map((tag, index) => (
-                              <Tag
-                                color="gold"
-                                key={index}
-                                style={{ fontSize: "12px" }}
-                              >
-                                {tag}
-                              </Tag>
-                            ))}
+                      }
+                      description={
+                        <>
+                          <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
+                            Giá: {laptop.price} VND
+                          </p>
+                          <div>
+                            <Text
+                              type="secondary"
+                              style={{ fontSize: "14px", fontWeight: "bold" }}
+                            >
+                              Thương hiệu: {laptop.brand}
+                            </Text>
                           </div>
-                        </div>
-                      </>
-                    }
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                          <div style={{ marginTop: "10px" }}>
+                            <Text style={{ fontSize: "12px" }}>Thể loại:</Text>
+                            <div style={{ marginTop: "5px" }}>
+                              <Tag color="blue" style={{ fontSize: "12px" }}>
+                                {laptop.category}
+                              </Tag>
+                              {laptop.tags.map((tag, index) => (
+                                <Tag
+                                  color="gold"
+                                  key={index}
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  {tag}
+                                </Tag>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
 
-          {visibleItems < fakeData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-              <Button type="primary" onClick={handleLoadMore}>
-                Xem thêm
-              </Button>
-            </div>
-          )}
+            {visibleItems < fakeData.length && (
+              <div style={{ textAlign: "center", marginTop: "20px" }}>
+                <Button type="primary" onClick={handleLoadMore}>
+                  Xem thêm
+                </Button>
+              </div>
+            )}
           </Row>
         </div>
+        <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
+          {products.slice(0, visibleItems).map((product) => (
+            <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={<img alt={product.name} src={`http://localhost:4000/${product.productImage}`} />}
+                style={{
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+                onClick={() => router.push(`/product/detail/${product.id}`)}
+              >
+                <Card.Meta
+                  title={product.name}
+                  description={
+                    <>
+                      <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
+                        Giá: {Number(product.variants[0]?.price || 0).toLocaleString()} VNĐ
+                      </p>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          Thương hiệu: <Tag color="cyan">{product.brand.name}</Tag>
+                        </Text>
+                      </div>
+                      <br />
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                          Thể loại: {product.categories.map((item: { id: number; name: string }) => (
+                            <Tag key={item.id} color="green">{item.name}</Tag>
+                          ))}
+                        </Text>
+                      </div>
+                    </>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+
+        </Row>
+        {visibleItems < products.length && (
+          <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
+            <Button type="primary" onClick={handleLoadMore}>
+              Xem thêm
+            </Button>
+          </div>
+        )}
       </div>
     </>
+
   );
 };
+
+
 
 export default App;

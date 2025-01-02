@@ -294,7 +294,12 @@ const EditProductManagement: React.FC<any> = ({ id }) => {
                       label="Loại"
                       rules={[{ required: true, message: 'Vui lòng nhập loại!' }]}
                     >
-                      <Input placeholder="Nhập loại" />
+                      <Select placeholder="Nhập loại"
+                        options={[
+                          { value: 'Chính hãng ', label: 'Chính hãng' },
+                          { value: 'Xách tay', label: 'Xách tay' },
+                        ]}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={12}>

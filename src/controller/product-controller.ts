@@ -70,7 +70,7 @@ export const createProduct = async (req: Request, res: Response) => {
         console.log('New product:', newProduct);
 
         // Chèn sản phẩm và lấy ID tự động từ cơ sở dữ liệu
-        const insertedProduct = await ProductModel.query(transaction).insertAndFetch(newProduct);
+        const insertedProduct = await ProductModel.query(transaction).insert(newProduct);
 
         // Thêm vào bảng ProductCategoryModel
         if (Array.isArray(dataAfterParse.category)) {
@@ -236,7 +236,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             name: dataAfterParse.productName || existingProduct.name,
             productId: dataAfterParse.productID || existingProduct.productId,
             brandId: dataAfterParse.brand ? parseInt(dataAfterParse.brand, 10) : existingProduct.brandId,
-            variants : dataAfterParse.variants || existingProduct.variants,
+            variants: dataAfterParse.variants || existingProduct.variants,
             specifications: dataAfterParse.configurations || existingProduct.specifications,
             tagName: dataAfterParse.tagName || existingProduct.tagName,
             productImage: productImage,
@@ -275,3 +275,53 @@ export const updateProduct = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Lỗi 500 - Cập nhật sản phẩm thất bại", error: error.message });
     }
 };
+
+
+export const getProductByCategory = async (req: Request, res: Response) => {
+    const categoryId = req.params.id;
+    console.log('Category ID:', categoryId);
+    try {
+        const products = await ProductModel.query()
+            .withGraphFetched('[categories, brand]')
+            .joinRelated('categories')
+            .where('categories.id', categoryId);
+
+        res.status(200).json(products);
+    } catch (error: any) {
+        console.error("Error fetching products by category:", error);
+        res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
+    }
+};
+
+export const getProductByBrand = async (req: Request, res: Response) => {
+    const brandId = req.params.id;
+    console.log('Category ID:', brandId);
+    try {
+        const products = await ProductModel.query()
+            .where('brandId', brandId)
+            .withGraphFetched('brand')
+
+        res.status(200).json(products);
+    } catch (error: any) {
+        console.error("Error fetching products by category:", error);
+        res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
+    }
+};
+
+export const getSearchProduct = async (req: Request, res: Response) => {
+    try {
+        const { search } = req.query;
+        console.log('Keyword:', search);
+
+        const products = await ProductModel.query()
+            .where('productId', 'ILIKE', `%${search}%`)
+            .orWhere('name', 'ILIKE', `%${search}%`)
+            .orWhere('tagName', 'ILIKE', `%${search}%`)
+
+
+        res.status(200).json(products);
+    } catch (error: any) {
+        console.error("Error fetching products by category:", error);
+        res.status(500).json({ message: "Lỗi 500 - Lấy dữ liệu sản phẩm theo danh mục thất bại", error: error.message });
+    }
+}

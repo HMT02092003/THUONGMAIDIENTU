@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import '@/src/cssfolder/CreateCategoryModal.css'; // Import file CSS
 
 type FileType = any;
 
@@ -76,9 +77,9 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
+    <button className="upload-button" type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="upload-button-text">Upload</div>
     </button>
   );
 
@@ -127,7 +128,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <Button className="full-width-button" type="primary" htmlType="submit">
               Tạo mới
             </Button>
           </Form.Item>
@@ -140,7 +141,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
         footer={null}
         onCancel={() => setPreviewOpen(false)}
       >
-        <img alt="preview" style={{ width: '100%' }} src={previewImage} />
+        <img className="upload-image" alt="preview" src={previewImage} />
       </Modal>
     </>
   );

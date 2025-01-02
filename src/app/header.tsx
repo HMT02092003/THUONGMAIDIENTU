@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Card } from 'antd';
+import React, { use, useEffect, useRef, useState } from 'react';
+import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Form, message, Dropdown } from 'antd';
 import { LeftOutlined, RightOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
+import axios from "axios";
+import _, { set } from 'lodash';
 
 const { Search } = Input;
 
@@ -10,32 +12,52 @@ const HeaderPage = () => {
   const router = useRouter();
   const carouselRef = useRef<CarouselRef>(null);  // Khai báo ref đúng kiểu
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [category, setCategory] = useState<any>([])
+  const [Brand, setBrand] = useState<any>([])
+  const [results, setResults] = useState([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [form] = Form.useForm();
 
   //fake data ở đây
-  const categories = [
-    { name: 'Laptop', image: '/icon/laptop.png' },
-    { name: 'Bàn phím', image: '/icon/banphim.png' },
-    { name: 'Âm thanh', image: '/icon/amthanh.png' },
-    { name: 'Ghế gaming', image: '/icon/ghecongthaihoc.png' },
-    { name: 'Bàn', image: '/icon/bannangha.png' },
-    { name: 'Màn hình', image: '/icon/manhinh.png' },
-    { name: 'Phụ kiện', image: '/icon/phukien.png' },
-    { name: 'Thực tế ảo', image: '/icon/thucteao.png' },
-    { name: 'Balo, túi', image: '/icon/balo,tui.png' },
-    { name: 'Phần mềm', image: '/icon/phanmem.png' },
-  ];
 
   const brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Acer', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus'];
   const priceRanges = ['10-15 triệu', '15-20 triệu', '20-25 triệu', '25-30 triệu', '30-35 triệu', '35-40 triệu'];
   const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
   //fake data over
 
-  const handleLoginclick = () => {
-    router.push('/login'); // Thay 'target-page' bằng đường dẫn bạn muốn
+  const handleLoginClick = () => {
+    router.push('/login');
   };
 
-  const handleCategoryClick = (index: number) => {
+  const handleRegisterClick = () => {
+    router.push('/register');
+  };
+
+  const popoverContent = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Button
+        color="primary"
+        variant="text"
+        onClick={handleLoginClick}
+        style={{ width: '100%' }}
+      >
+        Đăng nhập
+      </Button>
+      <Button
+        color="default"
+        variant="text"
+        onClick={handleRegisterClick}
+        style={{ width: '100%' }}
+      >
+        Đăng ký
+      </Button>
+    </div>
+  );
+
+  const handleCategoryClick = (index: number, categoryId: number) => {
     setSelectedCategory(index);
+    router.push(`http://localhost:4000/product/category/${categoryId}`);
   }
 
   // Hàm xử lý khi nhấn nút mũi tên trái
@@ -52,19 +74,59 @@ const HeaderPage = () => {
     }
   };
 
+  const getAllCategory = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allCategory')
+      setCategory(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllCategory();
+  }, [])
+
+  const getAllBrand = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allBrand')
+      console.log('count:', data)
+      setBrand(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  const getSearchData = _.debounce(async () => {
+    try {
+      const searchTerm = form.getFieldValue('search')
+      const data = await axios.get(`http://localhost:4000/api/search?search=${searchTerm}`)
+      setResults(data.data)
+      setIsSearchOpen(true)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }, 500);
+
+  useEffect(() => {
+    getAllBrand();
+  }, [])
+
+
+
   const danhmuccontent = (
-    <div style={{ display: 'flex', gap: '16px', maxHeight: '400px', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', gap: '16px', height: '465px', overflow: 'hidden' }}>
       {/* Cột danh mục */}
       <div
         style={{
           maxWidth: '200px',
-          maxHeight: '400px',
+          maxHeight: '465px',
           overflowY: 'auto',
           scrollbarWidth: 'thin',
           scrollbarColor: '#f5f5f5 transparent',
         }}
       >
-        {categories.map((category, index) => (
+        {category.map((category: any, index: any) => (
           <Button
             type="text"
             key={index}
@@ -83,10 +145,10 @@ const HeaderPage = () => {
               borderRadius: '4px',
               transition: 'background-color 0.3s ease',
             }}
-            onClick={() => handleCategoryClick(index)}
+            onClick={() => handleCategoryClick(index, category.id)}
           >
             <img
-              src={category.image}
+              src={`http://localhost:4000/${category.imageUrl}`}
               alt={category.name}
               style={{ width: '35px', height: '35px', marginRight: '10px' }}
             />
@@ -94,13 +156,13 @@ const HeaderPage = () => {
           </Button>
         ))}
       </div>
-  
+
       {/* Cột chi tiết */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn
+          maxHeight: '465x',  // Đảm bảo chiều cao giới hạn
           overflowY: 'auto',   // Thêm scroll bar dọc
           backgroundColor: '#f6f9fc',
           flex: 1, // Đây để cột chi tiết chiếm không gian còn lại
@@ -120,97 +182,135 @@ const HeaderPage = () => {
               border: 'transparent',
             }}
           >
-            Xem tất cả {categories[selectedCategory]?.name}
+            Xem tất cả {category[selectedCategory]?.name}
             <ArrowRightOutlined />
           </Button>
         </div>
-  
         {/* Nội dung chính */}
         <div
           style={{
             flex: 1,
             display: 'flex',
+            flexDirection: 'column',
             gap: '16px',
-            overflowY: 'auto',  // Thêm scroll bar dọc cho nội dung
-            scrollbarWidth: 'thin',  // Tùy chỉnh chiều rộng scrollbar
-            scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu scrollbar
+            overflowY: 'auto', // Thêm scroll bar dọc cho nội dung
+            scrollbarWidth: 'thin', // Tùy chỉnh chiều rộng scrollbar
+            scrollbarColor: '#f5f5f5 transparent', // Tùy chỉnh màu scrollbar
             backgroundColor: '#f6f9fc',
             paddingLeft: '20px',
             paddingRight: '20px',
           }}
         >
           {/* Cột Thương hiệu */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Thương hiệu</h4>
-            {brands.map((brand, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  color: 'black',
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {brand}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Thương hiệu</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {Brand?.map((Brand: any, index: any) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    color: 'black',
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                  onClick={() => router.push(`/product/brand/${Brand.id}`)}  // Gọi hàm handleBrandClick khi click vào button
+                >
+                  {Brand.name}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
-  
+
           {/* Cột Khoảng giá */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Khoảng giá</h4>
-            {priceRanges.map((range, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {range}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Khoảng giá</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {priceRanges.map((range, index) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {range}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
-  
+
           {/* Cột Nhu cầu */}
-          <div style={{ flex: 1, width: 200 }}>
-            <h4>Nhu cầu</h4>
-            {needs.map((need, index) => (
-              <Button
-                type="text"
-                key={index}
-                style={{
-                  marginBottom: '8px',
-                  padding: '8px',
-                  width: '100%',
-                  justifyContent: 'left',
-                  backgroundColor: 'transparent',
-                  borderRadius: '4px',
-                  border: 'transparent',
-                }}
-              >
-                {need}
-                <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9' }} />
-              </Button>
-            ))}
+          <div style={{ marginBottom: '16px', maxWidth: '588px' }}>
+            <h4 style={{ marginBottom: '8px', textAlign: 'left' }}>Nhu cầu</h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                justifyContent: 'flex-start', // Căn trái
+              }}
+            >
+              {needs.map((need, index) => (
+                <Button
+                  type="text"
+                  key={index}
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderRadius: '4px',
+                    border: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start', // Căn trái nội dung
+                    textAlign: 'left', // Căn trái văn bản
+                    flexBasis: 'calc((588px - 32px) / 5)', // Tính chiều rộng mỗi button
+                    maxWidth: 'calc((588px - 32px) / 5)', // Đảm bảo vừa với hàng
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {need}
+                  <ArrowRightOutlined rotate={-50} style={{ color: '#80c4e9', marginLeft: '4px' }} />
+                </Button>
+              ))}
+            </div>
           </div>
+
         </div>
       </div>
-  
+
       {/* Cột ngoài cùng bên phải chứa 4 thẻ */}
       <div
         style={{
@@ -219,7 +319,7 @@ const HeaderPage = () => {
           gap: '16px',
           maxWidth: '250px',
           backgroundColor: 'white',
-          maxHeight: '400px',  // Đảm bảo chiều cao giới hạn cho cột ngoài cùng
+          maxHeight: '465px',  // Đảm bảo chiều cao giới hạn cho cột ngoài cùng
           overflowY: 'auto',   // Thêm scroll bar dọc cho cột này
           scrollbarWidth: 'thin',  // Thêm thuộc tính scroll bar tương tự
           scrollbarColor: '#f5f5f5 transparent',  // Tùy chỉnh màu cho scroll bar
@@ -243,7 +343,8 @@ const HeaderPage = () => {
         </div>
       </div>
     </div>
-  )  
+  )
+
   return (
     <>
       {/* Header chính */}
@@ -267,7 +368,114 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Search size='large' placeholder="Tên sản phẩm, nhu cầu hãng" allowClear style={{ width: 350 }} />
+              <Form form={form}>
+                <Form.Item
+                  name="search"
+                  style={{ width: 350 }}
+                >
+                  <Search
+                    size='large'
+                    placeholder="Tên sản phẩm, nhu cầu hãng"
+                    allowClear
+                    onChange={() => getSearchData()}
+                    style={{ width: 350, marginTop: '25px' }}
+                    onClick={() => setIsSearchOpen(prev => !prev)}
+                  />
+                </Form.Item>
+                {results.length > 0 && isSearchOpen == true && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '75%',
+                      left: 0,
+                      right: 0,
+                      backgroundColor: 'white',
+                      border: '1px solid #f5f5f5',
+                      borderRadius: '4px',
+                      zIndex: 1,
+                      maxHeight: '400px',
+                      overflowY: 'auto',
+                    }}
+                  >
+                    <style>
+                      {`
+                        /* Custom Webkit scrollbar styles */
+                        div::-webkit-scrollbar {
+                          width: 8px;
+                        }
+                        div::-webkit-scrollbar-thumb {
+                          background-color: #888;
+                          border-radius: 4px;
+                        }
+                        div::-webkit-scrollbar-track {
+                          background-color: #f5f5f5;
+                        }
+                      `}
+                    </style>
+                    {results.map((result: any, index: any) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '12px 20px',
+                          border: '1px solid #e0e0e0',
+                          cursor: 'pointer',
+                          transition: 'box-shadow 0.3s, transform 0.3s'
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)')
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)')
+                        }
+                        onClick={() => router.push(`http://localhost:4000/product/detail/${result.id}`)}
+                      >
+                        <Row align="middle" gutter={[16, 16]}>
+                          {/* Image */}
+                          <Col flex="0 0 60px" style={{ display: 'flex', justifyContent: 'center' }}>
+                            <img
+                              src={`http://localhost:4000/${result.productImage}`}
+                              alt={result.name}
+                              style={{
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '8px',
+                                objectFit: 'cover',
+                              }}
+                            />
+                          </Col>
+
+                          {/* Content */}
+                          <Col flex="1" style={{ textAlign: 'left' }}>
+                            <div
+                              style={{
+                                fontWeight: 'bold',
+                                fontSize: '16px',
+                                marginBottom: '4px',
+                                whiteSpace: 'normal',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {result.name}
+                            </div>
+                            <div
+                              style={{
+                                color: '#888',
+                                fontSize: '14px',
+                                whiteSpace: 'normal',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {result.description || 'No description available'}
+                            </div>
+                          </Col>
+                        </Row>
+                      </div>
+                    ))}
+
+                  </div>
+                )}
+
+              </Form>
             </ConfigProvider>
           </Col>
           <Col span={3}>
@@ -306,7 +514,7 @@ const HeaderPage = () => {
               </Button>
             </ConfigProvider>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <ConfigProvider
               theme={{
                 components: {
@@ -320,11 +528,11 @@ const HeaderPage = () => {
                 }
               }}>
               <Button style={{ marginLeft: '40px', fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Khiếu nại
+                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Lịch sử đơn hàng
               </Button>
             </ConfigProvider>
           </Col>
-          <Col span={3}>
+          <Col span={2}>
             <ConfigProvider
               theme={{
                 components: {
@@ -337,15 +545,27 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent' }}>
+              <Button style={{ fontWeight: 600, border: 'transparent' }}>
                 <img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ
               </Button>
             </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button color='default' shape='circle' size='large' variant='filled' style={{ marginRight: '10px' }}  onClick={handleLoginclick}>
-              <img src="/icon/user.png" alt="" style={{ width: 15 }} />
-            </Button>
+            <Popover
+              content={popoverContent}
+              trigger="click" // Hiện popover khi click
+              placement="bottom" // Định vị popover ở góc phải dưới
+            >
+              <Button
+                color="default"
+                shape="circle"
+                size="large"
+                variant="filled"
+                style={{ marginRight: '10px' }}
+              >
+                <img src="/icon/user.png" alt="" style={{ width: 15 }} />
+              </Button>
+            </Popover>
           </Col>
           <Col span={1} style={{ display: 'flex', flexDirection: 'row-reverse' }}>
             <Button color='default' shape='circle' size='large' variant='filled' onClick={() => { router.push('/shoppingCart') }}>
@@ -385,7 +605,7 @@ const HeaderPage = () => {
               slidesToScroll={5}
               infinite={false}
             >
-              {categories.map((category, index) => (
+              {category.map((category: any, index: any) => (
                 <div
                   key={index}
                   style={{
@@ -419,10 +639,10 @@ const HeaderPage = () => {
                         alignItems: 'center', // Canh chỉnh ảnh và text
                         justifyContent: 'center', // Canh giữa nội dung
                       }}
+                      onClick={() => router.push(`http://localhost:4000/product/category/${category.id}`)}  // Gọi hàm handleCategoryClick khi click vào button
                     >
-                      {/* Thêm ảnh nhỏ trước text */}
                       <img
-                        src={category.image}  // Đường dẫn đến ảnh cho mỗi danh mục
+                        src={`http://localhost:4000/${category.imageUrl}`}  // Đường dẫn đến ảnh từ localhost:4000
                         alt={category.name}   // Thêm alt text cho ảnh
                         style={{ width: '45px', marginRight: '8px' }} // Đặt kích thước ảnh và khoảng cách với text
                       />

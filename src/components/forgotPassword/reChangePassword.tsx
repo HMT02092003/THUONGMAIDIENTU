@@ -148,7 +148,7 @@
 
 import * as React from "react";
 import { Button, Checkbox, Col, Input, Row, Typography, Form, message } from "antd";
-import "./ForgotPassword.css";
+import "@/src/cssfolder/ForgotPassword.css";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircleOutlined } from "@ant-design/icons";

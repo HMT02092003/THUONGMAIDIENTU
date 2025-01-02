@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Table, Button, Modal, Input, Form, message, Space, Select, Row, Col, ConfigProvider } from 'antd';
+import { Table, Button, Modal, Input, Form, message, Space, Row, Col, ConfigProvider, Select } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import '@/src/cssfolder/OrderManagement.css'; // Import file CSS
 
 const { Option } = Select;
 
@@ -60,7 +61,7 @@ const OrderManagement: React.FC = () => {
   const [filteredInfo, setFilteredInfo] = useState<any>({});
   const [sortedInfo, setSortedInfo] = useState<any>({});
 
-  const router= useRouter();
+  const router = useRouter();
 
   const rowSelection = {
     selectedRowKeys,
@@ -132,21 +133,21 @@ const OrderManagement: React.FC = () => {
     setSortedInfo(sorter);
   };
 
-  const columns:any = [
+  const columns: any = [
     {
       title: '',
       key: 'action',
       width: '20px',
       fixed: 'left',
-      render: (_:any, record:any) => (
+      render: (_: any, record: any) => (
         <div
           onClick={() => router.push(`/orderManagement/detail/${record.id}`)}
-          style={{display:"flex",alignItems:"center",justifyContent:"center"}}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           <EditOutlined />
         </div>
-      ),  
-    },   
+      ),
+    },
     {
       title: 'Mã Đơn Hàng',
       dataIndex: 'orderCode',
@@ -159,11 +160,10 @@ const OrderManagement: React.FC = () => {
         { text: 'DH003', value: 'DH003' },
       ],
       filteredValue: filteredInfo.orderCode || null,
-      // Handle value as boolean | Key
       onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
         return record.orderCode.includes(value.toString());
       },
-      fixed: 'left'
+      fixed: 'left',
     },
     {
       title: 'Trạng Thái',
@@ -175,7 +175,6 @@ const OrderManagement: React.FC = () => {
         { text: 'Đã hủy', value: 'Đã hủy' },
       ],
       filteredValue: filteredInfo.status || null,
-      // Handle value as boolean | Key
       onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
         return record.status.includes(value.toString());
       },
@@ -215,43 +214,32 @@ const OrderManagement: React.FC = () => {
     },
   ];
 
-
-
   return (
     <ConfigProvider>
-      <div style={{ margin: '20px' }}>
-        <Row justify="space-between" align="middle">
-          <Col style={{ paddingLeft:50, display: 'flex', alignItems: 'center' }}>
-            <h2 style={{ display: 'inline-flex', alignItems: 'center' }}>
-              <img src="\icon\box.png" alt="" style={{ width: '35px', marginRight: '10px' }} />
+      <div className="container">
+        <Row className="header">
+          <Col className="title">
+            <h2>
+              <img src="\icon\box.png" alt="" />
               Quản lý đơn hàng
             </h2>
           </Col>
-          <Col style={{paddingRight:50}}>
+          <Col className="button-group">
             <Space>
-              <Button type="primary" style={{
-                display: "flex",
-                justifyContent: 'center',
-                alignItems: "center",
-                background: "#73d13d",
-                width: "100px",
-                margin: "0 5px",
-              }}
-                icon={<PlusOutlined />}>
+              <Button
+                type="primary"
+                className="button-create"
+                icon={<PlusOutlined />}
+                onClick={handleAddNew}
+              >
                 Tạo mới
               </Button>
               <Button
                 type="primary"
+                className="button-delete"
                 onClick={handleDeleteSelected}
-                style={{
-                  display: "flex",
-                  justifyContent: 'center',
-                  alignItems: "center",
-                  background: "#ff4d4f",
-                  width: "100px",
-                  margin: "0 5px"
-                }}>
-                <DeleteOutlined />
+                icon={<DeleteOutlined />}
+              >
                 Xóa
               </Button>
             </Space>
@@ -265,8 +253,8 @@ const OrderManagement: React.FC = () => {
           rowKey="key"
           pagination={false}
           onChange={handleChange}
-          scroll={{ x: 'max-content'}}
-          style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)", borderRadius: 10 }}
+          scroll={{ x: 'max-content' }}
+          className="table-container"
         />
       </div>
     </ConfigProvider>
