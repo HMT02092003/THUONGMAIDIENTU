@@ -369,11 +369,13 @@ const ShoppingCart: React.FC = () => {
     if (current < steps.length - 1) {
       switch (current) {
         case 0:
-          buttons.push(
-            <Button key="next" type="primary" onClick={next} className="nextButton">
-              <ShoppingCartOutlined style={{ fontSize: '15px' }} />Đặt hàng ngay
-            </Button>
-          );
+          if (cartData.length > 0) {
+            buttons.push(
+              <Button key="next" type="primary" onClick={next} className="nextButton">
+                <ShoppingCartOutlined style={{ fontSize: '15px' }} />Đặt hàng ngay
+              </Button>
+            );
+          }
           break;
         case 1:
           buttons.push(

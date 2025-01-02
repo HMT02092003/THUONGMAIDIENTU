@@ -1,14 +1,14 @@
 "use client";
 
 import React from 'react';
-import Login from '../../components/login/index';
 import PaymentSuccess from '@/src/components/success/success';
+import MainLayout from '@/src/app/main-layout';
 
 const PaymentSuccessPage = () => {
     return (
-        <div>
+        <MainLayout>
             <PaymentSuccess />
-        </div>
+        </MainLayout>
     );
 };
 
