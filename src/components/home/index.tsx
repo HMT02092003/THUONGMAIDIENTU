@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message, Tag, Spin } from "antd";
 import {
   CheckCircleFilled,
   FacebookOutlined,
@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Color } from "antd/es/color-picker";
 import { CarouselRef } from 'antd/es/carousel';
+import axios from "axios";
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -19,24 +20,21 @@ const App: React.FC = () => {
   const carouselRef = useRef<CarouselRef>(null);
   const textStyle = { fontSize: "13px", lineHeight: "1.5" }; // Cỡ chữ nhỏ hơn
   const titleStyle = { fontSize: "15px", marginBottom: "8px" };
-  const buttons = [
-    { id: 1, image: "/icon/laptop.png", text: "Laptop" },
-    { id: 2, image: "/icon/banphim.png", text: "Bàn phím" },
-    { id: 3, image: "/icon/amthanh.png", text: "Ghế gaming" },
-    { id: 4, image: "/icon/bannangha.png", text: "Bàn nâng hạ" },
-    { id: 5, image: "/icon/manhinh.png", text: "màn hình" },
-    { id: 6, image: "/icon/phukien.png", text: "Phụ kiện" },
-    { id: 7, image: "/icon/thucteao.png", text: "Thực tế ảo" },
-    { id: 8, image: "/icon/balo,tui.png", text: "Balo, túi" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-    { id: 9, image: "/icon/phanmem.png", text: "Phần mềm" },
-  ];
+  const { Title, Paragraph, Text } = Typography;
+  const [visibleItems, setVisibleItems] = useState(12);
+  const [loading, setLoading] = useState(true);
+
+  interface Laptop {
+    id: number;
+    name: string;
+    price: string;
+    category: string;
+    brand: string;
+    imageUrl: string;
+    tags: string[];
+  }
+
+  const [category, setCategory] = useState<any>([])
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -62,6 +60,144 @@ const App: React.FC = () => {
     { name: 'Phần mềm' },
   ];
 
+  const fakeData: Laptop[] = [
+    {
+      id: 1,
+      name: "Lenovo ThinkPad X1 Carbon Gen 11",
+      price: "26.990.000",
+      category: "Ultrabook",
+      brand: "Lenovo",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
+    },
+    {
+      id: 2,
+      name: "Dell Inspiron 15 5630",
+      price: "15.990.000",
+      category: "Laptop phổ thông",
+      brand: "Dell",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
+    },
+    {
+      id: 3,
+      name: "HP Spectre x360 14",
+      price: "24.990.000",
+      category: "Ultrabook",
+      brand: "HP",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
+    },
+    {
+      id: 4,
+      name: "Asus ZenBook 14",
+      price: "19.990.000",
+      category: "Laptop cao cấp",
+      brand: "Asus",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
+    },
+    {
+      id: 5,
+      name: "Acer Aspire 5",
+      price: "12.990.000",
+      category: "Laptop phổ thông",
+      brand: "Acer",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i3", "4GB RAM", "SSD 256GB"],
+    },
+    {
+      id: 6,
+      name: "MacBook Air M2",
+      price: "30.990.000",
+      category: "Ultrabook",
+      brand: "Apple",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["M2 Chip", "8GB RAM", "SSD 512GB"],
+    },
+    {
+      id: 7,
+      name: "Dell XPS 13",
+      price: "27.990.000",
+      category: "Laptop cao cấp",
+      brand: "Dell",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 1TB"],
+    },
+    {
+      id: 8,
+      name: "MSI GF63 Thin",
+      price: "18.990.000",
+      category: "Laptop gaming",
+      brand: "MSI",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 512GB", "GTX 1650"],
+    },
+    {
+      id: 9,
+      name: "Razer Blade 15",
+      price: "40.990.000",
+      category: "Laptop gaming",
+      brand: "Razer",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 1TB", "RTX 3070"],
+    },
+    {
+      id: 10,
+      name: "Gigabyte Aero 15",
+      price: "35.990.000",
+      category: "Laptop gaming",
+      brand: "Gigabyte",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i9", "32GB RAM", "SSD 1TB", "RTX 3080"],
+    },
+    {
+      id: 11,
+      name: "Lenovo IdeaPad Flex 5",
+      price: "14.990.000",
+      category: "Laptop 2-in-1",
+      brand: "Lenovo",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
+    },
+    {
+      id: 12,
+      name: "HP Pavilion x360",
+      price: "16.990.000",
+      category: "Laptop 2-in-1",
+      brand: "HP",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 512GB"],
+    },
+    {
+      id: 13,
+      name: "Microsoft Surface Laptop 4",
+      price: "29.990.000",
+      category: "Ultrabook",
+      brand: "Microsoft",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 512GB"],
+    },
+    {
+      id: 14,
+      name: "Asus TUF Gaming F15",
+      price: "22.990.000",
+      category: "Laptop gaming",
+      brand: "Asus",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i7", "16GB RAM", "SSD 512GB", "RTX 3050"],
+    },
+    {
+      id: 15,
+      name: "Samsung Galaxy Book Pro",
+      price: "23.990.000",
+      category: "Ultrabook",
+      brand: "Samsung",
+      imageUrl: "https://via.placeholder.com/200",
+      tags: ["Core i5", "8GB RAM", "SSD 256GB"],
+    },
+  ];
+
   // Hàm xử lý khi nhấn nút mũi tên trái
   const handlePrev = () => {
     if (carouselRef.current) {
@@ -75,6 +211,24 @@ const App: React.FC = () => {
       carouselRef.current.next();  // Di chuyển đến slide tiếp theo
     }
   };
+
+  const handleLoadMore = () => {
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 5);
+  };
+
+  const getAllCategory = async () => {
+    try {
+      const data = await axios.get('http://localhost:4000/api/allCategory')
+      console.log('count:', data)
+      setCategory(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllCategory();
+  }, [])
 
   return (
     <>
@@ -95,8 +249,8 @@ const App: React.FC = () => {
           <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
               <Row gutter={[16, 16]} justify="center">
-                {buttons.map((button, index) => (
-                  <Col key={button.id} xs={6} sm={6} md={3}>
+                {category.map((category: any, index: any) => (
+                  <Col key={category.id} xs={6} sm={6} md={3}>
                     <ConfigProvider
                       theme={{
                         components: {
@@ -124,11 +278,11 @@ const App: React.FC = () => {
                         }}
                       >
                         <img
-                          src={button.image}
-                          alt={button.text}
+                          src={category.imageUrl}
+                          alt={category.name}
                           style={{ width: "103px", height: "103px", marginBottom: "8px" }}
                         />
-                        <span>{button.text}</span>
+                        <span>{category.name}</span>
                       </Button>
                     </ConfigProvider>
                   </Col>
@@ -202,7 +356,7 @@ const App: React.FC = () => {
         </div>
         <div style={{ width: '1200px', height: '196px', marginTop: '3rem' }}>
           <Row>
-            <span style={{ fontSize: 28, fontWeight: 600 }}>Gợi ý cho bạn</span>
+            <span style={{ fontSize: 28, fontWeight: 600 }}></span>
             <Row>
               <span style={{ fontSize: 28, fontWeight: 600 }}>Gợi ý cho bạn</span>
             </Row>
@@ -233,7 +387,7 @@ const App: React.FC = () => {
                         { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
                       ]}
                     >
-                      {categories.map((category, index) => (
+                      {category.map((category: any, index: any) => (
                         <div
                           key={index}
                           style={{
@@ -309,6 +463,77 @@ const App: React.FC = () => {
                 </Row>
               </div>
             </Row>
+
+          <Row gutter={[16, 16]}>
+            {fakeData.slice(0, visibleItems).map((laptop) => (
+              <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
+                <Card
+                  hoverable
+                  cover={<img alt={laptop.name} src={laptop.imageUrl} />}
+                  style={{
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                  }}
+                >
+                  <Card.Meta
+                    title={
+                      <div
+                        style={{
+                          wordWrap: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                      >
+                        {laptop.name}
+                      </div>
+                    }
+                    description={
+                      <>
+                        <p style={{ color: "#fe3464", fontWeight: "bold", fontSize: "16px" }}>
+                          Giá: {laptop.price} VND
+                        </p>
+                        <div>
+                          <Text
+                            type="secondary"
+                            style={{ fontSize: "14px", fontWeight: "bold" }}
+                          >
+                            Thương hiệu: {laptop.brand}
+                          </Text>
+                        </div>
+                        <div style={{ marginTop: "10px" }}>
+                          <Text style={{ fontSize: "12px" }}>Thể loại:</Text>
+                          <div style={{ marginTop: "5px" }}>
+                            <Tag color="blue" style={{ fontSize: "12px" }}>
+                              {laptop.category}
+                            </Tag>
+                            {laptop.tags.map((tag, index) => (
+                              <Tag
+                                color="gold"
+                                key={index}
+                                style={{ fontSize: "12px" }}
+                              >
+                                {tag}
+                              </Tag>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    }
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          {visibleItems < fakeData.length && (
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              <Button type="primary" onClick={handleLoadMore}>
+                Xem thêm
+              </Button>
+            </div>
+          )}
           </Row>
         </div>
       </div>
