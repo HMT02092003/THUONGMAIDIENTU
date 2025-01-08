@@ -1062,7 +1062,7 @@ export const seed = async function (knex) {
       },
       {
         id: 36,
-        name: 'VAIO Gram +View 2023',
+        name: 'LG Gram +View 2023',
         productId: 'GramView2301CO',
         brandId: 9,
         description: '',
@@ -1329,8 +1329,8 @@ export const seed = async function (knex) {
         description: 'Kính thực tế ảo thế hệ mới với hiệu suất mạnh mẽ và chất lượng hình ảnh đỉnh cao.',
         tagName: 'THỰC TẾ ẢO',
         variants: JSON.stringify([
-          { storage: '128GB', version: 'Standard', type: 'Chính hãng', price: '8500000', quantity: '20' },
-          { storage: '256GB', version: 'Pro', type: 'Chính hãng', price: '10500000', quantity: '15' }
+          { color: "Đen", storage: '128GB', version: 'Standard', type: 'Chính hãng', price: '8500000', quantity: '20' },
+          { color: "Trắng", storage: '256GB', version: 'Pro', type: 'Chính hãng', price: '10500000', quantity: '15' }
         ]),
         specifications: JSON.stringify([
           { title: 'Trọng lượng', info: '503g' },
@@ -1354,7 +1354,7 @@ export const seed = async function (knex) {
         description: 'HTC Vive Pro 2 mang đến trải nghiệm VR chất lượng cao với thiết kế thoải mái và hiệu năng mạnh mẽ.',
         tagName: 'THỰC TẾ ẢO',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Chính hãng', price: '24000000', quantity: '10' }
+          { color: "Đen", version: 'Standard', type: 'Chính hãng', price: '24000000', quantity: '10' }
         ]),
         specifications: JSON.stringify([
           { title: 'Độ phân giải', info: '4896x2448' },
@@ -1378,7 +1378,7 @@ export const seed = async function (knex) {
         description: 'Trải nghiệm thực tế ảo đỉnh cao với PlayStation VR2 dành riêng cho hệ máy PS5.',
         tagName: 'THỰC TẾ ẢO',
         variants: JSON.stringify([
-          { version: 'Bundle', type: 'Chính hãng', price: '14990000', quantity: '12' }
+          { color: "Đen", version: 'Bundle', type: 'Chính hãng', price: '14990000', quantity: '12' }
         ]),
         specifications: JSON.stringify([
           { title: 'Độ phân giải', info: '2000x2040 mỗi mắt' },
@@ -1466,7 +1466,7 @@ export const seed = async function (knex) {
         description: 'Chuột gaming hiệu suất cao với cảm biến Hero và độ chính xác tối ưu.',
         tagName: 'CHUỘT',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Wired', price: '1490000', quantity: '100' }
+          { color:"Đen", version: 'Standard', type: 'Wired', price: '1490000', quantity: '100' }
         ]),
         specifications: JSON.stringify([
           { title: 'Cảm biến', info: 'Hero 25K' },
@@ -1491,7 +1491,7 @@ export const seed = async function (knex) {
         description: 'Thiết kế thanh lịch, tối ưu cho trải nghiệm làm việc và giải trí.',
         tagName: 'CHUỘT',
         variants: JSON.stringify([
-          { version: 'Bluetooth', type: 'Wireless', price: '890000', quantity: '75' }
+          { color: "Đen", version: 'Bluetooth', type: 'Wireless', price: '890000', quantity: '75' }
         ]),
         specifications: JSON.stringify([
           { title: 'Công nghệ', info: 'Bluetooth 4.0' },
@@ -1512,7 +1512,7 @@ export const seed = async function (knex) {
         description: 'Dòng chuột gaming huyền thoại với hiệu suất và thiết kế tối ưu.',
         tagName: 'CHUỘT',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Wired', price: '1590000', quantity: '50' }
+          { color: "Đen", version: 'Standard', type: 'Wired', price: '1590000', quantity: '50' }
         ]),
         specifications: JSON.stringify([
           { title: 'Cảm biến', info: 'Focus+ Optical' },
@@ -1537,7 +1537,7 @@ export const seed = async function (knex) {
         description: 'Máy chơi game thế hệ mới với hiệu suất cao và đồ họa vượt trội.',
         tagName: 'CONSOLE',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Disk Edition', price: '14990000', quantity: '30' }
+          { color: "Đen", version: 'Standard', type: 'Disk Edition', price: '14990000', quantity: '30' }
         ]),
         specifications: JSON.stringify([
           { title: 'CPU', info: '8x Zen 2 Cores at 3.5GHz' },
@@ -1560,7 +1560,7 @@ export const seed = async function (knex) {
         description: 'Cỗ máy chơi game mạnh mẽ nhất từ trước đến nay, trải nghiệm chơi game 4K tuyệt hảo.',
         tagName: 'CONSOLE',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Disk Edition', price: '13990000', quantity: '40' }
+          { color: "Đen", version: 'Standard', type: 'Disk Edition', price: '13990000', quantity: '40' }
         ]),
         specifications: JSON.stringify([
           { title: 'CPU', info: '8x Zen 2 Cores at 3.8GHz' },
@@ -1584,7 +1584,7 @@ export const seed = async function (knex) {
         description: 'Phiên bản nâng cấp của Nintendo Switch với màn hình OLED rực rỡ.',
         tagName: 'CONSOLE',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Handheld & Docked', price: '9500000', quantity: '60' }
+          { color: "Đen", version: 'Standard', type: 'Handheld & Docked', price: '9500000', quantity: '60' }
         ]),
         specifications: JSON.stringify([
           { title: 'Màn hình', info: '7-inch OLED' },
@@ -1605,7 +1605,7 @@ export const seed = async function (knex) {
         description: 'Máy chiếu cao cấp với độ phân giải 4K và công nghệ HDR.',
         tagName: 'PROJECTOR',
         variants: JSON.stringify([
-          { version: 'Deluxe', type: 'Home Cinema', price: '25000000', quantity: '30' }
+          { color: "Trắng", version: 'Deluxe', type: 'Home Cinema', price: '25000000', quantity: '30' }
         ]),
         specifications: JSON.stringify([
           { title: 'Độ phân giải', info: '4K UHD' },
@@ -1630,7 +1630,7 @@ export const seed = async function (knex) {
         description: 'Máy chiếu nhỏ gọn với khả năng trình chiếu sắc nét và dễ di chuyển.',
         tagName: 'PROJECTOR',
         variants: JSON.stringify([
-          { version: 'Compact', type: 'Portable', price: '12000000', quantity: '50' }
+          { color: "Trắng", version: 'Compact', type: 'Portable', price: '12000000', quantity: '50' }
         ]),
         specifications: JSON.stringify([
           { title: 'Độ phân giải', info: '1080p Full HD' },
@@ -1655,7 +1655,7 @@ export const seed = async function (knex) {
         description: 'Máy chiếu văn phòng với độ sáng cao và tuổi thọ bóng đèn lâu dài.',
         tagName: 'PROJECTOR',
         variants: JSON.stringify([
-          { version: 'Professional', type: 'Office', price: '17000000', quantity: '40' }
+          { color: "Xám", version: 'Professional', type: 'Office', price: '17000000', quantity: '40' }
         ]),
         specifications: JSON.stringify([
           { title: 'Độ phân giải', info: 'WUXGA (1920x1200)' },
@@ -1680,7 +1680,7 @@ export const seed = async function (knex) {
         description: 'Hộc tủ bảo mật cao dành cho văn phòng hiện đại.',
         tagName: 'FILING_CABINET',
         variants: JSON.stringify([
-          { version: 'Standard', type: 'Office', price: '9000000', quantity: '25' }
+          { color: "Đen", version: 'Standard', type: 'Office', price: '9000000', quantity: '25' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '600x800x450mm' },
@@ -1705,7 +1705,7 @@ export const seed = async function (knex) {
         description: 'Hộc tủ văn phòng bền bỉ với không gian lưu trữ rộng.',
         tagName: 'FILING_CABINET',
         variants: JSON.stringify([
-          { version: 'Premium', type: 'Office', price: '12000000', quantity: '15' }
+          { color: "Đen", version: 'Premium', type: 'Office', price: '12000000', quantity: '15' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '700x900x500mm' },
@@ -1730,7 +1730,7 @@ export const seed = async function (knex) {
         description: 'Hộc tủ thông minh với thiết kế hiện đại và công nghệ tiên tiến.',
         tagName: 'FILING_CABINET',
         variants: JSON.stringify([
-          { version: 'Advanced', type: 'Office', price: '14000000', quantity: '10' }
+          { color: "Đen", version: 'Advanced', type: 'Office', price: '14000000', quantity: '10' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '800x1000x600mm' },
@@ -1754,7 +1754,7 @@ export const seed = async function (knex) {
         description: 'Giá đỡ laptop với thiết kế gọn nhẹ, dễ dàng điều chỉnh để phù hợp với nhiều góc nhìn.',
         tagName: 'LAPTOP_STAND',
         variants: JSON.stringify([
-          { version: 'Basic', type: 'Home', price: '6000000', quantity: '15' }
+          { color: "Trắng", version: 'Basic', type: 'Home', price: '6000000', quantity: '15' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '350x250x50mm' },
@@ -1777,7 +1777,7 @@ export const seed = async function (knex) {
         description: 'Giá đỡ tablet chuyên nghiệp với thiết kế chắc chắn, hỗ trợ đa thiết bị.',
         tagName: 'TABLET_STAND',
         variants: JSON.stringify([
-          { version: 'Premium', type: 'Office', price: '8000000', quantity: '12' }
+          { color: "Xám", version: 'Premium', type: 'Office', price: '8000000', quantity: '12' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '200x150x40mm' },
@@ -1802,7 +1802,7 @@ export const seed = async function (knex) {
         description: 'Giá đỡ laptop tối ưu cho gaming, thiết kế mạnh mẽ, phù hợp với game thủ chuyên nghiệp.',
         tagName: 'LAPTOP_STAND',
         variants: JSON.stringify([
-          { version: 'Gaming', type: 'Pro', price: '9500000', quantity: '8' }
+          { color: "Đen", version: 'Gaming', type: 'Pro', price: '9500000', quantity: '8' }
         ]),
         specifications: JSON.stringify([
           { title: 'Kích thước', info: '400x300x60mm' },
@@ -1819,6 +1819,1477 @@ export const seed = async function (knex) {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       },
+        {
+          id: 67,
+          name: "ASUS Gaming Chair Pro",
+          productId: "AGC1",
+          brandId: 1,
+          description: "Ghế gaming cao cấp ASUS, thiết kế ergonomic, hỗ trợ tối đa cho game thủ.",
+          tagName: "GAMING_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Ergo", type: "Premium", price: 13500000, quantity: 15 },
+            { color: "Đỏ", version: "Standard", type: "Basic", price: 9500000, quantity: 20 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Da PU, thép cao cấp" },
+            { title: "Tính năng", info: "Điều chỉnh độ cao, tựa đầu, đệm lưng" },
+            { title: "Tải trọng tối đa", info: "150kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\AGC1-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS Gaming Chair Pro-desc-e71.jpg",
+            img1: "uploads\\product\\ASUS Gaming Chair Pro-desc-0cd.jpg",
+            img2: "uploads\\product\\ASUS Gaming Chair Pro-desc-cae.jpg",
+            img3: "uploads\\product\\ASUS Gaming Chair Pro-desc-5d9.png"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 68,
+          name: "Dell Gamer Seat DX",
+          productId: "DGS2",
+          brandId: 2,
+          description: "Ghế gaming chuyên dụng Dell, thiết kế hiện đại với khả năng điều chỉnh toàn diện.",
+          tagName: "GAMING_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Pro", type: "RGB", price: 12000000, quantity: 12 },
+            { color: "Xám", version: "Lite", type: "Standard", price: 8500000, quantity: 18 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Lưới thoáng khí, kim loại" },
+            { title: "Tính năng", info: "Tựa lưng đa cấp, chân xoay 360 độ" },
+            { title: "Tải trọng tối đa", info: "120kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DGS2-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Gamer Seat DX-desc-24f.jpg",
+            img1: "uploads\\product\\Dell Gamer Seat DX-desc-6ca.jpg",
+            img2: "uploads\\product\\Dell Gamer Seat DX-desc-bc7.jpg",
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 69,
+          name: "Lenovo Legion Throne",
+          productId: "LLT3",
+          brandId: 3,
+          description: "Ghế gaming Lenovo Legion với thiết kế độc đáo, đệm mút êm ái và hỗ trợ lưng toàn diện.",
+          tagName: "GAMING_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Elite", type: "Ergo", price: 14000000, quantity: 10 },
+            { color: "Xám", version: "Basic", type: "Standard", price: 9500000, quantity: 25 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Da tổng hợp, hợp kim nhôm" },
+            { title: "Tính năng", info: "Đệm lưng, tựa cổ, chế độ nghiêng" },
+            { title: "Tải trọng tối đa", info: "130kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LLT3-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo Legion Throne-desc-365.jpg",
+            img1: "uploads\\product\\Lenovo Legion Throne-desc-c9f.jpg",
+            img2: "uploads\\product\\Lenovo Legion Throne-desc-c36.jpg",
+            img3: "uploads\\product\\Lenovo Legion Throne-desc-0aa.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 70,
+          name: "Microsoft XChair",
+          productId: "MXC4",
+          brandId: 4,
+          description: "Ghế gaming Microsoft tối ưu hoá năng suất và trải nghiệm chơi game với phong cách hiện đại.",
+          tagName: "GAMING_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen Xám", version: "Pro", type: "RGB", price: 15000000, quantity: 8 },
+            { color: "Trắng Xám", version: "Standard", type: "Lite", price: 10000000, quantity: 16 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Lưới thoáng khí, kim loại cao cấp" },
+            { title: "Tính năng", info: "Điều chỉnh độ cao, đèn LED" },
+            { title: "Tải trọng tối đa", info: "140kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MXC4-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft XChair-desc-a58.jpg",
+            img1: "uploads\\product\\Microsoft XChair-desc-601.jpg",
+            img2: "uploads\\product\\Microsoft XChair-desc-a3e.jpg",
+            img3: "uploads\\product\\Microsoft XChair-desc-28f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 71,
+          name: "ASUS ErgoChair Pro",
+          productId: "AEC1",
+          brandId: 1,
+          description: "Ghế công thái học ASUS hỗ trợ tối ưu công việc và thư giãn với thiết kế hiện đại.",
+          tagName: "ERGONOMIC_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Premium", type: "ErgoFlex", price: 12000000, quantity: 10 },
+            { color: "Trắng", version: "Basic", type: "Lite", price: 9000000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Lưới thoáng khí, nhựa cứng cao cấp" },
+            { title: "Tính năng", info: "Điều chỉnh tựa lưng, hỗ trợ thắt lưng" },
+            { title: "Tải trọng tối đa", info: "130kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\AEC1-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ErgoChair Pro-desc-9a6.jpg",
+            img1: "uploads\\product\\ASUS ErgoChair Pro-desc-9c8.jpg",
+            img2: "uploads\\product\\ASUS ErgoChair Pro-desc-c86.jpg",
+            img3: "uploads\\product\\ASUS ErgoChair Pro-desc-a9d.jpg",
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 72,
+          name: "Dell FlexChair Plus",
+          productId: "DFC2",
+          brandId: 2,
+          description: "Ghế công thái học Dell thiết kế đẳng cấp, hỗ trợ sức khỏe và hiệu suất làm việc.",
+          tagName: "ERGONOMIC_CHAIR",
+          variants: JSON.stringify([
+            { color: "Xám Đen", version: "Advanced", type: "FlexSupport", price: 11000000, quantity: 12 },
+            { color: "Trắng", version: "Standard", type: "Lite", price: 8500000, quantity: 18 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải lưới cao cấp, kim loại chịu lực" },
+            { title: "Tính năng", info: "Điều chỉnh tựa đầu, hỗ trợ cột sống" },
+            { title: "Tải trọng tối đa", info: "135kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DFC2-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell FlexChair Plus-desc-567.jpg",
+            img1: "uploads\\product\\Dell FlexChair Plus-desc-6c7.jpg",
+            img2: "uploads\\product\\Dell FlexChair Plus-desc-64f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 73,
+          name: "Lenovo PostureCare X",
+          productId: "LPC3",
+          brandId: 3,
+          description: "Ghế công thái học Lenovo hỗ trợ tối đa cho lưng và cổ, phù hợp với môi trường làm việc dài hạn.",
+          tagName: "ERGONOMIC_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Deluxe", type: "PostureGuard", price: 12500000, quantity: 8 },
+            { color: "Xám", version: "Lite", type: "Standard", price: 9500000, quantity: 20 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải thoáng khí, khung thép cao cấp" },
+            { title: "Tính năng", info: "Điều chỉnh tay vịn, xoay 360 độ" },
+            { title: "Tải trọng tối đa", info: "140kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LPC3-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo PostureCare X-desc-84f.jpg",
+            img1: "uploads\\product\\Lenovo PostureCare X-desc-03b.jpg",
+            img2: "uploads\\product\\Lenovo PostureCare X-desc-6e5.jpg",
+            img3: "uploads\\product\\Lenovo PostureCare X-desc-ce2.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 74,
+          name: "MSI ComfortEdge Z",
+          productId: "MCE4",
+          brandId: 5,
+          description: "Ghế công thái học MSI mang lại sự thoải mái tối đa và hỗ trợ tư thế ngồi chuẩn.",
+          tagName: "ERGONOMIC_CHAIR",
+          variants: JSON.stringify([
+            { color: "Đỏ Đen", version: "Elite", type: "ComfortPro", price: 13000000, quantity: 6 },
+            { color: "Trắng Xám", version: "Basic", type: "Lite", price: 8500000, quantity: 14 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải mềm mại, nhôm cao cấp" },
+            { title: "Tính năng", info: "Ngả lưng 135 độ, điều chỉnh tựa đầu" },
+            { title: "Tải trọng tối đa", info: "145kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MCE4-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI ComfortEdge Z-desc-309.jpg",
+            img1: "uploads\\product\\MSI ComfortEdge Z-desc-c48.jpg",
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 75,
+          name: "Acer ErgoFit Plus",
+          productId: "AEP5",
+          brandId: 6,
+          description: "Ghế công thái học Acer, sự lựa chọn hoàn hảo cho dân văn phòng với phong cách hiện đại.",
+          tagName: "ERGONOMIC_CHAIR",
+          variants: JSON.stringify([
+            { color: "Xám Đậm", version: "Professional", type: "ErgoFit", price: 11500000, quantity: 10 },
+            { color: "Trắng Sữa", version: "Lite", type: "Standard", price: 8500000, quantity: 18 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Lưới thoáng khí, khung thép không gỉ" },
+            { title: "Tính năng", info: "Điều chỉnh lưng, chống đau cổ" },
+            { title: "Tải trọng tối đa", info: "135kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\AEP5-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer ErgoFit Plus-desc-f61.jpg",
+            img1: "uploads\\product\\Acer ErgoFit Plus-desc-64a.jpg",
+            img2: "uploads\\product\\Acer ErgoFit Plus-desc-c6f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 76,
+          name: "Harman Kardon Onyx Studio 6",
+          productId: "HKOS6",
+          brandId: 1,
+          description: "Loa bluetooth Harman Kardon Onyx Studio 6, âm thanh tuyệt vời, thiết kế sang trọng.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Portable", price: 5500000, quantity: 20 },
+            { color: "Trắng", version: "Limited", type: "Portable", price: 6500000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ kim loại, lưới vải chống bụi" },
+            { title: "Tính năng", info: "Kết nối Bluetooth 5.0, chống nước IPX7" },
+            { title: "Công suất", info: "50W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\HKOS6-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Harman Kardon Onyx Studio 6-desc-5da.jpg",
+            img1: "uploads\\product\\Harman Kardon Onyx Studio 6-desc-ea8.jpg",            
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 77,
+          name: "SONY SRS-XB43",
+          productId: "SRSXB43",
+          brandId: 2,
+          description: "Loa Sony SRS-XB43, âm thanh mạnh mẽ, bass sâu, chống nước và chống bụi IP67.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Xanh dương", version: "Standard", type: "Portable", price: 4500000, quantity: 30 },
+            { color: "Đen", version: "Pro", type: "Portable", price: 5000000, quantity: 25 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ chống bụi và nước, siêu bền" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, chế độ Extra Bass" },
+            { title: "Công suất", info: "60W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\SRSXB43-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\SONY SRS-XB43-desc-022.jpg",
+            img1: "uploads\\product\\SONY SRS-XB43-desc-7a1.jpg",
+            img2: "uploads\\product\\SONY SRS-XB43-desc-a8d.jpg",
+            img3: "uploads\\product\\SONY SRS-XB43-desc-674.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 78,
+          name: "JBL Charge 5",
+          productId: "JBLCH5",
+          brandId: 3,
+          description: "Loa JBL Charge 5, âm thanh mạnh mẽ với bass sâu, pin dài lâu, thiết kế chống nước.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Portable", price: 4300000, quantity: 40 },
+            { color: "Xanh lá", version: "Limited Edition", type: "Portable", price: 4800000, quantity: 35 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ cao su chống va đập, chống nước" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, sạc thiết bị khác qua USB-C" },
+            { title: "Công suất", info: "40W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\JBLCH5-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\JBL Charge 5-desc-202.jpg",
+            img1: "uploads\\product\\JBL Charge 5-desc-725.jpg",
+            img2: "uploads\\product\\JBL Charge 5-desc-9c9.jpg",
+            img3: "uploads\\product\\JBL Charge 5-desc-3b9.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 79,
+          name: "Harman Kardon SoundSticks 4",
+          productId: "HKSST4",
+          brandId: 1,
+          description: "Loa Harman Kardon SoundSticks 4, thiết kế độc đáo, âm thanh sống động.",
+          tagName: "DESKTOP_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Trong suốt", version: "Classic", type: "Desktop", price: 8000000, quantity: 10 },
+            { color: "Đen", version: "Limited Edition", type: "Desktop", price: 8500000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ nhựa trong suốt, cấu hình âm thanh mạnh mẽ" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, cổng aux" },
+            { title: "Công suất", info: "100W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\HKSST4-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Harman Kardon SoundSticks 4-desc-ffc.jpg",
+            img1: "uploads\\product\\Harman Kardon SoundSticks 4-desc-0fc.jpg",
+            img2: "uploads\\product\\Harman Kardon SoundSticks 4-desc-3dc.jpg",
+            img3: "uploads\\product\\Harman Kardon SoundSticks 4-desc-42e.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 80,
+          name: "SONY SRS-XB33",
+          productId: "SRSXB33",
+          brandId: 2,
+          description: "Loa Sony SRS-XB33, âm thanh sống động với Extra Bass, chống nước và bụi IP67.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đỏ", version: "Standard", type: "Portable", price: 4700000, quantity: 18 },
+            { color: "Xanh biển", version: "Pro", type: "Portable", price: 5200000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ bền, chống va đập, chống bụi" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, Extra Bass" },
+            { title: "Công suất", info: "50W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\SRSXB33-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\SONY SRS-XB33-desc-4a0.jpg",
+            img1: "uploads\\product\\SONY SRS-XB33-desc-74d.jpg",
+            img2: "uploads\\product\\SONY SRS-XB33-desc-52b.jpg",
+            img3: "uploads\\product\\SONY SRS-XB33-desc-0a7.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 81,
+          name: "JBL Flip 5",
+          productId: "JBLF5",
+          brandId: 3,
+          description: "Loa JBL Flip 5, âm thanh mạnh mẽ, thiết kế nhỏ gọn và chống nước IPX7.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Xám", version: "Standard", type: "Portable", price: 3500000, quantity: 20 },
+            { color: "Đỏ", version: "Limited", type: "Portable", price: 4000000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ cao su chống thấm nước, siêu bền" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, chế độ Stereo" },
+            { title: "Công suất", info: "30W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\JBLF5-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\JBLF5-desc-1.jpg",
+            img1: "uploads\\product\\JBLF5-desc-2.jpg",
+            img2: "uploads\\product\\JBLF5-desc-3.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 82,
+          name: "Xiaomi Mi Portable Bluetooth Speaker",
+          productId: "XMPBS",
+          brandId: 1,
+          description: "Loa Bluetooth Xiaomi Mi Portable, âm thanh mạnh mẽ, pin lâu dài và chống nước IPX7.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Portable", price: 800000, quantity: 25 },
+            { color: "Xanh Dương", version: "Special", type: "Portable", price: 950000, quantity: 18 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ nhựa ABS bền bỉ" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, chế độ Stereo" },
+            { title: "Công suất", info: "16W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\XMPBS-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Xiaomi Mi Portable Bluetooth Speaker-desc-2df.jpg",
+            img1: "uploads\\product\\Xiaomi Mi Portable Bluetooth Speaker-desc-3b0.jpg"            
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 83,
+          name: "Bose SoundLink Revolve",
+          productId: "BSLRV",
+          brandId: 2,
+          description: "Loa Bose SoundLink Revolve, âm thanh 360 độ, thiết kế sang trọng và kết nối Bluetooth ổn định.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Portable", price: 5700000, quantity: 12 },
+            { color: "Trắng", version: "Premium", type: "Portable", price: 6500000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ kim loại, chống nước IPX4" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, Âm thanh 360 độ" },
+            { title: "Công suất", info: "30W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\BSLRV-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Bose SoundLink Revolve-desc-7fc.jpg",
+            img1: "uploads\\product\\Bose SoundLink Revolve-desc-1e4.jpg",
+            img2: "uploads\\product\\Bose SoundLink Revolve-desc-eea.jpg",
+            img3: "uploads\\product\\Bose SoundLink Revolve-desc-e5d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 84,
+          name: "Marshall Stanmore II",
+          productId: "MSIIS",
+          brandId: 3,
+          description: "Loa Marshall Stanmore II, âm thanh mạnh mẽ, thiết kế cổ điển và kết nối Bluetooth.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Classic", type: "Standmount", price: 9000000, quantity: 5 },
+            { color: "Trắng", version: "Premium", type: "Standmount", price: 9500000, quantity: 3 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ gỗ với lớp vải bọc vải tổng hợp" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, điều chỉnh âm lượng qua núm vặn" },
+            { title: "Công suất", info: "80W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSIIS-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Marshall Stanmore II-desc-2e0.jpg",
+            img1: "uploads\\product\\Marshall Stanmore II-desc-b46.jpg"          
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 85,
+          name: "Xiaomi Mi Outdoor Bluetooth Speaker",
+          productId: "XMOBCS",
+          brandId: 1,
+          description: "Loa Bluetooth Xiaomi Mi Outdoor, thiết kế nhỏ gọn, âm thanh chất lượng cao và chống nước IPX6.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Outdoor", type: "Portable", price: 1200000, quantity: 18 },
+            { color: "Xanh dương", version: "Adventure", type: "Portable", price: 1500000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ nhựa cao cấp, chống va đập" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, Microphone tích hợp" },
+            { title: "Công suất", info: "10W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\XMOBCS-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Xiaomi Mi Outdoor Bluetooth Speaker-desc-b24.png",
+            img1: "uploads\\product\\Xiaomi Mi Outdoor Bluetooth Speaker-desc-7c4.jpg",
+            img2: "uploads\\product\\Xiaomi Mi Outdoor Bluetooth Speaker-desc-208.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 86,
+          name: "Bose SoundLink Color II",
+          productId: "BOSLCII",
+          brandId: 2,
+          description: "Loa Bose SoundLink Color II, thiết kế nhỏ gọn, âm thanh rõ ràng và kết nối Bluetooth nhanh chóng.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Xanh Dương", version: "Colorful", type: "Portable", price: 3500000, quantity: 15 },
+            { color: "Đen", version: "Basic", type: "Portable", price: 3200000, quantity: 20 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ nhựa chống nước" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, âm thanh rõ ràng" },
+            { title: "Công suất", info: "20W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\BOSLCII-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Bose SoundLink Color II-desc-581.jpg",
+            img1: "uploads\\product\\Bose SoundLink Color II-desc-68c.jpg"           
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 87,
+          name: "Marshall Acton II",
+          productId: "MSACTII",
+          brandId: 3,
+          description: "Loa Marshall Acton II, âm thanh mạnh mẽ, thiết kế cổ điển và kết nối Bluetooth dễ dàng.",
+          tagName: "BLUETOOTH_SPEAKER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Classic", type: "Standmount", price: 6500000, quantity: 10 },
+            { color: "Nâu", version: "Limited", type: "Standmount", price: 7000000, quantity: 7 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ gỗ, bọc da tổng hợp" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, điều chỉnh âm thanh qua núm vặn" },
+            { title: "Công suất", info: "60W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSACTII-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Marshall Acton II-desc-ca2.jpg",
+            img1: "uploads\\product\\Marshall Acton II-desc-c64.jpg",
+            img2: "uploads\\product\\Marshall Acton II-desc-be3.jpg",
+            img3: "uploads\\product\\Marshall Acton II-desc-a6b.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 88,
+          name: "Xiaomi Mi Soundbar",
+          productId: "XMSB",
+          brandId: 1,
+          description: "Loa thanh Xiaomi Mi Soundbar, âm thanh sống động, hỗ trợ kết nối với TV và Bluetooth.",
+          tagName: "SOUND_BAR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Soundbar", price: 2500000, quantity: 22 },
+            { color: "Xám", version: "Premium", type: "Soundbar", price: 3000000, quantity: 14 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vỏ nhựa, hệ thống loa bảy âm thanh" },
+            { title: "Tính năng", info: "Kết nối Bluetooth, hỗ trợ TV, âm thanh vòm" },
+            { title: "Công suất", info: "60W" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\XMSB-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Xiaomi Mi Soundbar-desc-2da.jpg",
+            img1: "uploads\\product\\Xiaomi Mi Soundbar-desc-600.jpg",
+            img2: "uploads\\product\\Xiaomi Mi Soundbar-desc-a9b.jpg",
+            img3: "uploads\\product\\Xiaomi Mi Soundbar-desc-e57.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 89,
+          name: "ASUS TUF Gaming VG27AQ",
+          productId: "ATGVGAQ",
+          brandId: 1,
+          description: "Màn hình ASUS TUF Gaming VG27AQ, màn hình cong 27 inch, độ phân giải 2K, tần số quét 165Hz.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 8000000, quantity: 10 },
+            { color: "Xám", version: "Elite", type: "Gaming", price: 9500000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "2560x1440 (2K)" },
+            { title: "Tần số quét", info: "165Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ATGVGAQ-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS TUF Gaming VG27AQ-desc-0ea.jpg",
+            img1: "uploads\\product\\ASUS TUF Gaming VG27AQ-desc-bbd.jpg",
+            img2: "uploads\\product\\ASUS TUF Gaming VG27AQ-desc-2b3.jpg",
+            img3: "uploads\\product\\ASUS TUF Gaming VG27AQ-desc-c94.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 90,
+          name: "Dell UltraSharp U2720Q",
+          productId: "DUU2720Q",
+          brandId: 2,
+          description: "Màn hình Dell UltraSharp U2720Q, 27 inch, độ phân giải 4K, chính xác màu sắc cao.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Professional", price: 11500000, quantity: 8 },
+            { color: "Trắng", version: "Premium", type: "Professional", price: 12500000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "3840x2160 (4K)" },
+            { title: "Màu sắc", info: "Chính xác, 95% DCI-P3" },
+            { title: "Kết nối", info: "USB-C, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DUU2720Q-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell UltraSharp U2720Q-desc-464.jpg",
+            img1: "uploads\\product\\Dell UltraSharp U2720Q-desc-30f.jpg",
+            img2: "uploads\\product\\Dell UltraSharp U2720Q-desc-a19.jpg",
+            img3: "uploads\\product\\Dell UltraSharp U2720Q-desc-557.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 91,
+          name: "Lenovo ThinkVision P27h",
+          productId: "LTVP27H",
+          brandId: 3,
+          description: "Màn hình Lenovo ThinkVision P27h, 27 inch, độ phân giải 1440p, khả năng kết nối USB-C.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Business", price: 9000000, quantity: 6 },
+            { color: "Xám", version: "Premium", type: "Business", price: 9800000, quantity: 3 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "2560x1440 (QHD)" },
+            { title: "Tần số quét", info: "75Hz" },
+            { title: "Kết nối", info: "USB-C, HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LTVP27H-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo ThinkVision P27h-desc-138.jpg",
+            img1: "uploads\\product\\Lenovo ThinkVision P27h-desc-eb4.jpg",
+            img2: "uploads\\product\\Lenovo ThinkVision P27h-desc-0db.jpg",
+            img3: "uploads\\product\\Lenovo ThinkVision P27h-desc-656.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 92,
+          name: "Microsoft Surface Studio 2",
+          productId: "MSSS2",
+          brandId: 4,
+          description: "Màn hình cảm ứng Microsoft Surface Studio 2, 28 inch, độ phân giải 4.5K, thiết kế sang trọng.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Premium", type: "Touchscreen", price: 35000000, quantity: 3 },
+            { color: "Bạc", version: "Standard", type: "Touchscreen", price: 32000000, quantity: 2 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "4500x3000 (4.5K)" },
+            { title: "Màn hình cảm ứng", info: "Hỗ trợ đa điểm" },
+            { title: "Kết nối", info: "USB-C, HDMI" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSSS2-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Studio 2-desc-624.jpg",
+            img1: "uploads\\product\\Microsoft Surface Studio 2-desc-fe7.jpg",
+            img2: "uploads\\product\\Microsoft Surface Studio 2-desc-996.jpg",
+            img3: "uploads\\product\\Microsoft Surface Studio 2-desc-496.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 93,
+          name: "MSI Optix MAG272C",
+          productId: "MSOMAG272C",
+          brandId: 5,
+          description: "Màn hình MSI Optix MAG272C, 27 inch, màn hình cong, độ phân giải 1080p, tần số quét 165Hz.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Gaming", type: "Curved", price: 7000000, quantity: 12 },
+            { color: "Đỏ", version: "Limited", type: "Curved", price: 7500000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "1920x1080 (FHD)" },
+            { title: "Tần số quét", info: "165Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSOMAG272C-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Studio 2-desc-624.jpg",
+            img1: "uploads\\product\\Microsoft Surface Studio 2-desc-fe7.jpg",
+            img2: "uploads\\product\\Microsoft Surface Studio 2-desc-996.jpg",
+            img3: "uploads\\product\\Microsoft Surface Studio 2-desc-496.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 94,
+          name: "Acer Predator X34",
+          productId: "ACPX34",
+          brandId: 6,
+          description: "Màn hình Acer Predator X34, màn hình cong 34 inch, độ phân giải UWQHD, tần số quét 180Hz.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Gaming", type: "UltraWide", price: 14000000, quantity: 7 },
+            { color: "Xám", version: "Premium", type: "UltraWide", price: 15000000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "3440x1440 (UWQHD)" },
+            { title: "Tần số quét", info: "180Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ACPX34-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Predator X34-desc-576.jpg",
+            img1: "uploads\\product\\Acer Predator X34-desc-3a6.jpg",
+            img2: "uploads\\product\\Acer Predator X34-desc-0cd.jpg",
+            img3: "uploads\\product\\Acer Predator X34-desc-e27.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 95,
+          name: "Razer Raptor 27",
+          productId: "RR27",
+          brandId: 7,
+          description: "Màn hình Razer Raptor 27, 27 inch, độ phân giải 1440p, tần số quét 165Hz, thiết kế sang trọng.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Elite", type: "Gaming", price: 16000000, quantity: 6 },
+            { color: "Xanh Dương", version: "Limited", type: "Gaming", price: 17000000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "2560x1440 (QHD)" },
+            { title: "Tần số quét", info: "165Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\RR27-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Razer Raptor 27-desc-271.jpg",
+            img1: "uploads\\product\\Razer Raptor 27-desc-353.jpg",
+            img2: "uploads\\product\\Razer Raptor 27-desc-6c6.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 96,
+          name: "GIGABYTE AORUS FI27Q",
+          productId: "GAFI27Q",
+          brandId: 8,
+          description: "Màn hình GIGABYTE AORUS FI27Q, 27 inch, độ phân giải 1440p, tần số quét 165Hz.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 8500000, quantity: 9 },
+            { color: "Xám", version: "Premium", type: "Gaming", price: 9000000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "2560x1440 (QHD)" },
+            { title: "Tần số quét", info: "165Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\GAFI27Q-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\GIGABYTE AORUS FI27Q-desc-119.jpg",
+            img1: "uploads\\product\\GIGABYTE AORUS FI27Q-desc-fc4.jpeg",
+            img2: "uploads\\product\\GIGABYTE AORUS FI27Q-desc-729.jpeg",
+            img3: "uploads\\product\\GIGABYTE AORUS FI27Q-desc-88e.jpeg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 97,
+          name: "ASUS ROG Swift PG259QN",
+          productId: "ASPG259QN",
+          brandId: 1,
+          description: "Màn hình ASUS ROG Swift PG259QN, 24.5 inch, độ phân giải 1080p, tần số quét 360Hz, thiết kế cho game thủ chuyên nghiệp.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 18000000, quantity: 5 },
+            { color: "Đen", version: "Elite", type: "Gaming", price: 19000000, quantity: 3 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "1920x1080 (FHD)" },
+            { title: "Tần số quét", info: "360Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ASPG259QN-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ROG Swift PG259QN-desc-e99.jpg",
+            img1: "uploads\\product\\ASUS ROG Swift PG259QN-desc-206.jpg",
+            img2: "uploads\\product\\ASUS ROG Swift PG259QN-desc-1de.jpg",
+            img3: "uploads\\product\\ASUS ROG Swift PG259QN-desc-bb8.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 98,
+          name: "Dell Alienware AW3423DW",
+          productId: "DWAW3423DW",
+          brandId: 2,
+          description: "Màn hình Dell Alienware AW3423DW, 34 inch, màn hình cong UWQHD, tần số quét 175Hz, dành cho game thủ.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Gaming", type: "Curved", price: 25000000, quantity: 4 },
+            { color: "Đen", version: "Limited", type: "Curved", price: 26000000, quantity: 2 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "3440x1440 (UWQHD)" },
+            { title: "Tần số quét", info: "175Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DWAW3423DW-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Alienware AW3423DW-desc-8bd.jpg",
+            img1: "uploads\\product\\Dell Alienware AW3423DW-desc-32a.jpg",
+            img2: "uploads\\product\\Dell Alienware AW3423DW-desc-f39.jpg",
+            img3: "uploads\\product\\Dell Alienware AW3423DW-desc-52b.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 99,
+          name: "Lenovo Legion Y25-25",
+          productId: "LLY2525",
+          brandId: 3,
+          description: "Màn hình Lenovo Legion Y25-25, 24.5 inch, độ phân giải 1080p, tần số quét 240Hz, thiết kế cho game thủ.",
+          tagName: "MONITOR",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 7500000, quantity: 10 },
+            { color: "Trắng", version: "Elite", type: "Gaming", price: 8000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "1920x1080 (FHD)" },
+            { title: "Tần số quét", info: "240Hz" },
+            { title: "Kết nối", info: "HDMI, DisplayPort" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LLY2525-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo Legion Y25-25-desc-336.jpg",
+            img1: "uploads\\product\\Lenovo Legion Y25-25-desc-767.jpg",
+            img2: "uploads\\product\\Lenovo Legion Y25-25-desc-008.jpg",
+            img3: "uploads\\product\\Lenovo Legion Y25-25-desc-4a8.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 100,
+          name: "ASUS ROG Tech Backpack",
+          productId: "ARTB100",
+          brandId: 1,
+          description: "Balo ASUS ROG thiết kế chuyên dụng cho game thủ và người dùng công nghệ, chất liệu cao cấp, chống nước.",
+          tagName: "BACKPACK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 2000000, quantity: 15 },
+            { color: "Xám", version: "Pro", type: "Gaming", price: 2500000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Polyester chống nước" },
+            { title: "Dung tích", info: "20L" },
+            { title: "Tính năng", info: "Ngăn chứa laptop 17 inch, cổng sạc USB tích hợp" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ARTB100-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ROG Tech Backpack-desc-ca1.jpg",
+            img1: "uploads\\product\\ASUS ROG Tech Backpack-desc-433.jpg",
+            img2: "uploads\\product\\ASUS ROG Tech Backpack-desc-a4d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 101,
+          name: "Dell Premium Laptop Bag",
+          productId: "DPLB101",
+          brandId: 2,
+          description: "Túi xách Dell cao cấp dành cho laptop, thiết kế mỏng nhẹ, thanh lịch.",
+          tagName: "LAPTOP_BAG",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Office", price: 1800000, quantity: 20 },
+            { color: "Nâu", version: "Elite", type: "Office", price: 2200000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Kích thước laptop phù hợp", info: "15.6 inch" },
+            { title: "Chất liệu", info: "Da PU cao cấp" },
+            { title: "Tính năng", info: "Chống nước, ngăn chống sốc" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DPLB101-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Premium Laptop Bag-desc-651.jpg",
+            img1: "uploads\\product\\Dell Premium Laptop Bag-desc-787.jpg",
+            img2: "uploads\\product\\Dell Premium Laptop Bag-desc-297.jpg",
+            img3: "uploads\\product\\Dell Premium Laptop Bag-desc-16c.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 102,
+          name: "Lenovo ThinkPad Carrying Case",
+          productId: "LTCC102",
+          brandId: 3,
+          description: "Túi đựng Lenovo ThinkPad tiện lợi, thiết kế tối ưu cho doanh nhân và người dùng văn phòng.",
+          tagName: "CARRY_CASE",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Office", price: 1500000, quantity: 25 },
+            { color: "Xám", version: "Professional", type: "Office", price: 2000000, quantity: 18 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Kích thước laptop phù hợp", info: "14 inch" },
+            { title: "Chất liệu", info: "Nylon chống nước" },
+            { title: "Tính năng", info: "Ngăn tổ chức đồ dùng, quai đeo thoải mái" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LTCC102-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo ThinkPad Carrying Case-desc-538.jpg",
+            img1: "uploads\\product\\Lenovo ThinkPad Carrying Case-desc-628.jpg",
+            img2: "uploads\\product\\Lenovo ThinkPad Carrying Case-desc-56d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 103,
+          name: "Microsoft Surface Backpack",
+          productId: "MSBP103",
+          brandId: 4,
+          description: "Balo Microsoft Surface thiết kế tối ưu cho dòng sản phẩm Surface, phong cách thời thượng.",
+          tagName: "BACKPACK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Office", price: 2300000, quantity: 8 },
+            { color: "Xanh", version: "Premium", type: "Office", price: 2800000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Dung tích", info: "18L" },
+            { title: "Chất liệu", info: "Vải cao cấp chống thấm" },
+            { title: "Tính năng", info: "Ngăn chống sốc, quai đeo êm ái" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSBP103-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Backpack-desc-75f.jpg",
+            img1: "uploads\\product\\Microsoft Surface Backpack-desc-49d.jpg",
+            img2: "uploads\\product\\Microsoft Surface Backpack-desc-676.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 104,
+          name: "MSI Tech Gear Bag",
+          productId: "MTGB104",
+          brandId: 5,
+          description: "Túi đựng đồ công nghệ MSI thiết kế đa năng, phù hợp cho game thủ và người yêu công nghệ.",
+          tagName: "TECH_BAG",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 1200000, quantity: 20 },
+            { color: "Đỏ", version: "Gaming Edition", type: "Gaming", price: 1500000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Polyester cao cấp" },
+            { title: "Kích thước", info: "10 x 15 x 5 inch" },
+            { title: "Tính năng", info: "Ngăn đa năng, chống thấm nước" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MTGB104-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Tech Gear Bag-desc-d89.jpg",
+            img1: "uploads\\product\\MSI Tech Gear Bag-desc-b65.jpg",
+            img2: "uploads\\product\\MSI Tech Gear Bag-desc-9e9.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 105,
+          name: "MSI Gaming Backpack",
+          productId: "MGB105",
+          brandId: 5,
+          description: "Balo MSI Gaming với thiết kế đậm chất game thủ, có nhiều ngăn giúp tổ chức đồ đạc tiện lợi.",
+          tagName: "GAMING_BACKPACK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Gaming", price: 1500000, quantity: 25 },
+            { color: "Đỏ", version: "Pro Edition", type: "Gaming", price: 1800000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải chống thấm" },
+            { title: "Kích thước", info: "15 x 18 x 8 inch" },
+            { title: "Tính năng", info: "Ngăn đựng laptop 17 inch, đệm vai êm ái" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MGB105-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Gaming Backpack-desc-1.jpg"            
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 106,
+          name: "Acer Predator Backpack",
+          productId: "APB106",
+          brandId: 6,
+          description: "Balo Acer Predator thiết kế hiện đại với chất liệu bền bỉ và khả năng chống thấm nước.",
+          tagName: "PREDATOR_BACKPACK",
+          variants: JSON.stringify([
+            { color: "Xám", version: "Standard", type: "Gaming", price: 1400000, quantity: 30 },
+            { color: "Đen", version: "Elite Edition", type: "Gaming", price: 1700000, quantity: 20 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải polyester chống thấm" },
+            { title: "Kích thước", info: "14 x 18 x 7 inch" },
+            { title: "Tính năng", info: "Ngăn đựng laptop, thiết kế thoáng khí" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\APB106-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Predator Backpack-desc-b5b.jpg",
+            img1: "uploads\\product\\Acer Predator Backpack-desc-1b7.jpg",
+            img2: "uploads\\product\\Acer Predator Backpack-desc-d4f.jpg",
+            img3: "uploads\\product\\Acer Predator Backpack-desc-e9d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 107,
+          name: "Razer Tactical Backpack",
+          productId: "RTB107",
+          brandId: 7,
+          description: "Balo Razer Tactical được thiết kế chắc chắn và tối ưu cho việc bảo vệ thiết bị điện tử khi di chuyển.",
+          tagName: "TACTICAL_BACKPACK",
+          variants: JSON.stringify([
+            { color: "Xanh lá", version: "Standard", type: "Tactical", price: 1600000, quantity: 25 },
+            { color: "Đen", version: "Pro Edition", type: "Tactical", price: 1900000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải chống nước, chống sốc" },
+            { title: "Kích thước", info: "16 x 20 x 8 inch" },
+            { title: "Tính năng", info: "Khóa kéo chống thấm, đệm lưng thoáng khí" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\RTB107-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Razer Tactical Backpack-desc-853.jpg",
+            img1: "uploads\\product\\Razer Tactical Backpack-desc-130.jpg",
+            img2: "uploads\\product\\Razer Tactical Backpack-desc-040.jpg",
+            img3: "uploads\\product\\Razer Tactical Backpack-desc-a0d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 108,
+          name: "Acer Aspire Tech Bag",
+          productId: "AATB108",
+          brandId: 6,
+          description: "Túi đựng đồ công nghệ Acer Aspire với thiết kế gọn nhẹ, dễ dàng mang theo cho người yêu công nghệ.",
+          tagName: "TECH_BAG",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Tech", price: 1200000, quantity: 20 },
+            { color: "Xám", version: "Deluxe Edition", type: "Tech", price: 1500000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Vải nylon chống thấm" },
+            { title: "Kích thước", info: "12 x 15 x 5 inch" },
+            { title: "Tính năng", info: "Khóa kéo chống nước, ngăn đựng laptop 15 inch" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\AATB108-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Aspire Tech Bag-desc-f35.jpg",
+            img1: "uploads\\product\\Acer Aspire Tech Bag-desc-120.jpg",
+            img2: "uploads\\product\\Acer Aspire Tech Bag-desc-16a.jpg",
+            img3: "uploads\\product\\Acer Aspire Tech Bag-desc-23a.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 109,
+          name: "NiceDesign Adjustable Standing Desk",
+          productId: "NDAD109",
+          brandId: 5,
+          description: "Bàn nâng hạ NiceDesign với thiết kế hiện đại, dễ dàng điều chỉnh chiều cao, phù hợp cho công việc văn phòng.",
+          tagName: "ADJUSTABLE_DESK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Office", price: 3000000, quantity: 10 },
+            { color: "Gỗ", version: "Premium", type: "Office", price: 3500000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép, mặt gỗ công nghiệp" },
+            { title: "Kích thước", info: "120 x 60 x 75 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, chống rung" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\NDAD109-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\NiceDesign Adjustable Standing Desk-desc-218.jpg",
+            img1: "uploads\\product\\NiceDesign Adjustable Standing Desk-desc-38f.jpg",
+            img2: "uploads\\product\\NiceDesign Adjustable Standing Desk-desc-94f.jpg",
+            img3: "uploads\\product\\NiceDesign Adjustable Standing Desk-desc-650.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 110,
+          name: "HyperWork Electric Standing Desk",
+          productId: "HWED110",
+          brandId: 6,
+          description: "Bàn nâng hạ HyperWork, thiết kế tiện dụng với khả năng điều chỉnh chiều cao bằng điện, phù hợp với mọi không gian làm việc.",
+          tagName: "STANDING_DESK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "Work", price: 2800000, quantity: 8 },
+            { color: "Trắng", version: "Pro", type: "Work", price: 3200000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Thép không gỉ, mặt bàn MDF chống trầy" },
+            { title: "Kích thước", info: "120 x 70 x 75 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, thiết kế tiết kiệm không gian" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\HWED110-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\HyperWork Electric Standing Desk-desc-c6f.jpg",
+            img1: "uploads\\product\\HyperWork Electric Standing Desk-desc-189.jpg",
+            img2: "uploads\\product\\HyperWork Electric Standing Desk-desc-388.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 111,
+          name: "Dandihome Adjustable Desk",
+          productId: "DHAD111",
+          brandId: 7,
+          description: "Bàn nâng hạ Dandihome với thiết kế thông minh, dễ dàng điều chỉnh chiều cao phù hợp cho không gian làm việc tại nhà.",
+          tagName: "HOME_DESK",
+          variants: JSON.stringify([
+            { color: "Gỗ", version: "Standard", type: "Home", price: 2700000, quantity: 15 },
+            { color: "Đen", version: "Deluxe", type: "Home", price: 3000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Gỗ tự nhiên, khung thép sơn tĩnh điện" },
+            { title: "Kích thước", info: "100 x 60 x 70 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao, thiết kế hiện đại" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DHAD111-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dandihome Adjustable Desk-desc-ac1.jpg",
+            img1: "uploads\\product\\Dandihome Adjustable Desk-desc-1ff.jpg"           
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 112,
+          name: "NiceDesign Electric Desk",
+          productId: "NDED112",
+          brandId: 5,
+          description: "Bàn điện tử nâng hạ NiceDesign với khả năng điều chỉnh dễ dàng và thiết kế tiết kiệm không gian.",
+          tagName: "ADJUSTABLE_DESK",
+          variants: JSON.stringify([
+            { color: "Trắng", version: "Standard", type: "Office", price: 3100000, quantity: 10 },
+            { color: "Đen", version: "Luxury", type: "Office", price: 3800000, quantity: 7 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép cao cấp, mặt bàn gỗ laminate" },
+            { title: "Kích thước", info: "140 x 70 x 80 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, có chức năng ghi nhớ chiều cao yêu thích" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\NDED112-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\NiceDesign Electric Desk-desc-418.jpg",
+            img1: "uploads\\product\\NiceDesign Electric Desk-desc-78d.jpg",
+            img2: "uploads\\product\\NiceDesign Electric Desk-desc-ba5.jpg",
+            img3: "uploads\\product\\NiceDesign Electric Desk-desc-0d4.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 113,
+          name: "HyperWork Pro Desk",
+          productId: "HWP113",
+          brandId: 6,
+          description: "Bàn nâng hạ HyperWork Pro với khả năng điều chỉnh linh hoạt, dễ dàng sử dụng trong mọi không gian làm việc.",
+          tagName: "ADJUSTABLE_DESK",
+          variants: JSON.stringify([
+            { color: "Gỗ", version: "Premium", type: "Work", price: 3300000, quantity: 5 },
+            { color: "Đen", version: "Basic", type: "Work", price: 2900000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Mặt bàn gỗ cao cấp, khung thép không gỉ" },
+            { title: "Kích thước", info: "130 x 70 x 80 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao, dễ dàng lắp ráp" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\HWP113-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\HyperWork Pro Desk-desc-2c6.jpg",
+            img1: "uploads\\product\\HyperWork Pro Desk-desc-47d.jpg",
+            img2: "uploads\\product\\HyperWork Pro Desk-desc-f96.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 114,
+          name: "Dandihome Electric Standing Desk",
+          productId: "DHES114",
+          brandId: 7,
+          description: "Bàn điện tử nâng hạ Dandihome, thiết kế sang trọng và hiện đại, phù hợp cho không gian văn phòng.",
+          tagName: "STANDING_DESK",
+          variants: JSON.stringify([
+            { color: "Trắng", version: "Standard", type: "Office", price: 3400000, quantity: 8 },
+            { color: "Đen", version: "Premium", type: "Office", price: 4000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép sơn tĩnh điện, mặt bàn gỗ laminate" },
+            { title: "Kích thước", info: "140 x 80 x 75 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, khả năng nâng tối đa 100kg" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DHES114-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dandihome Electric Standing Desk-desc-8ed.jpg",
+            img1: "uploads\\product\\Dandihome Electric Standing Desk-desc-b05.jpg",
+            img2: "uploads\\product\\Dandihome Electric Standing Desk-desc-3d7.jpg",
+            img3: "uploads\\product\\Dandihome Electric Standing Desk-desc-18e.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 115,
+          name: "NiceDesign Standing Desk",
+          productId: "NDSD115",
+          brandId: 5,
+          description: "Bàn đứng điều chỉnh chiều cao NiceDesign với thiết kế gọn gàng, dễ sử dụng cho môi trường văn phòng hiện đại.",
+          tagName: "ADJUSTABLE_DESK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "Office", price: 2900000, quantity: 12 },
+            { color: "Gỗ", version: "Luxury", type: "Office", price: 3500000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Gỗ công nghiệp, khung thép sơn tĩnh điện" },
+            { title: "Kích thước", info: "120 x 70 x 80 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, dễ dàng di chuyển" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\NDSD115-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\NiceDesign Standing Desk-desc-ef0.jpg",
+            img1: "uploads\\product\\NiceDesign Standing Desk-desc-7fa.jpg",
+            img2: "uploads\\product\\NiceDesign Standing Desk-desc-beb.jpg",
+            img3: "uploads\\product\\NiceDesign Standing Desk-desc-888.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 116,
+          name: "HyperWork Electric Desk Pro",
+          productId: "HWD116",
+          brandId: 6,
+          description: "Bàn nâng hạ HyperWork với tính năng điều chỉnh linh hoạt, phù hợp cho các không gian làm việc chuyên nghiệp.",
+          tagName: "STANDING_DESK",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "Office", price: 3100000, quantity: 10 },
+            { color: "Trắng", version: "Premium", type: "Office", price: 3700000, quantity: 7 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép, mặt bàn MDF chống trầy" },
+            { title: "Kích thước", info: "140 x 75 x 80 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao điện tử, tính năng tiết kiệm năng lượng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\HWD116-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\HyperWork Electric Desk Pro-desc-87f.jpg"         
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 117,
+          name: "Dandihome Standing Desk",
+          productId: "DHSD117",
+          brandId: 7,
+          description: "Bàn đứng Dandihome với thiết kế hiện đại, dễ dàng điều chỉnh chiều cao cho môi trường làm việc tiện nghi.",
+          tagName: "ADJUSTABLE_DESK",
+          variants: JSON.stringify([
+            { color: "Trắng", version: "Standard", type: "Work", price: 3200000, quantity: 9 },
+            { color: "Gỗ", version: "Deluxe", type: "Work", price: 3800000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép, mặt bàn gỗ công nghiệp" },
+            { title: "Kích thước", info: "130 x 80 x 75 cm" },
+            { title: "Tính năng", info: "Điều chỉnh chiều cao, khả năng chống trượt" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DHSD117-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dandihome Standing Desk-desc-ad5.jpg",
+            img1: "uploads\\product\\Dandihome Standing Desk-desc-eae.jpg",
+            img2: "uploads\\product\\Dandihome Standing Desk-desc-3c5.jpg",
+            img3: "uploads\\product\\Dandihome Standing Desk-desc-9ba.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 118,
+          name: "ASUS Quick Charger",
+          productId: "AQC118",
+          brandId: 1,
+          description: "Sạc nhanh ASUS với công nghệ tiên tiến, giúp sạc điện thoại và laptop nhanh chóng, an toàn.",
+          tagName: "FAST_CHARGER",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Charger", price: 600000, quantity: 15 },
+            { color: "Trắng", version: "Pro", type: "Charger", price: 800000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Công suất", info: "65W" },
+            { title: "Tính năng", info: "Sạc nhanh, bảo vệ quá nhiệt, quá dòng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\AQC118-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS Quick Charger-desc-795.jpg",
+            img1: "uploads\\product\\ASUS Quick Charger-desc-81a.jpg",
+            img2: "uploads\\product\\ASUS Quick Charger-desc-c5f.jpg",
+            img3: "uploads\\product\\ASUS Quick Charger-desc-d17.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 119,
+          name: "Dell Wooden Handstand",
+          productId: "DWH119",
+          brandId: 2,
+          description: "Kệ tay gỗ Dell thiết kế hiện đại, giúp tăng sự thoải mái khi làm việc và giữ cho không gian gọn gàng.",
+          tagName: "WOODEN_HANDSTAND",
+          variants: JSON.stringify([
+            { color: "Gỗ tự nhiên", version: "Standard", type: "Accessory", price: 750000, quantity: 12 },
+            { color: "Gỗ sẫm", version: "Premium", type: "Accessory", price: 900000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Gỗ tự nhiên, sơn bóng" },
+            { title: "Kích thước", info: "30 x 20 x 15 cm" },
+            { title: "Tính năng", info: "Giảm đau cổ tay, dễ dàng điều chỉnh chiều cao" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DWH119-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Wooden Handstand-desc-ef9.jpg",
+            img1: "uploads\\product\\Dell Wooden Handstand-desc-8f6.jpg",
+            img2: "uploads\\product\\Dell Wooden Handstand-desc-0ea.jpg",
+            img3: "uploads\\product\\Dell Wooden Handstand-desc-a19.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 120,
+          name: "Lenovo Monitor Stand",
+          productId: "LMS120",
+          brandId: 3,
+          description: "Kệ màn hình Lenovo giúp bạn sắp xếp không gian làm việc gọn gàng và nâng cao hiệu suất công việc.",
+          tagName: "MONITOR_STAND",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "Accessory", price: 500000, quantity: 10 },
+            { color: "Gỗ", version: "Deluxe", type: "Accessory", price: 650000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Khung thép, mặt kệ gỗ" },
+            { title: "Kích thước", info: "40 x 25 x 12 cm" },
+            { title: "Tính năng", info: "Chống trượt, tăng độ bền" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LMS120-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo Monitor Stand-desc-2ad.jpg",
+            img1: "uploads\\product\\Lenovo Monitor Stand-desc-e8f.jpg",
+            img2: "uploads\\product\\Lenovo Monitor Stand-desc-9a6.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 121,
+          name: "Microsoft Desk Lamp",
+          productId: "MDL121",
+          brandId: 4,
+          description: "Đèn bàn Microsoft cung cấp ánh sáng LED chất lượng, tiết kiệm điện và bảo vệ mắt khi làm việc lâu dài.",
+          tagName: "DESK_LAMP",
+          variants: JSON.stringify([
+            { color: "Trắng", version: "Standard", type: "Lamp", price: 450000, quantity: 20 },
+            { color: "Đen", version: "Pro", type: "Lamp", price: 550000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Công suất", info: "12W" },
+            { title: "Tính năng", info: "Điều chỉnh độ sáng, bảo vệ mắt" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MDL121-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Desk Lamp-desc-44f.jpg",
+            img1: "uploads\\product\\Microsoft Desk Lamp-desc-602.jpg",
+            img2: "uploads\\product\\Microsoft Desk Lamp-desc-d12.jpg",
+            img3: "uploads\\product\\Microsoft Desk Lamp-desc-81a.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 122,
+          name: "Power Strip ASUS",
+          productId: "PSA123",
+          brandId: 1,
+          description: "Ổ điện ASUS với nhiều cổng USB và ổ cắm điện, giúp bạn dễ dàng cấp nguồn cho nhiều thiết bị cùng lúc.",
+          tagName: "POWER_STRIP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Accessory", price: 400000, quantity: 20 },
+            { color: "Trắng", version: "Pro", type: "Accessory", price: 500000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Số cổng", info: "4 cổng điện, 2 cổng USB" },
+            { title: "Tính năng", info: "Bảo vệ quá tải, dễ dàng lắp đặt" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\PSA123-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Power Strip ASUS-desc-bef.jpg",
+            img1: "uploads\\product\\Power Strip ASUS-desc-8e2.jpg",
+            img2: "uploads\\product\\Power Strip ASUS-desc-4dd.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 123,
+          name: "Dell Pegboard Organizer",
+          productId: "DPO124",
+          brandId: 2,
+          description: "Bảng treo đồ Pegboard Dell giúp bạn tổ chức không gian làm việc gọn gàng, dễ dàng treo các đồ dùng văn phòng.",
+          tagName: "PEGBOARD_ORGANIZER",
+          variants: JSON.stringify([
+            { color: "Trắng", version: "Standard", type: "Accessory", price: 300000, quantity: 25 },
+            { color: "Gỗ", version: "Deluxe", type: "Accessory", price: 450000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Gỗ công nghiệp, sơn bền" },
+            { title: "Kích thước", info: "60 x 40 cm" },
+            { title: "Tính năng", info: "Dễ dàng treo đồ, tiết kiệm không gian" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DPO124-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Pegboard Organizer-desc-a59.jpg",
+            img1: "uploads\\product\\Dell Pegboard Organizer-desc-32d.jpg",
+            img2: "uploads\\product\\Dell Pegboard Organizer-desc-8b1.jpg",
+            img3: "uploads\\product\\Dell Pegboard Organizer-desc-f4c.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 124,
+          name: "Cable Management Tray Lenovo",
+          productId: "CMT125",
+          brandId: 3,
+          description: "Khay đi dây điện Lenovo kẹp bàn giúp giữ cho không gian làm việc gọn gàng, tránh rối dây cáp điện.",
+          tagName: "CABLE_TRAY",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "Accessory", price: 200000, quantity: 30 },
+            { color: "Trắng", version: "Pro", type: "Accessory", price: 250000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Chất liệu", info: "Nhựa chịu lực" },
+            { title: "Kích thước", info: "30 x 10 x 5 cm" },
+            { title: "Tính năng", info: "Dễ dàng lắp đặt, chống rối dây" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\CMT125-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Cable Management Tray Lenovo-desc-018.jpg",
+            img1: "uploads\\product\\Cable Management Tray Lenovo-desc-e55.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
     ]);
 
     // Thêm dữ liệu vào bảng ProductCategory
@@ -2101,8 +3572,236 @@ export const seed = async function (knex) {
       },
       {
         productId: 67, 
-        categoryId: 16,
+        categoryId: 2,
       },
+      {
+        productId: 68, 
+        categoryId: 2,
+      },
+      {
+        productId: 69, 
+        categoryId: 2,
+      },
+      {
+        productId: 70, 
+        categoryId: 2,
+      },
+      {
+        productId: 71, 
+        categoryId: 2,
+      },
+      {
+        productId: 72, 
+        categoryId: 2,
+      },
+      {
+        productId: 73, 
+        categoryId: 2,
+      },
+      {
+        productId: 74, 
+        categoryId: 2,
+      },
+      {
+        productId: 75, 
+        categoryId: 2,
+      },
+      {
+        productId: 76, 
+        categoryId: 4,
+      },
+      {
+        productId: 77, 
+        categoryId: 4,
+      },
+      {
+        productId: 78, 
+        categoryId: 4,
+      },
+      {
+        productId: 79, 
+        categoryId: 4,
+      },
+      {
+        productId: 80, 
+        categoryId: 4,
+      },
+      {
+        productId: 81, 
+        categoryId: 4,
+      },
+      {
+        productId: 82,
+        categoryId: 4,
+      },
+      {
+        productId: 83,
+        categoryId: 4,
+      },
+      {
+        productId: 84,
+        categoryId: 4,
+      },
+      {
+        productId: 85,
+        categoryId: 4,
+      },
+      {
+        productId: 86,
+        categoryId: 4,
+      },
+      {
+        productId: 87,
+        categoryId: 4,
+      },
+      {
+        productId: 88,
+        categoryId: 4,
+      },
+      {
+        productId: 89,
+        categoryId: 5,
+      },
+      {
+        productId: 90, 
+        categoryId: 5,
+      },
+      {
+        productId: 91,
+        categoryId: 5,
+      },
+      {
+        productId: 92,
+        categoryId: 5,
+      },
+      {
+        productId: 93,
+        categoryId: 5,
+      },
+      {
+        productId: 94,
+        categoryId: 5,
+      },
+      {
+        productId: 95,
+        categoryId: 5,
+      },
+      {
+        productId: 96,
+        categoryId: 5,
+      },
+      {
+        productId: 97,
+        categoryId: 5,
+      },
+      {
+        productId: 98,
+        categoryId: 5,
+      },
+      {
+        productId: 99,
+        categoryId: 5,
+      },    
+      {
+        productId: 100,
+        categoryId: 6,
+      },
+      {
+        productId: 101,
+        categoryId: 6,
+      },
+      {
+        productId: 102,
+        categoryId: 6,
+      },
+      {
+        productId: 103,
+        categoryId: 6,
+      },
+      {
+        productId: 104,
+        categoryId: 6,
+      },    
+      {
+        productId: 105,
+        categoryId: 6,
+      },
+      {
+        productId: 106,
+        categoryId: 6,
+      },
+      {
+        productId: 107,
+        categoryId: 6,
+      },
+      {
+        productId: 108,
+        categoryId: 6,
+      },    
+      {
+        productId: 109,
+        categoryId: 7,
+      },
+      {
+        productId: 110,
+        categoryId: 7,
+      },
+      {
+        productId: 111,
+        categoryId: 7,
+      },
+      {
+        productId: 112,
+        categoryId: 7,
+      },    
+      {
+        productId: 113,
+        categoryId: 7,
+      },
+      {
+        productId: 114,
+        categoryId: 7,
+      },
+      {
+        productId: 115,
+        categoryId: 7,
+      },
+      {
+        productId: 116,
+        categoryId: 7,
+      },    
+      {
+        productId: 117,
+        categoryId: 7,
+      },    
+      {
+        productId: 118,
+        categoryId: 8,
+      },
+      {
+        productId: 119,
+        categoryId: 8,
+      },    
+      {
+        productId: 120,
+        categoryId: 8,
+      },
+      {
+        productId: 121,
+        categoryId: 8,
+      },          
+      {
+        productId: 122,
+        categoryId: 8,
+      },    
+      {
+        productId: 123,
+        categoryId: 8,
+      },
+      {
+        productId: 124,
+        categoryId: 8,
+      },   
     ]);
 
     console.log('Seed dữ liệu thành công!');
