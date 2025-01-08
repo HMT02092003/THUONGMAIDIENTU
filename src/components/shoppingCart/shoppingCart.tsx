@@ -131,6 +131,16 @@ const ShoppingCart: React.FC = () => {
     }
   };
 
+  const ZaloHandel = async () => {
+    try {
+      const data = { amount: totalPrice, cartData: cartData };
+      const api = await axios.post('http://localhost:4000/api/zalopayment', { data });
+      router.push(api.data.orderurl);
+    } catch (error: any) {
+      message.error(error.message || "Lỗi trong quá trình thanh toán.");
+    }
+  };
+
   const next = () => {
     setCurrent(current + 1);
   };
@@ -306,7 +316,7 @@ const ShoppingCart: React.FC = () => {
                     fontSize: '16px',
                     fontWeight: 'bold',
                   }}
-                  onClick={() => console.log("Thanh toán qua VNPay")}
+                  onClick={() => ZaloHandel()}
                 >
                   ZaloPay
                 </Button>
