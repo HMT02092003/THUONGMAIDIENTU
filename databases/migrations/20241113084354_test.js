@@ -144,7 +144,7 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
-  // Bảng User
+  // Bảng User (cho Admin)
   await knex.schema.createTable('User', (table) => {
     table.increments('id').primary();
     table.string('name').notNullable();
@@ -240,18 +240,31 @@ export const up = async function (knex) {
     table.integer('productId').unsigned().notNullable().references('id').inTable('Product').onDelete('CASCADE');
     table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
   });
+  // Bảng Customer (cho người mua hàng)
+  await knex.schema.createTable('Customer', (table) => {
+    table.increments('id').primary();
+    table.string('email').unique().notNullable();
+    table.string('name').notNullable();
+    table.string('password').notNullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
+    table.string('phoneNumber').nullable();
+    table.json('address').nullable();
+  });
 
   // Bảng Order
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
     table.string('orderNumber').unique().notNullable();
+    table.integer('customerId').unsigned().references('id').inTable('Customer').onDelete('SET NULL');
     table.dateTime('orderDate').defaultTo(knex.fn.now());
     table.string('status').defaultTo('pending');
     table.decimal('totalAmount', 10, 2).notNullable();
     table.text('shippingAddress').nullable();
     table.string('paymentMethod').nullable();
-    table.string('name').notNullable();
-    table.string('phoneNumber').notNullable();
+    table.string('customerName').notNullable();
+    table.string('customerPhone').notNullable();
+    table.string('customerEmail').notNullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -260,17 +273,14 @@ export const up = async function (knex) {
   await knex.schema.createTable('OrderDetail', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+    table.integer('productId').unsigned().references('id').inTable('Product');
     table.integer('quantity').notNullable();
-    table.string('name').notNullable();
-    table.string('productId').notNullable();
+    table.decimal('price', 10, 2).notNullable();
+    table.string('productName').notNullable();
     table.text('description').nullable();
-    table.string('tagName').nullable();
     table.json('variants').nullable();
     table.json('specifications').nullable();
     table.json('productImage').nullable();
-    table.json('imageUrl').nullable();
-    table.decimal('price', 10, 2).notNullable().defaultTo(0);
-    table.integer('stock').notNullable().defaultTo(0);
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });

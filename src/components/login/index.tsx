@@ -22,9 +22,9 @@ const Login = () => {
       const token: any = Cookies.get('token')
       const decoded = getDecodedToken(token);
 
-      if (decoded?.role === 'user') {
+      if (decoded?.role === 'customer') {
         router.push("/home");
-      }else{
+      } else {
         router.push("/profileManagement");
       }
     } catch (err: any) {
@@ -95,7 +95,7 @@ const Login = () => {
             <br />
             <div className="register-link">
               <Text style={{ fontSize: "15px" }}>
-                Quay trở lại trang chủ? <Link href="../home" style={{fontSize:"15px"}}>Trang chủ</Link>
+                Quay trở lại trang chủ? <Link href="../home" style={{ fontSize: "15px" }}>Trang chủ</Link>
               </Text>
             </div>
           </Form>
