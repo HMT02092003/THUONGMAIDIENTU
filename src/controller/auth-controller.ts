@@ -129,6 +129,8 @@ export const loginHandler = async (req: Request, res: Response) => {
         userType: 'customer'
       };
 
+      console.log('Token payload:', tokenPayload);
+
       const token = createToken(tokenPayload);
 
       res.cookie('token', token, {

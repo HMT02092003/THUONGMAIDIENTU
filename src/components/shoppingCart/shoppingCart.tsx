@@ -34,18 +34,18 @@ import {
 import "@/src/cssfolder/shoppingCart.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
+import { getDecodedToken } from '@/src/utils/decode-token';
 
 const { Title, Text } = Typography;
 
 const ShoppingCart: React.FC = () => {
   const [cartData, setCartData] = useState<any[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const router = useRouter();
-  const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [customerId, setCustomerId] = useState<any>();
 
 
   const fetchProductData = async () => {
@@ -66,6 +66,18 @@ const ShoppingCart: React.FC = () => {
     fetchProductData();
   }, []);
 
+  useEffect(() => {
+    // Lấy token từ cookies
+    const authToken = Cookies.get('token');
+    console.log('Token:', authToken);
+    if (authToken) {
+      const tokenAfterDecode = getDecodedToken(authToken);
+      console.log('Token after decode:', tokenAfterDecode?.sub);
+      setCustomerId(tokenAfterDecode?.sub);
+    }
+  }, []);
+
+
   const handleCreateOrder = async (): Promise<void> => {
     try {
 
@@ -81,7 +93,8 @@ const ShoppingCart: React.FC = () => {
       const orderData = {
         customerInfo: dataOfForm,
         cartItems: productDataPaser,
-        totalAmount: totalPrice
+        totalAmount: totalPrice,
+        customerId: customerId,
       };
 
       const response = await axios.post('http://localhost:4000/api/createOrder', orderData);
