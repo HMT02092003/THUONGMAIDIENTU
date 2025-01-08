@@ -1,4 +1,3 @@
-
 // /**
 //  * @param { import("knex").Knex } knex
 //  * @returns { Promise<void> }
@@ -88,6 +87,8 @@
 //     table.json('specifications').nullable();
 //     table.json('productImage').nullable();
 //     table.json('imageUrl').nullable();
+//     table.decimal('price', 10, 2).notNullable().defaultTo(0);
+//     table.integer('stock').notNullable().defaultTo(0);
 //     table.dateTime('createdAt').defaultTo(knex.fn.now());
 //     table.dateTime('updatedAt').defaultTo(knex.fn.now());
 //   });
@@ -99,24 +100,86 @@
 //     table.integer('categoryId').unsigned().notNullable().references('id').inTable('Category').onDelete('CASCADE');
 //   });
 
-//   // Bảng Order (Updated with combined information)
+//   await knex.schema.createTable('Customer', (table) => {
+//     table.increments('id').primary();
+//     table.string('name').notNullable();
+//     table.string('email').unique().notNullable();
+//     table.boolean('verified').defaultTo(false);
+//     table.string('password').notNullable();
+//     table.string('role').defaultTo('user');
+//     table.dateTime('createdAt').defaultTo(knex.fn.now());
+//     table.dateTime('updatedAt').defaultTo(knex.fn.now());
+//     table.string('provider').defaultTo('local');
+//     table.string('phoneNumber').nullable();
+//     table.date('dateOfBirth').nullable();
+//     table.json('addressProvince').nullable();
+//     table.json('addressDistrict').nullable();
+//     table.json('addressWard').nullable();
+//     table.json('hometownProvince').nullable();
+//     table.json('hometownDistrict').nullable();
+//     table.json('hometownWard').nullable();
+//     table.string('nationality').nullable();
+//     table.string('img').nullable();
+//     table.string('gender').nullable();
+//     table.string('CCCD').nullable();
+//   });
+
+//   // Bảng Order
 //   await knex.schema.createTable('Order', (table) => {
 //     table.increments('id').primary();
-//     table.integer('userId').unsigned().references('id').inTable('User').onDelete('CASCADE');
+//     table.string('orderNumber').unique().notNullable();
 //     table.dateTime('orderDate').defaultTo(knex.fn.now());
 //     table.string('status').defaultTo('pending');
 //     table.decimal('totalAmount', 10, 2).notNullable();
 //     table.text('shippingAddress').nullable();
+//     table.string('paymentMethod').nullable();
+//     table.string('name').notNullable();
+//     table.string('phoneNumber').notNullable();
+//     table.dateTime('createdAt').defaultTo(knex.fn.now());
+//     table.dateTime('updatedAt').defaultTo(knex.fn.now());
+//   });
+
+//   // Bảng OrderDetail
+//   await knex.schema.createTable('OrderDetail', (table) => {
+//     table.increments('id').primary();
+//     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+//     table.integer('quantity').notNullable();
+//     table.string('name').notNullable();
+//     table.string('productId').notNullable();
+//     table.text('description').nullable();
+//     table.string('tagName').nullable();
+//     table.json('variants').nullable();
+//     table.json('specifications').nullable();
+//     table.json('productImage').nullable();
+//     table.json('imageUrl').nullable();
+//     table.decimal('price', 10, 2).notNullable().defaultTo(0);
+//     table.integer('stock').notNullable().defaultTo(0);
+//     table.dateTime('createdAt').defaultTo(knex.fn.now());
+//     table.dateTime('updatedAt').defaultTo(knex.fn.now());
+//   });
+
+//   // Bảng OrderStatusHistory
+//   await knex.schema.createTable('OrderStatusHistory', (table) => {
+//     table.increments('id').primary();
+//     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+//     table.string('fromStatus').notNullable();
+//     table.string('toStatus').notNullable();
+//     table.integer('updatedBy').unsigned().references('id').inTable('User');
+//     table.text('note').nullable();
+//     table.dateTime('createdAt').defaultTo(knex.fn.now());
+//   });
+
+//   // Bảng Payment
+//   await knex.schema.createTable('Payment', (table) => {
+//     table.increments('id').primary();
+//     table.string('paymentNumber').unique().notNullable();
+//     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
+//     table.decimal('amount', 10, 2).notNullable();
 //     table.string('paymentMethod').notNullable();
-
-//     // Payment information
-//     table.text('transactionId').nullable();
-//     table.string('paymentStatus').defaultTo('pending');
-//     table.dateTime('paymentDate').nullable();
-
-//     // Order items stored as JSON
-//     table.json('orderItems').notNullable().comment('Array of ordered products with details: [{productId, quantity, unitPrice, productName, description, specifications, imageUrl}]');
-
+//     table.string('status').defaultTo('pending');
+//     table.string('transactionId').nullable();
+//     table.dateTime('paymentDate').defaultTo(knex.fn.now());
+//     table.text('note').nullable();
 //     table.dateTime('createdAt').defaultTo(knex.fn.now());
 //     table.dateTime('updatedAt').defaultTo(knex.fn.now());
 //   });
@@ -127,11 +190,15 @@
 //  * @returns { Promise<void> }
 //  */
 // export const down = async function (knex) {
+//   await knex.schema.dropTableIfExists('Payment');
+//   await knex.schema.dropTableIfExists('OrderStatusHistory');
+//   await knex.schema.dropTableIfExists('OrderDetail');
 //   await knex.schema.dropTableIfExists('Order');
+//   await knex.schema.dropTableIfExists('Customer');
+//   await knex.schema.dropTableIfExists('ProductCategory');
 //   await knex.schema.dropTableIfExists('Product');
 //   await knex.schema.dropTableIfExists('Category');
 //   await knex.schema.dropTableIfExists('Brand');
-//   await knex.schema.dropTableIfExists('ProductCategory');
 //   await knex.schema.dropTableIfExists('RolePermission');
 //   await knex.schema.dropTableIfExists('UserRole');
 //   await knex.schema.dropTableIfExists('Permission');
@@ -256,15 +323,14 @@ export const up = async function (knex) {
   await knex.schema.createTable('Order', (table) => {
     table.increments('id').primary();
     table.string('orderNumber').unique().notNullable();
-    table.integer('customerId').unsigned().references('id').inTable('Customer').onDelete('SET NULL');
     table.dateTime('orderDate').defaultTo(knex.fn.now());
+    table.integer('customerId').unsigned().references('id').inTable('Customer').onDelete('SET NULL');
     table.string('status').defaultTo('pending');
     table.decimal('totalAmount', 10, 2).notNullable();
     table.text('shippingAddress').nullable();
     table.string('paymentMethod').nullable();
-    table.string('customerName').notNullable();
-    table.string('customerPhone').notNullable();
-    table.string('customerEmail').notNullable();
+    table.string('name').notNullable();
+    table.string('phoneNumber').notNullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
@@ -273,14 +339,17 @@ export const up = async function (knex) {
   await knex.schema.createTable('OrderDetail', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
-    table.integer('productId').unsigned().references('id').inTable('Product');
     table.integer('quantity').notNullable();
-    table.decimal('price', 10, 2).notNullable();
-    table.string('productName').notNullable();
+    table.string('name').notNullable();
+    table.string('productId').notNullable();
     table.text('description').nullable();
+    table.string('tagName').nullable();
     table.json('variants').nullable();
     table.json('specifications').nullable();
     table.json('productImage').nullable();
+    table.json('imageUrl').nullable();
+    table.decimal('price', 10, 2).notNullable().defaultTo(0);
+    table.integer('stock').notNullable().defaultTo(0);
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
