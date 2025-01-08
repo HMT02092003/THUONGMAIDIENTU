@@ -2,6 +2,7 @@ import { Model } from 'objection';
 import { OrderDetail } from './OrderDetailModel';
 import { OrderStatusHistory } from './OrderStatusHistoryModel';
 import { Payment } from './PaymentModel';
+import { Customer } from './CustomerModel';
 
 export class Order extends Model {
 
@@ -64,6 +65,14 @@ export class Order extends Model {
                 join: {
                     from: 'Order.id',
                     to: 'Payment.orderId'
+                }
+            },
+            customer: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Customer,
+                join: {
+                    from: 'Order.customerId',
+                    to: 'Customer.id'
                 }
             }
         };
