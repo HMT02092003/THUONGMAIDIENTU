@@ -35,6 +35,8 @@ const App: React.FC = () => {
 
   const [category, setCategory] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
   console.log('products:', products)
 
   const router = useRouter()
@@ -46,6 +48,14 @@ const App: React.FC = () => {
     { id: 3, text: 'Trung tâm bảo vệ khách hàng', img: '/icon/usp-3.png', Color: '#CBE7FE' },
     { id: 4, text: 'Bảo hành dài lâu', img: '/icon/usp-4.png', Color: '#FBCFD8' },
   ];
+
+  const handleCategoryClick = (categoryId: number) => {
+    setSelectedCategory(categoryId);
+  };
+
+  const filteredProducts = selectedCategory
+    ? products.filter(product => product.categories.some((cat: { id: number }) => cat.id === selectedCategory))
+    : products;
 
 
   // Hàm xử lý khi nhấn nút mũi tên trái
@@ -269,6 +279,7 @@ const App: React.FC = () => {
                             }}
                           >
                             <Button
+                              onClick={() => handleCategoryClick(category.id)}
                               style={{
                                 fontWeight: 400,
                                 fontSize: '12px',
@@ -284,6 +295,7 @@ const App: React.FC = () => {
                             >
                               {category.name}
                             </Button>
+
                           </ConfigProvider>
                         </div>
                       ))}
@@ -324,7 +336,7 @@ const App: React.FC = () => {
           </Row>
         </div>
         <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
-          {products.slice(0, visibleItems).map((product) => (
+          {filteredProducts.slice(0, visibleItems).map((product) => (
             <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
               <Card
                 hoverable
@@ -364,6 +376,7 @@ const App: React.FC = () => {
               </Card>
             </Col>
           ))}
+
 
         </Row>
         {visibleItems < products.length && (

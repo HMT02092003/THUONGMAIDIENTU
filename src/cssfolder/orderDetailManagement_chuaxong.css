@@ -1,0 +1,50 @@
+/* OrderDetailManagement.css */
+
+/* General container style */
+.order-detail-container {
+    margin: 20px;
+  }
+  
+  /* Title styles */
+  .order-detail-title {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .order-detail-title h2 {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .order-detail-title .anticon {
+    font-size: 35px;
+    margin-right: 10px;
+  }
+  
+  /* Button styles */
+  .order-detail-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: orange;
+    width: 100px;
+    margin: 0 5px;
+  }
+  
+  /* Card styles */
+  .order-detail-card {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+  
+  .order-detail-table {
+    margin-top: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .order-detail-card-title {
+    margin-top: 15px;
+  }
+  
