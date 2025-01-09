@@ -3593,7 +3593,447 @@ export const seed = async function (knex) {
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
+        },
+        {
+          id: 137,
+          name: "ASUS ZenBook Pro 14 OLED",
+          productId: "TPC137",
+          brandId: 1,
+          description: "ASUS ZenBook Pro 14 OLED mang đến hiệu năng mạnh mẽ cùng màn hình OLED đỉnh cao, hoàn hảo cho sáng tạo nội dung.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xanh", version: "i7, 16GB RAM", type: "Creator", price: 43000000, quantity: 15 },
+            { color: "Bạc", version: "i9, 32GB RAM", type: "Creator", price: 59000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, 2.8K OLED" },
+            { title: "Vi xử lý", info: "Intel Core i9-13900H" },
+            { title: "Tính năng đặc biệt", info: "Màn hình cảm ứng, hỗ trợ bút Stylus" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC137-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ZenBook Pro 14 OLED-desc-f8a.jpg",
+            img1: "uploads\\product\\ASUS ZenBook Pro 14 OLED-desc-05d.jpg",
+            img2: "uploads\\product\\ASUS ZenBook Pro 14 OLED-desc-887.jpg",
+            img3: "uploads\\product\\ASUS ZenBook Pro 14 OLED-desc-802.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 138,
+          name: "ASUS ROG Strix G16",
+          productId: "TPC138",
+          brandId: 1,
+          description: "ASUS ROG Strix G16 là sự lựa chọn hoàn hảo cho game thủ, với hiệu năng đỉnh cao và thiết kế đầy phong cách.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM, RTX 4060", type: "Gaming", price: 49000000, quantity: 12 },
+            { color: "Đen", version: "i9, 32GB RAM, RTX 4080", type: "Gaming", price: 70000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "16 inch, FHD, 165Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-13980HX" },
+            { title: "Tính năng đặc biệt", info: "Bàn phím RGB, hệ thống tản nhiệt thông minh" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC138-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ROG Strix G16-desc-636.jpg",
+            img1: "uploads\\product\\ASUS ROG Strix G16-desc-faa.jpg",
+            img2: "uploads\\product\\ASUS ROG Strix G16-desc-dcb.jpg",
+            img3: "uploads\\product\\ASUS ROG Strix G16-desc-266.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 139,
+          name: "ASUS VivoBook 15",
+          productId: "TPC139",
+          brandId: 1,
+          description: "ASUS VivoBook 15 là sự kết hợp hoàn hảo giữa hiệu năng và giá trị, phù hợp với nhu cầu học tập và làm việc hàng ngày.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Everyday", price: 20000000, quantity: 25 },
+            { color: "Xám", version: "i7, 16GB RAM", type: "Everyday", price: 27000000, quantity: 15 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, FHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-13500H" },
+            { title: "Tính năng đặc biệt", info: "Bàn phím số, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC139-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS VivoBook 15-desc-366.jpg",
+            img1: "uploads\\product\\ASUS VivoBook 15-desc-46d.jpg",
+            img2: "uploads\\product\\ASUS VivoBook 15-desc-e45.jpg",
+            img3: "uploads\\product\\ASUS VivoBook 15-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 140,
+          name: "Dell Inspiron 15",
+          productId: "TPC140",
+          brandId: 2,
+          description: "Dell Inspiron 15 mang đến hiệu năng mạnh mẽ, thiết kế tinh tế, phù hợp cho công việc và giải trí.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 8GB RAM", type: "Everyday", price: 19000000, quantity: 20 },
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Everyday", price: 25000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, FHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-13500H" },
+            { title: "Tính năng đặc biệt", info: "Bàn phím có đèn nền, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC140-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Inspiron 15-desc-170.jpg",
+            img1: "uploads\\product\\Dell Inspiron 15-desc-d2f.jpg",
+            img2: "uploads\\product\\Dell Inspiron 15-desc-8fb.jpg",
+            img3: "uploads\\product\\Dell Inspiron 15-desc-253.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },        
+        {
+          id: 141,
+          name: "Dell XPS 13",
+          productId: "TPC141",
+          brandId: 2,
+          description: "Dell XPS 13 là dòng laptop cao cấp, mang đến hiệu năng mạnh mẽ, thiết kế nhỏ gọn và sang trọng.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xám", version: "i5, 8GB RAM", type: "Premium", price: 29000000, quantity: 18 },
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Premium", price: 37000000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "13.3 inch, 4K UHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1365U" },
+            { title: "Tính năng đặc biệt", info: "Màn hình viền mỏng, bàn phím có đèn nền, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC141-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell XPS 13-desc-743.jpg",
+            img1: "uploads\\product\\Dell XPS 13-desc-256.jpg",
+            img2: "uploads\\product\\Dell XPS 13-desc-b33.jpg",
+            img3: "uploads\\product\\Dell XPS 13-desc-b42.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 142,
+          name: "Dell Latitude 14",
+          productId: "TPC142",
+          brandId: 2,
+          description: "Dell Latitude 14 là dòng laptop doanh nhân, với thiết kế bền bỉ và hiệu năng ổn định, lý tưởng cho công việc hàng ngày.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 8GB RAM", type: "Business", price: 22000000, quantity: 30 },
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Business", price: 29000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, Full HD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1250U" },
+            { title: "Tính năng đặc biệt", info: "Chống sốc, bảo mật vân tay, bàn phím có đèn nền" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC142-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Latitude 14-desc-356.jpg",
+            img1: "uploads\\product\\Dell Latitude 14-desc-023.jpg",
+            img2: "uploads\\product\\Dell Latitude 14-desc-37c.jpg",
+            img3: "uploads\\product\\Dell Latitude 14-desc-367.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 143,
+          name: "Lenovo ThinkPad X1 Carbon",
+          productId: "TPC143",
+          brandId: 3,
+          description: "Lenovo ThinkPad X1 Carbon là dòng laptop cao cấp dành cho doanh nhân, với thiết kế nhẹ nhàng, hiệu năng vượt trội và tính bảo mật cao.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 8GB RAM", type: "Business", price: 35000000, quantity: 15 },
+            { color: "Đen", version: "i7, 16GB RAM", type: "Business", price: 43000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, 4K UHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1165G7" },
+            { title: "Tính năng đặc biệt", info: "Mỏng nhẹ, bảo mật vân tay, bàn phím có đèn nền" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC143-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo ThinkPad X1 Carbon-desc-e0b.jpg",
+            img1: "uploads\\product\\Lenovo ThinkPad X1 Carbon-desc-865.jpg",
+            img2: "uploads\\product\\Lenovo ThinkPad X1 Carbon-desc-a52.jpg",
+            img3: "uploads\\product\\Lenovo ThinkPad X1 Carbon-desc-e5b.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 144,
+          name: "Lenovo IdeaPad 3",
+          productId: "TPC144",
+          brandId: 3,
+          description: "Lenovo IdeaPad 3 là một lựa chọn tuyệt vời cho người dùng học tập và làm việc với hiệu năng ổn định và thiết kế đơn giản.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i3, 4GB RAM", type: "Everyday", price: 12000000, quantity: 25 },
+            { color: "Đen", version: "i5, 8GB RAM", type: "Everyday", price: 16000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, Full HD" },
+            { title: "Vi xử lý", info: "Intel Core i5-1135G7" },
+            { title: "Tính năng đặc biệt", info: "Cổng kết nối đầy đủ, bàn phím số" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC144-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo IdeaPad 3-desc-ba9.jpg",
+            img1: "uploads\\product\\Lenovo IdeaPad 3-desc-767.jpg"           
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 145,
+          name: "Lenovo Legion 5 Pro",
+          productId: "TPC145",
+          brandId: 3,
+          description: "Lenovo Legion 5 Pro là laptop gaming với cấu hình mạnh mẽ, mang lại trải nghiệm chơi game mượt mà, thiết kế hiện đại.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 32000000, quantity: 12 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 40000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "16 inch, WQXGA (2560x1600)" },
+            { title: "Vi xử lý", info: "Intel Core i7-12700H" },
+            { title: "Tính năng đặc biệt", info: "Màn hình tần số quét 165Hz, hệ thống tản nhiệt Advanced" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC145-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo Legion 5 Pro-desc-366.jpg",
+            img1: "uploads\\product\\Lenovo Legion 5 Pro-desc-46d.jpg",
+            img2: "uploads\\product\\Lenovo Legion 5 Pro-desc-e45.jpg",
+            img3: "uploads\\product\\Lenovo Legion 5 Pro-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 146,
+          name: "Microsoft Surface Laptop 4",
+          productId: "TPC146",
+          brandId: 4,
+          description: "Microsoft Surface Laptop 4 với thiết kế sang trọng, hiệu năng vượt trội, là sự lựa chọn lý tưởng cho công việc và giải trí.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Premium", price: 35000000, quantity: 10 },
+            { color: "Đen", version: "i7, 16GB RAM", type: "Premium", price: 42000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "13.5 inch, PixelSense, 2256x1504" },
+            { title: "Vi xử lý", info: "Intel Core i7-1185G7" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế mỏng nhẹ, bàn phím có đèn nền, màn hình cảm ứng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC146-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Laptop 4-desc-357.jpg",
+            img1: "uploads\\product\\Microsoft Surface Laptop 4-desc-727.jpg",
+            img2: "uploads\\product\\Microsoft Surface Laptop 4-desc-a68.jpg",
+            img3: "uploads\\product\\Microsoft Surface Laptop 4-desc-a3f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 147,
+          name: "Microsoft Surface Laptop Go",
+          productId: "TPC147",
+          brandId: 4,
+          description: "Microsoft Surface Laptop Go mang đến hiệu năng đáng kinh ngạc trong một thiết kế nhỏ gọn, phù hợp với nhu cầu di động cao.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xanh", version: "i5, 8GB RAM", type: "Everyday", price: 20000000, quantity: 18 },
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Everyday", price: 21000000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "12.4 inch, PixelSense, 1536x1024" },
+            { title: "Vi xử lý", info: "Intel Core i5-1035G1" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế siêu mỏng, thời lượng pin dài, bảo mật vân tay" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC147-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Laptop Go-desc-25c.jpg",
+            img1: "uploads\\product\\Microsoft Surface Laptop Go-desc-def.jpg",
+            img2: "uploads\\product\\Microsoft Surface Laptop Go-desc-305.jpg",
+            img3: "uploads\\product\\Microsoft Surface Laptop Go-desc-28a.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 148,
+          name: "Microsoft Surface Book 3",
+          productId: "TPC148",
+          brandId: 4,
+          description: "Microsoft Surface Book 3 là chiếc laptop 2-in-1 với khả năng biến hóa linh hoạt, màn hình cảm ứng sắc nét và cấu hình mạnh mẽ.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Premium", price: 45000000, quantity: 8 },
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Premium", price: 39000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "13.5 inch, PixelSense, 3000x2000" },
+            { title: "Vi xử lý", info: "Intel Core i7-1065G7" },
+            { title: "Tính năng đặc biệt", info: "2-in-1, màn hình cảm ứng, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC148-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Book 3-desc-5ee.jpg",
+            img1: "uploads\\product\\Microsoft Surface Book 3-desc-0b1.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 149,
+          name: "Microsoft Surface Pro 7",
+          productId: "TPC149",
+          brandId: 4,
+          description: "Microsoft Surface Pro 7 là một chiếc máy tính bảng mạnh mẽ có thể chuyển thành laptop, rất thích hợp cho những người làm việc di động.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 8GB RAM", type: "2-in-1", price: 25000000, quantity: 15 },
+            { color: "Bạc", version: "i7, 16GB RAM", type: "2-in-1", price: 32000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "12.3 inch, PixelSense, 2736x1824" },
+            { title: "Vi xử lý", info: "Intel Core i7-1065G7" },
+            { title: "Tính năng đặc biệt", info: "2-in-1, màn hình cảm ứng, cổng USB-C" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC149-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Surface Pro 7-desc-f4b.jpg",
+            img1: "uploads\\product\\Microsoft Surface Pro 7-desc-370.jpg",
+            img2: "uploads\\product\\Microsoft Surface Pro 7-desc-3a7.jpg",
+            img3: "uploads\\product\\Microsoft Surface Pro 7-desc-009.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 150,
+          name: "MSI GE76 Raider",
+          productId: "TPC150",
+          brandId: 5,
+          description: "MSI GE76 Raider là dòng laptop gaming cao cấp với cấu hình cực mạnh, mang đến trải nghiệm chơi game tuyệt vời và thiết kế ấn tượng.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 45000000, quantity: 8 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 55000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "17.3 inch, Full HD, 360Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-11980HK" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3080, tản nhiệt mạnh mẽ" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC150-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI GE76 Raider-desc-366.jpg",
+            img1: "uploads\\product\\MSI GE76 Raider-desc-46d.jpg",
+            img2: "uploads\\product\\MSI GE76 Raider-desc-e45.jpg",
+            img3: "uploads\\product\\MSI GE76 Raider-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 151,
+          name: "MSI GS66 Stealth",
+          productId: "TPC151",
+          brandId: 5,
+          description: "MSI GS66 Stealth là laptop gaming siêu mỏng, kết hợp hiệu năng mạnh mẽ và thiết kế tinh tế, lý tưởng cho game thủ chuyên nghiệp.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 38000000, quantity: 10 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 47000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, Full HD, 240Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-11900H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3070, thiết kế siêu mỏng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC151-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI GS66 Stealth-desc-366.jpg",
+            img1: "uploads\\product\\MSI GS66 Stealth-desc-46d.jpg",
+            img2: "uploads\\product\\MSI GS66 Stealth-desc-e45.jpg",
+            img3: "uploads\\product\\MSI GS66 Stealth-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 152,
+          name: "MSI Creator 15",
+          productId: "TPC152",
+          brandId: 5,
+          description: "MSI Creator 15 là laptop dành cho sáng tạo nội dung với hiệu suất mạnh mẽ, màn hình chất lượng cao và thiết kế tinh tế.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Creator", price: 40000000, quantity: 7 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Creator", price: 51000000, quantity: 4 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, 4K UHD, 100% Adobe RGB" },
+            { title: "Vi xử lý", info: "Intel Core i9-10885H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3060, màn hình sắc nét cho công việc sáng tạo" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC152-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Creator 15-desc-366.jpg",
+            img1: "uploads\\product\\MSI Creator 15-desc-46d.jpg",
+            img2: "uploads\\product\\MSI Creator 15-desc-e45.jpg",
+            img3: "uploads\\product\\MSI Creator 15-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 153,
+          name: "MSI Pulse GL66",
+          productId: "TPC153",
+          brandId: 5,
+          description: "MSI Pulse GL66 là laptop gaming với cấu hình mạnh mẽ, tần số quét màn hình cao, phù hợp với những game thủ đam mê tốc độ.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 35000000, quantity: 12 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 45000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, Full HD, 144Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-11900H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3060, hệ thống tản nhiệt Cooler Boost" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC153-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Pulse GL66-desc-366.jpg",
+            img1: "uploads\\product\\MSI Pulse GL66-desc-46d.jpg",
+            img2: "uploads\\product\\MSI Pulse GL66-desc-e45.jpg",
+            img3: "uploads\\product\\MSI Pulse GL66-desc-c4f.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         }
+                        
+                                    
     ]);
 
     // Thêm dữ liệu vào bảng ProductCategory
@@ -4152,6 +4592,74 @@ export const seed = async function (knex) {
       },    
       {
         productId: 136,
+        categoryId: 1,
+      },
+      {
+        productId: 137,
+        categoryId: 1,
+      },          
+      {
+        productId: 138,
+        categoryId: 1,
+      },    
+      {
+        productId: 139,
+        categoryId: 1,
+      },
+      {
+        productId: 140,
+        categoryId: 1,
+      },          
+      {
+        productId: 141,
+        categoryId: 1,
+      },    
+      {
+        productId: 142,
+        categoryId: 1,
+      },
+      {
+        productId: 143,
+        categoryId: 1,
+      },          
+      {
+        productId: 144,
+        categoryId: 1,
+      },    
+      {
+        productId: 145,
+        categoryId: 1,
+      },
+      {
+        productId: 146,
+        categoryId: 1,
+      },
+      {
+        productId: 147,
+        categoryId: 1,
+      },          
+      {
+        productId: 148,
+        categoryId: 1,
+      },    
+      {
+        productId: 149,
+        categoryId: 1,
+      },
+      {
+        productId: 150,
+        categoryId: 1,
+      },
+      {
+        productId: 151,
+        categoryId: 1,
+      },          
+      {
+        productId: 152,
+        categoryId: 1,
+      },    
+      {
+        productId: 153,
         categoryId: 1,
       },
     ]);
