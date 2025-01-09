@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from "antd";
+import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message,Divider } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -109,49 +109,77 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
         <Spin size="large" />
       ) : (
         <>
-          <Row gutter={[16, 16]}>
-            {productData.map((laptop) => (
-              <Col key={laptop.id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  cover={<img alt={laptop.name} src={`http://localhost:4000/${laptop.productImage}`} />}
-                  style={{
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
-                  onClick={() => router.push(`/product/detail/${laptop.id}`)}
-                >
-                  <Card.Meta
-                    title={laptop.name}
-                    description={
-                      <>
-                        <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
-                          Giá: {Number(laptop.variants[0]?.price || 0).toLocaleString()} VNĐ
-                        </p>
+           <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
+          {productData.slice(0, visibleItems).map((product) => (
+            <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={<img alt={product.name} src={`http://localhost:4000/${product.productImage}`} />}
+                style={{
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+                onClick={() => router.push(`/product/detail/${product.id}`)}
+              >
+                <Card.Meta
+                  title={product.name}
+                  description={
+                    <>
+                      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                        <span style={{ color: 'black'}}>Giá:</span>{' '}
+                        <span style={{ color: '#fe3464' }}>
+                          {Number(product.variants[0]?.price || 0).toLocaleString()} VNĐ
+                        </span>
+                      </p>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                          Màu: <Tag color="cyan">{product.variants[0]?.color || 'Không có màu'}</Tag>
+                        </Text>
+                      </div>
+                      <Divider style={{ margin: '10px 0' }} />
+                      {product.specifications && product.specifications.length > 0 ? (
+                        product.specifications.slice(0, 4).map((spec: { title: string; info: string }, index: number) => (
+                          <div key={index}>
+                            <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                              <strong>{spec.title}</strong>: {spec.info || 'Không có thông tin'}
+                            </Text>
+                          </div>
+                        ))
+                      ) : (
                         <div>
-                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                            Thương hiệu: <Tag color="cyan">{laptop.brand.name}</Tag>
+                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                            Không có thông số kỹ thuật.
                           </Text>
                         </div>
-                        <br />
-                      </>
-                    }
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                      )}
+                    </>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
 
-          {visibleItems < productData.length && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-              <Button type="primary" onClick={handleLoadMore}>
-                Xem thêm
-              </Button>
-            </div>
-          )}
+        {visibleItems < productData.length && (
+          <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
+            <Button
+              type="default"
+              onClick={handleLoadMore}
+              style={{
+                width: '400px',
+                backgroundColor: 'white',
+                color: '#1890ff',
+                borderColor: '#ffffff',
+                fontWeight: 'bold',
+              }}
+            >
+              Xem thêm
+            </Button>
+          </div>
+        )}
         </>
       )}
     </div>
