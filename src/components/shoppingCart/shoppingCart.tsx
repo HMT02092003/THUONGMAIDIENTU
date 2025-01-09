@@ -47,7 +47,7 @@ const ShoppingCart: React.FC = () => {
   const router = useRouter();
   const [current, setCurrent] = useState(0);
   const [customerId, setCustomerId] = useState<any>();
-  console.log('Customer ID:', customerId);
+  const [customerInfo, setCustomerInfo] = useState<any>();
 
   const fetchProductData = async () => {
     try {
@@ -103,10 +103,19 @@ const ShoppingCart: React.FC = () => {
     form.submit(); // Submit form
   };
 
-  const handleCreateOrder = async (values: any) => {
+  const CustomerInfo = (values: any) => {
+    setCustomerInfo(values);
+    next();
+  }
+
+  const handleCreateOrder = async () => {
     try {
+      if (!customerInfo) {
+        return;
+      }
+
       const dataOfForm = {
-        ...values,
+        ...customerInfo,
         customerID: customerId,
       };
 
@@ -130,7 +139,6 @@ const ShoppingCart: React.FC = () => {
       console.log('Order Data:', orderData);
 
       const response = await axios.post('http://localhost:4000/api/createOrder', orderData);
-      next();
 
     } catch (error: any) {
       message.error("Lỗi trong quá trình đặt hàng.");
@@ -261,7 +269,7 @@ const ShoppingCart: React.FC = () => {
       icon: <UserOutlined />,
       content: (
         <div>
-          <Form form={form} onFinish={handleCreateOrder} layout="vertical" style={{ padding: '0 15%' }} >
+          <Form form={form} onFinish={CustomerInfo} layout="vertical" style={{ padding: '0 15%' }} >
             <p style={{ fontSize: '20px', fontWeight: 600 }}>Thông tin khách mua hàng</p>
             <Row gutter={[16, 16]}>
               <Col span={12}>
@@ -368,6 +376,21 @@ const ShoppingCart: React.FC = () => {
                   Tổng cộng: <strong className="totalPrice" style={{ color: '#1890ff' }}>{totalPriceWithVAT.toLocaleString()} đ</strong>
                 </Text>
                 <Divider />
+                <Button
+                  type="primary"
+                  block
+                  disabled={totalPrice === 0}
+                  style={{
+                    height: '40px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    backgroundColor: "#ff4d4f",
+                    marginBottom: '12px',
+                  }}
+                  onClick={handleCreateOrder}
+                >
+                  Đặt hàng
+                </Button>
                 <Button
                   type="primary"
                   block
