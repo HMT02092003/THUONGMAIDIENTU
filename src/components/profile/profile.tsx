@@ -33,6 +33,11 @@ interface OrderData {
     tagName: string;
     variants: { cpu: string; ram: string };
     price: string;
+    speed: string;
+    onboardCard: string;
+    discreteCard: string;
+    ssdCapacity: string;
+    color: string;
   }[];
 }
 
@@ -74,6 +79,11 @@ const Profile: React.FC = () => {
           tagName: "Electronics",
           variants: { cpu: "Intel i7", ram: "16GB" },
           price: "800,000 VND",
+          speed: "3.6 GHz",          // Tốc độ
+          onboardCard: "Intel UHD", // Card onboard
+          discreteCard: "NVIDIA GTX 1650", // Card rời
+          ssdCapacity: "512GB",     // Dung lượng SSD
+          color: "Black",           // Màu sắc
         },
         {
           image: "https://via.placeholder.com/150",
@@ -83,42 +93,15 @@ const Profile: React.FC = () => {
           tagName: "Accessories",
           variants: { cpu: "N/A", ram: "N/A" },
           price: "200,000 VND",
+          speed: "N/A",              // Tốc độ
+          onboardCard: "N/A",        // Card onboard
+          discreteCard: "N/A",       // Card rời
+          ssdCapacity: "N/A",        // Dung lượng SSD
+          color: "White",            // Màu sắc
         },
-      ],
-    },
-    {
-      key: "2",
-      orderId: "DH002",
-      orderNumber: "ORD002",
-      orderDate: "2024-05-10",
-      status: "Đang vận chuyển",
-      totalAmount: "850,000 VND",
-      shippingAddress: "456 Đường XYZ, Quận 2, TP.HCM",
-      paymentMethod: "Chuyển khoản ngân hàng",
-      name: "Nguyen Van A",
-      phoneNumber: "0987654321",
-      items: ["Điện thoại", "Ốp lưng"],
-      productDetails: [
-        {
-          image: "https://via.placeholder.com/150",
-          name: "Điện thoại",
-          quantity: 1,
-          description: "Smartphone 5G",
-          tagName: "Electronics",
-          variants: { cpu: "Snapdragon 888", ram: "8GB" },
-          price: "650,000 VND",
-        },
-        {
-          image: "https://via.placeholder.com/150",
-          name: "Ốp lưng",
-          quantity: 1,
-          description: "Phone case",
-          tagName: "Accessories",
-          variants: { cpu: "N/A", ram: "N/A" },
-          price: "100,000 VND",
-        },
-      ],
-    },
+      ]
+    }
+
   ];
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof ProfileData) => {
@@ -146,8 +129,8 @@ const Profile: React.FC = () => {
   return (
     <Layout>
       {/* Sidebar */}
-      <div style={{ border: "2px solid #003366", borderRadius: "8px", padding: "10px", background: "#e6f7ff", margin: "20px" }}>
-      <Sider theme="light" width={250} style={{ background: "#e6f7ff", border: "none" }}>
+      <div style={{ border: "2px solid #003366", borderRadius: "8px", padding: "10px", background: "#e6f7ff" }}>
+        <Sider theme="light" width={250} style={{ background: "#e6f7ff", border: "none" }}>
           <Menu mode="vertical" defaultSelectedKeys={["1"]} selectedKeys={[selectedMenu]} onClick={({ key }) => setSelectedMenu(key)} style={{ backgroundColor: "#e6f7ff" }}>
             <Menu.Item key="1" icon={<UserOutlined />} style={{ backgroundColor: selectedMenu === "1" ? "#b3e0ff" : "transparent" }}>Thông tin tài khoản</Menu.Item>
             <Menu.Item key="2" icon={<HistoryOutlined />} style={{ backgroundColor: selectedMenu === "2" ? "#b3e0ff" : "transparent" }}>Lịch sử đơn hàng</Menu.Item>
@@ -226,22 +209,24 @@ const Profile: React.FC = () => {
                 footer={null}
                 width={1000}
               >
-                <Row gutter={[16, 16]}>
+                <Row gutter={[16, 16]} justify="center">
                   {currentOrderDetails &&
                     currentOrderDetails.map((item: any, index: number) => (
-                      <Col key={index} span={12} style={{ textAlign: "center" }}>
+                      <Col key={index} span={24} style={{ display: "flex", alignItems: "center" }}>
                         {/* Ảnh sản phẩm */}
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          style={{ width: "150px", height: "150px", marginBottom: "16px" }}
-                        />
-                        {/* Tên sản phẩm */}
-                        <h3 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "16px" }}>
-                          {item.name}
-                        </h3>
-                        {/* Thông tin chi tiết sản phẩm */}
-                        <div style={{ textAlign: "left", marginLeft: "20%" }}>
+                        <div style={{ flex: 1, textAlign: "center" }}>
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            style={{ width: "150px", height: "150px" }}
+                          />
+                        </div>
+
+                        {/* Thông tin sản phẩm bên cạnh ảnh */}
+                        <div style={{ flex: 3, textAlign: "left", paddingLeft: "20px" }}>
+                          <h3 style={{ marginTop: "-10px" }}>
+                            {item.name}
+                          </h3>
                           <Row gutter={[16, 16]} align="middle">
                             <Col span={8} style={{ fontWeight: "bold" }}>
                               Số lượng:
@@ -250,19 +235,13 @@ const Profile: React.FC = () => {
                           </Row>
                           <Row gutter={[16, 16]} align="middle">
                             <Col span={8} style={{ fontWeight: "bold" }}>
-                              Mô tả:
+                              Màu sắc:
                             </Col>
-                            <Col span={16}>{item.description}</Col>
+                            <Col span={16}>{item.color || "N/A"}</Col>
                           </Row>
                           <Row gutter={[16, 16]} align="middle">
                             <Col span={8} style={{ fontWeight: "bold" }}>
-                              Tag:
-                            </Col>
-                            <Col span={16}>{item.tagName}</Col>
-                          </Row>
-                          <Row gutter={[16, 16]} align="middle">
-                            <Col span={8} style={{ fontWeight: "bold" }}>
-                              Thông số:
+                              Phiên bản:
                             </Col>
                             <Col span={16}>
                               CPU: {item.variants.cpu || "N/A"}, RAM: {item.variants.ram || "N/A"}
@@ -279,6 +258,7 @@ const Profile: React.FC = () => {
                     ))}
                 </Row>
               </Modal>
+
             </>
           )}
         </Content>
