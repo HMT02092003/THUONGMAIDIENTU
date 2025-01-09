@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Input, Form, message, Space, Row, Col, ConfigProvider, Select } from 'antd';
+import { Table, Button, Modal, Input, Form, message, Space, Row, Col, ConfigProvider, Select, Tag } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import '@/src/cssfolder/OrderManagement.css';
+import { render } from 'react-dom';
 
 const { Option } = Select;
 
@@ -119,6 +120,21 @@ const OrderManagement: React.FC = () => {
       ],
       filteredValue: filteredInfo.status || null,
       onFilter: (value: string | number | boolean, record: OrderType) => record.status === value,
+      render: (status: string) => {
+        let color = '';
+        switch (status) {
+          case 'pending':
+            color = 'orange';
+            break;
+          case 'completed':
+            color = 'green';
+            break;
+          case 'cancelled':
+            color = 'red';
+            break;
+        }
+        return <Tag color={color}>{status}</Tag>;
+      },
     },
     {
       title: 'Tổng Tiền',
@@ -154,53 +170,54 @@ const OrderManagement: React.FC = () => {
       title: 'Phương Thức Thanh Toán',
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
+      render: (method: number) => (
+        <>
+          <Tag color='magenta'>{method === 1 ? 'Thanh toán khi nhận hàng' : method === 2 ? 'ZaloPay' : method === 3 ? 'MoMo' : 'không xác định'}</Tag>
+        </>
+      )
     }
   ];
 
   return (
-    <ConfigProvider>
-      <div className="container">
-        <Row className="header">
-          <Col className="title">
-            <h2>
-              <img src="\icon\box.png" alt="" />
-              Quản lý đơn hàng
-            </h2>
-          </Col>
-          <Col className="button-group">
-            <Space>
-              <Button
-                type="primary"
-                className="button-create"
-                icon={<PlusOutlined />}
-                onClick={handleAddNew}
-              >
-                Tạo mới
-              </Button>
-              <Button
-                type="primary"
-                className="button-delete"
-                onClick={handleDeleteSelected}
-                icon={<DeleteOutlined />}
-              >
-                Xóa
-              </Button>
-            </Space>
-          </Col>
-        </Row>
+    <div className="container">
+      <Row className="header">
+        <Col className="title">
+          <h2 style={{ display: "flex", alignItems: "center" }}>
+            <img src="\icon\box.png" alt="" />
+            Quản lý đơn hàng
+          </h2>
+        </Col>
+        <Col className="button-group">
+          <Space>
+            <Button
+              type="primary"
+              className="button-create"
+              icon={<PlusOutlined />}
+              onClick={handleAddNew}
+            >
+              Tạo mới
+            </Button>
+            <Button
+              type="primary"
+              className="button-delete"
+              onClick={handleDeleteSelected}
+              icon={<DeleteOutlined />}
+            >
+              Xóa
+            </Button>
+          </Space>
+        </Col>
+      </Row>
 
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={dataSource}
-          rowKey="id"
-          pagination={false}
-          onChange={handleChange}
-          scroll={{ x: 'max-content' }}
-          className="table-container"
-        />
-      </div>
-    </ConfigProvider>
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={dataSource}
+        rowKey="id"
+        onChange={handleChange}
+        scroll={{ x: 'max-content' }}
+      />
+    </div>
   );
 };
 
