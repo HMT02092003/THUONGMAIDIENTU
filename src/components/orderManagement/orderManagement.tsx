@@ -1,59 +1,30 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Input, Form, message, Space, Row, Col, ConfigProvider, Select } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
-import '@/src/cssfolder/OrderManagement.css'; // Import file CSS
+import '@/src/cssfolder/OrderManagement.css';
 
 const { Option } = Select;
 
 interface OrderType {
-  key: React.Key;
-  orderCode: string;
-  quantity: number;
+  id: number;
+  orderNumber: string;
   orderDate: string;
-  deliveryDate: string;
-  customerName: string;
-  address: string;
+  customerID: string;
   status: string;
+  totalAmount: number;
+  shippingAddress: string;
+  paymentMethod: string;
+  name: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const data: OrderType[] = [
-  {
-    key: 1,
-    orderCode: 'DH001',
-    quantity: 3,
-    orderDate: '2024-11-01',
-    deliveryDate: '2024-11-05',
-    customerName: 'Nguyễn Văn A',
-    address: '123 Đường A, Quận B, TP. HCM',
-    status: 'Chờ xử lý',
-  },
-  {
-    key: 2,
-    orderCode: 'DH002',
-    quantity: 1,
-    orderDate: '2024-11-02',
-    deliveryDate: '2024-11-06',
-    customerName: 'Trần Thị B',
-    address: '456 Đường C, Quận D, Hà Nội',
-    status: 'Đã giao',
-  },
-  {
-    key: 3,
-    orderCode: 'DH003',
-    quantity: 5,
-    orderDate: '2024-11-03',
-    deliveryDate: '2024-11-07',
-    customerName: 'Lê Văn C',
-    address: '789 Đường E, Quận F, TP. Đà Nẵng',
-    status: 'Đã hủy',
-  },
-];
-
 const OrderManagement: React.FC = () => {
-  const [dataSource, setDataSource] = useState<OrderType[]>(data);
+  const [dataSource, setDataSource] = useState<OrderType[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [modalType, setModalType] = useState<'add' | 'edit'>('add');
@@ -62,6 +33,21 @@ const OrderManagement: React.FC = () => {
   const [sortedInfo, setSortedInfo] = useState<any>({});
 
   const router = useRouter();
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/getAllOrder');
+      const data = await response.json();
+      setDataSource(data);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      message.error('Không thể tải dữ liệu đơn hàng');
+    }
+  };
 
   const rowSelection = {
     selectedRowKeys,
@@ -74,51 +60,17 @@ const OrderManagement: React.FC = () => {
     setIsModalVisible(true);
   };
 
-  const handleAddSubmit = () => {
-    form.validateFields().then((values) => {
-      const newOrder: OrderType = {
-        key: dataSource.length + 1,
-        ...values,
-      };
-      setDataSource([...dataSource, newOrder]);
-      setIsModalVisible(false);
-      message.success('Thêm mới đơn hàng thành công!');
-    });
-  };
-
-  const handleEditSelected = () => {
-    if (selectedRowKeys.length === 0) {
-      message.warning("Vui lòng chọn ít nhất một hàng để sửa.");
-      return;
-    }
-    setModalType('edit');
-    form.resetFields();
-    setIsModalVisible(true);
-  };
-
-  const handleEditSubmit = () => {
-    form.validateFields().then((values) => {
-      const updatedData = dataSource.map((item) =>
-        selectedRowKeys.includes(item.key) ? { ...item, ...values } : item
-      );
-      setDataSource(updatedData);
-      setSelectedRowKeys([]);
-      setIsModalVisible(false);
-      message.success('Cập nhật thành công!');
-    });
-  };
-
   const handleDeleteSelected = () => {
     if (selectedRowKeys.length === 0) {
       message.warning("Vui lòng chọn ít nhất một hàng để xóa.");
       return;
     }
-  
+
     Modal.confirm({
       title: 'Xác nhận xóa',
       content: `Bạn có chắc chắn muốn xóa ${selectedRowKeys.length} đơn hàng đã chọn?`,
       onOk: () => {
-        setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.key)));
+        setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.id)));
         setSelectedRowKeys([]);
         message.success('Đã xóa các hàng được chọn!');
       },
@@ -138,8 +90,8 @@ const OrderManagement: React.FC = () => {
       title: '',
       key: 'action',
       width: '20px',
-      fixed: 'left',
-      render: (_: any, record: any) => (
+      fixed: 'left' as 'left',
+      render: (_: any, record: OrderType) => (
         <div
           onClick={() => router.push(`/orderManagement/detail/${record.id}`)}
           style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
@@ -150,68 +102,59 @@ const OrderManagement: React.FC = () => {
     },
     {
       title: 'Mã Đơn Hàng',
-      dataIndex: 'orderCode',
-      key: 'orderCode',
-      sorter: (a: OrderType, b: OrderType) => a.orderCode.localeCompare(b.orderCode),
-      sortOrder: sortedInfo.columnKey === 'orderCode' ? sortedInfo.order : null,
-      filters: [
-        { text: 'DH001', value: 'DH001' },
-        { text: 'DH002', value: 'DH002' },
-        { text: 'DH003', value: 'DH003' },
-      ],
-      filteredValue: filteredInfo.orderCode || null,
-      onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
-        return record.orderCode.includes(value.toString());
-      },
-      fixed: 'left',
+      dataIndex: 'orderNumber',
+      key: 'orderNumber',
+      sorter: (a: OrderType, b: OrderType) => a.orderNumber.localeCompare(b.orderNumber),
+      sortOrder: sortedInfo.columnKey === 'orderNumber' ? sortedInfo.order : null,
+      fixed: 'left' as 'left',
     },
     {
       title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
       filters: [
-        { text: 'Chờ xử lý', value: 'Chờ xử lý' },
-        { text: 'Đã giao', value: 'Đã giao' },
-        { text: 'Đã hủy', value: 'Đã hủy' },
+        { text: 'Pending', value: 'pending' },
+        { text: 'Completed', value: 'completed' },
+        { text: 'Cancelled', value: 'cancelled' },
       ],
       filteredValue: filteredInfo.status || null,
-      onFilter: (value: boolean | string | number | bigint, record: OrderType) => {
-        return record.status.includes(value.toString());
-      },
+      onFilter: (value: string | number | boolean, record: OrderType) => record.status === value,
     },
     {
-      title: 'Số Lượng',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      sorter: (a: OrderType, b: OrderType) => a.quantity - b.quantity,
-      sortOrder: sortedInfo.columnKey === 'quantity' ? sortedInfo.order : null,
+      title: 'Tổng Tiền',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      sorter: (a: OrderType, b: OrderType) => a.totalAmount - b.totalAmount,
+      render: (value: number) => `${value.toLocaleString()} VNĐ`,
     },
     {
       title: 'Ngày Đặt Hàng',
       dataIndex: 'orderDate',
       key: 'orderDate',
       sorter: (a: OrderType, b: OrderType) => new Date(a.orderDate).getTime() - new Date(b.orderDate).getTime(),
-      sortOrder: sortedInfo.columnKey === 'orderDate' ? sortedInfo.order : null,
+      render: (date: string) => new Date(date).toLocaleDateString('vi-VN'),
     },
     {
-      title: 'Ngày Giao Hàng',
-      dataIndex: 'deliveryDate',
-      key: 'deliveryDate',
-      sorter: (a: OrderType, b: OrderType) => new Date(a.deliveryDate).getTime() - new Date(b.deliveryDate).getTime(),
-      sortOrder: sortedInfo.columnKey === 'deliveryDate' ? sortedInfo.order : null,
+      title: 'Khách Hàng',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a: OrderType, b: OrderType) => a.name.localeCompare(b.name),
     },
     {
-      title: 'Người Đặt',
-      dataIndex: 'customerName',
-      key: 'customerName',
-      sorter: (a: OrderType, b: OrderType) => a.customerName.localeCompare(b.customerName),
-      sortOrder: sortedInfo.columnKey === 'customerName' ? sortedInfo.order : null,
+      title: 'Số Điện Thoại',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
     },
     {
       title: 'Địa Chỉ',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'shippingAddress',
+      key: 'shippingAddress',
     },
+    {
+      title: 'Phương Thức Thanh Toán',
+      dataIndex: 'paymentMethod',
+      key: 'paymentMethod',
+    }
   ];
 
   return (
@@ -250,7 +193,7 @@ const OrderManagement: React.FC = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={dataSource}
-          rowKey="key"
+          rowKey="id"
           pagination={false}
           onChange={handleChange}
           scroll={{ x: 'max-content' }}
