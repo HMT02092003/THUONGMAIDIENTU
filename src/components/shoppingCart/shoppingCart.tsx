@@ -109,6 +109,7 @@ const ShoppingCart: React.FC = () => {
         ...values,
         customerID: customerId,
       };
+
       if (!dataOfForm) {
         message.error('Vui lòng điền đầy đủ thông tin');
         return;

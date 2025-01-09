@@ -316,7 +316,7 @@ export const up = async function (knex) {
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
     table.string('phoneNumber').nullable();
-    table.json('address').nullable();
+    table.string('address').nullable();
   });
 
   // Bảng Order

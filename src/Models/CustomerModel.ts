@@ -13,7 +13,6 @@ export class Customer extends Model {
     createdAt!: Date;
     updatedAt!: Date;
     phoneNumber!: string;
-    address!: object;
 
     static get tableName() {
         return 'Customer';
@@ -29,7 +28,7 @@ export class Customer extends Model {
                 name: { type: 'string' },
                 password: { type: 'string' },
                 phoneNumber: { type: 'string' },
-                address: { type: 'object' },
+                address: { type: 'string' },
                 createdAt: { type: 'string', format: 'date-time' },
                 updatedAt: { type: 'string', format: 'date-time' },
             }
