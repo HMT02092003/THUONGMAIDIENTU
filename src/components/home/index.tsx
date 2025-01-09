@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message, Tag } from "antd";
+import { Layout, Row, Col, Typography, Button, Space, Card, ConfigProvider, Carousel, message, Tag, Divider } from "antd";
 import {
   CheckCircleFilled,
   FacebookOutlined,
@@ -354,34 +354,57 @@ const App: React.FC = () => {
                   title={product.name}
                   description={
                     <>
-                      <p style={{ color: '#fe3464', fontWeight: 'bold', fontSize: '16px' }}>
-                        Giá: {Number(product.variants[0]?.price || 0).toLocaleString()} VNĐ
+                      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                        <span style={{ color: 'black' }}>Giá:</span>{' '}
+                        <span style={{ color: '#fe3464' }}>
+                          {Number(product.variants[0]?.price || 0).toLocaleString()} VNĐ
+                        </span>
                       </p>
                       <div>
-                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                          Thương hiệu: <Tag color="cyan">{product.brand.name}</Tag>
+                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                          Màu: <Tag color="cyan">{product.variants[0]?.color || 'Không có màu'}</Tag>
                         </Text>
                       </div>
-                      <br />
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                          Thể loại: {product.categories.map((item: { id: number; name: string }) => (
-                            <Tag key={item.id} color="green">{item.name}</Tag>
-                          ))}
-                        </Text>
-                      </div>
+                      <Divider style={{ margin: '10px 0' }} />
+                      {product.specifications && product.specifications.length > 0 ? (
+                        product.specifications.slice(0, 4).map((spec: { title: string; info: string }, index: number) => (
+                          <div key={index}>
+                            <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                              <strong>{spec.title}</strong>: {spec.info || 'Không có thông tin'}
+                            </Text>
+                          </div>
+                        ))
+                      ) : (
+                        <div>
+                          <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'normal', color: 'black' }}>
+                            Không có thông số kỹ thuật.
+                          </Text>
+                        </div>
+                      )}
                     </>
                   }
                 />
               </Card>
             </Col>
           ))}
-
-
         </Row>
+
+
+
+
         {visibleItems < products.length && (
           <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
-            <Button type="primary" onClick={handleLoadMore}>
+            <Button
+              type="default"
+              onClick={handleLoadMore}
+              style={{
+                width: '400px',
+                backgroundColor: 'white',
+                color: '#1890ff',
+                borderColor: '#ffffff',
+                fontWeight: 'bold',
+              }}
+            >
               Xem thêm
             </Button>
           </div>
