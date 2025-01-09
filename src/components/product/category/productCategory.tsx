@@ -1,16 +1,13 @@
 'use client';
 import React, { useEffect, useState, useRef } from "react";
-import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Typography, Spin, Button, Tag, Carousel, message, ConfigProvider } from "antd";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const { Title, Paragraph, Text } = Typography;
 
-const brands = [
-  "Lenovo", "Dell", "Asus", "HP", "Acer", "MSI", "LG", "Apple", "Microsoft",
-  "GIGABYTE", "Razer", "Samsung", "HUAWEI", "AVITA", "VAIO", "Colorful", "Xiaomi"
-];
+
 
 interface LaptopPageProps {
   id: number;
@@ -22,6 +19,10 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState<any[]>([]);
   const [category, setCategory] = useState<any>({});
+  const [Brand, setBrand] = useState<any>([])
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [originalProductData, setOriginalProductData] = useState<any[]>([]);
+
 
   const router = useRouter();
 
@@ -32,25 +33,45 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
     }
   };
 
-  // Hàm xử lý khi nhấn nút mũi tên phải
-  const handleNext = () => {
-    if (carouselRef.current) {
-      carouselRef.current.next();  // Di chuyển đến slide tiếp theo
+    // Hàm xử lý khi nhấn nút mũi tên phải
+    const handleNext = () => {
+      if (carouselRef.current) {
+        carouselRef.current.next();  // Di chuyển đến slide tiếp theo
+      }
+    };
+
+  const fectchProdutByCategoryData = async () => {
+    try {
+      const api = await axios.get(`http://localhost:4000/api/getProductByCategory/${id}`);
+      setProductData(api.data);
+      setOriginalProductData(api.data); // Lưu dữ liệu gốc
+    } catch (error) {
+      message.error("Lỗi khi lấy dữ liệu sản phẩm");
     }
+  };
+
+  const handleBrandClick = (brandId: number) => {
+    const filteredProducts = originalProductData.filter(product => product.brand.id === brandId);
+    setProductData(filteredProducts); // Chỉ thay đổi dữ liệu hiển thị
   };
 
   const handleLoadMore = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
   };
 
-  const fectchProdutByCategoryData = async () => {
+  const getAllBrand = async () => {
     try {
-      const api = await axios.get(`http://localhost:4000/api/getProductByCategory/${id}`);
-      setProductData(api.data);
-    } catch (error) {
-      message.error("Lỗi khi lấy dữ liệu sản phẩm");
+      const data = await axios.get('http://localhost:4000/api/allBrand')
+      console.log('count:', data)
+      setBrand(data.data)
+    } catch (err: any) {
+      message.error(err.response.data.message);
     }
-  };
+  }
+
+  useEffect(() => {
+    getAllBrand();
+  }, [])
 
   const fetchCategory = async () => {
     try {
@@ -80,33 +101,101 @@ const ProductCategory: React.FC<LaptopPageProps> = ({ id }) => {
               {category.description}
             </Paragraph>
           )}
-          <Carousel
-            autoplay
-            dots={false}
-            slidesToShow={8}
-            arrows
-            style={{ padding: "0 10px" }} // Giảm padding chung của carousel
-          >
-            {brands.map((brand, index) => (
-              <div key={index} style={{ textAlign: "center", padding: "0 5px" }}>
-                <Tag
-                  style={{
-                    fontSize: "14px", // Giữ kích thước font chữ vừa phải
-                    padding: "4px 8px", // Giảm padding của tag
-                    borderRadius: "15px",
-                    cursor: "pointer",
-                    backgroundColor: "#f0f2f5",
-                    margin: "0 10px", // Loại bỏ margin của mỗi tag
-                    letterSpacing: "-0.05em", // Giảm khoảng cách giữa các ký tự trong mỗi từ
-                    width: "90%",
-                    textAlign: "center",
-                  }}
-                >
-                  {brand}
-                </Tag>
-              </div>
-            ))}
-          </Carousel>
+          <Row>
+            <div style={{ position: 'relative', width: '100%', marginTop: '1rem' }}>
+              <Row
+                style={{
+                  paddingTop: '10px',
+                  paddingBottom: '10px',
+                  display: 'flex',
+                  height: '80px',
+                  alignItems: 'center',
+                  maxWidth: '1200px',
+                  margin: '0 auto',
+                }}
+              >
+                <Col span={22} style={{ position: 'relative' }}>
+                  <Carousel
+                    ref={carouselRef}
+                    dots={false}
+                    slidesToShow={7}
+                    slidesToScroll={6}
+                    infinite={false}
+                    responsive={[
+                      { breakpoint: 1200, settings: { slidesToShow: 4, slidesToScroll: 4 } },
+                      { breakpoint: 992, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+                      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+                      { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+                    ]}
+                  >
+                    {Brand.map((Brand: any, index: any) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '10px',
+                          textAlign: 'center',
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Button
+                          color="default"
+                          variant="outlined"
+                          onClick={() => handleBrandClick(Brand.id)}
+                          style={{
+                            fontWeight: 600,
+                            fontSize: '14px',
+                            borderRadius: '20px',
+                            height: 40,
+                            width: '100%',
+                            maxWidth: '150px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <img
+                            src={`http://localhost:4000/${Brand.imageUrl}`}  // Đường dẫn đến ảnh từ localhost:4000
+                            style={{ width: '45px' }} // Đặt kích thước ảnh và khoảng cách với text
+                          />
+                          {Brand.name}
+                        </Button>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Col>
+                <Col span={2} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button
+                    type='text'
+                    shape="circle"
+                    onClick={handlePrev}  // Gọi hàm handlePrev
+                    style={{
+                      backgroundColor: 'white',
+                      borderRadius: '8px',
+                      borderColor: 'transparent',
+                      border: 'transparent'
+                    }}
+                  >
+                    <LeftOutlined />
+                  </Button>
+                  <Button
+                    type='text'
+                    shape="circle"
+                    onClick={handleNext}  // Gọi hàm handleNext
+                    style={{
+                      marginLeft: '15px',
+                      borderRadius: '8px',
+                      backgroundColor: 'white',
+                      borderColor: 'transparent',
+                      border: 'transparent'
+                    }}
+                  >
+                    <RightOutlined />
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          </Row>
         </Card>
       </div>
 
