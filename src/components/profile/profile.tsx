@@ -1,46 +1,48 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input, Button, Layout, Menu, Table, Form, Modal, Empty, Popconfirm, Row, Col } from "antd";
-import {
-  UserOutlined,
-  HistoryOutlined,
-  EnvironmentOutlined,
-  LogoutOutlined,
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { Input, Button, Layout, Menu, Table, Form, Row, Col, Divider, Space, Modal } from "antd";
+import { UserOutlined, HistoryOutlined, LogoutOutlined, SearchOutlined } from "@ant-design/icons";
 
 const { Sider, Content } = Layout;
 
-// Định nghĩa kiểu dữ liệu
+// Define data types
 interface ProfileData {
   name: string;
   phone: string;
   email: string;
 }
 
-interface AddressData {
-  key: string;
-  fullName: string;
-  phone: string;
-  area: string;
-  address: string;
-}
-
 interface OrderData {
   key: string;
   orderId: string;
-  date: string;
-  total: string;
+  orderNumber: string;
+  orderDate: string;
   status: string;
+  totalAmount: string;
+  shippingAddress: string;
+  paymentMethod: string;
+  name: string;
+  phoneNumber: string;
+  items: string[];
+  productDetails: {
+    image: string;
+    name: string;
+    quantity: number;
+    description: string;
+    tagName: string;
+    variants: { cpu: string; ram: string };
+    price: string;
+  }[];
 }
 
 const Profile: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState<string>("1");
+  const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [currentOrderDetails, setCurrentOrderDetails] = useState<any | null>(null); // To store details of selected order for modal
 
-  // State quản lý thông tin tài khoản
+  // Profile data state
   const [profileData, setProfileData] = useState<ProfileData>({
     name: "Nguyen Van A",
     phone: "0987654321",
@@ -49,65 +51,75 @@ const Profile: React.FC = () => {
 
   const [editableProfile, setEditableProfile] = useState<ProfileData>({ ...profileData });
 
-  // Fake data cho lịch sử đơn hàng
+  // Fake order data
   const orderData: OrderData[] = [
-    { key: "1", orderId: "DH001", date: "2024-05-01", total: "1,200,000 VND", status: "Đã giao" },
-    { key: "2", orderId: "DH002", date: "2024-05-10", total: "850,000 VND", status: "Đang vận chuyển" },
-    { key: "3", orderId: "DH003", date: "2024-06-01", total: "2,000,000 VND", status: "Đã hủy" },
+    {
+      key: "1",
+      orderId: "DH001",
+      orderNumber: "ORD001",
+      orderDate: "2024-05-01",
+      status: "Đã giao",
+      totalAmount: "1,200,000 VND",
+      shippingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+      paymentMethod: "Thanh toán khi nhận hàng",
+      name: "Nguyen Van A",
+      phoneNumber: "0987654321",
+      items: ["Laptop", "Chuột", "Bàn phím"],
+      productDetails: [
+        {
+          image: "https://via.placeholder.com/150",
+          name: "Laptop",
+          quantity: 1,
+          description: "Laptop high-performance",
+          tagName: "Electronics",
+          variants: { cpu: "Intel i7", ram: "16GB" },
+          price: "800,000 VND",
+        },
+        {
+          image: "https://via.placeholder.com/150",
+          name: "Chuột",
+          quantity: 2,
+          description: "Wireless mouse",
+          tagName: "Accessories",
+          variants: { cpu: "N/A", ram: "N/A" },
+          price: "200,000 VND",
+        },
+      ],
+    },
+    {
+      key: "2",
+      orderId: "DH002",
+      orderNumber: "ORD002",
+      orderDate: "2024-05-10",
+      status: "Đang vận chuyển",
+      totalAmount: "850,000 VND",
+      shippingAddress: "456 Đường XYZ, Quận 2, TP.HCM",
+      paymentMethod: "Chuyển khoản ngân hàng",
+      name: "Nguyen Van A",
+      phoneNumber: "0987654321",
+      items: ["Điện thoại", "Ốp lưng"],
+      productDetails: [
+        {
+          image: "https://via.placeholder.com/150",
+          name: "Điện thoại",
+          quantity: 1,
+          description: "Smartphone 5G",
+          tagName: "Electronics",
+          variants: { cpu: "Snapdragon 888", ram: "8GB" },
+          price: "650,000 VND",
+        },
+        {
+          image: "https://via.placeholder.com/150",
+          name: "Ốp lưng",
+          quantity: 1,
+          description: "Phone case",
+          tagName: "Accessories",
+          variants: { cpu: "N/A", ram: "N/A" },
+          price: "100,000 VND",
+        },
+      ],
+    },
   ];
-
-  // State quản lý sổ địa chỉ
-  const [addressList, setAddressList] = useState<AddressData[]>([]);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [editingKey, setEditingKey] = useState<string | null>(null);
-  const [form] = Form.useForm();
-
-  // Xử lý mở modal thêm/sửa địa chỉ
-  const showModal = (record?: AddressData) => {
-    setIsEditMode(!!record); // Kiểm tra chế độ Edit
-    if (record) {
-      form.setFieldsValue(record);
-      setEditingKey(record.key);
-    } else {
-      form.resetFields();
-    }
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    form.validateFields().then((values) => {
-      if (isEditMode && editingKey) {
-        // Sửa địa chỉ
-        setAddressList(
-          addressList.map((item) =>
-            item.key === editingKey ? { ...item, ...values } : item
-          )
-        );
-      } else {
-        // Thêm địa chỉ mới
-        const newAddress: AddressData = {
-          key: String(addressList.length + 1),
-          ...values,
-        };
-        setAddressList([...addressList, newAddress]);
-      }
-      form.resetFields();
-      setIsModalVisible(false);
-      setIsEditMode(false);
-      setEditingKey(null);
-    });
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    setIsEditMode(false);
-    setEditingKey(null);
-  };
-
-  const handleDelete = (key: string) => {
-    setAddressList(addressList.filter((item) => item.key !== key));
-  };
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof ProfileData) => {
     setEditableProfile({ ...editableProfile, [field]: e.target.value });
@@ -117,21 +129,29 @@ const Profile: React.FC = () => {
     setProfileData({ ...editableProfile });
   };
 
+  const handleRowExpand = (expanded: boolean, record: OrderData) => {
+    const newExpandedRowKeys = expanded ? [record.key] : [];
+    setExpandedRowKeys(newExpandedRowKeys);
+  };
+
+  const handleExpandButtonClick = (record: OrderData) => {
+    setCurrentOrderDetails(record.productDetails);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <Layout>
-      {/* Sidebar được bọc trong khung */}
-      <div style={{ border: "2px solidrgb(255, 255, 255)", borderRadius: "8px", padding: "10px", background: "#fff" }}>
-        <Sider theme="light" width={250}>
-          <Menu
-            mode="vertical"
-            defaultSelectedKeys={["1"]}
-            selectedKeys={[selectedMenu]}
-            onClick={({ key }) => setSelectedMenu(key)}
-          >
-            <Menu.Item key="1" icon={<UserOutlined />}>Thông tin tài khoản</Menu.Item>
-            <Menu.Item key="2" icon={<HistoryOutlined />}>Lịch sử đơn hàng</Menu.Item>
-            <Menu.Item key="3" icon={<EnvironmentOutlined />}>Sổ địa chỉ</Menu.Item>
-            <Menu.Item key="4" icon={<LogoutOutlined />}>Đăng xuất</Menu.Item>
+      {/* Sidebar */}
+      <div style={{ border: "2px solid #003366", borderRadius: "8px", padding: "10px", background: "#e6f7ff", margin: "20px" }}>
+      <Sider theme="light" width={250} style={{ background: "#e6f7ff", border: "none" }}>
+          <Menu mode="vertical" defaultSelectedKeys={["1"]} selectedKeys={[selectedMenu]} onClick={({ key }) => setSelectedMenu(key)} style={{ backgroundColor: "#e6f7ff" }}>
+            <Menu.Item key="1" icon={<UserOutlined />} style={{ backgroundColor: selectedMenu === "1" ? "#b3e0ff" : "transparent" }}>Thông tin tài khoản</Menu.Item>
+            <Menu.Item key="2" icon={<HistoryOutlined />} style={{ backgroundColor: selectedMenu === "2" ? "#b3e0ff" : "transparent" }}>Lịch sử đơn hàng</Menu.Item>
+            <Menu.Item key="4" icon={<LogoutOutlined />} style={{ backgroundColor: selectedMenu === "4" ? "#b3e0ff" : "transparent" }}>Đăng xuất</Menu.Item>
           </Menu>
         </Sider>
       </div>
@@ -143,34 +163,28 @@ const Profile: React.FC = () => {
           {selectedMenu === "1" && (
             <>
               <h2>Thông tin tài khoản</h2>
+
               <Form layout="vertical" onFinish={handleProfileSubmit}>
                 <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item label="Tên của bạn">
-                      <Input
-                        placeholder="Tên của bạn"
-                        value={editableProfile.name}
-                        onChange={(e) => handleProfileChange(e, "name")}
-                      />
+                      <Input placeholder="Tên của bạn" value={editableProfile.name} onChange={(e) => handleProfileChange(e, "name")} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Số điện thoại">
-                      <Input
-                        placeholder="Số điện thoại"
-                        value={editableProfile.phone}
-                        onChange={(e) => handleProfileChange(e, "phone")}
-                      />
+                      <Input placeholder="Số điện thoại" value={editableProfile.phone} onChange={(e) => handleProfileChange(e, "phone")} />
                     </Form.Item>
                   </Col>
                 </Row>
-                <Form.Item label="Email">
-                  <Input
-                    placeholder="Email"
-                    value={editableProfile.email}
-                    onChange={(e) => handleProfileChange(e, "email")}
-                  />
-                </Form.Item>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item label="Email">
+                      <Input placeholder="Email" value={editableProfile.email} onChange={(e) => handleProfileChange(e, "email")} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Divider />
                 <Form.Item>
                   <Button type="primary" htmlType="submit">Cập nhật thông tin</Button>
                 </Form.Item>
@@ -184,106 +198,89 @@ const Profile: React.FC = () => {
               <h2>Lịch sử đơn hàng</h2>
               <Table
                 columns={[
-                  { title: "Mã đơn hàng", dataIndex: "orderId", key: "orderId" },
-                  { title: "Ngày đặt", dataIndex: "date", key: "date" },
-                  { title: "Tổng tiền", dataIndex: "total", key: "total" },
+                  { title: "Mã đơn hàng", dataIndex: "orderNumber", key: "orderNumber" },
+                  { title: "Ngày đặt", dataIndex: "orderDate", key: "orderDate" },
                   { title: "Trạng thái", dataIndex: "status", key: "status" },
+                  { title: "Tổng tiền", dataIndex: "totalAmount", key: "totalAmount" },
+                  { title: "Địa chỉ giao hàng", dataIndex: "shippingAddress", key: "shippingAddress" },
+                  { title: "Phương thức thanh toán", dataIndex: "paymentMethod", key: "paymentMethod" },
+                  { title: "Tên người nhận", dataIndex: "name", key: "name" },
+                  { title: "Số điện thoại người nhận", dataIndex: "phoneNumber", key: "phoneNumber" },
+                  {
+                    title: "Chi tiết",
+                    render: (text, record) => <Button onClick={() => handleExpandButtonClick(record)}>Xem chi tiết</Button>,
+                  },
                 ]}
                 dataSource={orderData}
+                expandedRowKeys={expandedRowKeys}
+                onExpand={handleRowExpand}
                 pagination={false}
+                scroll={{ x: "max-content" }}
               />
+
+              {/* Modal for detailed order information */}
+              <Modal
+                title="Thông tin chi tiết đơn hàng"
+                visible={isModalVisible}
+                onCancel={handleModalClose}
+                footer={null}
+                width={1000}
+              >
+                <Row gutter={[16, 16]}>
+                  {currentOrderDetails &&
+                    currentOrderDetails.map((item: any, index: number) => (
+                      <Col key={index} span={12} style={{ textAlign: "center" }}>
+                        {/* Ảnh sản phẩm */}
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          style={{ width: "150px", height: "150px", marginBottom: "16px" }}
+                        />
+                        {/* Tên sản phẩm */}
+                        <h3 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "16px" }}>
+                          {item.name}
+                        </h3>
+                        {/* Thông tin chi tiết sản phẩm */}
+                        <div style={{ textAlign: "left", marginLeft: "20%" }}>
+                          <Row gutter={[16, 16]} align="middle">
+                            <Col span={8} style={{ fontWeight: "bold" }}>
+                              Số lượng:
+                            </Col>
+                            <Col span={16}>{item.quantity}</Col>
+                          </Row>
+                          <Row gutter={[16, 16]} align="middle">
+                            <Col span={8} style={{ fontWeight: "bold" }}>
+                              Mô tả:
+                            </Col>
+                            <Col span={16}>{item.description}</Col>
+                          </Row>
+                          <Row gutter={[16, 16]} align="middle">
+                            <Col span={8} style={{ fontWeight: "bold" }}>
+                              Tag:
+                            </Col>
+                            <Col span={16}>{item.tagName}</Col>
+                          </Row>
+                          <Row gutter={[16, 16]} align="middle">
+                            <Col span={8} style={{ fontWeight: "bold" }}>
+                              Thông số:
+                            </Col>
+                            <Col span={16}>
+                              CPU: {item.variants.cpu || "N/A"}, RAM: {item.variants.ram || "N/A"}
+                            </Col>
+                          </Row>
+                          <Row gutter={[16, 16]} align="middle">
+                            <Col span={8} style={{ fontWeight: "bold" }}>
+                              Giá:
+                            </Col>
+                            <Col span={16}>{item.price}</Col>
+                          </Row>
+                        </div>
+                      </Col>
+                    ))}
+                </Row>
+              </Modal>
             </>
           )}
-
-          {/* Sổ địa chỉ */}
-          {selectedMenu === "3" && (
-            <>
-              <h2>Sổ địa chỉ</h2>
-              {addressList.length === 0 ? (
-                <Empty description="0 địa chỉ được lưu" />
-              ) : (
-                <Table
-                  columns={[
-                    { title: "Họ và tên", dataIndex: "fullName", key: "fullName" },
-                    { title: "Số điện thoại", dataIndex: "phone", key: "phone" },
-                    { title: "Khu vực", dataIndex: "area", key: "area" },
-                    { title: "Địa chỉ nhận hàng", dataIndex: "address", key: "address" },
-                    {
-                      title: "Hành động",
-                      key: "actions",
-                      render: (_, record) => (
-                        <>
-                          <Button
-                            type="link"
-                            icon={<EditOutlined />}
-                            onClick={() => showModal(record)}
-                          >
-                            Sửa
-                          </Button>
-                          <Popconfirm
-                            title="Bạn có chắc chắn muốn xóa?"
-                            onConfirm={() => handleDelete(record.key)}
-                            okText="Có"
-                            cancelText="Hủy"
-                          >
-                            <Button type="link" danger icon={<DeleteOutlined />}>Xóa</Button>
-                          </Popconfirm>
-                        </>
-                      ),
-                    },
-                  ]}
-                  dataSource={addressList}
-                  pagination={false}
-                />
-              )}
-              <div style={{ marginTop: "20px", textAlign: "center" }}>
-                <Button type="dashed" icon={<PlusOutlined />} onClick={() => showModal()}>
-                  Thêm địa chỉ nhận
-                </Button>
-              </div>
-            </>
-          )}
-
-          {/* Modal thêm/sửa địa chỉ */}
-          <Modal
-            title={isEditMode ? "Sửa địa chỉ nhận" : "Thêm địa chỉ nhận"}
-            open={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            okText="Lưu"
-            cancelText="Hủy"
-          >
-            <Form layout="vertical" form={form}>
-              <Form.Item
-                label="Họ và tên"
-                name="fullName"
-                rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
-              >
-                <Input placeholder="Nhập họ và tên" />
-              </Form.Item>
-              <Form.Item
-                label="Số điện thoại"
-                name="phone"
-                rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}
-              >
-                <Input placeholder="Nhập số điện thoại" />
-              </Form.Item>
-              <Form.Item
-                label="Khu vực"
-                name="area"
-                rules={[{ required: true, message: "Vui lòng nhập khu vực" }]}
-              >
-                <Input placeholder="Nhập khu vực" />
-              </Form.Item>
-              <Form.Item
-                label="Địa chỉ nhận hàng"
-                name="address"
-                rules={[{ required: true, message: "Vui lòng nhập địa chỉ nhận hàng" }]}
-              >
-                <Input placeholder="Nhập địa chỉ nhận hàng" />
-              </Form.Item>
-            </Form>
-          </Modal>
         </Content>
       </Layout>
     </Layout>
