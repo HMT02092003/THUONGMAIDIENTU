@@ -107,13 +107,11 @@ const App: React.FC = () => {
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
         <div>
-          <Row style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '5px', color: 'white' }}>
-            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} /></Col>
-          </Row>
+            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '10px', color: 'white' }} /></Col>
         </div>
         <Row style={{ fontWeight: '600', fontSize: '28px', lineHeight: '40px' }}>Danh mục nổi bật</Row>
         <div style={{ marginTop: '1.25rem' }}>
-          <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
+          <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '10px', backgroundColor: 'white' }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
               <Row gutter={[16, 16]} justify="center">
                 {category.map((category: any, index: any) => (

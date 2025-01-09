@@ -20,6 +20,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   const [brand, setBrand] = useState<any>({});
   const [categories, setCategories] = useState<any[]>([]);
   const [originalProductData, setOriginalProductData] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   const router = useRouter();
 
@@ -38,13 +39,9 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   const fetchProductByBrandData = async () => {
     try {
       const api = await axios.get(`http://localhost:4000/api/getProductByBrand/${id}`);
-      // Đảm bảo mỗi sản phẩm có mảng categories, nếu không có thì gán mảng rỗng
-      const productsWithCategories = api.data.map((product: any) => ({
-        ...product,
-        categories: product.categories || []
-      }));
-      setProductData(productsWithCategories);
-      setOriginalProductData(productsWithCategories);
+      console.log('Product Data:', api.data); // Debug log
+      setProductData(api.data);
+      setOriginalProductData(api.data);
       setLoading(false);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu sản phẩm");
@@ -54,33 +51,41 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
   const getAllCategories = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/allCategory');
+      console.log('Categories:', response.data); // Debug log
       setCategories(response.data);
     } catch (err: any) {
-      message.error(err.response?.data?.message || "Lỗi khi lấy danh sách thể loại");
+      message.error(err.response.data.message);
     }
   };
 
-  const handleCategoryClick = (categoryId: number) => {
-    const filteredProducts = originalProductData.filter(product => 
-      product.categories?.some((cat: any) => cat.id === categoryId)
-    );
-  
-    // Nếu không có sản phẩm nào sau khi lọc, có thể hiển thị thông báo
-    if (filteredProducts.length === 0) {
-      message.info('Không có sản phẩm nào cho thể loại này.');
-    }
-  
-    // Cập nhật danh sách sản phẩm theo thể loại
-    setProductData(filteredProducts);
-    setVisibleItems(8); // Reset số lượng sản phẩm hiển thị về mặc định sau khi chọn thể loại
-  };
-  
   const fetchBrand = async () => {
     try {
       const api = await axios.post(`http://localhost:4000/api/get1Brand`, { id: id });
       setBrand(api.data);
     } catch (error) {
       message.error("Lỗi khi lấy dữ liệu thương hiệu");
+    }
+  };
+
+  const handleCategoryClick = async (categoryId: number) => {
+    try {
+      setLoading(true);
+      if (selectedCategory === categoryId) {
+        // Nếu click vào category đang được chọn, reset về danh sách gốc
+        setProductData(originalProductData);
+        setSelectedCategory(null);
+      } else {
+        // Lấy sản phẩm theo category
+        const response = await axios.get(`http://localhost:4000/api/getProductByCategory/${categoryId}`);
+        // Lọc sản phẩm có cùng brand.id với trang hiện tại
+        const filteredProducts = response.data.filter((product: any) => product.brand.id === id);
+        setProductData(filteredProducts);
+        setSelectedCategory(categoryId);
+      }
+    } catch (error) {
+      message.error("Lỗi khi lọc sản phẩm theo thể loại");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,6 +101,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
 
   return (
     <div style={{ padding: "20px" }}>
+      {/* Header with carousel */}
       <div style={{ marginBottom: "20px" }}>
         <Card style={{ backgroundColor: "white", borderRadius: "10px", marginBottom: "20px" }}>
           <Title level={2}>{brand.name}</Title>
@@ -157,6 +163,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            backgroundColor: selectedCategory === category.id ? '#e6f4ff' : 'white',
                           }}
                         >
                           <img
@@ -205,6 +212,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
         </Card>
       </div>
 
+      {/* Product list */}
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -233,7 +241,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
                         </p>
                         <div>
                           <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                            Thương hiệu: <Tag color="cyan">{laptop.brand?.name}</Tag>
+                            Thương hiệu: <Tag color="cyan">{laptop.brand?.name || 'N/A'}</Tag>
                           </Text>
                         </div>
                         <br />
@@ -241,7 +249,7 @@ const ProductBrand: React.FC<LaptopPageProps> = ({ id }) => {
                           <Text type="secondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
                             Thể loại: {laptop.categories?.map((item: { id: number; name: string }) => (
                               <Tag key={item.id} color="green">{item.name}</Tag>
-                            ))}
+                            )) || <Tag color="green">Chưa phân loại</Tag>}
                           </Text>
                         </div>
                       </>
