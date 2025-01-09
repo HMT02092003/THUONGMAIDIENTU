@@ -79,7 +79,7 @@ export const seed = async function (knex) {
       imageUrl: 'uploads/brand/VAIO.png',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    },
+    },    
   ]);
 
   console.log('Seed data has been inserted successfully.');
