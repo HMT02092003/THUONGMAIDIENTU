@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { saveFile } from '../service/uploadService';
 import Brand from '../Models/BrandModel';
+import Product from '../Models/ProductModel';
 
 export const createBrand = async (req: any, res: any) => {
     console.log(req.body);
@@ -99,17 +100,33 @@ export const updateBrand = async (req: Request, res: Response) => {
 
 export const deleteBrand = async (req: any, res: any) => {
     try {
-        const { ids: userIds } = req.body;
-        console.log("userIds", userIds);
+        const { ids: brandIds } = req.body;
 
-        if (userIds && userIds.length > 0) {
-            await Brand.query().delete().whereIn("id", userIds);
-        } else {
+        if (!brandIds || brandIds.length === 0) {
             return res.status(400).json({ message: "Danh sách ID không hợp lệ" });
         }
-        return res.status(200).json({ message: "Xóa danh mục thành công" });
+
+        // Kiểm tra nếu có sản phẩm nào thuộc các Brand trong danh sách
+        const relatedProducts = await Product.query()
+            .whereIn("brandId", brandIds)
+            .select("brandId")
+            .distinct();
+
+        if (relatedProducts.length > 0) {
+            const relatedBrandIds = relatedProducts.map(product => product.brandId);
+            return res.status(400).json({
+                message: "Không thể xóa Brand vì có sản phẩm liên quan",
+                relatedBrandIds, // Gửi lại danh sách các Brand bị ảnh hưởng
+            });
+        }
+
+        // Nếu không có sản phẩm liên quan, tiến hành xóa
+        await Brand.query().delete().whereIn("id", brandIds);
+
+        return res.status(200).json({ message: "Xóa Brand thành công" });
     } catch (error) {
-        console.error(error); // Thêm log lỗi để dễ debug
-        res.status(500).json({ message: "Lỗi 500 - Xóa danh mục thất bại" });
+        console.error(error); // Ghi log lỗi để dễ debug
+        res.status(500).json({ message: "Lỗi 500 - Xóa Brand thất bại" });
     }
-}
+};
+
