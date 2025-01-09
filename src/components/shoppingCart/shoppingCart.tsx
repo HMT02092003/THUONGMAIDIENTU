@@ -307,93 +307,142 @@ const ShoppingCart: React.FC = () => {
       icon: <CreditCardOutlined />,
       content: (
         <>
-          <Card
-            title={<Title level={5}>Tóm tắt đơn hàng</Title>}
-            className="cartSummary"
-            style={{ borderRadius: '8px', padding: '16px' }}
-          >
-            <Text style={{ fontSize: '14px', color: '#595959' }}>
-              Tạm tính: <strong style={{ fontSize: '16px', color: '#333' }}>{totalPrice.toLocaleString()} đ</strong>
-            </Text>
-            <Divider />
-            <Text style={{ fontSize: '16px', color: '#333', fontWeight: 'bold' }}>
-              Tổng cộng: <strong className="totalPrice" style={{ color: '#1890ff' }}>{totalPriceWithVAT.toLocaleString()} đ</strong>
-            </Text>
-            <Divider />
-            <Button
-              type="primary"
-              block
-              disabled={totalPrice === 0}
-              style={{
-                height: '48px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                backgroundColor: totalPrice === 0 ? '#d9d9d9' : '#1890ff',
-              }}
-              onClick={() => {
-                setPaymentMethod(true)
+          <Row>
+            <Col span={14}>
+              <Card title={<Title level={5}>Tóm tắt đơn hàng</Title>}>
+                <div className="cartCard">
+                  {cartData.length === 0 ? (
+                    <Empty
+                      image={<ShoppingCartOutlined className="emptyCart" />}
+                      imageStyle={{ height: 100 }}
+                      description={<span>Giỏ hàng trống</span>}
+                    >
+                    </Empty>
+                  ) : (
+                    cartData.map(item => (
+                      <div key={`${item.id}-${item.selectedVersion}`} className="cartItem">
+                        <Image src={item.productImage} alt={item.name} width={100} height={100} className="cartImage" />
+                        <div className="product">
+                          <Title level={5}>{item.name}</Title>
+                          <Text type="secondary">Phiên bản: {item.version} | Màu: {item.color}</Text>
+                          <div className="quantityControl">
+                            <Button
+                              icon={<MinusOutlined />}
+                              onClick={() => decreaseQuantity(item.id)}
+                              disabled={item.quantity <= 1}
+                            />
+                            <span className="quantityValue">{item.quantity}</span>
+                            <Button icon={<PlusOutlined />} onClick={() => increaseQuantity(item.id)} />
+                          </div>
+                        </div>
+                        <div className="cartPrice">
+                          <Text strong className="priceText">
+                            {Number(item.price || 0).toLocaleString()} đ
+                          </Text>
+                          <Button
+                            type="text"
+                            icon={<DeleteOutlined />}
+                            danger
+                            onClick={() => removeItem(item.id, item.selectedVersion)}
+                            className="removeButton"
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </Card>
+            </Col>
 
-              }}
-            >
-              Chọn phương thức thanh toán
-            </Button>
-          </Card>
-
-          <br />
-
-          {paymentMethod && (
-            <Card
-              bordered={false}
-              title={<Title level={5} style={{ color: '#333' }}>Chọn hình thức thanh toán</Title>}
-              className="paymentMethod"
-              style={{ borderRadius: '8px', background: '#fafafa', padding: '16px' }}
-            >
-              <Button
-                type="primary"
-                block
-                style={{
-                  marginBottom: '12px',
-                  height: '48px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  backgroundColor: '#73d13d',
-                  borderColor: '#73d13d',
-                }}
-                onClick={next}
+            <Col span={10}>
+              <Card
+                title={<Title level={5} style={{ fontSize: '14px' }}>Tổng hóa đơn</Title>}
+                className="cartSummary"
+                style={{ borderRadius: '8px', padding: '16px' }}
               >
-                <DollarOutlined /> Thanh toán khi nhận hàng
-              </Button>
-              <Divider style={{ margin: '12px 0', fontSize: '12px', color: '#595959' }}>Hoặc</Divider>
-              <Button.Group style={{ width: '100%', display: 'flex', gap: '8px' }}>
+                <Text style={{ fontSize: '12px', color: '#595959' }}>
+                  Tạm tính: <strong style={{ fontSize: '14px', color: '#333' }}>{totalPrice.toLocaleString()} đ</strong>
+                </Text>
+                <Divider />
+                <Text style={{ fontSize: '14px', color: '#333', fontWeight: 'bold' }}>
+                  Tổng cộng: <strong className="totalPrice" style={{ color: '#1890ff' }}>{totalPriceWithVAT.toLocaleString()} đ</strong>
+                </Text>
+                <Divider />
                 <Button
                   type="primary"
                   block
+                  disabled={totalPrice === 0}
                   style={{
-                    backgroundColor: '#005BAA',
-                    height: '48px',
-                    fontSize: '16px',
+                    height: '40px',
+                    fontSize: '14px',
                     fontWeight: 'bold',
+                    backgroundColor: totalPrice === 0 ? '#d9d9d9' : '#1890ff',
                   }}
-                  onClick={() => ZaloHandel()}
-                >
-                  ZaloPay
-                </Button>
-                <Button
-                  type="primary"
-                  block
-                  style={{
-                    backgroundColor: '#AF2070',
-                    height: '48px',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
+                  onClick={() => {
+                    setPaymentMethod(true);
                   }}
-                  onClick={() => MomoHandel()}
                 >
-                  MoMo
+                  Chọn phương thức thanh toán
                 </Button>
-              </Button.Group>
-            </Card>
-          )}
+              </Card>
+
+              <br />
+
+              {paymentMethod && (
+                <Card
+                  bordered={false}
+                  title={<Title level={5} style={{ fontSize: '14px', color: '#333' }}>Chọn hình thức thanh toán</Title>}
+                  className="paymentMethod"
+                  style={{ borderRadius: '8px', background: '#fafafa', padding: '16px' }}
+                >
+                  <Button
+                    type="primary"
+                    block
+                    style={{
+                      marginBottom: '12px',
+                      height: '40px',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      backgroundColor: '#73d13d',
+                      borderColor: '#73d13d',
+                    }}
+                    onClick={next}
+                  >
+                    <DollarOutlined /> Thanh toán khi nhận hàng
+                  </Button>
+                  <Divider style={{ margin: '12px 0', fontSize: '10px', color: '#595959' }}>Hoặc</Divider>
+                  <Button.Group style={{ width: '100%', display: 'flex', gap: '8px' }}>
+                    <Button
+                      type="primary"
+                      block
+                      style={{
+                        backgroundColor: '#005BAA',
+                        height: '40px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                      }}
+                      onClick={() => ZaloHandel()}
+                    >
+                      ZaloPay
+                    </Button>
+                    <Button
+                      type="primary"
+                      block
+                      style={{
+                        backgroundColor: '#AF2070',
+                        height: '40px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                      }}
+                      onClick={() => MomoHandel()}
+                    >
+                      MoMo
+                    </Button>
+                  </Button.Group>
+                </Card>
+              )}
+            </Col>
+          </Row>
         </>
       ),
     },

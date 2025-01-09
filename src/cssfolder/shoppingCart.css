@@ -5,7 +5,7 @@
 .paymentMethod,
 .cartSummary {
     border-radius: 8px;
-    margin: 0 50px;
+    margin-left: 15px;
 }
 
 .stepStyle {
@@ -69,9 +69,11 @@
 .nextButton {
     background-color: #ff4d4f;
     padding: 20px 15px;
+    border-radius: 20px;
 }
 
 .prevButton {
     margin: 0 8px;
     padding: 20px 70px;
+    border-radius: 20px;
 }
