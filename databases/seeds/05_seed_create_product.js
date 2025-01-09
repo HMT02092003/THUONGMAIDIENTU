@@ -3289,6 +3289,310 @@ export const seed = async function (knex) {
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
+        },
+        {
+          id: 125,
+          name: "ASUS VR Headset Pro",
+          productId: "VRP125",
+          brandId: 1,
+          description: "Kính thực tế ảo ASUS VR Headset Pro với màn hình độ phân giải cao và khả năng kết nối nhanh, mang đến trải nghiệm chân thực.",
+          tagName: "VR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "VR", price: 9000000, quantity: 20 },
+            { color: "Trắng", version: "Pro", type: "VR", price: 12000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "4K Ultra HD" },
+            { title: "Kết nối", info: "USB-C, Bluetooth 5.0" },
+            { title: "Tính năng", info: "Hỗ trợ thực tế ảo, 6 DOF, tích hợp tai nghe" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\VRP125-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS VR Headset Pro-desc-d38.jpg",
+            img1: "uploads\\product\\ASUS VR Headset Pro-desc-2f0.jpg",
+            img2: "uploads\\product\\ASUS VR Headset Pro-desc-57c.jpg",
+            img3: "uploads\\product\\ASUS VR Headset Pro-desc-ee2.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 126,
+          name: "Dell Immersive AR Glasses",
+          productId: "DAR126",
+          brandId: 2,
+          description: "Kính thực tế ảo tăng cường Dell Immersive AR mang đến trải nghiệm vượt trội với công nghệ AR tiên tiến.",
+          tagName: "AR_GLASSES",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "AR", price: 10000000, quantity: 15 },
+            { color: "Xám", version: "Deluxe", type: "AR", price: 13000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Trọng lượng", info: "300g" },
+            { title: "Kết nối", info: "Wi-Fi 6, Bluetooth 5.1" },
+            { title: "Tính năng", info: "Hỗ trợ thực tế tăng cường, tương tác cảm ứng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DAR126-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Immersive AR Glasses-desc-0a6.jpg",
+            img1: "uploads\\product\\Dell Immersive AR Glasses-desc-39d.jpg",
+            img2: "uploads\\product\\Dell Immersive AR Glasses-desc-bb0.jpg",
+            img3: "uploads\\product\\Dell Immersive AR Glasses-desc-aaf.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 127,
+          name: "Lenovo Explorer VR",
+          productId: "LVR127",
+          brandId: 3,
+          description: "Kính thực tế ảo Lenovo Explorer được thiết kế cho trải nghiệm chơi game và học tập đầy cảm hứng.",
+          tagName: "VR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "VR", price: 8000000, quantity: 18 },
+            { color: "Xám", version: "Pro", type: "VR", price: 10000000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "2880 x 1600" },
+            { title: "Kết nối", info: "USB-C, DisplayPort" },
+            { title: "Tính năng", info: "Hỗ trợ thực tế ảo, thiết kế công thái học" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LVR127-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo Explorer VR-desc-310.jpg",
+            img1: "uploads\\product\\Lenovo Explorer VR-desc-a1f.jpg",
+            img2: "uploads\\product\\Lenovo Explorer VR-desc-d1d.jpg",
+            img3: "uploads\\product\\Lenovo Explorer VR-desc-7dd.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 128,
+          name: "Microsoft Hololens 3",
+          productId: "MHL128",
+          brandId: 4,
+          description: "Microsoft Hololens 3 với công nghệ AI tích hợp, giúp biến không gian thực thành trải nghiệm số tuyệt vời.",
+          tagName: "AR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "AR", price: 15000000, quantity: 10 },
+            { color: "Bạc", version: "Enterprise", type: "AR", price: 20000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Trọng lượng", info: "550g" },
+            { title: "Kết nối", info: "Wi-Fi 6, USB-C" },
+            { title: "Tính năng", info: "Hỗ trợ thực tế tăng cường, tương tác AI" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MHL128-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Microsoft Hololens 3-desc-565.jpg",
+            img1: "uploads\\product\\Microsoft Hololens 3-desc-483.jpg",
+            img2: "uploads\\product\\Microsoft Hololens 3-desc-c2c.jpg",
+            img3: "uploads\\product\\Microsoft Hololens 3-desc-2a3.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 129,
+          name: "MSI Virtual Vision",
+          productId: "MSIVV129",
+          brandId: 5,
+          description: "MSI Virtual Vision được thiết kế cho game thủ, mang lại trải nghiệm VR cực kỳ mượt mà và chi tiết.",
+          tagName: "VR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Gaming", type: "VR", price: 11000000, quantity: 15 },
+            { color: "Đỏ", version: "Pro", type: "VR", price: 14000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "OLED 4K" },
+            { title: "Kết nối", info: "HDMI, USB-C" },
+            { title: "Tính năng", info: "Tích hợp âm thanh 3D, hỗ trợ thực tế ảo" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSIVV129-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Virtual Vision-desc-7e7.jpg",
+            img1: "uploads\\product\\MSI Virtual Vision-desc-9ac.jpg",
+            img2: "uploads\\product\\MSI Virtual Vision-desc-048.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 130,
+          name: "ASUS AR Glasses Vision",
+          productId: "ARV130",
+          brandId: 1,
+          description: "Kính thực tế tăng cường ASUS AR Glasses Vision với công nghệ hiển thị tiên tiến và thiết kế nhẹ nhàng.",
+          tagName: "AR_GLASSES",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Standard", type: "AR", price: 11500000, quantity: 12 },
+            { color: "Trắng", version: "Pro", type: "AR", price: 14500000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Trọng lượng", info: "250g" },
+            { title: "Hiển thị", info: "Full HD, 90Hz" },
+            { title: "Tính năng", info: "Tích hợp cảm biến chuyển động, tương tác thực tế tăng cường" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ARV130-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS AR Glasses Vision-desc-2b6.jpg",
+            img1: "uploads\\product\\ASUS AR Glasses Vision-desc-ec5.jpg",
+            img2: "uploads\\product\\ASUS AR Glasses Vision-desc-10d.jpg",
+            img3: "uploads\\product\\ASUS AR Glasses Vision-desc-a37.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 131,
+          name: "Dell Precision VR Kit",
+          productId: "DVRK131",
+          brandId: 2,
+          description: "Dell Precision VR Kit mang đến sự kết hợp hoàn hảo giữa công nghệ VR và năng suất công việc.",
+          tagName: "VR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "VR", price: 9500000, quantity: 10 },
+            { color: "Bạc", version: "Pro", type: "VR", price: 13000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Độ phân giải", info: "3200 x 1800" },
+            { title: "Kết nối", info: "USB-C, HDMI" },
+            { title: "Tính năng", info: "Hỗ trợ VR chuyên nghiệp, thiết kế nhẹ" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\DVRK131-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell Precision VR Kit-desc-808.jpg"           
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 132,
+          name: "Lenovo Smart AR Gear",
+          productId: "LAR132",
+          brandId: 3,
+          description: "Lenovo Smart AR Gear là giải pháp tối ưu cho việc giải trí và làm việc trong không gian số.",
+          tagName: "AR_GLASSES",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Basic", type: "AR", price: 12000000, quantity: 9 },
+            { color: "Xám", version: "Advanced", type: "AR", price: 15500000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Hiển thị", info: "QHD, 120Hz" },
+            { title: "Kết nối", info: "Wi-Fi 6E, USB-C" },
+            { title: "Tính năng", info: "Tương tác cảm ứng, hỗ trợ đa nền tảng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\LAR132-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo-Smart-AR-Gear-desc-1.jpg",
+            img1: "uploads\\product\\Lenovo-Smart-AR-Gear-desc-2.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 133,
+          name: "MSI Reality Vision Pro",
+          productId: "MSIRV133",
+          brandId: 5,
+          description: "MSI Reality Vision Pro thiết kế dành cho người sáng tạo nội dung và các game thủ chuyên nghiệp.",
+          tagName: "VR_HEADSET",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Gaming", type: "VR", price: 12500000, quantity: 14 },
+            { color: "Đỏ", version: "Pro", type: "VR", price: 15500000, quantity: 7 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "Dual OLED 4K" },
+            { title: "Kết nối", info: "DisplayPort, USB-C" },
+            { title: "Tính năng", info: "Tích hợp cảm biến chuyển động, âm thanh vòm 3D" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\MSIRV133-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\MSI Reality Vision Pro-desc-b25.jpg",
+            img1: "uploads\\product\\MSI Reality Vision Pro-desc-5f3.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 134,
+          name: "ASUS ZenBook Pro 16X OLED",
+          productId: "ZBP134",
+          brandId: 1,
+          description: "Laptop ASUS ZenBook Pro 16X OLED mang đến hiệu suất vượt trội với màn hình OLED 4K và vi xử lý Intel Core i9 thế hệ mới.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xám", version: "i7, 16GB RAM", type: "Ultrabook", price: 45000000, quantity: 10 },
+            { color: "Bạc", version: "i9, 32GB RAM", type: "Ultrabook", price: 60000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "16 inch, 4K OLED" },
+            { title: "Vi xử lý", info: "Intel Core i9-13900H" },
+            { title: "Đồ họa", info: "NVIDIA GeForce RTX 4060" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\ZBP134-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\ASUS ZenBook Pro 16X OLED-desc-337.jpg",
+            img1: "uploads\\product\\ASUS ZenBook Pro 16X OLED-desc-07d.jpg",
+            img2: "uploads\\product\\ASUS ZenBook Pro 16X OLED-desc-1f1.jpg",
+            img3: "uploads\\product\\ASUS ZenBook Pro 16X OLED-desc-e9e.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 135,
+          name: "Dell XPS 15 9520",
+          productId: "XPS135",
+          brandId: 2,
+          description: "Dell XPS 15 9520 với thiết kế sang trọng và hiệu năng mạnh mẽ, phù hợp cho công việc sáng tạo và giải trí.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Workstation", price: 48000000, quantity: 12 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Workstation", price: 65000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, 3.5K InfinityEdge" },
+            { title: "Vi xử lý", info: "Intel Core i9-13900HK" },
+            { title: "Đồ họa", info: "NVIDIA GeForce RTX 4070" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\XPS135-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Dell XPS 15 9520-desc-4ca.jpg",
+            img1: "uploads\\product\\Dell XPS 15 9520-desc-7d0.jpg",
+            img2: "uploads\\product\\Dell XPS 15 9520-desc-618.jpg",
+            img3: "uploads\\product\\Dell XPS 15 9520-desc-928.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 136,
+          name: "Lenovo ThinkPad X1 Carbon Gen 11",
+          productId: "TPC136",
+          brandId: 3,
+          description: "Lenovo ThinkPad X1 Carbon Gen 11 mang lại độ bền và hiệu năng tối ưu, được thiết kế dành cho doanh nhân.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 16GB RAM", type: "Business", price: 40000000, quantity: 20 },
+            { color: "Xám", version: "i7, 32GB RAM", type: "Business", price: 52000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, 2.8K WQXGA" },
+            { title: "Vi xử lý", info: "Intel Core i7-13700H" },
+            { title: "Tính năng đặc biệt", info: "Bảo mật vPro, cảm biến vân tay" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC136-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Lenovo ThinkPad X1 Carbon Gen 11-desc-da0.jpg",
+            img1: "uploads\\product\\Lenovo ThinkPad X1 Carbon Gen 11-desc-43c.jpg",
+            img2: "uploads\\product\\Lenovo ThinkPad X1 Carbon Gen 11-desc-4b4.jpg",
+            img3: "uploads\\product\\Lenovo ThinkPad X1 Carbon Gen 11-desc-2a6.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         }
     ]);
 
@@ -3802,6 +4106,54 @@ export const seed = async function (knex) {
         productId: 124,
         categoryId: 8,
       },   
+      {
+        productId: 125,
+        categoryId: 9,
+      },    
+      {
+        productId: 126,
+        categoryId: 9,
+      },
+      {
+        productId: 127,
+        categoryId: 9,
+      },          
+      {
+        productId: 128,
+        categoryId: 9,
+      },    
+      {
+        productId: 129,
+        categoryId: 9,
+      },
+      {
+        productId: 130,
+        categoryId: 9,
+      },
+      {
+        productId: 131,
+        categoryId: 9,
+      },          
+      {
+        productId: 132,
+        categoryId: 9,
+      },    
+      {
+        productId: 133,
+        categoryId: 9,
+      },
+      {
+        productId: 134,
+        categoryId: 1,
+      },          
+      {
+        productId: 135,
+        categoryId: 1,
+      },    
+      {
+        productId: 136,
+        categoryId: 1,
+      },
     ]);
 
     console.log('Seed dữ liệu thành công!');
