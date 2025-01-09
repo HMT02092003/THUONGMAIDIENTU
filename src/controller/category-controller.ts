@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import { saveFile } from '../service/uploadService';
 import Category from '../Models/CategoryModel';
+import ProductCategory from '../Models/ProductCategoryModel';
+import Brand from '../Models/BrandModel';
+import Product from '../Models/ProductModel';
+
 
 export const createCategory = async (req: any, res: any) => {
     console.log(req.body);
@@ -98,19 +102,32 @@ export const updateCategory = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteCategory = async (req: any, res: any) => {
+export const deleteCategory = async (req: Request, res: Response) => {
     try {
-        const { ids: userIds } = req.body;
-        console.log("userIds", userIds);
+        const { ids: categoryIds } = req.body;
 
-        if (userIds && userIds.length > 0) {
-            await Category.query().delete().whereIn("id", userIds);
-        } else {
+        if (!categoryIds || categoryIds.length === 0) {
             return res.status(400).json({ message: "Danh sách ID không hợp lệ" });
         }
-        return res.status(200).json({ message: "Xóa danh mục thành công" });
+
+        // Kiểm tra Product liên quan
+        const relatedProducts = await ProductCategory.query()
+            .whereIn("categoryId", categoryIds);
+
+        if (relatedProducts.length > 0) {
+            return res.status(400).json({
+                message: "Không thể xóa Category vì có sản phẩm liên quan",
+                categoryIds
+            });
+        }
+
+        // Kiểm tra Brand liên quan
+
+        await Category.query().delete().whereIn("id", categoryIds);
+        return res.status(200).json({ message: "Xóa Category thành công" });
     } catch (error) {
-        console.error(error); // Thêm log lỗi để dễ debug
-        res.status(500).json({ message: "Lỗi 500 - Xóa danh mục thất bại" });
+        console.error("Lỗi xóa Category:", error);
+        res.status(500).json({ message: "Lỗi 500 - Xóa Category thất bại" });
     }
-}
+};
+
