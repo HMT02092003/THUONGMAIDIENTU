@@ -11,6 +11,7 @@ import { otpService } from '../service/otpService';
 import jwt from 'jsonwebtoken';
 import { saveFile } from '../service/uploadService';
 import { getDecodedToken } from '../utils/decode-token';
+import { Customer } from '../Models/CustomerModel';
 
 export const getAllUser = async (req: Request, res: Response) => {
     try {
@@ -210,9 +211,9 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 
 export const getUserHandler = async (req: Request, res: Response) => {
     try {
-        const { id } = req.body; 
-        console.log('Received data:', req.body);    
-        
+        const { id } = req.body;
+        console.log('Received data:', req.body);
+
         if (!id) {
             return res.status(400).json({ message: 'Không tìm thấy ID người dùng' });
         }
@@ -367,5 +368,33 @@ export const updateUserHandler = async (req: Request, res: Response) => {
     } catch (err: any) {
         console.error("Unexpected error:", err);
         return res.status(500).json({ message: 'Đã xảy ra lỗi', error: err.message });
+    }
+};
+
+export const getCustomerHandler = async (req: Request, res: Response) => {
+    try {
+        const customerId = req.params.id;
+        console.log('Received data:', req.body);
+
+        if (!customerId) {
+            return res.status(400).json({ message: 'Không tìm thấy ID người dùng' });
+        }
+
+        // Truy vấn người dùng từ DB
+        const user = await Customer.query().findById(customerId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                user,
+            },
+        });
+    } catch (err: any) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
     }
 };

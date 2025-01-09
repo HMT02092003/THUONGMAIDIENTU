@@ -16,6 +16,7 @@ export class Order extends Model {
     paymentMethod?: string;
     createdAt?: string;
     updatedAt?: string;
+    customerId?: number;
 
 
     static get tableName() {
@@ -25,13 +26,14 @@ export class Order extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['orderNumber', 'shippingAddress', 'totalAmount'],
+            required: ['orderNumber', 'shippingAddress', 'totalAmount', 'customerId'],
             properties: {
                 id: { type: 'integer' },
                 orderNumber: { type: 'string' },
                 orderDate: { type: 'string', format: 'date-time' },
                 status: { type: 'string', default: 'pending' },
                 subtotal: { type: 'number' },
+                customerId: { type: 'integer' },
                 totalAmount: { type: 'number' },
                 shippingAddress: { type: 'string' },
                 paymentMethod: { type: 'string' },

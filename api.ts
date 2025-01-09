@@ -12,6 +12,7 @@ import {
   deleteUserHandler,
   getUserHandler,
   updateUserHandler,
+  getCustomerHandler,
 } from './src/controller/user-controller';
 import {
   createCategory,
@@ -88,6 +89,10 @@ router.post('/getUser', (req, res) => {
 
 router.post('/updateUser', (req, res) => {
   updateUserHandler(req, res);
+});
+
+router.get('/getCustomer/:id', (req, res) => {
+  getCustomerHandler(req, res);
 });
 
 // ===================================CATEGORY===================================

@@ -23,8 +23,11 @@ export const createOrder = async (req: any, res: any) => {
             status: 'pending',
             name: customerInfo.name,
             phoneNumber: customerInfo.phoneNumber,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            customerId: customerInfo.customerID,
         }
+
+        console.log('data', data);
 
         // Tạo order mới
         const newOrder = await Order.query().insert(data).returning('*');
@@ -53,9 +56,9 @@ export const createOrder = async (req: any, res: any) => {
 
         await OrderDetail.query().insertGraph(orderDetails);
 
-    } catch (error) {
+    } catch (error: any) {
         await trx.rollback(); // Rollback transaction khi có lỗi
         console.error(error);
-        res.status(500).send('Failed to create order');
+        res.status(500).json({ message: error.message });
     }
 };

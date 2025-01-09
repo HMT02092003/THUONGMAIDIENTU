@@ -36,6 +36,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
 import { getDecodedToken } from '@/src/utils/decode-token';
+import { createOrder } from "@/src/controller/order-controller";
 
 const { Title, Text } = Typography;
 
@@ -46,7 +47,7 @@ const ShoppingCart: React.FC = () => {
   const router = useRouter();
   const [current, setCurrent] = useState(0);
   const [customerId, setCustomerId] = useState<any>();
-
+  console.log('Customer ID:', customerId);
 
   const fetchProductData = async () => {
     try {
@@ -62,27 +63,56 @@ const ShoppingCart: React.FC = () => {
     }
   };
 
+  const fetchTokenData = async () => {
+    try {
+      // Lấy token từ cookies
+      const authToken = Cookies.get('token');
+      console.log('Token:', authToken);
+      if (authToken) {
+        const tokenAfterDecode = getDecodedToken(authToken);
+        setCustomerId(tokenAfterDecode?.sub);
+      } else {
+        console.error('Vui lòng đăng nhập để tiếp tục');
+      }
+
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  }
+
+  const fetchCustomerInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/getCustomer/${customerId}`);
+      console.log('Customer Info:', response.data.data.user);
+      form.setFieldsValue({
+        name: response.data.data.user.name,
+        phoneNumber: response.data.data.user.phoneNumber,
+        address: response.data.data.user.address,
+      });
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
+    fetchTokenData();
     fetchProductData();
   }, []);
 
-  useEffect(() => {
-    // Lấy token từ cookies
-    const authToken = Cookies.get('token');
-    console.log('Token:', authToken);
-    if (authToken) {
-      const tokenAfterDecode = getDecodedToken(authToken);
-      console.log('Token after decode:', tokenAfterDecode?.sub);
-      setCustomerId(tokenAfterDecode?.sub);
-    }
-  }, []);
+  const handleSubmit = () => {
+    form.submit(); // Submit form
+  };
 
-
-  const handleCreateOrder = async (): Promise<void> => {
+  const handleCreateOrder = async (values: any) => {
     try {
-
-      const dataOfForm = form.getFieldsValue();
-      const isValid = await form.validateFields();
+      const dataOfForm = {
+        ...values,
+        customerID: customerId,
+      };
+      if (!dataOfForm) {
+        message.error('Vui lòng điền đầy đủ thông tin');
+        return;
+      }
 
       const productData = localStorage.getItem("cart");
       if (!productData) {
@@ -94,14 +124,15 @@ const ShoppingCart: React.FC = () => {
         customerInfo: dataOfForm,
         cartItems: productDataPaser,
         totalAmount: totalPrice,
-        customerId: customerId,
       };
+
+      console.log('Order Data:', orderData);
 
       const response = await axios.post('http://localhost:4000/api/createOrder', orderData);
       next();
 
     } catch (error: any) {
-      message.error('Vui lòng điền đầy đủ thông tin');
+      message.error("Lỗi trong quá trình đặt hàng.");
     }
   };
 
@@ -153,6 +184,19 @@ const ShoppingCart: React.FC = () => {
       message.error(error.message || "Lỗi trong quá trình thanh toán.");
     }
   };
+
+  const OrderHandel = async () => {
+    try {
+      if (customerId) {
+        fetchCustomerInfo();
+        next();
+      } else {
+        message.error('Vui lòng đăng nhập để tiếp tục');
+      }
+    } catch (error: any) {
+      message.error('Vui lòng điền đầy đủ thông tin');
+    }
+  }
 
   const next = () => {
     setCurrent(current + 1);
@@ -216,7 +260,7 @@ const ShoppingCart: React.FC = () => {
       icon: <UserOutlined />,
       content: (
         <div>
-          <Form form={form} layout="vertical" style={{ padding: '0 15%' }} >
+          <Form form={form} onFinish={handleCreateOrder} layout="vertical" style={{ padding: '0 15%' }} >
             <p style={{ fontSize: '20px', fontWeight: 600 }}>Thông tin khách mua hàng</p>
             <Row gutter={[16, 16]}>
               <Col span={12}>
@@ -394,7 +438,7 @@ const ShoppingCart: React.FC = () => {
         case 0:
           if (cartData.length > 0) {
             buttons.push(
-              <Button key="next" type="primary" onClick={next} className="nextButton">
+              <Button key="next" type="primary" onClick={OrderHandel} className="nextButton">
                 <ShoppingCartOutlined style={{ fontSize: '15px' }} />Đặt hàng ngay
               </Button>
             );
@@ -402,7 +446,7 @@ const ShoppingCart: React.FC = () => {
           break;
         case 1:
           buttons.push(
-            <Button type="primary" htmlType="submit" form="" onClick={handleCreateOrder} className="nextButton">
+            <Button type="primary" htmlType="submit" form="" onClick={handleSubmit} className="nextButton">
               <CheckOutlined />Xác nhận thông tin
             </Button>
           );
