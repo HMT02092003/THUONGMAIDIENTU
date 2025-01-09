@@ -48,6 +48,9 @@ const HeaderPage = () => {
   const handleRegisterClick = () => {
     router.push('/register');
   };
+  const handleButtonClick = () => {
+    router.push('/technologyNews');
+  };
 
   const popoverContent = (
     <>
@@ -589,9 +592,14 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ
+              <Button
+                style={{ fontWeight: 600, border: 'transparent' }}
+                onClick={handleButtonClick}
+              >
+                <img src="/icon/news.png" alt="" style={{ width: 18 }} />
+                Tin công nghệ
               </Button>
+
             </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>

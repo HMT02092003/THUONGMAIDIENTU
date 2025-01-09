@@ -386,9 +386,6 @@ const App: React.FC = () => {
           ))}
         </Row>
 
-
-
-
         {visibleItems < products.length && (
           <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
             <Button
