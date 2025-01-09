@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Typography, Divider } from 'antd';
+import '@/src/cssfolder/ExchangePolicy.css'; // Import file CSS
 
 const { Title, Paragraph } = Typography;
 

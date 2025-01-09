@@ -48,6 +48,9 @@ const ShoppingCart: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [customerId, setCustomerId] = useState<any>();
   const [customerInfo, setCustomerInfo] = useState<any>();
+  const [payment, setPayment] = useState(false);
+  const [orderid, setOrderId] = useState<any>();
+  const [orderStatus, setOrderStatus] = useState(true);
 
   const fetchProductData = async () => {
     try {
@@ -138,7 +141,16 @@ const ShoppingCart: React.FC = () => {
 
       console.log('Order Data:', orderData);
 
-      const response = await axios.post('http://localhost:4000/api/createOrder', orderData);
+      if (orderStatus == true) {
+        const response = await axios.post('http://localhost:4000/api/createOrder', orderData);
+        console.log('Order Response:', response.data.order.id);
+
+        setPayment(true);
+        setOrderId(response.data.order.id);
+        setOrderStatus(false);
+
+        message.success('Đặt hàng thành công');
+      }
 
     } catch (error: any) {
       message.error("Lỗi trong quá trình đặt hàng.");
@@ -177,6 +189,7 @@ const ShoppingCart: React.FC = () => {
   const MomoHandel = async () => {
     try {
       const data = { amount: totalPrice, cartData: cartData };
+      updatePaymentMethod(3);
       const api = await axios.post('http://localhost:4000/api/momopayment', { data });
       router.push(api.data.payUrl);
     } catch (error: any) {
@@ -187,6 +200,7 @@ const ShoppingCart: React.FC = () => {
   const ZaloHandel = async () => {
     try {
       const data = { amount: totalPrice, cartData: cartData };
+      updatePaymentMethod(2);
       const api = await axios.post('http://localhost:4000/api/zalopayment', { data });
       router.push(api.data.orderurl);
     } catch (error: any) {
@@ -204,6 +218,17 @@ const ShoppingCart: React.FC = () => {
       }
     } catch (error: any) {
       message.error('Vui lòng điền đầy đủ thông tin');
+    }
+  }
+
+  const updatePaymentMethod = async (values: any) => {
+    try {
+      const api = await axios.patch(`http://localhost:4000/api/updatePaymentMethod/${orderid}`, { values });
+
+      localStorage.clear();
+
+    } catch (error: any) {
+      message.error('Vui lòng chọn phương thức thanh toán');
     }
   }
 
@@ -385,28 +410,34 @@ const ShoppingCart: React.FC = () => {
                     fontSize: '14px',
                     fontWeight: 'bold',
                     backgroundColor: "#ff4d4f",
-                    marginBottom: '12px',
+                    borderRadius: '10px',
                   }}
                   onClick={handleCreateOrder}
                 >
                   Đặt hàng
                 </Button>
-                <Button
-                  type="primary"
-                  block
-                  disabled={totalPrice === 0}
-                  style={{
-                    height: '40px',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    backgroundColor: totalPrice === 0 ? '#d9d9d9' : '#1890ff',
-                  }}
-                  onClick={() => {
-                    setPaymentMethod(true);
-                  }}
-                >
-                  Chọn phương thức thanh toán
-                </Button>
+
+                <Divider plain>Thanh toán</Divider>
+
+                {payment && (
+                  <Button
+                    type="primary"
+                    block
+                    disabled={totalPrice === 0}
+                    style={{
+                      height: '40px',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                      backgroundColor: totalPrice === 0 ? '#d9d9d9' : '#1890ff',
+                      borderRadius: '10px',
+                    }}
+                    onClick={() => {
+                      setPaymentMethod(true);
+                    }}
+                  >
+                    Chọn phương thức thanh toán
+                  </Button>
+                )}
               </Card>
 
               <br />
@@ -429,7 +460,10 @@ const ShoppingCart: React.FC = () => {
                       backgroundColor: '#73d13d',
                       borderColor: '#73d13d',
                     }}
-                    onClick={next}
+                    onClick={() => {
+                      updatePaymentMethod(1);
+                      next();
+                    }}
                   >
                     <DollarOutlined /> Thanh toán khi nhận hàng
                   </Button>
