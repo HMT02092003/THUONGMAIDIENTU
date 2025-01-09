@@ -225,6 +225,8 @@ const ShoppingCart: React.FC = () => {
     try {
       const api = await axios.patch(`http://localhost:4000/api/updatePaymentMethod/${orderid}`, { values });
 
+      localStorage.clear();
+
     } catch (error: any) {
       message.error('Vui lòng chọn phương thức thanh toán');
     }
