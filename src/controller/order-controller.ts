@@ -32,8 +32,6 @@ export const createOrder = async (req: any, res: any) => {
         // Tạo order mới
         const newOrder = await Order.query().insert(data).returning('*');
 
-        res.status(201).send({ message: 'Order created successfully', orderId: newOrder.id });
-
         const orderDetails = cartItems.map((item: any) => {
             return {
                 orderId: newOrder.id,
@@ -56,9 +54,40 @@ export const createOrder = async (req: any, res: any) => {
 
         await OrderDetail.query().insertGraph(orderDetails);
 
+        return res.status(201).json({
+            status: 'success',
+            message: 'Order created successfully',
+            order: newOrder,
+            orderDetails,
+        });
+
     } catch (error: any) {
         await trx.rollback(); // Rollback transaction khi có lỗi
         console.error(error);
         res.status(500).json({ message: error.message });
     }
 };
+
+export const updatePaymentMethod = async (req: any, res: any) => {
+    try {
+        console.log('req.body', req.body);
+        console.log('req.params.id', req.params.id);
+        const { values } = req.body;
+
+        const data = {
+            paymentMethod: values,
+        }
+
+        const PaymentMenthod = await Order.query().findById(req.params.id).patch(data);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Payment method updated successfully',
+            PaymentMenthod,
+        });
+
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+}
