@@ -13,6 +13,7 @@ import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Snowflakes from 'magic-snowflakes';
+
 const snowflakes = new Snowflakes();
 
 const { Content, Footer } = Layout;
@@ -100,8 +101,6 @@ const App: React.FC = () => {
     getAllProduct();
     snowflakes.start();
   }, []);
-
-
 
   return (
     <>
