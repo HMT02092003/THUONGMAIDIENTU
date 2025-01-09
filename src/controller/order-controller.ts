@@ -62,3 +62,36 @@ export const createOrder = async (req: any, res: any) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getAllOrder = async (req: any, res: any) => {
+    try {
+        const orders = await Order.query()
+            .orderBy('createdAt', 'desc');
+
+        res.status(200).send(orders);
+
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const getOrderByID = async (req: any, res: any) => {
+    try {
+        const { id } = req.params;
+
+        const order = await Order.query().findById(id);
+
+        if (!order) {
+            return res.status(404).send('Order not found');
+        }
+
+        const orderDetails = await OrderDetail.query().where('orderId', id);
+
+        res.status(200).send({ order, orderDetails });
+
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};

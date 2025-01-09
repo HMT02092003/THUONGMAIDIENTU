@@ -39,7 +39,7 @@ import {
   getSearchProduct,
 } from './src/controller/product-controller';
 import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
-import { createOrder } from './src/controller/order-controller';
+import { createOrder, getAllOrder, getOrderByID } from './src/controller/order-controller';
 
 const router = Router();
 
@@ -185,6 +185,14 @@ router.post('/zalopayment', (req, res) => {
 // ===================================ORDER===================================
 router.post('/createOrder', (req, res) => {
   createOrder(req, res);
+});
+
+router.get('/getAllOrder', (req, res) => {
+  getAllOrder(req, res);
+});
+
+router.get('/getOrderByID/:id', (req, res) => {
+  getOrderByID(req, res);
 });
 
 export default router;

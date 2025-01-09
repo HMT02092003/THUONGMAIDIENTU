@@ -149,213 +149,213 @@ const OrderDetailManagement: React.FC = () => {
     },
   ];
 
-  const Handlesubmit=(value:any)=>{
+  const Handlesubmit = (value: any) => {
     console.log(value)
   }
   return (
     <ConfigProvider>
       <div style={{ margin: '20px' }}>
-      <Form onFinish={Handlesubmit}>
-        <Row justify="space-between" align="middle">
-          <Col style={{ paddingLeft: 50, display: 'flex', alignItems: 'center' }}>
-            <h2 style={{ display: 'inline-flex', alignItems: 'center' }}>
-            <FormOutlined style={{fontSize:35, marginRight: 10}}/>
-              Chi tiết đơn hàng
-            </h2>
-          </Col>
-          <Col style={{ paddingRight: 50 }}>
-            <Space>
-              <Button type="primary" style={{
-                display: "flex",
-                justifyContent: 'center',
-                alignItems: "center",
-                background: "orange",
-                width: "100px",
-                margin: "0 5px",
-              }}
-              htmlType="submit"
-              icon={<EditOutlined />}>
-                Chỉnh sửa
-              </Button>
-            </Space>
-          </Col>
-        </Row>
+        <Form onFinish={Handlesubmit}>
+          <Row justify="space-between" align="middle">
+            <Col style={{ paddingLeft: 50, display: 'flex', alignItems: 'center' }}>
+              <h2 style={{ display: 'inline-flex', alignItems: 'center' }}>
+                <FormOutlined style={{ fontSize: 35, marginRight: 10 }} />
+                Chi tiết đơn hàng
+              </h2>
+            </Col>
+            <Col style={{ paddingRight: 50 }}>
+              <Space>
+                <Button type="primary" style={{
+                  display: "flex",
+                  justifyContent: 'center',
+                  alignItems: "center",
+                  background: "orange",
+                  width: "100px",
+                  margin: "0 5px",
+                }}
+                  htmlType="submit"
+                  icon={<EditOutlined />}>
+                  Chỉnh sửa
+                </Button>
+              </Space>
+            </Col>
+          </Row>
 
-        <Row>
-          <Col span={24}>
-            <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-              <Row gutter={[16, 16]}>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Mã đơn hàng"
-                    label="Mã đơn hàng"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập Mã đơn hàng!' },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Ngày đặt hàng"
-                    label="Ngày đặt hàng"
-                    rules={[{ required: true, message: 'Vui lòng nhập Ngày đặt hàng!' }]}
-                  >
-                    <DatePicker style={{ width: '100%' }} />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Ngày giao hàng"
-                    label="Ngày giao hàng"
-                    rules={[{ required: true, message: 'Vui lòng nhập Ngày giao hàng!' }]}
-                  >
-                    <DatePicker style={{ width: '100%' }} />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Trạng thái giao hàng"
-                    label="Trạng thái giao hàng"
-                    rules={[{ required: true, message: 'Vui lòng chọn Trạng thái giao hàng!' }]}
-                  >
-                    <Select
-                      options={[
-                        { value: '1', label: 'Chờ xử lí' },
-                        { value: '2', label: 'Đã giao' },
-                        { value: '3', label: 'Đang giao' },
-                        { value: '3', label: 'Đã hủy' },
+          <Row>
+            <Col span={24}>
+              <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
+                <Row gutter={[16, 16]}>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Mã đơn hàng"
+                      label="Mã đơn hàng"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập Mã đơn hàng!' },
                       ]}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-        <Row style={{ marginTop: 15 }}>
-          <Col span={24}>
-            <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-              <Row gutter={[16, 16]}>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Họ tên khách hàng"
-                    label="Họ tên khách hàng"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập Họ tên khách hàng!' },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Số điện thoại"
-                    label="Số điện thoại"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập Số điện thoại!' },
-                      { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Email"
-                    label="Email"
-                    rules={[
-                      { required: true, type: "email", message: 'Vui lòng nhập Email hợp lệ!' },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item layout="vertical"
-                    name="Địa chỉ giao hàng"
-                    label="Địa chỉ giao hàng"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập Địa chỉ giao hàng!' },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-          rowKey="key"
-          onChange={handleChange}
-          pagination={false}
-          style={{ marginTop: '20px', boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)", borderRadius: 10 }}
-        />
-        <Row style={{ marginTop: 15 }}>
-          <Col span={24}>
-            <Card title="Phương thức thanh toán" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-              <Row gutter={[16, 16]}>
-                <Col span={6}>
-                  <Form.Item
-                    layout="vertical"
-                    name="phuongThucThanhToan"
-                    label="Phương thức thanh toán"
-                    rules={[{ required: true, message: 'Vui lòng chọn phương thức thanh toán!' }]}
-                  >
-                    <Select
-                      options={[
-                        { value: 'cash', label: 'Tiền mặt' },
-                        { value: 'creditCard', label: 'Thẻ tín dụng' },
-                        { value: 'paypal', label: 'PayPal' },
-                        { value: 'bankTransfer', label: 'Chuyển khoản ngân hàng' },
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Ngày đặt hàng"
+                      label="Ngày đặt hàng"
+                      rules={[{ required: true, message: 'Vui lòng nhập Ngày đặt hàng!' }]}
+                    >
+                      <DatePicker style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Ngày giao hàng"
+                      label="Ngày giao hàng"
+                      rules={[{ required: true, message: 'Vui lòng nhập Ngày giao hàng!' }]}
+                    >
+                      <DatePicker style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Trạng thái giao hàng"
+                      label="Trạng thái giao hàng"
+                      rules={[{ required: true, message: 'Vui lòng chọn Trạng thái giao hàng!' }]}
+                    >
+                      <Select
+                        options={[
+                          { value: '1', label: 'Chờ xử lí' },
+                          { value: '2', label: 'Đã giao' },
+                          { value: '3', label: 'Đang giao' },
+                          { value: '3', label: 'Đã hủy' },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+          <Row style={{ marginTop: 15 }}>
+            <Col span={24}>
+              <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
+                <Row gutter={[16, 16]}>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Họ tên khách hàng"
+                      label="Họ tên khách hàng"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập Họ tên khách hàng!' },
                       ]}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item
-                    layout="vertical"
-                    name="transactionCode"
-                    label="Mã giao dịch"
-                    rules={[{ required: true, message: 'Vui lòng nhập mã giao dịch!' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item
-                    layout="vertical"
-                    name="paymentDate"
-                    label="Ngày thanh toán"
-                    rules={[{ required: true, message: 'Vui lòng nhập ngày thanh toán!' }]}
-                  >
-                    <DatePicker style={{ width: '100%' }} />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item
-                    layout="vertical"
-                    name="paymentStatus"
-                    label="Trạng thái thanh toán"
-                    rules={[{ required: true, message: 'Vui lòng chọn trạng thái thanh toán!' }]}
-                  >
-                    <Select
-                      options={[
-                        { value: 'pending', label: 'Chưa thanh toán' },
-                        { value: 'completed', label: 'Đã thanh toán' },
-                        { value: 'failed', label: 'Thanh toán thất bại' },
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Số điện thoại"
+                      label="Số điện thoại"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập Số điện thoại!' },
+                        { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
                       ]}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Email"
+                      label="Email"
+                      rules={[
+                        { required: true, type: "email", message: 'Vui lòng nhập Email hợp lệ!' },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item layout="vertical"
+                      name="Địa chỉ giao hàng"
+                      label="Địa chỉ giao hàng"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập Địa chỉ giao hàng!' },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            rowKey="key"
+            onChange={handleChange}
+            pagination={false}
+            style={{ marginTop: '20px', boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)", borderRadius: 10 }}
+          />
+          <Row style={{ marginTop: 15 }}>
+            <Col span={24}>
+              <Card title="Phương thức thanh toán" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
+                <Row gutter={[16, 16]}>
+                  <Col span={6}>
+                    <Form.Item
+                      layout="vertical"
+                      name="phuongThucThanhToan"
+                      label="Phương thức thanh toán"
+                      rules={[{ required: true, message: 'Vui lòng chọn phương thức thanh toán!' }]}
+                    >
+                      <Select
+                        options={[
+                          { value: 'cash', label: 'Tiền mặt' },
+                          { value: 'creditCard', label: 'Thẻ tín dụng' },
+                          { value: 'paypal', label: 'PayPal' },
+                          { value: 'bankTransfer', label: 'Chuyển khoản ngân hàng' },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item
+                      layout="vertical"
+                      name="transactionCode"
+                      label="Mã giao dịch"
+                      rules={[{ required: true, message: 'Vui lòng nhập mã giao dịch!' }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item
+                      layout="vertical"
+                      name="paymentDate"
+                      label="Ngày thanh toán"
+                      rules={[{ required: true, message: 'Vui lòng nhập ngày thanh toán!' }]}
+                    >
+                      <DatePicker style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={6}>
+                    <Form.Item
+                      layout="vertical"
+                      name="paymentStatus"
+                      label="Trạng thái thanh toán"
+                      rules={[{ required: true, message: 'Vui lòng chọn trạng thái thanh toán!' }]}
+                    >
+                      <Select
+                        options={[
+                          { value: 'pending', label: 'Chưa thanh toán' },
+                          { value: 'completed', label: 'Đã thanh toán' },
+                          { value: 'failed', label: 'Thanh toán thất bại' },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
         </Form>
       </div>
     </ConfigProvider>
