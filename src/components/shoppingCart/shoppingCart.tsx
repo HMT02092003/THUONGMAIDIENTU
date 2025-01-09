@@ -414,7 +414,7 @@ const ShoppingCart: React.FC = () => {
                   }}
                   onClick={handleCreateOrder}
                 >
-                  Đặt hàng
+                  <ShoppingCartOutlined style={{ fontSize: '15px' }} />Đặt hàng
                 </Button>
 
                 <Divider plain>Thanh toán</Divider>

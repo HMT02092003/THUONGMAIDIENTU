@@ -8,7 +8,7 @@ const { Title, Paragraph } = Typography;
 
 const WarrantyPolicy: React.FC = () => {
     return (
-        <div className="container">
+        <div className="warranty-policy-container">
             <div className="warranty-policy-content">
                 <Typography>
                     {/* Header */}
