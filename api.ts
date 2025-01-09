@@ -37,9 +37,11 @@ import {
   getProductByCategory,
   getProductByBrand,
   getSearchProduct,
+  getRecommendProduct
 } from './src/controller/product-controller';
 import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
-import { createOrder, getAllOrder, getOrderByID, updatePaymentMethod } from './src/controller/order-controller';
+import { createOrder, getAllOrder, getOrderByID, updatePaymentMethod, getOrderByUserID } from './src/controller/order-controller';
+
 
 
 const router = Router();
@@ -168,6 +170,10 @@ router.get('/getProductByBrand/:id', (req, res) => {
   getProductByBrand(req, res);
 });
 
+router.get('/getRecommend/:productId', (req, res) => {
+  getRecommendProduct(req, res);
+});
+
 // ===================================SEARCH===================================
 router.get('/search', (req, res) => {
   getSearchProduct(req, res);
@@ -198,5 +204,11 @@ router.get('/getOrderByID/:id', (req, res) => {
 router.patch('/updatePaymentMethod/:id', (req, res) => {
   updatePaymentMethod(req, res);
 });
+
+router.get('/getOrderByUserID/:userId', (req, res) => {
+  getOrderByUserID(req, res);
+});
+//=========================CUSTOMER==============================
+
 
 export default router;

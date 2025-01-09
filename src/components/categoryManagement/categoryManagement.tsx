@@ -13,6 +13,7 @@ import UpdateCategoryModal from './updateCategoryModal';
 
 // Import CSS file
 import '@/src/cssfolder/CategoryManagement.css';
+import { response } from 'express';
 
 const CategoryManagement = () => {
   const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
@@ -97,11 +98,11 @@ const CategoryManagement = () => {
             title: 'Thành công',
             content: 'Đã xóa danh mục thành công.',
           });
-        } catch (error) {
+        } catch (error: any) {
           console.error('Error deleting users:', error);
           Modal.error({
             title: 'Lỗi',
-            content: 'Có lỗi xảy ra khi xóa danh mục. Vui lòng thử lại.',
+            content: error.response.data.message,
           });
         }
       },
@@ -163,14 +164,14 @@ const CategoryManagement = () => {
       </Modal>
 
       {/* Modal tạo mới danh mục */}
-      <CreateCategoryModal 
+      <CreateCategoryModal
         isVisible={isCreateModalVisible}
         onClose={() => setIsCreateModalVisible(false)}
         onSuccess={fetchData}
       />
 
       {/* Modal chỉnh sửa danh mục */}
-      <UpdateCategoryModal 
+      <UpdateCategoryModal
         isVisible={isEditModalVisible}
         categoryId={currentEditCategoryId}
         onClose={() => setIsEditModalVisible(false)}

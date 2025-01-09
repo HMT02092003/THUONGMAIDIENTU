@@ -101,7 +101,7 @@ export const updateBrand = async (req: Request, res: Response) => {
 export const deleteBrand = async (req: any, res: any) => {
     try {
         const { ids: brandIds } = req.body;
-
+        console.log(req.body);
         if (!brandIds || brandIds.length === 0) {
             return res.status(400).json({ message: "Danh sách ID không hợp lệ" });
         }
@@ -113,7 +113,7 @@ export const deleteBrand = async (req: any, res: any) => {
             .distinct();
 
         if (relatedProducts.length > 0) {
-            const relatedBrandIds = relatedProducts.map(product => product.brandId);
+            const relatedBrandIds = relatedProducts.map(Product => Product.brandId);
             return res.status(400).json({
                 message: "Không thể xóa Brand vì có sản phẩm liên quan",
                 relatedBrandIds, // Gửi lại danh sách các Brand bị ảnh hưởng

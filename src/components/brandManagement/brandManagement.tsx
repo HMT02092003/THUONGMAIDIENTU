@@ -10,7 +10,8 @@ import {
 import axios from 'axios';
 import CreateBrandModal from './createBrandModal';
 import UpdateBrandModal from './updateBrandModal';
-import '@/src/cssfolder/BrandManagement.css'; 
+import '@/src/cssfolder/BrandManagement.css';
+import { response } from 'express';
 
 const BrandManagement = () => {
   const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
@@ -86,7 +87,7 @@ const BrandManagement = () => {
           const deleteUser = await axios.delete('http://localhost:4000/api/deleteBrand', {
             data: { ids: selectedUsers },
           });
-
+          console.log(deleteUser);
           message.success('Xóa thương hiệu thành công!');
           fetchData();
           setSelectedUsers([]);
@@ -95,11 +96,11 @@ const BrandManagement = () => {
             title: 'Thành công',
             content: 'Đã xóa thương hiệu thành công.',
           });
-        } catch (error) {
+        } catch (error: any) {
           console.error('Error deleting users:', error);
           Modal.error({
             title: 'Lỗi',
-            content: 'Có lỗi xảy ra khi xóa thương hiệu. Vui lòng thử lại.',
+            content: error.response.data.message,
           });
         }
       },
@@ -159,13 +160,13 @@ const BrandManagement = () => {
         <p>Vui lòng chọn ít nhất một danh mục để xóa.</p>
       </Modal>
 
-      <CreateBrandModal 
+      <CreateBrandModal
         isVisible={isCreateModalVisible}
         onClose={() => setIsCreateModalVisible(false)}
         onSuccess={fetchData}
       />
 
-      <UpdateBrandModal 
+      <UpdateBrandModal
         isVisible={isEditModalVisible}
         brandId={currentEditBrandId}
         onClose={() => setIsEditModalVisible(false)}

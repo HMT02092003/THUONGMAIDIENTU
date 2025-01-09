@@ -124,3 +124,17 @@ export const getOrderByID = async (req: any, res: any) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getOrderByUserID = async (req: any, res: any) => {
+    try {
+        const { userId } = req.params;
+
+        const orders = await Order.query().where('customerId', userId).orderBy('createdAt', 'desc');
+
+        res.status(200).send(orders);
+
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
