@@ -13,7 +13,7 @@ export class Order extends Model {
     subtotal?: number;
     totalAmount?: number;
     shippingAddress?: string;
-    paymentMethod?: string;
+    paymentMethod?: number;
     createdAt?: string;
     updatedAt?: string;
     customerId?: number;
@@ -36,7 +36,7 @@ export class Order extends Model {
                 customerId: { type: 'integer' },
                 totalAmount: { type: 'number' },
                 shippingAddress: { type: 'string' },
-                paymentMethod: { type: 'string' },
+                paymentMethod: { type: 'integer' },
                 createdAt: { type: 'string', format: 'date-time' },
                 updatedAt: { type: 'string', format: 'date-time' }
             }

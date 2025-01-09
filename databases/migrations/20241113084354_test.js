@@ -328,7 +328,7 @@ export const up = async function (knex) {
     table.string('status').defaultTo('pending');
     table.decimal('totalAmount', 10, 2).notNullable();
     table.text('shippingAddress').nullable();
-    table.string('paymentMethod').nullable();
+    table.integer('paymentMethod').nullable();
     table.string('name').notNullable();
     table.string('phoneNumber').notNullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());
