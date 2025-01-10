@@ -3946,10 +3946,10 @@ export const seed = async function (knex) {
           ]),
           productImage: JSON.stringify("uploads\\product\\TPC150-main.jpg"),
           imageUrl: JSON.stringify({
-            img0: "uploads\\product\\MSI GE76 Raider-desc-366.jpg",
-            img1: "uploads\\product\\MSI GE76 Raider-desc-46d.jpg",
-            img2: "uploads\\product\\MSI GE76 Raider-desc-e45.jpg",
-            img3: "uploads\\product\\MSI GE76 Raider-desc-c4f.jpg"
+            img0: "uploads\\product\\MSI GE76 Raider-desc-272.jpg",
+            img1: "uploads\\product\\MSI GE76 Raider-desc-fd5.jpg",
+            img2: "uploads\\product\\MSI GE76 Raider-desc-ada.jpg",
+            img3: "uploads\\product\\MSI GE76 Raider-desc-f55.jpg"
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
@@ -3972,10 +3972,10 @@ export const seed = async function (knex) {
           ]),
           productImage: JSON.stringify("uploads\\product\\TPC151-main.jpg"),
           imageUrl: JSON.stringify({
-            img0: "uploads\\product\\MSI GS66 Stealth-desc-366.jpg",
-            img1: "uploads\\product\\MSI GS66 Stealth-desc-46d.jpg",
-            img2: "uploads\\product\\MSI GS66 Stealth-desc-e45.jpg",
-            img3: "uploads\\product\\MSI GS66 Stealth-desc-c4f.jpg"
+            img0: "uploads\\product\\MSI GS66 Stealth-desc-fb8.jpg",
+            img1: "uploads\\product\\MSI GS66 Stealth-desc-735.jpg",
+            img2: "uploads\\product\\MSI GS66 Stealth-desc-0c8.jpg",
+            img3: "uploads\\product\\MSI GS66 Stealth-desc-141.jpg"
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
@@ -3998,10 +3998,10 @@ export const seed = async function (knex) {
           ]),
           productImage: JSON.stringify("uploads\\product\\TPC152-main.jpg"),
           imageUrl: JSON.stringify({
-            img0: "uploads\\product\\MSI Creator 15-desc-366.jpg",
-            img1: "uploads\\product\\MSI Creator 15-desc-46d.jpg",
-            img2: "uploads\\product\\MSI Creator 15-desc-e45.jpg",
-            img3: "uploads\\product\\MSI Creator 15-desc-c4f.jpg"
+            img0: "uploads\\product\\MSI Creator 15-desc-61c.jpg",
+            img1: "uploads\\product\\MSI Creator 15-desc-242.jpg",
+            img2: "uploads\\product\\MSI Creator 15-desc-9cb.jpg",
+            img3: "uploads\\product\\MSI Creator 15-desc-a54.jpg"
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
@@ -4024,15 +4024,363 @@ export const seed = async function (knex) {
           ]),
           productImage: JSON.stringify("uploads\\product\\TPC153-main.jpg"),
           imageUrl: JSON.stringify({
-            img0: "uploads\\product\\MSI Pulse GL66-desc-366.jpg",
-            img1: "uploads\\product\\MSI Pulse GL66-desc-46d.jpg",
-            img2: "uploads\\product\\MSI Pulse GL66-desc-e45.jpg",
-            img3: "uploads\\product\\MSI Pulse GL66-desc-c4f.jpg"
+            img0: "uploads\\product\\MSI Pulse GL66-desc-861.jpg",
+            img1: "uploads\\product\\MSI Pulse GL66-desc-2dc.jpg",
+            img2: "uploads\\product\\MSI Pulse GL66-desc-ee1.jpg",
+            img3: "uploads\\product\\MSI Pulse GL66-desc-466.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 154,
+          name: "Acer Predator Helios 300",
+          productId: "TPC154",
+          brandId: 6,
+          description: "Acer Predator Helios 300 là laptop gaming mạnh mẽ, thiết kế ấn tượng với hiệu năng vượt trội, mang đến trải nghiệm chơi game đỉnh cao.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 36000000, quantity: 12 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 42000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, Full HD, 165Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-11900H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3070, hệ thống tản nhiệt Aeroblade 3D" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC154-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Predator Helios 300-desc-4a1.jpg",
+            img1: "uploads\\product\\Acer Predator Helios 300-desc-9c9.jpg",
+            img2: "uploads\\product\\Acer Predator Helios 300-desc-8f3.jpg",
+            img3: "uploads\\product\\Acer Predator Helios 300-desc-a7d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 155,
+          name: "Acer Swift 3",
+          productId: "TPC155",
+          brandId: 6,
+          description: "Acer Swift 3 là laptop siêu mỏng nhẹ, hiệu năng ổn định, lý tưởng cho công việc văn phòng và học tập.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Everyday", price: 18000000, quantity: 15 },
+            { color: "Vàng", version: "i7, 16GB RAM", type: "Everyday", price: 23000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, Full HD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1165G7" },
+            { title: "Tính năng đặc biệt", info: "Thời lượng pin dài, thiết kế mỏng nhẹ" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC155-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Swift 3-desc-366.jpg",
+            img1: "uploads\\product\\Acer Swift 3-desc-9b3.jpg",
+            img2: "uploads\\product\\Acer Swift 3-desc-a82.jpg",
+            img3: "uploads\\product\\Acer Swift 3-desc-a5d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 156,
+          name: "Acer Aspire 7",
+          productId: "TPC156",
+          brandId: 6,
+          description: "Acer Aspire 7 với cấu hình mạnh mẽ và thiết kế thanh lịch, là sự lựa chọn phù hợp cho công việc, học tập và giải trí.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 8GB RAM", type: "Everyday", price: 19000000, quantity: 20 },
+            { color: "Đen", version: "i7, 16GB RAM", type: "Everyday", price: 25000000, quantity: 12 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, Full HD" },
+            { title: "Vi xử lý", info: "Intel Core i7-11800H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa GTX 1650, hiệu năng ổn định" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC156-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Acer Aspire 7-desc-709.jpg",
+            img1: "uploads\\product\\Acer Aspire 7-desc-987.jpg",
+            img2: "uploads\\product\\Acer Aspire 7-desc-f16.jpg",
+            img3: "uploads\\product\\Acer Aspire 7-desc-a67.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 157,
+          name: "Razer Blade 16",
+          productId: "TPC157",
+          brandId: 7,
+          description: "Razer Blade 16 là laptop gaming cao cấp với thiết kế mỏng nhẹ, màn hình sắc nét và hiệu năng vượt trội, phù hợp cho game thủ chuyên nghiệp.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 62000000, quantity: 10 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 75000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "16 inch, 4K UHD, 120Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-13980HX" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 4090, màn hình Mini LED" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC157-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Razer Blade 16-desc-b85.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 158,
+          name: "Razer Blade 14",
+          productId: "TPC158",
+          brandId: 7,
+          description: "Razer Blade 14 là dòng laptop nhỏ gọn với hiệu năng mạnh mẽ, kết hợp thiết kế cao cấp, thích hợp cho cả chơi game và công việc sáng tạo.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "Ryzen 7, 16GB RAM", type: "Gaming", price: 52000000, quantity: 12 },
+            { color: "Đen", version: "Ryzen 9, 32GB RAM", type: "Gaming", price: 60000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, QHD, 165Hz" },
+            { title: "Vi xử lý", info: "AMD Ryzen 9 7945HX" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 4080, thiết kế siêu mỏng" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC158-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Razer Blade 14-desc-06b.jpg",
+            img1: "uploads\\product\\Razer Blade 14-desc-de0.jpg",
+            img2: "uploads\\product\\Razer Blade 14-desc-7e6.jpg",
+            img3: "uploads\\product\\Razer Blade 14-desc-7dc.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 159,
+          name: "Razer Book 13",
+          productId: "TPC159",
+          brandId: 7,
+          description: "Razer Book 13 là laptop dành cho công việc và giải trí, thiết kế mỏng nhẹ, thời lượng pin dài và hiệu năng vượt trội.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Everyday", price: 32000000, quantity: 15 },
+            { color: "Bạc", version: "i7, 16GB RAM", type: "Everyday", price: 40000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "13.4 inch, FHD+ Touch, 120Hz" },
+            { title: "Vi xử lý", info: "Intel Core i7-1165G7" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế mỏng nhẹ, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC159-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\Razer Book 13-desc-fbb.jpg",
+            img1: "uploads\\product\\Razer Book 13-desc-c1d.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 160,
+          name: "GIGABYTE AORUS 17X",
+          productId: "TPC160",
+          brandId: 8,
+          description: "GIGABYTE AORUS 17X là laptop gaming cao cấp với màn hình lớn, cấu hình mạnh mẽ, mang đến trải nghiệm chơi game đỉnh cao cho game thủ chuyên nghiệp.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 57000000, quantity: 10 },
+            { color: "Đen", version: "i9, 32GB RAM", type: "Gaming", price: 68000000, quantity: 6 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "17.3 inch, QHD, 240Hz" },
+            { title: "Vi xử lý", info: "Intel Core i9-13900HX" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 4090, hệ thống tản nhiệt Windforce Infinity" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC160-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\GIGABYTE AORUS 17X-desc-fa3.png"            
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 161,
+          name: "GIGABYTE Aero 15 OLED",
+          productId: "TPC161",
+          brandId: 8,
+          description: "GIGABYTE Aero 15 OLED là laptop sáng tạo nội dung với màn hình OLED sắc nét và hiệu năng mạnh mẽ, lý tưởng cho các nhà thiết kế đồ họa và biên tập video.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xám", version: "i7, 16GB RAM", type: "Creative", price: 49000000, quantity: 8 },
+            { color: "Xám", version: "i9, 32GB RAM", type: "Creative", price: 58000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, 4K UHD, OLED" },
+            { title: "Vi xử lý", info: "Intel Core i9-12900H" },
+            { title: "Tính năng đặc biệt", info: "Màn hình OLED chuẩn 100% DCI-P3, card đồ họa RTX 3080" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC161-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\GIGABYTE Aero 15 OLED-desc-3e5.jpg"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 162,
+          name: "GIGABYTE G5 KE",
+          productId: "TPC162",
+          brandId: 8,
+          description: "GIGABYTE G5 KE là laptop gaming giá tốt với cấu hình cân bằng, mang lại hiệu suất vượt trội cho các game thủ phổ thông.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen", version: "i5, 16GB RAM", type: "Gaming", price: 28000000, quantity: 12 },
+            { color: "Đen", version: "i7, 16GB RAM", type: "Gaming", price: 34000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "15.6 inch, FHD, 144Hz" },
+            { title: "Vi xử lý", info: "Intel Core i7-12500H" },
+            { title: "Tính năng đặc biệt", info: "Card đồ họa RTX 3060, bàn phím RGB" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC162-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\GIGABYTE G5 KE-desc-11c.jpg"           
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 163,
+          name: "GIGABYTE U4 UD",
+          productId: "TPC163",
+          brandId: 8,
+          description: "GIGABYTE U4 UD là laptop mỏng nhẹ với hiệu năng ổn định, phù hợp cho học tập và làm việc văn phòng.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xám", version: "i5, 8GB RAM", type: "Everyday", price: 22000000, quantity: 15 },
+            { color: "Xám", version: "i7, 16GB RAM", type: "Everyday", price: 27000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, FHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1165G7" },
+            { title: "Tính năng đặc biệt", info: "Trọng lượng chỉ 990g, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC163-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\GIGABYTE U4 UD-desc-30c.jpg"         
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 164,
+          name: "VAIO Z (2023)",
+          productId: "TPC164",
+          brandId: 9,
+          description: "VAIO Z là laptop cao cấp với thiết kế tinh tế, hiệu năng mạnh mẽ và trọng lượng siêu nhẹ, phù hợp cho doanh nhân và người dùng cao cấp.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Đen Carbon", version: "i7, 16GB RAM", type: "Business", price: 62000000, quantity: 8 },
+            { color: "Đen Carbon", version: "i9, 32GB RAM", type: "Business", price: 75000000, quantity: 5 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, 4K UHD" },
+            { title: "Vi xử lý", info: "Intel Core i9-11900H" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế carbon siêu nhẹ, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC164-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\VAIO Z (2023)-desc-571.JPG",
+            img1: "uploads\\product\\VAIO Z (2023)-desc-919.JPG",
+            img2: "uploads\\product\\VAIO Z (2023)-desc-a91.JPG",
+            img3: "uploads\\product\\VAIO Z (2023)-desc-eea.JPG"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 165,
+          name: "VAIO SX14",
+          productId: "TPC165",
+          brandId: 9,
+          description: "VAIO SX14 là laptop doanh nhân với thiết kế mỏng nhẹ, hiệu năng ổn định và màn hình 4K, phù hợp cho công việc văn phòng và di chuyển thường xuyên.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Business", price: 38000000, quantity: 12 },
+            { color: "Đen", version: "i7, 16GB RAM", type: "Business", price: 47000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, 4K UHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1255U" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế mỏng nhẹ, tích hợp bảo mật vân tay" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC165-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\VAIO SX14-desc-acd.JPG",
+            img1: "uploads\\product\\VAIO SX14-desc-9c8.JPG",
+            img2: "uploads\\product\\VAIO SX14-desc-1ef.JPG",
+            img3: "uploads\\product\\VAIO SX14-desc-b29.JPG"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 166,
+          name: "VAIO FE14",
+          productId: "TPC166",
+          brandId: 9,
+          description: "VAIO FE14 là laptop phổ thông với thiết kế hiện đại, hiệu năng tốt, lý tưởng cho học tập và công việc hàng ngày.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Xám", version: "i3, 8GB RAM", type: "Everyday", price: 22000000, quantity: 15 },
+            { color: "Xám", version: "i5, 16GB RAM", type: "Everyday", price: 27000000, quantity: 10 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, FHD" },
+            { title: "Vi xử lý", info: "Intel Core i5-1235U" },
+            { title: "Tính năng đặc biệt", info: "Thiết kế nhỏ gọn, tích hợp webcam Full HD" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC166-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\VAIO FE14-desc-67b.JPG",
+            img1: "uploads\\product\\VAIO FE14-desc-6be.JPG",
+            img2: "uploads\\product\\VAIO FE14-desc-510.JPG",
+            img3: "uploads\\product\\VAIO FE14-desc-7a7.JPG"
+          }),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: 167,
+          name: "VAIO SE14",
+          productId: "TPC167",
+          brandId: 9,
+          description: "VAIO SE14 là laptop hướng đến người dùng văn phòng, với thiết kế sang trọng và hiệu năng mạnh mẽ để đáp ứng mọi nhu cầu công việc.",
+          tagName: "LAPTOP",
+          variants: JSON.stringify([
+            { color: "Bạc", version: "i5, 8GB RAM", type: "Business", price: 30000000, quantity: 15 },
+            { color: "Xám", version: "i7, 16GB RAM", type: "Business", price: 37000000, quantity: 8 }
+          ]),
+          specifications: JSON.stringify([
+            { title: "Màn hình", info: "14 inch, FHD" },
+            { title: "Vi xử lý", info: "Intel Core i7-1255U" },
+            { title: "Tính năng đặc biệt", info: "Âm thanh Dolby Audio, thời lượng pin dài" }
+          ]),
+          productImage: JSON.stringify("uploads\\product\\TPC167-main.jpg"),
+          imageUrl: JSON.stringify({
+            img0: "uploads\\product\\VAIO SE14-desc-1c0.JPG",
+            img1: "uploads\\product\\VAIO SE14-desc-701.JPG",
+            img2: "uploads\\product\\VAIO SE14-desc-fc2.JPG",
+            img3: "uploads\\product\\VAIO SE14-desc-60b.JPG"
           }),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         }
-                        
+        
+    
                                     
     ]);
 
@@ -4660,6 +5008,62 @@ export const seed = async function (knex) {
       },    
       {
         productId: 153,
+        categoryId: 1,
+      },
+      {
+        productId: 154,
+        categoryId: 1,
+      },
+      {
+        productId: 155,
+        categoryId: 1,
+      },
+      {
+        productId: 156,
+        categoryId: 1,
+      },
+      {
+        productId: 157,
+        categoryId: 1,
+      },
+      {
+        productId: 158,
+        categoryId: 1,
+      },
+      {
+        productId: 159,
+        categoryId: 1,
+      },
+      {
+        productId: 160,
+        categoryId: 1,
+      },
+      {
+        productId: 161,
+        categoryId: 1,
+      },
+      {
+        productId: 162,
+        categoryId: 1,
+      },
+      {
+        productId: 163,
+        categoryId: 1,
+      },
+      {
+        productId: 164,
+        categoryId: 1,
+      },
+      {
+        productId: 165,
+        categoryId: 1,
+      },
+      {
+        productId: 166,
+        categoryId: 1,
+      },
+      {
+        productId: 167,
         categoryId: 1,
       },
     ]);
