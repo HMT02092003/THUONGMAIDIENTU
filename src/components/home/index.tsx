@@ -13,8 +13,7 @@ import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Snowflakes from 'magic-snowflakes';
-
-const snowflakes = new Snowflakes();
+import { usePathname } from 'next/navigation';
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -37,7 +36,8 @@ const App: React.FC = () => {
   const [category, setCategory] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [snowflakes, setSnowflakes] = useState<any>(null);
+  const pathname = usePathname(); // Thêm hook này
+  const [snowflakesInstance, setSnowflakesInstance] = useState<any>(null);
   console.log('products:', products)
 
   const router = useRouter()
@@ -114,21 +114,25 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    // Khởi tạo snowflakes khi component mount
-    const snowflakesInstance = new Snowflakes();
-    setSnowflakes(snowflakesInstance);
-
     getAllCategory();
     getAllProduct();
-    snowflakesInstance.start();
 
-    // Cleanup khi component unmount
-    return () => {
-      if (snowflakesInstance) {
-        snowflakesInstance.destroy(); // hoặc .stop() tùy theo API của thư viện
-      }
-    };
-  }, []);
+    // Chỉ khởi tạo hiệu ứng tuyết khi ở trang home
+    if (pathname === '/home') {
+      const newSnowflakes = new Snowflakes();
+      setSnowflakesInstance(newSnowflakes);
+      newSnowflakes.start();
+
+      // Cleanup function
+      return () => {
+        if (newSnowflakes) {
+          newSnowflakes.destroy(); // hoặc .stop() tùy theo API của thư viện
+          const snowflakeElements = document.querySelectorAll('.snowflake');
+          snowflakeElements.forEach(element => element.remove());
+        }
+      };
+    }
+  }, [pathname]);
 
   return (
     <>
