@@ -1,365 +1,338 @@
-"use client";
-
-import React, { useState } from 'react';
-import { Table, Button, Card, DatePicker, Modal, Input, Form, message, Space, Select, Row, Col, ConfigProvider } from 'antd';
-import { FormOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  Table,
+  Card,
+  Typography,
+  Select,
+  Row,
+  Col,
+  ConfigProvider,
+  Descriptions,
+  Tag,
+  Space,
+  Button,
+  Input,
+  Form,
+  message,
+} from 'antd';
+import {
+  ShopOutlined,
+  UserOutlined,
+  PhoneOutlined,
+  HomeOutlined,
+  BorderlessTableOutlined,
+  CalendarOutlined,
+  DollarOutlined,
+  EditOutlined,
+  SearchOutlined,
+  BankOutlined,
+} from '@ant-design/icons';
+import axios from 'axios';
+import type {
+  TableColumnsType,
+  TableProps
+} from 'antd';
+import type { FilterDropdownProps } from 'antd/es/table/interface';
 import { useRouter } from 'next/navigation';
 
-const { Option } = Select;
+const { Title } = Typography;
 
-interface OrderType {
-  key: React.Key;
-  orderCode: string;
-  quantity: number;
-  orderDate: string;
-  totalPrice: number;
-  productName: string;
-}
-
-const data: OrderType[] = [
-  {
-    key: 1,
-    orderCode: 'DH001',
-    productName: 'Bàn phím cơ',
-    quantity: 3,
-    orderDate: '2024-11-01',
-    totalPrice: 4500000,
-  },
-  {
-    key: 2,
-    orderCode: 'DH002',
-    productName: 'Chuột gaming',
-    quantity: 1,
-    orderDate: '2024-11-02',
-    totalPrice: 1200000,
-  },
-  {
-    key: 3,
-    orderCode: 'DH003',
-    productName: 'Màn hình 27 inch',
-    quantity: 2,
-    orderDate: '2024-11-03',
-    totalPrice: 8000000,
-  },
-];
-
-const OrderDetailManagement: React.FC = () => {
-  const [dataSource, setDataSource] = useState<OrderType[]>(data);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+const OrderDetailView: React.FC<any> = ({ id }) => {
+  const [orderData, setOrderData] = useState<any>({});
+  const [orderDetail, setOrderDetail] = useState<any>([]);
+  const searchInput = useRef<any>(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const [form] = Form.useForm();
-  const [modalType, setModalType] = useState<'add' | 'edit'>('add');
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [filteredInfo, setFilteredInfo] = useState<any>({});
-  const [sortedInfo, setSortedInfo] = useState<any>({});
 
   const router = useRouter();
 
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
-  };
+  console.log(orderDetail);
 
-  const handleAddNew = () => {
-    setModalType('add');
-    form.resetFields();
-    setIsModalVisible(true);
-  };
 
-  const handleAddSubmit = () => {
-    form.validateFields().then((values) => {
-      const newOrder: OrderType = {
-        key: dataSource.length + 1,
-        ...values,
-      };
-      setDataSource([...dataSource, newOrder]);
-      setIsModalVisible(false);
-      message.success('Thêm mới đơn hàng thành công!');
-    });
-  };
-
-  const handleEditSelected = () => {
-    if (selectedRowKeys.length === 0) {
-      message.warning("Vui lòng chọn ít nhất một hàng để sửa.");
-      return;
+  const fetchOrderDetail = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/getOrderByID/${id}`);
+      console.log(response.data);
+      setOrderData(response.data.order);
+      setOrderDetail(response.data.orderDetails);
+      form.setFieldsValue({ status: response.data.order.status });
+    } catch (error) {
+      console.error('Error fetching order detail:', error);
     }
-    setModalType('edit');
-    form.resetFields();
-    setIsModalVisible(true);
+  }
+
+  useEffect(() => {
+    fetchOrderDetail();
+  }, [id]);
+
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: FilterDropdownProps['confirm'],
+    dataIndex: string
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
-  const handleEditSubmit = () => {
-    form.validateFields().then((values) => {
-      const updatedData = dataSource.map((item) =>
-        selectedRowKeys.includes(item.key) ? { ...item, ...values } : item
-      );
-      setDataSource(updatedData);
-      setSelectedRowKeys([]);
-      setIsModalVisible(false);
-      message.success('Cập nhật thành công!');
-    });
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
   };
 
-  const handleDeleteSelected = () => {
-    setDataSource((prev) => prev.filter((item) => !selectedRowKeys.includes(item.key)));
-    setSelectedRowKeys([]);
-    message.success('Đã xóa các hàng được chọn!');
-  };
+  const getColumnSearchProps = (dataIndex: string): TableColumnsType<any>[number] => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]?.toString().toLowerCase().includes((value as string).toLowerCase()),
+  });
 
-  const handleChange = (pagination: any, filters: any, sorter: any) => {
-    setFilteredInfo(filters);
-    setSortedInfo(sorter);
-  };
-
-  const columns: any = [
+  const columns: TableColumnsType<any> = [
     {
-      title: 'Mã Đơn Hàng',
-      dataIndex: 'orderCode',
-      key: 'orderCode',
-      sorter: (a: OrderType, b: OrderType) => a.orderCode.localeCompare(b.orderCode),
-      sortOrder: sortedInfo.columnKey === 'orderCode' ? sortedInfo.order : null,
+      title: 'Mã sản phẩm',
+      dataIndex: 'productId',
+      align: 'center',
+      key: 'productId',
+      fixed: 'left',
+      width: "5%",
+      ...getColumnSearchProps('productId'),
     },
     {
-      title: 'Tên Sản Phẩm',
-      dataIndex: 'productName',
-      key: 'productName',
-      sorter: (a: OrderType, b: OrderType) => a.productName.localeCompare(b.productName),
-      sortOrder: sortedInfo.columnKey === 'productName' ? sortedInfo.order : null,
+      title: 'Tên sản phẩm',
+      dataIndex: 'name',
+      key: 'name',
+      align: 'center',
+      fixed: 'left',
+      ...getColumnSearchProps('name'),
     },
     {
-      title: 'Số Lượng',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      sorter: (a: OrderType, b: OrderType) => a.quantity - b.quantity,
-      sortOrder: sortedInfo.columnKey === 'quantity' ? sortedInfo.order : null,
+      title: 'Phiên bản',
+      dataIndex: 'variants',
+      key: 'variants-version',
+      align: 'center',
+      render: (variants: any, record: any) =>
+        variants.map((variant: any, index: number) => {
+          const colors = 'blue';
+          return (
+            <Tag
+              color={colors}
+              key={`type-${variant.version}-${index}`}
+            >
+              {variant.version}
+            </Tag>
+          );
+        }),
     },
     {
-      title: 'Ngày Đặt Hàng',
-      dataIndex: 'orderDate',
-      key: 'orderDate',
-      sorter: (a: OrderType, b: OrderType) => new Date(a.orderDate).getTime() - new Date(b.orderDate).getTime(),
-      sortOrder: sortedInfo.columnKey === 'orderDate' ? sortedInfo.order : null,
+      title: 'Màu',
+      dataIndex: 'variants',
+      key: 'variants-color',
+      align: 'center',
+      render: (variants: any, record: any) =>
+        variants.map((variant: any, index: number) => {
+          const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          return (
+            <Tag
+              color={randomColor}
+              key={`${record.productId}-color-${variant.color}-${index}`}
+            >
+              {variant.color}
+            </Tag>
+          );
+        }),
     },
     {
-      title: 'Tổng Giá (VND)',
-      dataIndex: 'totalPrice',
-      key: 'totalPrice',
-      sorter: (a: OrderType, b: OrderType) => a.totalPrice - b.totalPrice,
-      sortOrder: sortedInfo.columnKey === 'totalPrice' ? sortedInfo.order : null,
-      render: (value: number) => value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }),
+      title: 'Loại hàng',
+      dataIndex: 'variants',
+      key: 'variants-type',
+      align: 'center',
+      render: (variants: any, record: any) =>
+        variants.map((variant: any, index: number) => {
+          const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          return (
+            <Tag
+              color={randomColor}
+              key={`${record.productId}-type-${variant.type}-${index}`}
+            >
+              {variant.type}
+            </Tag>
+          );
+        }),
+    },
+    {
+      title: 'Giá',
+      dataIndex: 'variants',
+      align: 'center',
+      key: 'variants-price',
+      render: (variants: any, record: any) => {
+        const price = variants.map((variant: any) => variant.price).reduce((acc: number, cur: number) => acc + cur, 0);
+        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+      }
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'variants',
+      key: 'variants-quantity',
+      align: 'center',
+      render: (variants: any, record: any) => (
+        variants.map((variant: any) => {
+          return <span key={`${record.productId}-type-${variant.type}`}>{variant.quantity}</span>;
+        })
+      )
     },
   ];
 
-  const Handlesubmit = (value: any) => {
-    console.log(value)
+  const changeOrderStatus = async (values: any) => {
+    try {
+      const response = await axios.patch(`http://localhost:4000/api/updateOrderStatus/${id}`, { status: values.status });
+      console.log(response.data);
+      message.success('Cập nhật trạng thái đơn hàng thành công');
+      router.push('/orderManagement');
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      message.error('Cập nhật trạng thái đơn hàng thất bại');
+    }
   }
-  return (
-    <ConfigProvider>
-      <div style={{ margin: '20px' }}>
-        <Form onFinish={Handlesubmit}>
-          <Row justify="space-between" align="middle">
-            <Col style={{ paddingLeft: 50, display: 'flex', alignItems: 'center' }}>
-              <h2 style={{ display: 'inline-flex', alignItems: 'center' }}>
-                <FormOutlined style={{ fontSize: 35, marginRight: 10 }} />
-                Chi tiết đơn hàng
-              </h2>
-            </Col>
-            <Col style={{ paddingRight: 50 }}>
-              <Space>
-                <Button type="primary" style={{
-                  display: "flex",
-                  justifyContent: 'center',
-                  alignItems: "center",
-                  background: "orange",
-                  width: "100px",
-                  margin: "0 5px",
-                }}
-                  htmlType="submit"
-                  icon={<EditOutlined />}>
-                  Chỉnh sửa
-                </Button>
-              </Space>
-            </Col>
-          </Row>
 
-          <Row>
-            <Col span={24}>
-              <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                <Row gutter={[16, 16]}>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Mã đơn hàng"
-                      label="Mã đơn hàng"
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập Mã đơn hàng!' },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Ngày đặt hàng"
-                      label="Ngày đặt hàng"
-                      rules={[{ required: true, message: 'Vui lòng nhập Ngày đặt hàng!' }]}
-                    >
-                      <DatePicker style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Ngày giao hàng"
-                      label="Ngày giao hàng"
-                      rules={[{ required: true, message: 'Vui lòng nhập Ngày giao hàng!' }]}
-                    >
-                      <DatePicker style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Trạng thái giao hàng"
-                      label="Trạng thái giao hàng"
-                      rules={[{ required: true, message: 'Vui lòng chọn Trạng thái giao hàng!' }]}
-                    >
-                      <Select
-                        options={[
-                          { value: '1', label: 'Chờ xử lí' },
-                          { value: '2', label: 'Đã giao' },
-                          { value: '3', label: 'Đang giao' },
-                          { value: '3', label: 'Đã hủy' },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: 15 }}>
-            <Col span={24}>
-              <Card title="Thông tin đơn hàng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                <Row gutter={[16, 16]}>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Họ tên khách hàng"
-                      label="Họ tên khách hàng"
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập Họ tên khách hàng!' },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Số điện thoại"
-                      label="Số điện thoại"
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập Số điện thoại!' },
-                        { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Email"
-                      label="Email"
-                      rules={[
-                        { required: true, type: "email", message: 'Vui lòng nhập Email hợp lệ!' },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item layout="vertical"
-                      name="Địa chỉ giao hàng"
-                      label="Địa chỉ giao hàng"
-                      rules={[
-                        { required: true, message: 'Vui lòng nhập Địa chỉ giao hàng!' },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
-          <Table
-            columns={columns}
-            dataSource={dataSource}
-            rowKey="key"
-            onChange={handleChange}
-            pagination={false}
-            style={{ marginTop: '20px', boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)", borderRadius: 10 }}
-          />
-          <Row style={{ marginTop: 15 }}>
-            <Col span={24}>
-              <Card title="Phương thức thanh toán" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
-                <Row gutter={[16, 16]}>
-                  <Col span={6}>
-                    <Form.Item
-                      layout="vertical"
-                      name="phuongThucThanhToan"
-                      label="Phương thức thanh toán"
-                      rules={[{ required: true, message: 'Vui lòng chọn phương thức thanh toán!' }]}
-                    >
-                      <Select
-                        options={[
-                          { value: 'cash', label: 'Tiền mặt' },
-                          { value: 'creditCard', label: 'Thẻ tín dụng' },
-                          { value: 'paypal', label: 'PayPal' },
-                          { value: 'bankTransfer', label: 'Chuyển khoản ngân hàng' },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item
-                      layout="vertical"
-                      name="transactionCode"
-                      label="Mã giao dịch"
-                      rules={[{ required: true, message: 'Vui lòng nhập mã giao dịch!' }]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item
-                      layout="vertical"
-                      name="paymentDate"
-                      label="Ngày thanh toán"
-                      rules={[{ required: true, message: 'Vui lòng nhập ngày thanh toán!' }]}
-                    >
-                      <DatePicker style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={6}>
-                    <Form.Item
-                      layout="vertical"
-                      name="paymentStatus"
-                      label="Trạng thái thanh toán"
-                      rules={[{ required: true, message: 'Vui lòng chọn trạng thái thanh toán!' }]}
-                    >
-                      <Select
-                        options={[
-                          { value: 'pending', label: 'Chưa thanh toán' },
-                          { value: 'completed', label: 'Đã thanh toán' },
-                          { value: 'failed', label: 'Thanh toán thất bại' },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-    </ConfigProvider>
+  return (
+    <>
+      <Card bordered={false} style={{ marginBottom: 24 }}>
+        <Row justify="space-between" align="middle" style={{ marginBottom: 24 }}>
+          <Col>
+            <Title level={2} style={{ margin: 0 }}>
+              <ShopOutlined style={{ marginRight: 8 }} />
+              Đơn hàng
+            </Title>
+          </Col>
+          <Col>
+            <Space size="large" align="center">
+              <span style={{ fontSize: 14 }}>Trạng thái đơn hàng:</span>
+              <Form form={form} onFinish={changeOrderStatus} layout="inline">
+                <Form.Item
+                  name="status"
+                >
+                  <Select
+                    style={{ width: 200 }}
+                    options={[
+                      { value: 'pending', label: 'Chờ xử lý' },
+                      { value: 'confirmed', label: 'Đã xác nhận' },
+                      { value: 'shipped', label: 'Đang giao' },
+                      { value: 'delivered', label: 'Đã giao' },
+                      { value: 'cancelled', label: 'Đã hủy' },
+                    ]}
+                  />
+                </Form.Item>
+                <Button variant="solid" color='danger' type="primary" htmlType="submit" icon={<EditOutlined />}>
+                  Cập nhật trạng thái
+                </Button>
+              </Form>
+            </Space>
+          </Col>
+        </Row>
+        <br /><br />
+
+        <Row gutter={24}>
+          <Col span={12}>
+            <Descriptions title={<span style={{ fontSize: '20px' }}>Thông tin đơn hàng</span>} column={1}>
+              <Descriptions.Item label={<><BorderlessTableOutlined />&nbsp;&nbsp;Mã đơn hàng</>}>
+                <span style={{ fontSize: '16px' }}>{orderData.orderNumber}</span>
+              </Descriptions.Item>
+              <Descriptions.Item label={<><CalendarOutlined />&nbsp;&nbsp;Ngày đặt</>}>
+                <span style={{ fontSize: '16px' }}>{orderData.orderDate}</span>
+              </Descriptions.Item>
+              <Descriptions.Item label={<><DollarOutlined />&nbsp;&nbsp;Tổng tiền</>}>
+                <span style={{ color: '#f50', fontSize: '16px' }}>
+                  {(Number(orderData.totalAmount)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                </span>
+              </Descriptions.Item>
+              <Descriptions.Item label={<><BankOutlined />&nbsp;&nbsp;Phương thức thanh toán</>}>
+                <span style={{ fontSize: '16px' }}>
+                  {orderData.paymentMethod === 1 ? 'Thanh toán khi nhận hàng' :
+                    orderData.paymentMethod === 2 ? 'ZaloPay' :
+                      orderData.paymentMethod === 3 ? 'Momo' : 'Không xác định'}
+                </span>
+              </Descriptions.Item>
+            </Descriptions>
+          </Col>
+          <Col span={12}>
+            <Descriptions title={<span style={{ fontSize: '20px' }}>Thông tin khách hàng</span>} column={1}>
+              <Descriptions.Item label={<><UserOutlined />&nbsp;&nbsp;Khách hàng</>}>
+                <span style={{ fontSize: '16px' }}>{orderData.name}</span>
+              </Descriptions.Item>
+              <Descriptions.Item label={<><PhoneOutlined />&nbsp;&nbsp;Số điện thoại</>}>
+                <span style={{ fontSize: '16px' }}>{orderData.phoneNumber}</span>
+              </Descriptions.Item>
+              <Descriptions.Item label={<><HomeOutlined />&nbsp;&nbsp;Địa chỉ</>}>
+                <span style={{ fontSize: '16px' }}>{orderData.shippingAddress}</span>
+              </Descriptions.Item>
+            </Descriptions>
+          </Col>
+        </Row>
+      </Card>
+
+      <Card
+        title="Chi tiết sản phẩm"
+        bordered={false}
+        style={{ marginBottom: 24 }}
+      >
+        <Table
+          columns={columns}
+          dataSource={orderDetail}
+          pagination={false}
+          bordered
+          summary={(pageData) => {
+            const total = pageData.reduce((sum, current) => sum + (current.price * current.quantity), 0);
+            return (
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0} colSpan={6} align="right">
+                  <strong>Tổng cộng</strong>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={1} align="right">
+                  <strong style={{ color: '#f50' }}>
+                    {total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                  </strong>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
+          }}
+        />
+      </Card>
+    </>
   );
 };
 
-export default OrderDetailManagement
+export default OrderDetailView;

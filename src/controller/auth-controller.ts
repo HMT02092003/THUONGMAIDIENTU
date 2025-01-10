@@ -166,9 +166,10 @@ export const sendOTPController = async (req: Request, res: Response) => {
 
     // Kiểm tra sự tồn tại của email trong database
     const user = await UserModel.query().findOne({ email: email });
+    const customer = await Customer.query().findOne({ email: email });
     console.log("user:", user);
 
-    if (user) {
+    if (user || customer) {
       try {
         const sent = await otpService.sendResetPasswordLink(email);
         if (!sent) {
@@ -222,6 +223,10 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 
       // Cập nhật mật khẩu trong cơ sở dữ liệu
       await UserModel.query()
+        .where('email', email)
+        .patch({ password: hashedPassword });
+
+      await Customer.query()
         .where('email', email)
         .patch({ password: hashedPassword });
 

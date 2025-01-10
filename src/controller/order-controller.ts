@@ -1,7 +1,9 @@
 import { Order } from '@/src/Models/OrderModel';
 import { OrderDetail } from '@/src/Models/OrderDetailModel';
 import { v4 as uuidv4 } from 'uuid';
-import { create } from 'lodash';
+import { getDecodedToken } from '@/src/utils/decode-token';
+import { transaction } from 'objection';
+import { OrderStatusHistory } from '@/src/Models/OrderStatusHistoryModel';
 
 export const createOrder = async (req: any, res: any) => {
     const trx = await Order.startTransaction(); // Bắt đầu transaction
@@ -95,7 +97,13 @@ export const updatePaymentMethod = async (req: any, res: any) => {
 export const getAllOrder = async (req: any, res: any) => {
     try {
         const orders = await Order.query()
-            .orderBy('createdAt', 'desc');
+            .orderBy('createdAt', 'desc')
+            .withGraphFetched('statusHistory.user')
+            .modifiers({
+                statusHistory(query) {
+                    query.orderBy('createdAt', 'desc');
+                }
+            });
 
         res.status(200).send(orders);
 
@@ -129,7 +137,9 @@ export const getOrderByUserID = async (req: any, res: any) => {
     try {
         const { userId } = req.params;
 
-        const orders = await Order.query().where('customerId', userId).orderBy('createdAt', 'desc');
+        const orders = await Order.query()
+            .where('customerId', userId)
+            .orderBy('createdAt', 'desc')
 
         res.status(200).send(orders);
 
@@ -138,3 +148,50 @@ export const getOrderByUserID = async (req: any, res: any) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const updateOrderStatus = async (req: any, res: any) => {
+    let trx; // Biến transaction
+    try {
+        const { status } = req.body;
+
+        const orderId = req.params.id;
+
+        const token = req.cookies['token'];
+        const tokenAfterDecode = getDecodedToken(token);
+
+        console.log('tokenAfterDecode', tokenAfterDecode);
+        console.log('status', status);
+
+        const authId = tokenAfterDecode?.sub;
+
+        const orderStatusHistory: any = {
+            orderId: orderId,
+            updatedBy: authId,
+            createdAt: new Date().toISOString(),
+        }
+
+        if (!authId) {
+            return res.status(400).json({ message: 'Invalid auth ID' });
+        }
+
+        // Bắt đầu transaction
+        trx = await transaction.start(Order.knex());
+
+        // Thực hiện cập nhật trong transaction
+        await Order.query(trx).findById(orderId).patch({ status });
+
+        await OrderStatusHistory.query(trx).insert(orderStatusHistory).returning('*');
+
+        // Commit transaction nếu không có lỗi
+        await trx.commit();
+
+        res.status(200).json({ message: 'Order status updated successfully' });
+    } catch (error: any) {
+        // Rollback transaction nếu có lỗi
+        if (trx) await trx.rollback();
+
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+

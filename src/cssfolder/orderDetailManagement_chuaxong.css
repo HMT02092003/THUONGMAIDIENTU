@@ -1,28 +1,29 @@
-/* OrderDetailManagement.css */
-
-/* General container style */
-.order-detail-container {
+/* OrderDetailManagement.module.css */
+.container {
     margin: 20px;
   }
   
-  /* Title styles */
-  .order-detail-title {
+  .formHeader {
+    padding-left: 50px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .formTitle {
     display: inline-flex;
     align-items: center;
   }
   
-  .order-detail-title h2 {
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  .order-detail-title .anticon {
+  .formTitleIcon {
     font-size: 35px;
     margin-right: 10px;
   }
   
-  /* Button styles */
-  .order-detail-btn {
+  .formAction {
+    padding-right: 50px;
+  }
+  
+  .formActionButton {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,20 +32,17 @@
     margin: 0 5px;
   }
   
-  /* Card styles */
-  .order-detail-card {
+  .cardContainer {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 15px;
-    border-radius: 10px;
   }
   
-  .order-detail-table {
+  .tableContainer {
     margin-top: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
   }
   
-  .order-detail-card-title {
+  .cardTitle {
     margin-top: 15px;
   }
   

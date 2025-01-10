@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
 import axios from "axios";
 import _, { set } from 'lodash';
+import Cookies from 'js-cookie';
+import { getDecodedToken } from '../utils/decode-token';
+import cookies from 'js-cookie';
 
 const { Search } = Input;
 
@@ -16,6 +19,7 @@ const HeaderPage = () => {
   const [Brand, setBrand] = useState<any>([])
   const [results, setResults] = useState([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [checkAuth, setCheckAuth] = useState<any>();
 
   const [form] = Form.useForm();
 
@@ -24,7 +28,23 @@ const HeaderPage = () => {
   const brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Acer', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus'];
   const priceRanges = ['10-15 triệu', '15-20 triệu', '20-25 triệu', '25-30 triệu', '30-35 triệu', '35-40 triệu'];
   const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
-  //fake data over
+  const content = (
+    <div>
+      <p>Địa chỉ: 123 Phố Giả, Phường Ảo, Quận 9, TP. Hồ Chí Minh</p>
+    </div>
+  );
+
+  const checkAuthHandel = () => {
+    const authToken = Cookies.get('token');
+    console.log('Token:', authToken);
+    if (authToken) {
+      console.log('Token:', authToken);
+      const tokenAfterDecode = getDecodedToken(authToken);
+      console.log('Token after decode:', tokenAfterDecode?.role);
+      setCheckAuth(tokenAfterDecode);
+    }
+  };
+
 
   const handleLoginClick = () => {
     router.push('/login');
@@ -33,26 +53,57 @@ const HeaderPage = () => {
   const handleRegisterClick = () => {
     router.push('/register');
   };
+  const handleButtonClick = () => {
+    router.push('/technologyNews');
+  };
 
   const popoverContent = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <Button
-        color="primary"
-        variant="text"
-        onClick={handleLoginClick}
-        style={{ width: '100%' }}
-      >
-        Đăng nhập
-      </Button>
-      <Button
-        color="default"
-        variant="text"
-        onClick={handleRegisterClick}
-        style={{ width: '100%' }}
-      >
-        Đăng ký
-      </Button>
-    </div>
+    <>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {checkAuth ? (
+          <>
+            <Button
+              color="primary"
+              variant="text"
+              onClick={() => router.push('/profile')}
+              style={{ width: '100%' }}
+            >
+              Thông tin cá nhân
+            </Button>
+            <Button
+              color="danger"
+              variant="text"
+              onClick={() => {
+                cookies.remove('token');
+                router.push('/login');
+              }}
+              style={{ width: '100%' }}
+            >
+              Đăng xuất
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              color="primary"
+              variant="text"
+              onClick={handleLoginClick}
+              style={{ width: '100%' }}
+            >
+              Đăng nhập
+            </Button>
+            <Button
+              color="default"
+              variant="text"
+              onClick={handleRegisterClick}
+              style={{ width: '100%' }}
+            >
+              Đăng ký
+            </Button>
+          </>
+        )}
+      </div>
+    </>
   );
 
   const handleCategoryClick = (index: number, categoryId: number) => {
@@ -109,6 +160,7 @@ const HeaderPage = () => {
   }, 500);
 
   useEffect(() => {
+    checkAuthHandel();
     getAllBrand();
   }, [])
 
@@ -509,9 +561,11 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent', }}>
-                <img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng
-              </Button>
+              <Popover content={content} title="Thông tin cửa hàng" trigger="click">
+                <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent' }}>
+                  <img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng
+                </Button>
+              </Popover>
             </ConfigProvider>
           </Col>
           <Col span={4}>
@@ -545,9 +599,14 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/news.png" alt="" style={{ width: 18 }} />Tin công nghệ
+              <Button
+                style={{ fontWeight: 600, border: 'transparent' }}
+                onClick={handleButtonClick}
+              >
+                <img src="/icon/news.png" alt="" style={{ width: 18 }} />
+                Tin công nghệ
               </Button>
+
             </ConfigProvider>
           </Col>
           <Col span={2} style={{ display: 'flex', flexDirection: 'row-reverse' }}>

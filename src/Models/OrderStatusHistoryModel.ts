@@ -3,6 +3,13 @@ import { Order } from './OrderModel';
 import { UserModel } from './UserModel';
 
 export class OrderStatusHistory extends Model {
+
+    id?: number;
+    orderId?: string;
+    updatedBy?: number;
+    note?: string;
+    createdAt?: string;
+
     static get tableName() {
         return 'OrderStatusHistory';
     }
@@ -10,12 +17,10 @@ export class OrderStatusHistory extends Model {
     static get jsonSchema() {
         return {
             type: 'object',
-            required: ['orderId', 'fromStatus', 'toStatus'],
+            required: ['orderId'],
             properties: {
                 id: { type: 'integer' },
-                orderId: { type: 'integer' },
-                fromStatus: { type: 'string' },
-                toStatus: { type: 'string' },
+                orderId: { type: 'string' },
                 updatedBy: { type: 'integer' },
                 note: { type: 'string' },
                 createdAt: { type: 'string', format: 'date-time' }

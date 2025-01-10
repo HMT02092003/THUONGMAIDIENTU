@@ -13,6 +13,7 @@ import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Snowflakes from 'magic-snowflakes';
+
 const snowflakes = new Snowflakes();
 
 const { Content, Footer } = Layout;
@@ -41,6 +42,23 @@ const App: React.FC = () => {
 
   const router = useRouter()
 
+  const carouselContent = [
+    {
+      imgSrc: "/logo/frame-961182-optimized-thinkpro.webp",
+      alt: "Slide 1",
+      style: { backgroundColor: 'black', height: '300px', borderRadius: '10px' },
+    },
+    {
+      imgSrc: "/logo/340991422_738592324410569_8236240325667052744_n.jpg",
+      alt: "Slide 2",
+      style: { backgroundColor: 'gray', height: '300px', borderRadius: '10px' },
+    },
+    {
+      imgSrc: "/logo/frame-961219-2-thinkpro.webp",
+      alt: "Slide 3",
+      style: { backgroundColor: 'blue', height: '300px', borderRadius: '10px' },
+    },
+  ];
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -101,19 +119,30 @@ const App: React.FC = () => {
     snowflakes.start();
   }, []);
 
-
-
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
-        <div>
-          <Row style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '5px', color: 'white' }}>
-            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} /></Col>
-          </Row>
+      <div style={{ margin: '30px 0' }}>
+          <Carousel autoplay>
+            {carouselContent.map((slide, index) => (
+              <div key={index}>
+                <img
+                  src={slide.imgSrc}
+                  alt={slide.alt}
+                  style={{
+                    width: '100%',
+                    height: slide.style.height,
+                    borderRadius: slide.style.borderRadius,
+                    objectFit: 'cover',
+                  }}
+                />
+              </div>
+            ))}
+          </Carousel>
         </div>
         <Row style={{ fontWeight: '600', fontSize: '28px', lineHeight: '40px' }}>Danh mục nổi bật</Row>
         <div style={{ marginTop: '1.25rem' }}>
-          <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '.25rem', backgroundColor: 'white' }}>
+          <div style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', paddingLeft: '2.25rem', paddingRight: '2.25rem', borderRadius: '10px', backgroundColor: 'white' }}>
             <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
               <Row gutter={[16, 16]} justify="center">
                 {category.map((category: any, index: any) => (
@@ -388,9 +417,6 @@ const App: React.FC = () => {
             </Col>
           ))}
         </Row>
-
-
-
 
         {visibleItems < products.length && (
           <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>

@@ -91,30 +91,29 @@ const App: React.FC = () => {
           <Title level={5} className="titleStyle">
             Thông tin hữu ích
           </Title>
-          <div>
+          <div style={{cursor: "pointer"}}>
             <div onClick={() => router.push('/warrantypolicy')}>
               <img src="/icon/check.png" className="icon" /> Chính sách bảo hành
-              
             </div>
-            <div>
+            <div onClick={() => router.push('/exchangepolicy')}>
               <img src="/icon/transfer.png" className="icon" /> Chính sách đổi trả
             </div>
-            <div>
+            <div onClick={() => router.push('/shippingpolicy')}>
               <img src="/icon/trailer-truck.png" className="icon" /> Chính sách vận chuyển
             </div>
-            <div>
+            <div onClick={() => router.push('/privacypolicy')}>
               <img src="/icon/lock.png" className="icon" /> Chính sách bảo mật
             </div>
-            <div>
+            <div onClick={() => router.push('/policypayment')}>
               <img src="/icon/atm-card.png" className="icon" /> Chính sách thanh toán
             </div>
-            <div>
+            <div onClick={() => router.push('/inspectionpolicy')}>
               <img src="/icon/scan.png" className="icon" /> Chính sách kiểm hàng
             </div>
-            <div>
+            <div onClick={() => router.push('/guide')}>
               <img src="/icon/shopping-cart.png" className="icon" /> Hướng dẫn mua hàng online
             </div>
-            <div>
+            <div onClick={() => router.push('/aboutUs')}>
               <img src="/icon/information.png" className="icon" /> Về chúng tôi
             </div>
           </div>
