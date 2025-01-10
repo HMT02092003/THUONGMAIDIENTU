@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect, use } from "react";
 import { Input, Button, Layout, Menu, Table, Form, Row, Col, Divider, Modal, message } from "antd";
-import { UserOutlined, HistoryOutlined, GiftOutlined, EnvironmentOutlined, StarOutlined, QuestionCircleOutlined, LogoutOutlined } from "@ant-design/icons";
+import { UserOutlined, HistoryOutlined, GiftOutlined, EnvironmentOutlined, StarOutlined, QuestionCircleOutlined, MailOutlined, PhoneOutlined, AimOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { getDecodedToken } from '@/src/utils/decode-token';
-import { set, update } from "lodash";
 
 const { Content } = Layout;
 
@@ -108,7 +107,7 @@ const Profile: React.FC = () => {
       setGreetingIcon("/icon/afternoon.png"); // Afternoon sun icon
     } else {
       setGreeting("Chào buổi tối");
-      setGreetingIcon("https://cdn-0.emojis.wiki/emoji-pics/facebook/sun-behind-cloud-facebook.png"); // Night moon icon
+      setGreetingIcon("icon/evening.png"); // Night moon icon
     }
   }, []);
 
@@ -131,13 +130,12 @@ const Profile: React.FC = () => {
     { key: "4", icon: <EnvironmentOutlined />, label: "Sổ địa chọ" },
     { key: "5", icon: <StarOutlined />, label: "Đánh giá & nhận xét" },
     { key: "6", icon: <QuestionCircleOutlined />, label: "Câu hỏi thường gặp" },
-    { key: "7", icon: <LogoutOutlined />, label: "Đăng xuất" },
   ];
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: '#ffffff',
     minHeight: '80vh',
-    padding: '50px 100px',
+    padding: '50px 50px',
     margin: '24px 0',
     borderRadius: '15px'
   };
@@ -234,6 +232,7 @@ const Profile: React.FC = () => {
                         <Form.Item name="email" label="Email">
                           <Input
                             readOnly
+                            prefix={<MailOutlined />}
                           />
                         </Form.Item>
                       </Col>
@@ -248,6 +247,7 @@ const Profile: React.FC = () => {
                         >
                           <Input
                             placeholder="Nhập số điện thoại"
+                            prefix={<PhoneOutlined />}
                           />
                         </Form.Item>
                       </Col>
@@ -259,6 +259,7 @@ const Profile: React.FC = () => {
                         >
                           <Input
                             placeholder="Nhập địa chỉ"
+                            prefix={<AimOutlined />}
                           />
                         </Form.Item>
                       </Col>
