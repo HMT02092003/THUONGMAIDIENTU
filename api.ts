@@ -51,7 +51,7 @@ import {
   getOrderByUserID,
   updateOrderStatus,
 } from './src/controller/order-controller';
-
+import { updateCustomer } from './src/controller/customer-controller';
 
 
 const router = Router();
@@ -223,6 +223,9 @@ router.patch('/updateOrderStatus/:id', (req, res) => {
   updateOrderStatus(req, res);
 });
 //=========================CUSTOMER==============================
+router.patch('/updateCustomer/:id', (req, res) => {
+  updateCustomer(req, res);
+});
 
 
 export default router;
