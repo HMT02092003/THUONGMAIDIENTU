@@ -209,19 +209,9 @@ const ProfileManagement = () => {
       key: 'CCCD',
     },
     {
-      title: 'Quốc tịch',
+      title: 'Dân tộc',
       dataIndex: 'nationality',
       key: 'nationality',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Hometown',
-      dataIndex: 'hometown',
-      key: 'hometown',
     },
   ];
 

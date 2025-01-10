@@ -1,6 +1,6 @@
 import React, { use, useEffect, useRef, useState } from 'react';
 import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Form, message, Dropdown } from 'antd';
-import { LeftOutlined, RightOutlined, ArrowRightOutlined, InfoCircleOutlined, LoginOutlined,LogoutOutlined,FormOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined, ArrowRightOutlined, InfoCircleOutlined, LoginOutlined, LogoutOutlined, FormOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
 import axios from "axios";
@@ -581,8 +581,8 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '40px', fontWeight: 600, border: 'transparent' }}>
-                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Lịch sử đơn hàng
+              <Button style={{ marginLeft: '40px', fontWeight: 600, border: 'transparent' }} onClick={() => router.push('https://www.facebook.com/tran.son.387612')}>
+                <img src="/icon/online-support.png" alt="" style={{ width: 21 }} />Hỗ trợ trực tuyến
               </Button>
             </ConfigProvider>
           </Col>

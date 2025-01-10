@@ -260,9 +260,9 @@ const ShoppingCart: React.FC = () => {
                 <Image src={item.productImage} alt={item.name} width={100} height={100} className="cartImage" />
                 <div className="product">
                   <Title level={5}>{item.name}</Title>
-                  <Text type="secondary">
-                    Phiên bản: {item.variants[0]?.version || 'N/A'} |
-                    Màu: {item.variants[0]?.color || 'N/A'}
+                  <Text type="secondary" >
+                    <b>Phiên bản:</b> {item.variants[0]?.version || 'N/A'} &nbsp;|&nbsp;
+                    <b>Màu:</b> {item.variants[0]?.color || 'N/A'}
                   </Text>
                   <div className="quantityControl">
                     <Button

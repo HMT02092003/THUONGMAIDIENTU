@@ -102,7 +102,7 @@ const Profile: React.FC = () => {
     const hour = dayjs().hour();
     if (hour >= 5 && hour < 12) {
       setGreeting("Chào buổi sáng");
-      setGreetingIcon("https://cdn-0.emojis.wiki/emoji-pics/facebook/sun-behind-cloud-facebook.png"); // Morning sun icon
+      setGreetingIcon("/icon/morning.png"); // Morning sun icon
     } else if (hour >= 12 && hour < 18) {
       setGreeting("Chào buổi chiều");
       setGreetingIcon("/icon/afternoon.png"); // Afternoon sun icon
@@ -128,7 +128,7 @@ const Profile: React.FC = () => {
     { key: "1", icon: <UserOutlined />, label: "Thông tin tài khoản" },
     { key: "2", icon: <HistoryOutlined />, label: "Lịch sử đơn hàng" },
     { key: "3", icon: <GiftOutlined />, label: "Ví voucher" },
-    { key: "4", icon: <EnvironmentOutlined />, label: "Sổ địa chọ" },
+    { key: "4", icon: <EnvironmentOutlined />, label: "Sổ địa chỉ" },
     { key: "5", icon: <StarOutlined />, label: "Đánh giá & nhận xét" },
     { key: "6", icon: <QuestionCircleOutlined />, label: "Câu hỏi thường gặp" },
   ];
