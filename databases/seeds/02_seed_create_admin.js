@@ -11,7 +11,7 @@ export const seed = async function (knex) {
         name: 'Admin User 1',
         email: 'admin1@gmail.com',
         verified: true,
-        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        password: '$2a$12$JyedkuXirFOpIkJZBY0uzug8jnjXlBkmi09JHLZK5XP.Ee0HU3ZWS', //MK:123456@
         role: 'admin',
         provider: 'local',
       },
@@ -19,7 +19,7 @@ export const seed = async function (knex) {
         name: 'Admin User 2',
         email: 'admin2@gmail.com',
         verified: true,
-        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        password: '$2a$12$JyedkuXirFOpIkJZBY0uzug8jnjXlBkmi09JHLZK5XP.Ee0HU3ZWS', //MK:123456@
         role: 'admin',
         provider: 'local',
       },
@@ -27,7 +27,7 @@ export const seed = async function (knex) {
         name: 'Admin User 3',
         email: 'admin3@gmail.com',
         verified: true,
-        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        password: '$2a$12$JyedkuXirFOpIkJZBY0uzug8jnjXlBkmi09JHLZK5XP.Ee0HU3ZWS', //MK:123456@
         role: 'admin',
         provider: 'local',
       }
