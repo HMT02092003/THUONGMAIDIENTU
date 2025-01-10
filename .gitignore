@@ -41,4 +41,4 @@ next-env.d.ts
 yarn.lock
 
 # connection
-Connection.ts
+src/lib/Databases/Connection.ts
