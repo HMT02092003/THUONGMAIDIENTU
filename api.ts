@@ -183,7 +183,6 @@ router.get('/getProductByBrand/:id', (req, res) => {
 router.get('/getRecommend/:productId', (req, res) => {
   getRecommendProduct(req, res);
 });
-router.get
 // ===================================SEARCH===================================
 router.get('/search', (req, res) => {
   getSearchProduct(req, res);
