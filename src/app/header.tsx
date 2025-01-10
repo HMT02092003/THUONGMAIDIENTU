@@ -28,6 +28,11 @@ const HeaderPage = () => {
   const brands = ['Dell', 'HP', 'Lenovo', 'Apple', 'Acer', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus', 'Asus'];
   const priceRanges = ['10-15 triệu', '15-20 triệu', '20-25 triệu', '25-30 triệu', '30-35 triệu', '35-40 triệu'];
   const needs = ['Sinh viên', 'Văn phòng', 'Gaming', 'Lập trình', 'Đồ họa'];
+  const content = (
+    <div>
+      <p>Địa chỉ: 123 Phố Giả, Phường Ảo, Quận 9, TP. Hồ Chí Minh</p>
+    </div>
+  );
 
   const checkAuthHandel = () => {
     const authToken = Cookies.get('token');
@@ -556,9 +561,11 @@ const HeaderPage = () => {
                   }
                 }
               }}>
-              <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent', }}>
-                <img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng
-              </Button>
+              <Popover content={content} title="Thông tin cửa hàng" trigger="click">
+                <Button style={{ marginLeft: '20px', fontWeight: 600, border: 'transparent' }}>
+                  <img src="/icon/gps.png" alt="" style={{ width: 25 }} />Địa chỉ cửa hàng
+                </Button>
+              </Popover>
             </ConfigProvider>
           </Col>
           <Col span={4}>
