@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Input, Button, Layout, Menu, Table, Form, Row, Col, Divider, Modal } from "antd";
+import React, { useState, useEffect, use } from "react";
+import { Input, Button, Layout, Menu, Table, Form, Row, Col, Divider, Modal, message } from "antd";
 import { UserOutlined, HistoryOutlined, GiftOutlined, EnvironmentOutlined, StarOutlined, QuestionCircleOutlined, LogoutOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
+import axios from "axios";
+import Cookies from 'js-cookie';
+import { getDecodedToken } from '@/src/utils/decode-token';
+import { set, update } from "lodash";
 
 const { Content } = Layout;
 
@@ -12,6 +16,7 @@ interface ProfileData {
   name: string;
   phone: string;
   email: string;
+  address: string;
 }
 
 interface OrderData {
@@ -52,12 +57,45 @@ const Profile: React.FC = () => {
 
   // Profile data state
   const [profileData, setProfileData] = useState<ProfileData>({
-    name: "Sơn Đặng",
+    name: "",
     phone: "",
-    email: "pankimoon189@gmail.com",
+    email: "",
+    address: "",
   });
+  const [form] = Form.useForm();
+  const [userId, setUserId] = useState<any>();
 
-  const [editableProfile, setEditableProfile] = useState<ProfileData>({ ...profileData });
+  const fetchUserId = async () => {
+    const authToken = Cookies.get('token');
+    if (authToken) {
+      const tokenAfterDecode = getDecodedToken(authToken);
+      setUserId(tokenAfterDecode?.sub); // Chỉ cập nhật userId
+    }
+  };
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/getCustomer/${userId}`);
+      console.log('response', response.data.data.user);
+      setProfileData(response.data.data.user);
+      form.setFieldsValue(response.data.data.user);
+    } catch (error) {
+      console.error("Failed to fetch profile data: ", error);
+    }
+  };
+
+  // useEffect để gọi fetchUserId khi component mount
+  useEffect(() => {
+    fetchUserId();
+  }, []);
+
+  // useEffect để gọi fetchProfileData khi userId thay đổi
+  useEffect(() => {
+    if (userId) {
+      fetchProfileData();
+    }
+  }, [userId]);
+
 
   // Update greeting based on time of day
   useEffect(() => {
@@ -74,7 +112,18 @@ const Profile: React.FC = () => {
     }
   }, []);
 
-  // Menu items configuration
+  const updateProfile = async (values: any) => {
+    try {
+      console.log('values', values);
+      const response = await axios.patch(`http://localhost:4000/api/updateCustomer/${userId}`, values);
+      console.log('response', response.data);
+      message.success("Cập nhật thông tin người dùng thành công");
+      fetchProfileData();
+    } catch (error) {
+      console.error("Failed to update profile: ", error);
+    }
+  }
+
   const menuItems = [
     { key: "1", icon: <UserOutlined />, label: "Thông tin tài khoản" },
     { key: "2", icon: <HistoryOutlined />, label: "Lịch sử đơn hàng" },
@@ -114,7 +163,8 @@ const Profile: React.FC = () => {
 
   const subGreetingStyle: React.CSSProperties = {
     margin: 0,
-    fontSize: '20px'
+    fontSize: '20px',
+    color: '#69b1ff',
   };
 
   const sidebarStyle: React.CSSProperties = {
@@ -170,38 +220,51 @@ const Profile: React.FC = () => {
                   <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>
                     Thông tin tài khoản
                   </h2>
-                  <Form layout="vertical">
+                  <Form layout="vertical" onFinish={updateProfile} form={form}>
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="Tên của bạn">
+                        <Form.Item name="name" label="Tên của bạn">
                           <Input
                             prefix={<UserOutlined />}
-                            value={profileData.name}
+                            placeholder="Nhập tên của bạn"
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item name="email" label="Email">
+                          <Input
                             readOnly
                           />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label="Số điện thoại">
+                        <Form.Item
+                          name="phoneNumber"
+                          label="Số điện thoại"
+                          rules={[
+                            { required: true, message: 'Vui lòng nhập số điện thoại!' },
+                            { pattern: /^\d{10}$/, message: 'Số điện thoại phải gồm đúng 10 chữ số!' },
+                          ]}
+                        >
                           <Input
                             placeholder="Nhập số điện thoại"
-                            value={profileData.phone}
                           />
                         </Form.Item>
                       </Col>
-                    </Row>
-                    <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item label="Email">
+                        <Form.Item
+                          name="address"
+                          label="Nhập địa chỉ"
+                          rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}
+                        >
                           <Input
-                            value={profileData.email}
-                            readOnly
+                            placeholder="Nhập địa chỉ"
                           />
                         </Form.Item>
                       </Col>
                     </Row>
                     <Divider />
-                    <Button type="primary">Đổi mật khẩu</Button>
+                    <Button type="primary" htmlType="submit">Cập nhật thông tin người dùng</Button>
                   </Form>
                 </div>
               )}
