@@ -50,6 +50,7 @@ import {
   updatePaymentMethod,
   getOrderByUserID,
   updateOrderStatus,
+  getStatistics
 } from './src/controller/order-controller';
 import { updateCustomer } from './src/controller/customer-controller';
 
@@ -220,6 +221,10 @@ router.get('/getOrderByUserID/:userId', (req, res) => {
 
 router.patch('/updateOrderStatus/:id', (req, res) => {
   updateOrderStatus(req, res);
+});
+
+router.get('/getStatic', (req, res) => {
+  getStatistics(req, res);
 });
 //=========================CUSTOMER==============================
 router.patch('/updateCustomer/:id', (req, res) => {

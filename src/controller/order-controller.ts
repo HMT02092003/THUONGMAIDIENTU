@@ -197,3 +197,28 @@ export const updateOrderStatus = async (req: any, res: any) => {
     }
 };
 
+export const getStatistics = async (req: any, res: any) => {
+    try {
+        // Query để tính tổng doanh thu theo tháng
+        const monthlyRevenue = await Order.query()
+            .select(
+                Order.knex().raw('to_char("orderDate", \'YYYY-MM\') as month'),
+                Order.knex().raw('SUM("totalAmount") as total')
+            )
+            .groupByRaw('to_char("orderDate", \'YYYY-MM\')')
+            .orderByRaw('month ASC');
+
+        return res.status(200).json({
+            success: true,
+            data: monthlyRevenue,
+            message: 'Monthly revenue retrieved successfully'
+        });
+
+    } catch (error: any) {
+        console.error('Error getting monthly revenue:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
