@@ -1,72 +1,33 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Tag } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, Tag, message } from 'antd';
+import type { TableColumnsType } from 'antd';
+import { createStyles } from 'antd-style';
+import { render } from 'react-dom';
 
-const orderData = [
-    {
-        key: '1',
-        orderId: 'd5cfb4ce-ee38-4941-8db1-66c39b830ae7',
-        status: 'Chờ Xác Nhận',
-        total: '3,000.00 VNĐ',
-        orderDate: '10/1/2025',
-        customer: 'Hoàng Mạnh Toàn SSSA',
-        phone: '1234567890',
-        address: 'SDFHBEWKJHUFUSDF',
-        paymentMethod: 'không xác định',
-        approver: 'không xác định',
-    },
-    {
-        key: '2',
-        orderId: 'ed4892a1-9f62-423e-beda-ea382bc1813c',
-        status: 'Đã Giao',
-        total: '3,190,000.00 VNĐ',
-        orderDate: '10/1/2025',
-        customer: 'Nguyễn Văn A',
-        phone: '1234567890',
-        address: 'queqwe',
-        paymentMethod: 'Thanh toán khi nhận hàng',
-        approver: 'Admin User',
-    },
-    {
-        key: '3',
-        orderId: 'd01dc553-8a92-42fa-a241-2b3b9a49755',
-        status: 'Đang Giao',
-        total: '3,000.00 VNĐ',
-        orderDate: '10/1/2025',
-        customer: 'Nguyễn Văn A',
-        phone: '1234567890',
-        address: 'queqwequr',
-        paymentMethod: 'Thanh toán khi nhận hàng',
-        approver: 'Admin User 2',
-    },
-    {
-        key: '4',
-        orderId: 'da560b6f-b7dc-42b1-a45d-469e250ca4d3',
-        status: 'Đã Xác Nhận',
-        total: '5,170,000.00 VNĐ',
-        orderDate: '10/1/2025',
-        customer: 'Hoàng Mạnh Toàn',
-        phone: '1234567890',
-        address: 'SDFHBEWKJHUFUSDF',
-        paymentMethod: 'Thanh toán khi nhận hàng',
-        approver: 'Admin User',
-    },
-    {
-        key: '5',
-        orderId: '71ba86cd-a107-46e6-a323-6db14a53a210',
-        status: 'Đã Hủy',
-        total: '6,000.00 VNĐ',
-        orderDate: '10/1/2025',
-        customer: 'Hoàng Mạnh Toàn',
-        phone: '1234567890',
-        address: 'SDFHBEWKJHUFUSDF',
-        paymentMethod: 'MoMo',
-        approver: 'Admin User',
-    },
-];
+const useStyle = createStyles(({ css, token }: { css: any; token: any }) => {
+    const { antCls } = token;
+    return {
+        customTable: css`
+        ${antCls}-table {
+          ${antCls}-table-container {
+            ${antCls}-table-body,
+            ${antCls}-table-content {
+              scrollbar-width: thin;
+              scrollbar-color: #eaeaea transparent;
+              scrollbar-gutter: stable;
+            }
+          }
+        }
+      `,
+    };
+});
+
 
 const OrderHistory: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<any>(null);
+    const { styles } = useStyle();
+    const [dataSource, setDataSource] = useState<any[]>([]);
 
     const showModal = (order: any) => {
         setSelectedOrder(order);
@@ -78,28 +39,65 @@ const OrderHistory: React.FC = () => {
         setSelectedOrder(null);
     };
 
-    const columns = [
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/getAllOrder');
+            const data = await response.json();
+            setDataSource(data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            message.error('Không thể tải dữ liệu đơn hàng');
+        }
+    };
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
+
+    const columns: any = [
         {
             title: 'Mã Đơn Hàng',
-            dataIndex: 'orderId',
-            key: 'orderId',
+            dataIndex: 'orderNumber',
+            key: 'orderNumber',
         },
         {
             title: 'Trạng Thái',
             dataIndex: 'status',
             key: 'status',
+            fixed: 'left' as 'left',
             render: (status: string) => {
-                let color = 'green';
-                if (status === 'Chờ Xác Nhận') color = 'orange';
-                else if (status === 'Đang Giao') color = 'blue';
-                else if (status === 'Đã Hủy') color = 'red';
-                return <Tag color={color}>{status}</Tag>;
+                let color = '';
+                let text = status;
+                switch (status) {
+                    case 'pending':
+                        color = 'orange';
+                        text = 'Chờ Xác Nhận';
+                        break;
+                    case 'confirmed':
+                        color = 'blue';
+                        text = 'Đã Xác Nhận';
+                        break;
+                    case 'shipped':
+                        color = 'purple';
+                        text = 'Đang Giao';
+                        break;
+                    case 'delivered':
+                        color = 'green';
+                        text = 'Đã Giao';
+                        break;
+                    case 'cancelled':
+                        color = 'red';
+                        text = 'Đã Hủy';
+                        break;
+                }
+                return <Tag color={color}>{text}</Tag>;
             },
         },
         {
             title: 'Tổng Tiền',
-            dataIndex: 'total',
-            key: 'total',
+            dataIndex: 'totalAmount',
+            key: 'totalAmount',
+            render: (total: string) => <span style={{ color: "#ff4d4f" }}>{total}</span>
         },
         {
             title: 'Ngày Đặt Hàng',
@@ -108,34 +106,53 @@ const OrderHistory: React.FC = () => {
         },
         {
             title: 'Khách Hàng',
-            dataIndex: 'customer',
-            key: 'customer',
+            dataIndex: 'name',
+            key: 'name',
+            render: (customer: string) => <span style={{ color: "#69b1ff" }}>{customer}</span>
         },
         {
             title: 'Số Điện Thoại',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
         },
         {
             title: 'Địa Chỉ',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'shippingAddress',
+            key: 'shippingAddress',
         },
         {
             title: 'Phương Thức Thanh Toán',
             dataIndex: 'paymentMethod',
             key: 'paymentMethod',
-        },
-        {
-            title: 'Người duyệt',
-            dataIndex: 'approver',
-            key: 'approver',
+            render: (paymentMethod: string | number) => {
+                let text = '';
+                let color = '';
+                switch (String(paymentMethod)) {
+                    case '1':
+                        text = 'Thanh Toán Trực Tiếp';
+                        color = 'green';
+                        break;
+                    case '2':
+                        text = 'ZaloPay';
+                        color = 'blue';
+                        break;
+                    case '3':
+                        text = 'Momo';
+                        color = 'magenta';
+                        break;
+                    default:
+                        text = 'Không xác định';
+                        color = 'red';
+                }
+                return <Tag color={color}>{text}</Tag>;
+            },
         },
         {
             title: 'Hành Động',
             key: 'action',
+            fixed: 'right',
             render: (_: any, record: any) => (
-                <Button type="primary" onClick={() => showModal(record)}>
+                <Button color='primary' variant="filled" type="primary" onClick={() => showModal(record)}>
                     Xem Chi Tiết
                 </Button>
             ),
@@ -144,11 +161,11 @@ const OrderHistory: React.FC = () => {
 
     return (
         <div>
-            <Table columns={columns} dataSource={orderData} />
+            <Table columns={columns} dataSource={dataSource} scroll={{ x: 'max-content' }} className={styles.customTable} />
 
             <Modal
                 title="Chi Tiết Đơn Hàng"
-                visible={isModalVisible}
+                open={isModalVisible}
                 onCancel={handleCancel}
                 footer={null}
             >

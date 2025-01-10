@@ -181,8 +181,7 @@ const Profile: React.FC = () => {
 
   const contentStyle: React.CSSProperties = {
     backgroundColor: '#ffffff',
-    padding: '24px',
-    borderRadius: '8px'
+    borderRadius: '15px'
   };
 
   return (
@@ -199,7 +198,7 @@ const Profile: React.FC = () => {
 
         <Row gutter={24}>
           {/* Sidebar */}
-          <Col span={9}>
+          <Col span={7}>
             <div style={sidebarStyle}>
               <Menu
                 mode="vertical"
@@ -212,7 +211,7 @@ const Profile: React.FC = () => {
           </Col>
 
           {/* Main Content */}
-          <Col span={15}>
+          <Col span={17}>
             <div style={contentStyle}>
               {selectedMenu === "1" && (
                 <div>
