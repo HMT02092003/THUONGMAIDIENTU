@@ -474,7 +474,6 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                                 <Select
                                                     options={[
                                                         { value: "admin", label: "admin" },
-                                                        { value: "user", label: "user" },
                                                         { value: "manager", label: "manager" },
                                                     ]}
                                                 />

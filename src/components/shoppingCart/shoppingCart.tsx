@@ -260,7 +260,10 @@ const ShoppingCart: React.FC = () => {
                 <Image src={item.productImage} alt={item.name} width={100} height={100} className="cartImage" />
                 <div className="product">
                   <Title level={5}>{item.name}</Title>
-                  <Text type="secondary">Phiên bản: {item.version} | Màu: {item.color}</Text>
+                  <Text type="secondary">
+                    Phiên bản: {item.variants[0]?.version || 'N/A'} |
+                    Màu: {item.variants[0]?.color || 'N/A'}
+                  </Text>
                   <div className="quantityControl">
                     <Button
                       icon={<MinusOutlined />}
@@ -357,7 +360,10 @@ const ShoppingCart: React.FC = () => {
                         <Image src={item.productImage} alt={item.name} width={100} height={100} className="cartImage" />
                         <div className="product">
                           <Title level={5}>{item.name}</Title>
-                          <Text type="secondary">Phiên bản: {item.version} | Màu: {item.color}</Text>
+                          <Text type="secondary">
+                            Phiên bản: {item.variants[0]?.version || 'N/A'} |
+                            Màu: {item.variants[0]?.color || 'N/A'}
+                          </Text>
                           <div className="quantityControl">
                             <Button
                               icon={<MinusOutlined />}
@@ -481,7 +487,7 @@ const ShoppingCart: React.FC = () => {
                         borderRadius: '10px',
                       }}
                       onClick={() => ZaloHandel()}
-                    ><img src="/icon/ZaloPay_logo.webp" alt="" style={{width:'28px'}}/>
+                    ><img src="/icon/ZaloPay_logo.webp" alt="" style={{ width: '28px' }} />
                       ZaloPay
                     </Button>
                     <Button
@@ -495,7 +501,7 @@ const ShoppingCart: React.FC = () => {
                         borderRadius: '10px',
                       }}
                       onClick={() => MomoHandel()}
-                    ><img src="/icon/momo-white-logo.png" alt="" style={{width:'20px'}} />
+                    ><img src="/icon/momo-white-logo.png" alt="" style={{ width: '20px' }} />
                       MoMo
                     </Button>
                   </Button.Group>
