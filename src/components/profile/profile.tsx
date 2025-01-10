@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { getDecodedToken } from '@/src/utils/decode-token';
+import OrderHistory from "./OrderHistory";
 
 const { Content } = Layout;
 
@@ -271,29 +272,7 @@ const Profile: React.FC = () => {
               )}
 
               {selectedMenu === "2" && (
-                <div>
-                  <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>
-                    Lịch sử đơn hàng
-                  </h2>
-                  <Table
-                    columns={[
-                      { title: "Mã đơn hàng", dataIndex: "orderNumber", key: "orderNumber" },
-                      { title: "Ngày đặt", dataIndex: "orderDate", key: "orderDate" },
-                      { title: "Trạng thái", dataIndex: "status", key: "status" },
-                      { title: "Tổng tiền", dataIndex: "totalAmount", key: "totalAmount" },
-                      {
-                        title: "Chi tiết",
-                        key: "action",
-                        render: (_, record) => (
-                          <Button type="link" onClick={() => setIsModalVisible(true)}>
-                            Xem chi tiết
-                          </Button>
-                        ),
-                      },
-                    ]}
-                    dataSource={[]}
-                  />
-                </div>
+                <OrderHistory />
               )}
 
               {/* Other menu content would go here */}
