@@ -56,13 +56,13 @@ const ShoppingCart: React.FC = () => {
     try {
       const storedData = localStorage.getItem("cart");
       if (!storedData) {
-        throw new Error("No product data found in cart");
+        throw new Error("Không có sản phẩm nào trong giỏ hàng.");
       }
 
       const parsedData = JSON.parse(storedData);
       setCartData(parsedData);
     } catch (error: any) {
-      message.error(error.message || "An unknown error occurred.");
+      message.error(error.message || "Lỗi trong quá trình lấy dữ liệu sản phẩm.");
     }
   };
 
@@ -129,7 +129,7 @@ const ShoppingCart: React.FC = () => {
 
       const productData = localStorage.getItem("cart");
       if (!productData) {
-        throw new Error("No product data found in cart");
+        throw new Error("Không có sản phẩm nào trong giỏ hàng.");
       }
       const productDataPaser = JSON.parse(productData);
 
@@ -481,7 +481,7 @@ const ShoppingCart: React.FC = () => {
                         borderRadius: '10px',
                       }}
                       onClick={() => ZaloHandel()}
-                    ><img src="/icon/ZaloPay_logo.webp" alt="" style={{width:'20px'}}/>
+                    ><img src="/icon/ZaloPay_logo.webp" alt="" style={{width:'28px'}}/>
                       ZaloPay
                     </Button>
                     <Button

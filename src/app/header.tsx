@@ -1,6 +1,6 @@
 import React, { use, useEffect, useRef, useState } from 'react';
 import { ConfigProvider, Input, Button, Row, Col, Carousel, Popover, Form, message, Dropdown } from 'antd';
-import { LeftOutlined, RightOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined, ArrowRightOutlined, InfoCircleOutlined, LoginOutlined,LogoutOutlined,FormOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { CarouselRef } from 'antd/es/carousel'; // Thêm import CarouselRef
 import axios from "axios";
@@ -68,7 +68,7 @@ const HeaderPage = () => {
               onClick={() => router.push('/profile')}
               style={{ width: '100%' }}
             >
-              Thông tin cá nhân
+              <InfoCircleOutlined />Thông tin cá nhân
             </Button>
             <Button
               color="danger"
@@ -79,7 +79,7 @@ const HeaderPage = () => {
               }}
               style={{ width: '100%' }}
             >
-              Đăng xuất
+              <LogoutOutlined />Đăng xuất
             </Button>
           </>
         ) : (
@@ -90,7 +90,7 @@ const HeaderPage = () => {
               onClick={handleLoginClick}
               style={{ width: '100%' }}
             >
-              Đăng nhập
+              <LoginOutlined />Đăng nhập
             </Button>
             <Button
               color="default"
@@ -98,7 +98,7 @@ const HeaderPage = () => {
               onClick={handleRegisterClick}
               style={{ width: '100%' }}
             >
-              Đăng ký
+              <FormOutlined />Đăng ký
             </Button>
           </>
         )}
