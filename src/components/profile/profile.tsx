@@ -259,7 +259,7 @@ const Profile: React.FC = () => {
                         >
                           <Input
                             placeholder="Nhập địa chỉ"
-                            prefix={<AimOutlined />}
+                            prefix={<EnvironmentOutlined />}
                           />
                         </Form.Item>
                       </Col>

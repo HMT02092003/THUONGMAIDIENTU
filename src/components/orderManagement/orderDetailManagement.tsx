@@ -198,21 +198,27 @@ const OrderDetailView: React.FC<any> = ({ id }) => {
       dataIndex: 'variants',
       align: 'center',
       key: 'variants-price',
-      render: (variants: any, record: any) => {
-        const price = variants.map((variant: any) => variant.price).reduce((acc: number, cur: number) => acc + cur, 0);
-        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-      }
+      render: (variant: any) => (
+        variant.map((item: any) => (
+          <span key={item.price}>{Number(item.price).toLocaleString('vi-VN')}</span>
+        ))
+      )
     },
     {
       title: 'Số lượng',
-      dataIndex: 'variants',
-      key: 'variants-quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
       align: 'center',
-      render: (variants: any, record: any) => (
-        variants.map((variant: any) => {
-          return <span key={`${record.productId}-type-${variant.type}`}>{variant.quantity}</span>;
-        })
-      )
+    },
+    {
+      title: 'Tổng',
+      dataIndex: 'variants',
+      key: 'variants',
+      align: 'center',
+      render: (variants: any, record: any) => {
+        const total = variants.reduce((sum: number, current: any) => sum + (current.price * record.quantity), 0);
+        return total.toLocaleString('vi-VN');
+      }
     },
   ];
 
@@ -318,7 +324,7 @@ const OrderDetailView: React.FC<any> = ({ id }) => {
             const total = pageData.reduce((sum, current) => sum + (current.price * current.quantity), 0);
             return (
               <Table.Summary.Row>
-                <Table.Summary.Cell index={0} colSpan={6} align="right">
+                <Table.Summary.Cell index={0} colSpan={7} align="right">
                   <strong>Tổng cộng</strong>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={1} align="right">
