@@ -42,6 +42,23 @@ const App: React.FC = () => {
 
   const router = useRouter()
 
+  const carouselContent = [
+    {
+      imgSrc: "/logo/frame-961182-optimized-thinkpro.webp",
+      alt: "Slide 1",
+      style: { backgroundColor: 'black', height: '300px', borderRadius: '10px' },
+    },
+    {
+      imgSrc: "/logo/340991422_738592324410569_8236240325667052744_n.jpg",
+      alt: "Slide 2",
+      style: { backgroundColor: 'gray', height: '300px', borderRadius: '10px' },
+    },
+    {
+      imgSrc: "/logo/frame-961219-2-thinkpro.webp",
+      alt: "Slide 3",
+      style: { backgroundColor: 'blue', height: '300px', borderRadius: '10px' },
+    },
+  ];
 
   const boxes = [
     { id: 1, text: 'Trải nghiệm tận tay', img: '/icon/usp-1.png', Color: '#faf4ff' },
@@ -105,8 +122,23 @@ const App: React.FC = () => {
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
-        <div>
-            <Col><img src="/logo/frame-961182-optimized-thinkpro.webp" alt="" width={1200} style={{ height: '300px', backgroundColor: 'black', marginTop: '30px', marginBottom: '30px', borderRadius: '10px', color: 'white' }} /></Col>
+      <div style={{ margin: '30px 0' }}>
+          <Carousel autoplay>
+            {carouselContent.map((slide, index) => (
+              <div key={index}>
+                <img
+                  src={slide.imgSrc}
+                  alt={slide.alt}
+                  style={{
+                    width: '100%',
+                    height: slide.style.height,
+                    borderRadius: slide.style.borderRadius,
+                    objectFit: 'cover',
+                  }}
+                />
+              </div>
+            ))}
+          </Carousel>
         </div>
         <Row style={{ fontWeight: '600', fontSize: '28px', lineHeight: '40px' }}>Danh mục nổi bật</Row>
         <div style={{ marginTop: '1.25rem' }}>
