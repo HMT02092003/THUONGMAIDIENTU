@@ -113,6 +113,7 @@ const OrderManagement: React.FC = () => {
       title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
+      fixed: 'left' as 'left',
       filters: [
         { text: 'Pending', value: 'pending' },
         { text: 'Completed', value: 'completed' },
@@ -122,18 +123,30 @@ const OrderManagement: React.FC = () => {
       onFilter: (value: string | number | boolean, record: OrderType) => record.status === value,
       render: (status: string) => {
         let color = '';
+        let text = status;
         switch (status) {
           case 'pending':
             color = 'orange';
+            text = 'Chờ Xác Nhận';
             break;
-          case 'completed':
+          case 'confirmed':
+            color = 'blue';
+            text = 'Đã Xác Nhận';
+            break;
+          case 'shipped':
+            color = 'purple';
+            text = 'Đang Giao';
+            break;
+          case 'delivered':
             color = 'green';
+            text = 'Đã Giao';
             break;
           case 'cancelled':
             color = 'red';
+            text = 'Đã Hủy';
             break;
         }
-        return <Tag color={color}>{status}</Tag>;
+        return <Tag color={color}>{text}</Tag>;
       },
     },
     {
@@ -175,6 +188,31 @@ const OrderManagement: React.FC = () => {
           <Tag color='magenta'>{method === 1 ? 'Thanh toán khi nhận hàng' : method === 2 ? 'ZaloPay' : method === 3 ? 'MoMo' : 'không xác định'}</Tag>
         </>
       )
+    },
+    {
+      title: 'Phương Thức Thanh Toán',
+      dataIndex: 'paymentMethod',
+      key: 'paymentMethod',
+      render: (method: number) => (
+        <>
+          <Tag color='magenta'>{method === 1 ? 'Thanh toán khi nhận hàng' : method === 2 ? 'ZaloPay' : method === 3 ? 'MoMo' : 'không xác định'}</Tag>
+        </>
+      )
+    },
+    {
+      title: 'Người duyệt',
+      dataIndex: 'statusHistory',
+      key: 'statusHistory',
+      render: (method: any) => (
+        method.map((item: any) => {
+          const colors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          return (
+            <Tag color={randomColor} key={item.updatedBy}>{item.user.name}</Tag>
+          )
+        }
+        )
+      )
     }
   ];
 
@@ -188,24 +226,6 @@ const OrderManagement: React.FC = () => {
           </h2>
         </Col>
         <Col className="button-group">
-          <Space>
-            <Button
-              type="primary"
-              className="button-create"
-              icon={<PlusOutlined />}
-              onClick={handleAddNew}
-            >
-              Tạo mới
-            </Button>
-            <Button
-              type="primary"
-              className="button-delete"
-              onClick={handleDeleteSelected}
-              icon={<DeleteOutlined />}
-            >
-              Xóa
-            </Button>
-          </Space>
         </Col>
       </Row>
 

@@ -39,8 +39,18 @@ import {
   getSearchProduct,
   getRecommendProduct
 } from './src/controller/product-controller';
-import { momoPayment, zaloPayment } from './src/controller/payment-controllers';
-import { createOrder, getAllOrder, getOrderByID, updatePaymentMethod, getOrderByUserID } from './src/controller/order-controller';
+import {
+  momoPayment,
+  zaloPayment
+} from './src/controller/payment-controllers';
+import {
+  createOrder,
+  getAllOrder,
+  getOrderByID,
+  updatePaymentMethod,
+  getOrderByUserID,
+  updateOrderStatus,
+} from './src/controller/order-controller';
 
 
 
@@ -207,6 +217,10 @@ router.patch('/updatePaymentMethod/:id', (req, res) => {
 
 router.get('/getOrderByUserID/:userId', (req, res) => {
   getOrderByUserID(req, res);
+});
+
+router.patch('/updateOrderStatus/:id', (req, res) => {
+  updateOrderStatus(req, res);
 });
 //=========================CUSTOMER==============================
 
