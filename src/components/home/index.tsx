@@ -13,8 +13,7 @@ import { CarouselRef } from 'antd/es/carousel';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Snowflakes from 'magic-snowflakes';
-
-const snowflakes = new Snowflakes();
+import { usePathname } from 'next/navigation';
 
 const { Content, Footer } = Layout;
 const { Title, Text, Link } = Typography;
@@ -37,7 +36,8 @@ const App: React.FC = () => {
   const [category, setCategory] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-
+  const pathname = usePathname(); // Thêm hook này
+  const [snowflakesInstance, setSnowflakesInstance] = useState<any>(null);
   console.log('products:', products)
 
   const router = useRouter()
@@ -116,13 +116,28 @@ const App: React.FC = () => {
   useEffect(() => {
     getAllCategory();
     getAllProduct();
-    snowflakes.start();
-  }, []);
+
+    // Chỉ khởi tạo hiệu ứng tuyết khi ở trang home
+    if (pathname === '/home') {
+      const newSnowflakes = new Snowflakes();
+      setSnowflakesInstance(newSnowflakes);
+      newSnowflakes.start();
+
+      // Cleanup function
+      return () => {
+        if (newSnowflakes) {
+          newSnowflakes.destroy(); // hoặc .stop() tùy theo API của thư viện
+          const snowflakeElements = document.querySelectorAll('.snowflake');
+          snowflakeElements.forEach(element => element.remove());
+        }
+      };
+    }
+  }, [pathname]);
 
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
-      <div style={{ margin: '30px 0' }}>
+        <div style={{ margin: '30px 0' }}>
           <Carousel autoplay>
             {carouselContent.map((slide, index) => (
               <div key={index}>

@@ -40,5 +40,5 @@ yarn-error.log*
 next-env.d.ts
 yarn.lock
 
-#connection
-@/src/lib/Databases/Connection.ts
+# connection
+src/lib/Databases/Connection.ts

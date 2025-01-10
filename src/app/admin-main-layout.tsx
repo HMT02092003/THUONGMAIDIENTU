@@ -7,6 +7,7 @@ import {
     UserOutlined,
     UnorderedListOutlined,
     GlobalOutlined,
+    PieChartOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme, Avatar, message } from 'antd';
@@ -35,6 +36,7 @@ const UserList = ['U', 'Lucy', 'Tom', 'Edward'];
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
 const items: MenuItem[] = [
+    getItem('Thống kê', 'orderStatistics', <PieChartOutlined />),
     getItem('Quản lí người dùng ', 'profileManagement', <UserOutlined />),
     getItem('Quản lí sản phẩm', 'productManagement', <AppstoreOutlined />),
     getItem('Quản lí đơn hàng', 'orderManagement', <ShoppingCartOutlined />),
@@ -69,6 +71,9 @@ const AdminMainLayout: React.FC<any> = ({ children, role }) => {
                 break;
             case 'brandManagement':
                 router.push('/brandManagement');
+                break;
+            case 'orderStatistics':
+                router.push('/orderStatistics');
                 break;
             default:
                 break;
