@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [category, setCategory] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-
+  const [snowflakes, setSnowflakes] = useState<any>(null);
   console.log('products:', products)
 
   const router = useRouter()
@@ -114,15 +114,26 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
+    // Khởi tạo snowflakes khi component mount
+    const snowflakesInstance = new Snowflakes();
+    setSnowflakes(snowflakesInstance);
+
     getAllCategory();
     getAllProduct();
-    snowflakes.start();
+    snowflakesInstance.start();
+
+    // Cleanup khi component unmount
+    return () => {
+      if (snowflakesInstance) {
+        snowflakesInstance.destroy(); // hoặc .stop() tùy theo API của thư viện
+      }
+    };
   }, []);
 
   return (
     <>
       <div style={{ justifySelf: 'center', width: '1200px' }}>
-      <div style={{ margin: '30px 0' }}>
+        <div style={{ margin: '30px 0' }}>
           <Carousel autoplay>
             {carouselContent.map((slide, index) => (
               <div key={index}>
