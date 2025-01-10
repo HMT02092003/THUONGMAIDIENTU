@@ -54,6 +54,15 @@ const Register = () => {
                                 name="name"
                                 label="Họ và tên"
                                 labelCol={{ span: 24 }}
+                                rules={[
+                                    { required: true, message: 'Họ và tên không được để trống!' },
+                                    {
+                                        pattern: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỉịọỏốồổỗộớờởỡợỤỦỨỪỬỮựỳỵỷỹ\s]+$/,
+                                        message: 'Họ và tên chỉ được chứa chữ cái và khoảng trắng!',
+                                    },
+                                    { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự!' },
+                                    { max: 50, message: 'Họ và tên không được vượt quá 50 ký tự!' },
+                                ]}
                             >
                                 <Input
                                     placeholder="Họ và tên"
@@ -61,11 +70,17 @@ const Register = () => {
                                     style={{ height: '50px', borderRadius: '10px' }}
                                 />
                             </Form.Item>
-
                             <Form.Item
                                 name="email"
                                 label="Email"
                                 labelCol={{ span: 24 }}
+                                rules={[
+                                    { required: true, message: 'Email không được để trống!' },
+                                    {
+                                        type: 'email',
+                                        message: 'Vui lòng nhập đúng định dạng email!',
+                                    },
+                                ]}
                             >
                                 <Input
                                     placeholder="Email"
@@ -76,8 +91,15 @@ const Register = () => {
 
                             <Form.Item
                                 name="password"
-                                label="Mât khẩu"
+                                label="Mật khẩu"
                                 labelCol={{ span: 24 }}
+                                rules={[
+                                    { required: true, message: 'Mật khẩu không được để trống!' },
+                                    {
+                                        pattern: /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                                        message: 'Mật khẩu phải có ít nhất 6 ký tự và chứa ít nhất 1 ký tự đặc biệt!',
+                                    },
+                                ]}
                             >
                                 <Input.Password
                                     placeholder="Mật khẩu"
@@ -90,6 +112,18 @@ const Register = () => {
                                 name="rePassword"
                                 label="Nhập lại mật khẩu"
                                 labelCol={{ span: 24 }}
+                                dependencies={['password']} // Phụ thuộc vào trường password
+                                rules={[
+                                    { required: true, message: 'Vui lòng nhập lại mật khẩu!' },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('password') === value) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject(new Error('Mật khẩu nhập lại không khớp!'));
+                                        },
+                                    }),
+                                ]}
                             >
                                 <Input.Password
                                     placeholder="Nhập lại mật khẩu"
@@ -97,6 +131,7 @@ const Register = () => {
                                     style={{ height: '50px', borderRadius: '10px' }}
                                 />
                             </Form.Item>
+
                         </div>
                         <Button type="primary" htmlType="submit" block className="login-button" style={{ height: '50px', marginTop: "20px" }}>
                             Đăng ký

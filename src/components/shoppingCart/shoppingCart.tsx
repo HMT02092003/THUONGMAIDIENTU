@@ -459,6 +459,7 @@ const ShoppingCart: React.FC = () => {
                       fontWeight: 'bold',
                       backgroundColor: '#73d13d',
                       borderColor: '#73d13d',
+                      borderRadius: '10px',
                     }}
                     onClick={() => {
                       updatePaymentMethod(1);
@@ -477,9 +478,10 @@ const ShoppingCart: React.FC = () => {
                         height: '40px',
                         fontSize: '14px',
                         fontWeight: 'bold',
+                        borderRadius: '10px',
                       }}
                       onClick={() => ZaloHandel()}
-                    >
+                    ><img src="/icon/ZaloPay_logo.webp" alt="" style={{width:'20px'}}/>
                       ZaloPay
                     </Button>
                     <Button
@@ -490,9 +492,10 @@ const ShoppingCart: React.FC = () => {
                         height: '40px',
                         fontSize: '14px',
                         fontWeight: 'bold',
+                        borderRadius: '10px',
                       }}
                       onClick={() => MomoHandel()}
-                    >
+                    ><img src="/icon/momo-white-logo.png" alt="" style={{width:'20px'}} />
                       MoMo
                     </Button>
                   </Button.Group>

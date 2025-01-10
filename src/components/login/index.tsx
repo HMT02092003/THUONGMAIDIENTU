@@ -60,6 +60,13 @@ const Login = () => {
                 name="email"
                 label="Email"
                 labelCol={{ span: 24 }}
+                rules={[
+                  { required: true, message: 'Email không được để trống!' },
+                  {
+                    type: 'email',
+                    message: 'Vui lòng nhập đúng định dạng email!',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Email"
@@ -72,6 +79,14 @@ const Login = () => {
                 name="password"
                 label="Password"
                 labelCol={{ span: 24 }}
+                rules={[
+                  { required: true, message: 'Mật khẩu không được để trống!' },
+                  {
+                    pattern: /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                    message:
+                      'Mật khẩu phải có ít nhất 6 ký tự và chứa ít nhất 1 ký tự đặc biệt!',
+                  },
+                ]}
               >
                 <Input.Password
                   placeholder="Password"
@@ -80,6 +95,7 @@ const Login = () => {
                 />
               </Form.Item>
             </div>
+
             <div className="form-options">
               <Checkbox>Remember me</Checkbox>
               <Link className="forgot-password" href="/forgotPassword">Quên mật khẩu?</Link>

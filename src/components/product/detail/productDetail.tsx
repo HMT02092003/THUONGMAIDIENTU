@@ -22,7 +22,7 @@ const ProductDetail: React.FC<any> = ({ id }) => {
         const response = await axios.post('http://localhost:4000/api/getProductById', { id });
         setProductData(response.data);
         setMainImage(response.data.image);
-        
+
         // Assuming the API response includes similar products in a separate field
         // If not, you'll need to modify the API to include this data
         if (response.data.similarProducts) {
@@ -104,16 +104,69 @@ const ProductDetail: React.FC<any> = ({ id }) => {
             ))}
           </Row>
           <br />
-          <Card title="Cấu hình đặc điểm" style={{ marginTop: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            <ul style={{ padding: '0 20px' }}>
-              {productData.specifications.map((item: any) => (
-                <li key={item.title} style={{ marginBottom: '10px', listStyleType: 'disc' }}>
-                  <Title level={5}>
-                    <Text>{item.title}: {item.info}</Text>
-                  </Title>
-                </li>
-              ))}
-            </ul>
+          <Card
+            title="Cấu hình đặc điểm"
+            style={{
+              marginTop: '20px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      padding: '10px',
+                      backgroundColor: '#f0f0f0',
+                      fontWeight: 'bold',
+                      textAlign: 'left',
+                      borderBottom: '1px solid #ddd',
+                    }}
+                  >
+                    Đặc điểm
+                  </th>
+                  <th
+                    style={{
+                      padding: '10px',
+                      backgroundColor: '#f0f0f0',
+                      fontWeight: 'bold',
+                      textAlign: 'left',
+                      borderBottom: '1px solid #ddd',
+                    }}
+                  >
+                    Thông tin
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {productData.specifications.map((item: any, index: number) => (
+                  <tr
+                    key={item.title}
+                    style={{
+                      backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#ffffff',
+                    }}
+                  >
+                    <td
+                      style={{
+                        padding: '10px',
+                        borderBottom: '1px solid #ddd',
+                      }}
+                    >
+                      {item.title}:
+                    </td>
+                    <td
+                      style={{
+                        padding: '10px',
+                        borderBottom: '1px solid #ddd',
+                      }}
+                    >
+                      {item.info}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </Card>
           <br />
           <Card title="Chính sách bảo hành & đổi trả" style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
@@ -204,7 +257,7 @@ const ProductDetail: React.FC<any> = ({ id }) => {
           </div>
         </Col>
       </Row>
-      
+
       {similarProducts.length > 0 && (
         <>
           <div style={{ fontSize: '20px', fontWeight: 500, marginTop: '20px' }}>
