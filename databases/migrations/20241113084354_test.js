@@ -358,8 +358,6 @@ export const up = async function (knex) {
   await knex.schema.createTable('OrderStatusHistory', (table) => {
     table.increments('id').primary();
     table.integer('orderId').unsigned().references('id').inTable('Order').onDelete('CASCADE');
-    table.string('fromStatus').notNullable();
-    table.string('toStatus').notNullable();
     table.integer('updatedBy').unsigned().references('id').inTable('User');
     table.text('note').nullable();
     table.dateTime('createdAt').defaultTo(knex.fn.now());

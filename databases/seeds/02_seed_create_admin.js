@@ -4,23 +4,43 @@
  */
 export const seed = async function (knex) {
 
-  // Insert admin user
-  const [adminUser] = await knex('User')
-    .insert({
-      name: 'Admin User',
-      email: 'admin@gmail.com',
-      verified: true,
-      password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
-      role: 'admin',
-      provider: 'local',
-    })
+  // Insert admin users
+  const adminUsers = await knex('User')
+    .insert([
+      {
+        name: 'Admin User 1',
+        email: 'admin1@gmail.com',
+        verified: true,
+        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        role: 'admin',
+        provider: 'local',
+      },
+      {
+        name: 'Admin User 2',
+        email: 'admin2@gmail.com',
+        verified: true,
+        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        role: 'admin',
+        provider: 'local',
+      },
+      {
+        name: 'Admin User 3',
+        email: 'admin3@gmail.com',
+        verified: true,
+        password: '$2a$12$SLJzLkvc/j.9wRtdjranV.CbKqIn3ce57hHu2VB4CHCgCR.jl/waa', //MK:1
+        role: 'admin',
+        provider: 'local',
+      }
+    ])
     .returning('id');
-  
-  // Map admin user to admin role
-  await knex('UserRole').insert({
-    userId: adminUser.id,  // Use adminUser.id instead of the object
-    roleId: 1,  // Use adminRole.id instead of the object
-  });
+
+  // Map admin users to admin role
+  for (const adminUser of adminUsers) {
+    await knex('UserRole').insert({
+      userId: adminUser.id,
+      roleId: 1,  // Assuming roleId 1 is for admin
+    });
+  }
 
   console.log('Admin seed data has been inserted successfully.');
 };
