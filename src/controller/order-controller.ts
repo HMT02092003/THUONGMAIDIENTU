@@ -137,17 +137,19 @@ export const getOrderByUserID = async (req: any, res: any) => {
     try {
         const { userId } = req.params;
 
+        // Truy vấn đơn hàng và chi tiết đơn hàng
         const orders = await Order.query()
             .where('customerId', userId)
             .orderBy('createdAt', 'desc')
+            .withGraphFetched('orderDetails');
 
         res.status(200).send(orders);
-
     } catch (error: any) {
         console.error(error);
         res.status(500).json({ message: error.message });
     }
 };
+
 
 export const updateOrderStatus = async (req: any, res: any) => {
     let trx; // Biến transaction
