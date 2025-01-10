@@ -426,7 +426,6 @@ const CreateProfileManagement: React.FC = () => {
                                                 <Select
                                                     options={[
                                                         { value: 'admin', label: 'admin' },
-                                                        { value: 'user', label: 'user' },
                                                         { value: 'manager', label: 'manager' },
                                                     ]}
                                                 />

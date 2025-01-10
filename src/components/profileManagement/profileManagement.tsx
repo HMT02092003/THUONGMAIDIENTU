@@ -234,23 +234,6 @@ const ProfileManagement = () => {
       <div className={styles.buttonContainer}>
         <Button
           type="primary"
-          onClick={importExcel}
-          className={styles.uploadButton}
-        >
-          <CloudUploadOutlined />
-          Nhập excel
-        </Button>
-
-        <Button
-          type="primary"
-          className={styles.downloadButton}
-        >
-          <CloudDownloadOutlined />
-          Xuất excel
-        </Button>
-
-        <Button
-          type="primary"
           onClick={() => router.push('/profileManagement/create')}
           className={styles.createButton}
         >

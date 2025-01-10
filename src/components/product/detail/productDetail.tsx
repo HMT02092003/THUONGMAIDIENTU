@@ -36,6 +36,21 @@ const ProductDetail: React.FC<any> = ({ id }) => {
     fetchProductData();
   }, [id]);
 
+  useEffect(() => {
+    const fetchSimilarProducts = async () => {
+      if (!id) return;
+      
+      try {
+        const response = await axios.get(`http://localhost:4000/api/getRecommend/${id}`);
+        setSimilarProducts(response.data);
+      } catch (error: any) {
+        message.error(error.response?.data?.message || "Lỗi khi tải sản phẩm tương tự");
+      }
+    };
+  
+    fetchSimilarProducts();
+  }, [id]);
+
   const addProductToCart = (buyNow: boolean = false) => {
     if (!selectedVersion || !selectedType) {
       message.warning("Vui lòng chọn phiên bản sản phẩm!");
@@ -260,7 +275,7 @@ const ProductDetail: React.FC<any> = ({ id }) => {
 
       {similarProducts.length > 0 && (
         <>
-          <div style={{ fontSize: '20px', fontWeight: 500, marginTop: '20px' }}>
+          <div style={{ fontSize: '20px', fontWeight: 500, marginTop: '20px', marginBottom: '20px' }}>
             Sản phẩm tương tự
           </div>
           <Row gutter={[16, 16]} style={{ width: '1200px', marginBottom: '3rem' }}>
