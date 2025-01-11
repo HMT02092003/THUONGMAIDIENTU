@@ -583,10 +583,9 @@ const CreateProfileManagement: React.FC = () => {
                                             { pattern: /^[0-9]{12}$/, message: 'CCCD phải là 12 chữ số hợp lệ!' }
                                         ]}
                                     >
-                                        <InputNumber
+                                        <Input
                                             maxLength={12}
                                             style={{ width: '100%' }}
-                                            controls={false} // Ẩn các nút tăng/giảm nếu không cần
                                             placeholder="Nhập số CCCD"
                                         />
                                     </Form.Item>
@@ -599,10 +598,9 @@ const CreateProfileManagement: React.FC = () => {
                                             { required: true, message: 'Vui lòng nhập số điện thoại!' },
                                         ]}
                                     >
-                                        <InputNumber
+                                        <Input
                                             maxLength={10}
                                             style={{ width: '100%' }}
-                                            controls={false} // Ẩn các nút tăng/giảm nếu không cần
                                             placeholder="Nhập số điện thoại"
                                         />
                                     </Form.Item>

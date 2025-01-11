@@ -25,7 +25,7 @@ const Login = () => {
       if (decoded?.role === 'customer') {
         router.push("/home");
       } else {
-        router.push("/profileManagement");
+        router.push("/orderStatistics");
       }
     } catch (err: any) {
       message.error(err.response.data.error);

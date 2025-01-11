@@ -355,7 +355,7 @@ const OrderHistory: React.FC = () => {
             key: 'variants-price',
             render: (variant: any) => (
                 variant.map((item: any) => (
-                    <span key={item.price}>{Number(item.price).toLocaleString('vi-VN')}</span>
+                    <span >{Number(item.price).toLocaleString('vi-VN')}</span>
                 ))
             )
         },

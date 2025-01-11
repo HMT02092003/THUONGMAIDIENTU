@@ -57,7 +57,7 @@ const PaymentSuccess: React.FC = () => {
     try {
       const storedData = localStorage.getItem("cart");
       if (!storedData) {
-        throw new Error("No product data found in cart");
+        throw new Error("Không tìm thấy sản phẩm trong giỏ hàng.");
       }
 
       const parsedData = JSON.parse(storedData);
@@ -130,7 +130,7 @@ const PaymentSuccess: React.FC = () => {
 
       const productData = localStorage.getItem("cart");
       if (!productData) {
-        throw new Error("No product data found in cart");
+        throw new Error("Không tìm thấy sản phẩm trong giỏ hàng.");
       }
       const productDataPaser = JSON.parse(productData);
 

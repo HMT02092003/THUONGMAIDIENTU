@@ -154,7 +154,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
         const fetchData = async () => {
             if (id) {
                 try {
-                    const User: any = await axios.post('http://localhost:4000/api/getUser',{id});
+                    const User: any = await axios.post('http://localhost:4000/api/getUser', { id });
 
                     const authUser: any = User.data.data.user;
 
@@ -421,7 +421,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                     }}
                                 >
                                     <Form.Item>
-                                    <Upload
+                                        <Upload
                                             name="img"
                                             listType="picture-card"
                                             showUploadList={false}
@@ -613,7 +613,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                         </Card>
                     </Col>
 
-                    
+
                     <Col span={24}>
                         <Card title="Thông tin người dùng" style={{ boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.1)" }}>
                             <Row gutter={[16, 16]}>
@@ -626,7 +626,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                             { pattern: /^\d{12}$/, message: 'CCCD phải có đủ 12 số!' }
                                         ]}
                                     >
-                                        <InputNumber min={0} style={{width:"100%"}}/>
+                                        <Input style={{ width: "100%" }} />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
@@ -638,7 +638,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                             { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
                                         ]}
                                     >
-                                        <InputNumber min={0} style={{width:"100%"}}/>
+                                        <Input style={{ width: "100%" }} />
                                     </Form.Item>
                                 </Col>
                                 <Col span={8}>
@@ -671,7 +671,7 @@ const EditProfileManagement: React.FC<EditProfileManagementProps> = ({ id }) => 
                                         label="Quốc tịch"
                                         rules={[{ required: true, message: 'Vui lòng nhập quốc tịch!' }]}
                                     >
-                                       <Select
+                                        <Select
                                             options={ethnicGroups}
                                         />
                                     </Form.Item>

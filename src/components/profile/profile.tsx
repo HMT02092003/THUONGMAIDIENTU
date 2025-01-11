@@ -221,7 +221,11 @@ const Profile: React.FC = () => {
                   <Form layout="vertical" onFinish={updateProfile} form={form}>
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item name="name" label="Tên của bạn">
+                        <Form.Item
+                          name="name"
+                          label="Tên của bạn"
+                          rules={[{ required: true, message: 'Vui lòng nhập tên của bạn!' }]}
+                        >
                           <Input
                             prefix={<UserOutlined />}
                             placeholder="Nhập tên của bạn"
@@ -229,7 +233,11 @@ const Profile: React.FC = () => {
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item name="email" label="Email">
+                        <Form.Item
+                          name="email"
+                          label="Email"
+                          rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                        >
                           <Input
                             readOnly
                             prefix={<MailOutlined />}

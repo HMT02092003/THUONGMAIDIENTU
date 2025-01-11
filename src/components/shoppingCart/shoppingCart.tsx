@@ -315,7 +315,7 @@ const ShoppingCart: React.FC = () => {
                   label="Số điện thoại"
                   rules={[
                     { required: true, message: 'Vui lòng nhập số điện thoại!' },
-                    { pattern: /^\d{10}$/, message: 'Số điện thoại phải có đủ 10 số!' }
+                    { pattern: /^\d{10}$/, message: 'Số điện thoại phải có 10 chữ số!' }
                   ]}
                 >
                   <Input />
